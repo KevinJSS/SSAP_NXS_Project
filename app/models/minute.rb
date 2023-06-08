@@ -3,4 +3,6 @@ class Minute < ApplicationRecord
 
     has_many :minutes_users
     has_many :users, through: :minutes_users
+
+    has_many :assigned_tasks
 end

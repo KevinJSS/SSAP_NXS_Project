@@ -8,6 +8,8 @@ class User < ApplicationRecord
   has_many :minutes_users
   has_many :minutes, through: :minutes_users
 
+  has_many :assigned_tasks
+
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 end

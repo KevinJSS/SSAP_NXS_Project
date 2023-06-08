@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_06_08_133148) do
+ActiveRecord::Schema[7.0].define(version: 2023_06_08_134055) do
   create_table "activities", force: :cascade do |t|
     t.integer "worked_hours", null: false
     t.date "date", null: false
@@ -22,6 +22,19 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_08_133148) do
     t.index ["phase_id"], name: "index_activities_on_phase_id"
     t.index ["project_id"], name: "index_activities_on_project_id"
     t.index ["user_id"], name: "index_activities_on_user_id"
+  end
+
+  create_table "assigned_tasks", force: :cascade do |t|
+    t.string "title", null: false
+    t.string "description", null: false
+    t.integer "priority", null: false
+    t.date "deadline", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "minute_id", null: false
+    t.integer "user_id", null: false
+    t.index ["minute_id"], name: "index_assigned_tasks_on_minute_id"
+    t.index ["user_id"], name: "index_assigned_tasks_on_user_id"
   end
 
   create_table "emergency_contacts", force: :cascade do |t|
@@ -98,6 +111,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_08_133148) do
   add_foreign_key "activities", "phases"
   add_foreign_key "activities", "projects"
   add_foreign_key "activities", "users"
+  add_foreign_key "assigned_tasks", "minutes"
+  add_foreign_key "assigned_tasks", "users"
   add_foreign_key "emergency_contacts", "users"
   add_foreign_key "minutes", "projects"
   add_foreign_key "minutes_users", "minutes"
