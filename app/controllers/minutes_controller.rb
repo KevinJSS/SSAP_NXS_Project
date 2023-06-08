@@ -1,4 +1,5 @@
 class MinutesController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_minute, only: %i[ show edit update destroy ]
   before_action :set_attendees, :set_projects
 

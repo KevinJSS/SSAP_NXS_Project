@@ -1,4 +1,5 @@
 class ActivitiesController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_activity, only: %i[ show edit update destroy ]
   before_action :set_workers, :set_projects, :set_phases
 
