@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :minutes
   resources :phases
   resources :activities
   resources :projects

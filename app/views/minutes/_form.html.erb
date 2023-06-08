@@ -1,0 +1,67 @@
+<%= form_with(model: minute) do |form| %>
+  <% if minute.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(minute.errors.count, "error") %> prohibited this minute from being saved:</h2>
+
+      <ul>
+        <% minute.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :meeting_title, style: "display: block" %>
+    <%= form.text_field :meeting_title %>
+  </div>
+
+  <div>
+    <%= form.label "Proyecto", style: "display: block" %>
+    <%= form.select :project_id, options_for_select(@projects.collect { |pr| [pr.name, pr.id] }) %>
+  </div>
+
+  <div>
+    <%= form.label :meeting_date, style: "display: block" %>
+    <%= form.date_field :meeting_date %>
+  </div>
+
+  <div>
+    <%= form.label :start_time, style: "display: block" %>
+    <%= form.time_field :start_time %>
+  </div>
+
+  <div>
+    <%= form.label :end_time, style: "display: block" %>
+    <%= form.time_field :end_time %>
+  </div>
+
+  <div>
+    <%= form.label :meeting_objectives, style: "display: block" %>
+    <%= form.text_area :meeting_objectives %>
+  </div>
+
+  <div>
+    <%= form.label :discussed_topics, style: "display: block" %>
+    <%= form.text_area :discussed_topics %>
+  </div>
+
+  <div>
+    <%= form.label :pending_topics, style: "display: block" %>
+    <%= form.text_area :pending_topics %>
+  </div>
+
+  <div>
+    <%= form.label :agreements, style: "display: block" %>
+    <%= form.text_area :agreements %>
+  </div>
+
+  <div>
+    <%= form.label :meeting_notes, style: "display: block" %>
+    <%= form.text_area :meeting_notes %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>

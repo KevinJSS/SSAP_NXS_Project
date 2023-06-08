@@ -1,0 +1,23 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  meeting_title: MyString
+  meeting_date: 2023-06-08
+  start_time: 2023-06-08 07:16:04
+  end_time: 2023-06-08 07:16:04
+  meeting_objectives: MyText
+  discussed_topics: MyText
+  pending_topics: MyText
+  agreements: MyText
+  meeting_notes: MyText
+
+two:
+  meeting_title: MyString
+  meeting_date: 2023-06-08
+  start_time: 2023-06-08 07:16:04
+  end_time: 2023-06-08 07:16:04
+  meeting_objectives: MyText
+  discussed_topics: MyText
+  pending_topics: MyText
+  agreements: MyText
+  meeting_notes: MyText
