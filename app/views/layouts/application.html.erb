@@ -11,6 +11,10 @@
   </head>
 
   <body>
+    <% if current_user %>
+      <%= render "shared/navbar" %>
+    <% end %>
+
     <%= render "shared/notifications" %>
 
     <div class="container-fluid mt-3">

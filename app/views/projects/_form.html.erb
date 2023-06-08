@@ -27,6 +27,11 @@
   </div>
 
   <div>
+    <%= form.label "Encargado", style: "display: block" %>
+    <%= form.select :user_id, options_for_select(@admins.collect { |a| [a.fullname, a.id] }) %>
+  </div>
+
+  <div>
     <%= form.label :location, style: "display: block" %>
     <%= form.text_area :location %>
   </div>
