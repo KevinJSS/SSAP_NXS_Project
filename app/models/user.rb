@@ -5,6 +5,9 @@ class User < ApplicationRecord
   has_one :emergency_contact
   has_many :activities
 
+  has_many :minutes_users
+  has_many :minutes, through: :minutes_users
+
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 end

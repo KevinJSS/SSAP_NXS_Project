@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_06_08_131709) do
+ActiveRecord::Schema[7.0].define(version: 2023_06_08_133148) do
   create_table "activities", force: :cascade do |t|
     t.integer "worked_hours", null: false
     t.date "date", null: false
@@ -47,6 +47,15 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_08_131709) do
     t.datetime "updated_at", null: false
     t.integer "project_id", null: false
     t.index ["project_id"], name: "index_minutes_on_project_id"
+  end
+
+  create_table "minutes_users", force: :cascade do |t|
+    t.integer "minute_id", null: false
+    t.integer "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["minute_id"], name: "index_minutes_users_on_minute_id"
+    t.index ["user_id"], name: "index_minutes_users_on_user_id"
   end
 
   create_table "phases", force: :cascade do |t|
@@ -91,5 +100,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_08_131709) do
   add_foreign_key "activities", "users"
   add_foreign_key "emergency_contacts", "users"
   add_foreign_key "minutes", "projects"
+  add_foreign_key "minutes_users", "minutes"
+  add_foreign_key "minutes_users", "users"
   add_foreign_key "projects", "users"
 end
