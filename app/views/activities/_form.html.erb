@@ -12,6 +12,21 @@
   <% end %>
 
   <div>
+    <%= form.label "Trabajador", style: "display: block" %>
+    <%= form.select :user_id, options_for_select(@workers.collect { |w| [w.fullname, w.id] }) %>
+  </div>
+
+  <div>
+    <%= form.label "Proyecto", style: "display: block" %>
+    <%= form.select :project_id, options_for_select(@projects.collect { |pr| [pr.name, pr.id] }) %>
+  </div>
+
+  <div>
+    <%= form.label "Fase trabajada", style: "display: block" %>
+    <%= form.select :phase_id, options_for_select(@phases.collect { |ph| [(ph.code + ": " +ph.name), ph.id] }) %>
+  </div>
+
+  <div>
     <%= form.label :worked_hours, style: "display: block" %>
     <%= form.number_field :worked_hours %>
   </div>

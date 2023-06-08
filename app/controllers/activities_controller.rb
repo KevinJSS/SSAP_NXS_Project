@@ -1,5 +1,6 @@
 class ActivitiesController < ApplicationController
   before_action :set_activity, only: %i[ show edit update destroy ]
+  before_action :set_workers, :set_projects, :set_phases
 
   # GET /activities or /activities.json
   def index
@@ -63,8 +64,21 @@ class ActivitiesController < ApplicationController
       @activity = Activity.find(params[:id])
     end
 
+    def set_workers
+      #@workers = User.where(role: 2)
+      @workers = User.all
+    end
+
+    def set_phases
+      @phases = Phase.all
+    end
+
+    def set_projects 
+      @projects = Project.all
+    end
+
     # Only allow a list of trusted parameters through.
     def activity_params
-      params.require(:activity).permit(:worked_hours, :date)
+      params.require(:activity).permit(:worked_hours, :date, :user_id, :project_id, :phase_id)
     end
 end

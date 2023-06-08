@@ -1,5 +1,20 @@
 <div id="<%= dom_id activity %>">
   <p>
+    <strong>Trabajador:</strong>
+    <%= activity.user.fullname %>
+  </p>
+
+  <p>
+    <strong>Proyecto:</strong>
+    <%= activity.project.name %>
+  </p>
+
+  <p>
+    <strong>Fase trabajada:</strong>
+    <%= activity.phase.code + ": " + activity.phase.name %>
+  </p>
+
+  <p>
     <strong>Worked hours:</strong>
     <%= activity.worked_hours %>
   </p>
