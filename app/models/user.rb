@@ -37,8 +37,7 @@ class User < ApplicationRecord
 
   has_many :assigned_tasks
 
-  devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :validatable
+  devise :database_authenticatable, :registerable, :recoverable, :rememberable, :validatable
 
   enum :role, [:worker, :admin]
 

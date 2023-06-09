@@ -3,7 +3,7 @@
 class Users::RegistrationsController < Devise::RegistrationsController
   # before_action :configure_sign_up_params, only: [:create]
   # before_action :configure_account_update_params, only: [:update]
-  before_action :configure_permitted_parameters, if: :devise_controller?
+  # before_action :configure_permitted_parameters, if: :devise_controller?
   skip_before_action :require_no_authentication, only: [:new, :create]
   before_action :set_user, only: [:edit, :update]
   before_action :authenticate_user!
@@ -41,9 +41,16 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # PUT /resource
   def update
     @user = current_user
-    
+
+    current_password = params[:user][:current_password]
+    if current_password.blank?
+      @user.errors.add(:current_password, :presence, message: "is blank")
+    else
+      @user.errors.add(:current_password, message: "is incorrect") if !@user.valid_password?(current_password)
+    end
+
     respond_to do |format|
-      if @user.update(user_params)
+      if !@user.errors.any? && @user.update(user_params)
         format.html { redirect_to users_path_url(@user), notice: "#{@user.role == "admin" ? "Administrador" : "Trabajador"} actualizado correctamente" }
         format.json { render :show, status: :ok, location: @user }
       else
@@ -75,9 +82,9 @@ class Users::RegistrationsController < Devise::RegistrationsController
     params.require(:user).permit(:fullname, :id_card, :phone, :email, :job_position, :address, :role)
   end
 
-  def configure_permitted_parameters
-    devise_parameter_sanitizer.permit(:sign_up, keys: [:fullname, :id_card, :phone, :email, :job_position, :address, :role])
-  end
+  # def configure_permitted_parameters
+  #   devise_parameter_sanitizer.permit(:sign_up, keys: [:fullname, :id_card, :phone, :email, :job_position, :address, :role])
+  # end
 
   def set_user
     if params[:user_id].present?
