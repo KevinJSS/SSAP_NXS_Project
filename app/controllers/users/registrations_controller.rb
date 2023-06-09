@@ -3,16 +3,35 @@
 class Users::RegistrationsController < Devise::RegistrationsController
   # before_action :configure_sign_up_params, only: [:create]
   # before_action :configure_account_update_params, only: [:update]
+  before_action :configure_permitted_parameters, if: :devise_controller?
+
+  skip_before_action :require_no_authentication, only: [:new, :create]
+  before_action :authenticate_user!
 
   # GET /resource/sign_up
-  # def new
-  #   super
-  # end
+  def new
+    if user_signed_in? && current_user.role == "admin"
+      super
+    else
+      redirect_to root_path
+    end
+  end
 
   # POST /resource
-  # def create
-  #   super
-  # end
+  def create
+    @user = User.new(user_params)
+    @user.password = "Usuario_#{@user.id_card}" #Se debe generar un contrasena aleatoria y enviarla por el correo registrado
+
+    respond_to do |format|
+      if @user.save
+        format.html { redirect_to users_path_url, notice: "#{@user.role == "admin" ? "Administrador" : "Trabajador"} registrado correctamente" }
+        format.json { render :show, status: :created, location: @user }
+      else
+        format.html { render :new, status: :unprocessable_entity }
+        format.json { render json: @user.errors, status: :unprocessable_entity }
+      end
+    end
+  end
 
   # GET /resource/edit
   # def edit
@@ -39,6 +58,16 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # end
 
   # protected
+
+  protected
+
+  def user_params
+    params.require(:user).permit(:fullname, :id_card, :phone, :email, :job_position, :address, :role)
+  end
+
+  def configure_permitted_parameters
+    devise_parameter_sanitizer.permit(:sign_up, keys: [:fullname, :id_card, :phone, :email, :job_position, :address, :role])
+  end
 
   # If you have extra params to permit, append them to the sanitizer.
   # def configure_sign_up_params

@@ -21,6 +21,11 @@
         <li class="nav-item">
           <%= link_to "Minutes", minutes_path, class: "nav-link text-light" %>
         </li>
+
+        <%# Listar Users %>
+        <li class="nav-item"> 
+          <%= link_to "Add User", new_user_registration_path, class: "nav-link text-light" %>
+        </li>
       </ul>
       <ul class="navbar-nav">
         <% if current_user %>

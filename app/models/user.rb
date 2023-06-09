@@ -12,4 +12,10 @@ class User < ApplicationRecord
 
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
+
+  enum :role, [:worker, :admin]
+
+  # def set_default_role
+  #   self.role ||= :worker
+  # end
 end
