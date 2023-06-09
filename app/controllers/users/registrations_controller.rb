@@ -4,8 +4,8 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # before_action :configure_sign_up_params, only: [:create]
   # before_action :configure_account_update_params, only: [:update]
   before_action :configure_permitted_parameters, if: :devise_controller?
-
   skip_before_action :require_no_authentication, only: [:new, :create]
+  before_action :set_user, only: [:edit, :update]
   before_action :authenticate_user!
 
   # GET /resource/sign_up
@@ -41,8 +41,16 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # PUT /resource
   def update
     @user = current_user
-    @user.update(user_params)
-    super
+    
+    respond_to do |format|
+      if @user.update(user_params)
+        format.html { redirect_to users_path_url(@user), notice: "#{@user.role == "admin" ? "Administrador" : "Trabajador"} actualizado correctamente" }
+        format.json { render :show, status: :ok, location: @user }
+      else
+        format.html { render :edit, status: :unprocessable_entity }
+        format.json { render json: @user.errors, status: :unprocessable_entity }
+      end
+    end
   end
 
   # DELETE /resource
@@ -69,6 +77,14 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   def configure_permitted_parameters
     devise_parameter_sanitizer.permit(:sign_up, keys: [:fullname, :id_card, :phone, :email, :job_position, :address, :role])
+  end
+
+  def set_user
+    if params[:user_id].present?
+      @user = User.find(params[:user_id])
+    else
+      @user = current_user
+    end
   end
 
   # If you have extra params to permit, append them to the sanitizer.

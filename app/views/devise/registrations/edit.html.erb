@@ -33,10 +33,15 @@
     <%= f.text_area :address, class: "form-control" %>
   </div>
 
-  <div class="field">
-    <%= f.label "Rol de usuario" %><br />
-    <%= f.text_field :role, class: "form-control", value: (resource.role == "admin" ? "Administrador" : "Trabajador"), disabled: true %>
-  </div>
+  <%#  Permitir que se pueda cambiar en caso de ser un administrador a otro usuario. No se puede cambiar así mismo %>
+  <% if @user == current_user %>
+    <div class="field"> 
+      <%= f.label "Rol de usuario" %><br />
+      <%= f.text_field :role, class: "form-control", value: (resource.role == "admin" ? "Administrador" : "Trabajador"), disabled: true %>
+    </div>
+  <% else %>
+    <p>Hola</p>
+  <% end %>
 
   <!-- <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
     <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
