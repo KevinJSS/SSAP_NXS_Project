@@ -45,7 +45,7 @@ class Project < ApplicationRecord
             ["Diseño conceptual", :conceptual_design],
             ["Diseño arquitectónico", :arch_design],
             ["Diseño de ingeniería", :eng_design],
-            ["Permisos y aprovaciones", :approvals],
+            ["Permisos y aprobaciones", :approvals],
             ["Licitación y contratación", :contracting],
             ["Construcción", :construction],
             ["Finalización y entrega", :completion_delivery]
@@ -80,6 +80,12 @@ class Project < ApplicationRecord
         end
 
         @status
+    end
+
+    def has_associated_minutes_and_activities?
+        minutes = self.minutes.count
+        activities = self.activities.count
+        activities != 0 || minutes != 0
     end
 
     #associations

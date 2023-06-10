@@ -1,17 +1,17 @@
 <div id="<%= dom_id project %>">
   <p>
-    <strong>Name:</strong>
+    <strong>Nombre del proyecto:</strong>
     <%= project.name %>
   </p>
 
   <p>
-    <strong>Start date:</strong>
-    <%= project.start_date %>
+    <strong>Fecha de inicio:</strong>
+    <%= project.start_date.strftime('%d/%m/%Y') %>
   </p>
 
   <p>
-    <strong>Scheduled deadline:</strong>
-    <%= project.scheduled_deadline %>
+    <strong>Fecha de cierre programado:</strong>
+    <%= project.scheduled_deadline.strftime('%d/%m/%Y') %>
   </p>
 
   <p>
@@ -20,18 +20,17 @@
   </p>
 
   <p>
-    <strong>Location:</strong>
+    <strong>Ubicación del proyecto:</strong>
     <%= project.location %>
   </p>
 
   <p>
-    <strong>Stage:</strong>
+    <strong>Etapa:</strong>
     <%= project.get_humanize_stage %>
   </p>
 
   <p>
-    <strong>Stage status:</strong>
+    <strong>Estado:</strong>
     <%= project.get_humanize_status  %>
   </p>
-
 </div>
