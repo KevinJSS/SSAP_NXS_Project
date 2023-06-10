@@ -11,7 +11,8 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # GET /resource/sign_up
   def new
     if user_signed_in? && current_user.role == "admin"
-      super
+      @user = User.new
+      @user.build_emergency_contact
     else
       redirect_to root_path
     end
@@ -24,9 +25,13 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
     respond_to do |format|
       if @user.save
+        validate_emergency_contact_data
+
         format.html { redirect_to @user, notice: "#{user_role} registrado correctamente" }
         format.json { render :show, status: :created, location: @user }
       else
+        @user.build_emergency_contact if @user.emergency_contact.nil?
+
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @user.errors, status: :unprocessable_entity }
       end
