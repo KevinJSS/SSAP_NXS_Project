@@ -24,7 +24,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
     respond_to do |format|
       if @user.save
-        format.html { redirect_to users_path_url, notice: "#{@user.role == "admin" ? "Administrador" : "Trabajador"} registrado correctamente" }
+        format.html { redirect_to @user, notice: "#{user_role} registrado correctamente" }
         format.json { render :show, status: :created, location: @user }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -42,16 +42,11 @@ class Users::RegistrationsController < Devise::RegistrationsController
   def update
     @user = current_user
 
-    current_password = params[:user][:current_password]
-    if current_password.blank?
-      @user.errors.add(:current_password, :presence, message: "is blank")
-    else
-      @user.errors.add(:current_password, message: "is incorrect") if !@user.valid_password?(current_password)
-    end
+    validate_password_params
 
     respond_to do |format|
       if !@user.errors.any? && @user.update(user_params)
-        format.html { redirect_to users_path_url(@user), notice: "#{@user.role == "admin" ? "Administrador" : "Trabajador"} actualizado correctamente" }
+        format.html { redirect_to edit_user_registration_path, notice: "#{user_role} actualizado correctamente" }
         format.json { render :show, status: :ok, location: @user }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -79,7 +74,29 @@ class Users::RegistrationsController < Devise::RegistrationsController
   protected
 
   def user_params
-    params.require(:user).permit(:fullname, :id_card, :phone, :email, :job_position, :address, :role)
+    params.require(:user).permit(:fullname, :id_card, :phone, :email, :job_position, :address, :role, :password, :password_confirmation)
+  end
+
+  def user_role
+    @user.role == "admin" ? "Administrador" : "Trabajador"
+  end
+
+  #Checks for new password update adn current password presence and validation to authorize changes.
+  def validate_password_params
+    new_password = params[:user][:password]
+    password_confirmation = params[:user][:password_confirmation]
+    current_password = params[:user][:current_password]
+
+    if new_password.blank? && password_confirmation.blank? 
+      params[:user].delete(:password)
+      params[:user].delete(:password_confirmation)
+    end
+
+    if current_password.blank?
+      @user.errors.add(:current_password, :presence, message: "is blank")
+    else
+      @user.errors.add(:current_password, message: "is incorrect") if !@user.valid_password?(current_password)
+    end
   end
 
   # def configure_permitted_parameters
@@ -87,11 +104,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # end
 
   def set_user
-    if params[:user_id].present?
-      @user = User.find(params[:user_id])
-    else
-      @user = current_user
-    end
+    @user = current_user
   end
 
   # If you have extra params to permit, append them to the sanitizer.
