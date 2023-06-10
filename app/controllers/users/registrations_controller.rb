@@ -34,21 +34,26 @@ class Users::RegistrationsController < Devise::RegistrationsController
   end
 
   # GET /resource/edit
-  # def edit
-  #   super
-  # end
+  def edit
+    @user.build_emergency_contact if @user.emergency_contact.nil?
+  end
 
   # PUT /resource
   def update
-    @user = current_user
-
     validate_password_params
+    
+    #byebug
 
     respond_to do |format|
       if !@user.errors.any? && @user.update(user_params)
-        format.html { redirect_to edit_user_registration_path, notice: "#{user_role} actualizado correctamente" }
+
+        validate_emergency_contact_data
+
+        format.html { redirect_to edit_user_registration_path, notice: "Su perfil ha sido actualizado correctamente." }
         format.json { render :show, status: :ok, location: @user }
       else
+        @user.build_emergency_contact if @user.emergency_contact.nil?
+
         format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @user.errors, status: :unprocessable_entity }
       end
@@ -74,7 +79,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   protected
 
   def user_params
-    params.require(:user).permit(:fullname, :id_card, :phone, :email, :job_position, :address, :role, :password, :password_confirmation)
+    params.require(:user).permit(:fullname, :id_card, :phone, :email, :job_position, :address, :role, :password, :password_confirmation, emergency_contact: [:fullname, :phone])
   end
 
   def user_role
@@ -99,13 +104,35 @@ class Users::RegistrationsController < Devise::RegistrationsController
     end
   end
 
-  # def configure_permitted_parameters
-  #   devise_parameter_sanitizer.permit(:sign_up, keys: [:fullname, :id_card, :phone, :email, :job_position, :address, :role])
-  # end
+  def validate_emergency_contact_data
+    fullname = params[:user][:emergency_contact_attributes][:fullname]
+    phone = params[:user][:emergency_contact_attributes][:phone]
+
+    if @user.emergency_contact.nil?
+      @em_contact = EmergencyContact.new(fullname: fullname, phone: phone, user: @user)
+    else
+      @user.emergency_contact.update(fullname: fullname, phone: phone)
+      @em_contact = @user.emergency_contact
+    end
+
+    if fullname.blank? && phone.blank?
+      return #emergency contact data not provided
+
+    elsif !@em_contact.valid?
+      flash[:alert] = "Información opcional del contacto de emergencia no fue proporcionada correctamente."
+      return
+    end
+
+    @em_contact.save
+  end
 
   def set_user
     @user = current_user
   end
+
+   # def configure_permitted_parameters
+  #   devise_parameter_sanitizer.permit(:sign_up, keys: [:fullname, :id_card, :phone, :email, :job_position, :address, :role])
+  # end
 
   # If you have extra params to permit, append them to the sanitizer.
   # def configure_sign_up_params

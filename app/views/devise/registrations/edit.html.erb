@@ -34,14 +34,23 @@
   </div>
 
   <%#  Permitir que se pueda cambiar en caso de ser un administrador a otro usuario. No se puede cambiar así mismo %>
-  <% if @user == current_user %>
-    <div class="field"> 
-      <%= f.label "Rol de usuario" %><br />
-      <%= f.text_field :role, class: "form-control", value: (resource.role == "admin" ? "Administrador" : "Trabajador"), disabled: true %>
-    </div>
-  <% else %>
-    <p>Hola</p>
+  <div class="field"> 
+    <%= f.label "Rol de usuario" %><br />
+    <%= f.text_field :role, class: "form-control", value: (resource.role == "admin" ? "Administrador" : "Trabajador"), disabled: true %>
+  </div>
+
+  <hr>
+  <h5>INFORMACIÓN CONTACTO DE EMERGENCIA</h5>
+  <!-- Emergency contact fields -->
+  <%= f.fields_for :emergency_contact do |contact_form| %>
+    <%= contact_form.label "Nombre completo" %>
+    <%= contact_form.text_field :fullname, placeholder: "Ej: Nombre Apellido1 Apellido2", class: "form-control" %>
+    
+    <%= contact_form.label "Número de teléfono" %>
+    <%= contact_form.text_field :phone, placeholder: "Ej: (+506) 8686 8686", class: "form-control" %>
   <% end %>
+
+  <hr>
 
   <!-- <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
     <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>

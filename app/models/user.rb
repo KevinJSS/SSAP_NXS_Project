@@ -30,7 +30,10 @@ class User < ApplicationRecord
   
   #associations
   has_many :projects
+  
   has_one :emergency_contact
+  accepts_nested_attributes_for :emergency_contact
+
   has_many :activities
 
   has_many :minutes_users
