@@ -11,8 +11,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # GET /resource/sign_up
   def new
     if user_signed_in? && current_user.role == "admin"
-      @user = User.new
-      @user.build_emergency_contact
+      super
     else
       redirect_to root_path
     end
@@ -25,41 +24,33 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
     respond_to do |format|
       if @user.save
-        validate_emergency_contact_data
-
-        format.html { redirect_to users_path_url, notice: "#{user_role} registrado correctamente" }
+        format.html { redirect_to @user, notice: "#{user_role} registrado correctamente" }
         format.json { render :show, status: :created, location: @user }
       else
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @user.errors, status: :unprocessable_entity }
-        @user.build_emergency_contact #crea una nueva instancia nuevamente, ya que cuando se muestra el mensaje de error los campos se ocultan
       end
     end
   end
 
   # GET /resource/edit
-  def edit
-    @user.build_emergency_contact if @user.emergency_contact.nil? 
-    super
-  end
+  # def edit
+  #   super
+  # end
 
   # PUT /resource
   def update
     @user = current_user
 
-    validate_current_password_authorization 
+    validate_password_params
 
     respond_to do |format|
       if !@user.errors.any? && @user.update(user_params)
-
-        validate_emergency_contact_data
-
-        format.html { redirect_to users_path_url(@user), notice: "#{user_role} actualizado correctamente" }
+        format.html { redirect_to edit_user_registration_path, notice: "#{user_role} actualizado correctamente" }
         format.json { render :show, status: :ok, location: @user }
       else
         format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @user.errors, status: :unprocessable_entity }
-        @user.build_emergency_contact #crea una nueva instancia nuevamente, ya que cuando se muestra el mensaje de error los campos se ocultan
       end
     end
   end
@@ -83,12 +74,24 @@ class Users::RegistrationsController < Devise::RegistrationsController
   protected
 
   def user_params
-    params.require(:user).permit(:fullname, :id_card, :phone, :email, :job_position, :address, :role, emergency_contact: [:fullname, :phone])
+    params.require(:user).permit(:fullname, :id_card, :phone, :email, :job_position, :address, :role, :password, :password_confirmation)
   end
 
-  #Checks current password presence and validation to authorize changes.
-  def validate_current_password_authorization
+  def user_role
+    @user.role == "admin" ? "Administrador" : "Trabajador"
+  end
+
+  #Checks for new password update adn current password presence and validation to authorize changes.
+  def validate_password_params
+    new_password = params[:user][:password]
+    password_confirmation = params[:user][:password_confirmation]
     current_password = params[:user][:current_password]
+
+    if new_password.blank? && password_confirmation.blank? 
+      params[:user].delete(:password)
+      params[:user].delete(:password_confirmation)
+    end
+
     if current_password.blank?
       @user.errors.add(:current_password, :presence, message: "is blank")
     else
@@ -96,42 +99,12 @@ class Users::RegistrationsController < Devise::RegistrationsController
     end
   end
 
-  def validate_emergency_contact_data
-    fullname = params[:user][:emergency_contact_attributes][:fullname]
-    phone = params[:user][:emergency_contact_attributes][:phone]
-
-    if @user.emergency_contact.nil?
-      @em_contact = EmergencyContact.new(fullname: fullname, phone: phone, user: @user)
-    else
-      @user.emergency_contact.update(fullname: fullname, phone: phone)
-      @em_contact = @user.emergency_contact
-    end
-
-    if fullname.blank? && phone.blank?
-      return #emergency contact data not provided
-
-    elsif !@em_contact.valid?
-      flash[:alert] = "Información opcional del contacto de emergencia no fue proporcionada correctamente."
-      return
-    end
-
-    @em_contact.save
-  end
-
   # def configure_permitted_parameters
   #   devise_parameter_sanitizer.permit(:sign_up, keys: [:fullname, :id_card, :phone, :email, :job_position, :address, :role])
   # end
 
   def set_user
-    if params[:user_id].present?
-      @user = User.find(params[:user_id])
-    else
-      @user = current_user
-    end
-  end
-
-  def user_role
-    @user.role == "admin" ? "Administrador" : "Trabajador"
+    @user = current_user
   end
 
   # If you have extra params to permit, append them to the sanitizer.
