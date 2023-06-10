@@ -13,15 +13,16 @@ class User < ApplicationRecord
   before_save :trim_values
 
   validates :email, presence: true, uniqueness: true, length: { maximum: 100 }, format: { with: VALID_EMAIL_REGEX }
-  validates :id_card, presence: true, length: { in: 8..12 }, uniqueness: true 
-  validates :fullname, presence: true, length: { maximum: 100 }
-  validates :phone, presence: true, length: { maximum: 20 }
+  validates :id_card, presence: true, uniqueness: true, length: { in: 8..12 } 
+  validates :fullname, presence: true, length: { in: 5..100 }
+  validates :phone, presence: true, length: { in: 8..20 }
   validates :address, presence: true, length: { maximum: 200 }
   validates :job_position, presence: true, length: { in: 4..20 }
 
   def trim_values
     self.email = email.strip if email.present?
     self.fullname = fullname.strip if fullname.present?
+    self.phone = phone.strip if phone.present?
     self.id_card = id_card.strip if id_card.present?
     self.job_position = job_position.strip if job_position.present?
     self.address = address.strip if address.present?
