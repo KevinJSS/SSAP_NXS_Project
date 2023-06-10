@@ -40,6 +40,48 @@ class Project < ApplicationRecord
         end
     end
 
+    def get_stage_options
+        stage_options = [
+            ["Diseño conceptual", :conceptual_design],
+            ["Diseño arquitectónico", :arch_design],
+            ["Diseño de ingeniería", :eng_design],
+            ["Permisos y aprovaciones", :approvals],
+            ["Licitación y contratación", :contracting],
+            ["Construcción", :construction],
+            ["Finalización y entrega", :completion_delivery]
+        ]
+    end
+
+    def get_status_options
+        status_options = [
+            ["Pendiente", :pending],
+            ["En proceso", :in_process],
+            ["Aprobado", :approved],
+            ["Rechazado", :denied],
+            ["Finalizado", :finished]
+        ]
+    end
+
+    def get_humanize_stage
+        stage_options = self.get_stage_options
+
+        stage_options.each do |stage|
+          @stage = stage[0] if stage[1].to_s == self.stage 
+        end
+
+        @stage
+    end
+
+    def get_humanize_status
+        status_options = self.get_status_options
+
+        status_options.each do |status|
+          @status = status[0] if status[1].to_s == self.stage_status 
+        end
+
+        @status
+    end
+
     #associations
     belongs_to :user
     has_many :activities
