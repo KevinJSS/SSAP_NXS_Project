@@ -51,7 +51,21 @@
     <% end %>
   </div>
 
+  <hr>
+  <h5>INFORMACIÓN CONTACTO DE EMERGENCIA</h5>
+  <!-- Emergency contact fields -->
+  <%= form.fields_for :emergency_contact do |contact_form| %>
+    <%= contact_form.label "Nombre completo" %>
+    <%= contact_form.text_field :fullname, placeholder: "Ej: Nombre Apellido1 Apellido2", class: "form-control" %>
+    
+    <%= contact_form.label "Número de teléfono" %>
+    <%= contact_form.text_field :phone, placeholder: "Ej: (+506) 8686 8686", class: "form-control" %>
+  <% end %>
+
+  <hr>
+
   <div class="actions mt-3">
-    <%= form.submit "Actualizar" %>
+    <%= form.submit "Actualizar" %> | 
+    <%= link_to "Back to users", users_path %>
   </div>
 <% end %>

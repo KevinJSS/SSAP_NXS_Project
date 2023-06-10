@@ -41,8 +41,6 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # PUT /resource
   def update
     validate_password_params
-    
-    #byebug
 
     respond_to do |format|
       if !@user.errors.any? && @user.update(user_params)

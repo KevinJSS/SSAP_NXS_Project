@@ -51,6 +51,7 @@
   <% end %>
 
   <hr>
+  <h5>CAMBIO DE CONTRASEÑA</h5>
 
   <!-- <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
     <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
@@ -66,7 +67,10 @@
     <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "form-control", placeholder: "#{@minimum_password_length} caracteres mínimo" %>
   </div>
 
-  <div class="field">
+  <hr>
+  <h5>CONFIRMAR CAMBIOS</h5>
+
+  <div class="field text-danger">
     <%= f.label "Contraseña actual" %> <i>(Necesitamos tu contraseña actual para confirmar los cambios)</i><br />
     <%= f.password_field :current_password, autocomplete: "current-password", class: "form-control", placeholder: "Contraseña actual" %>
   </div>
