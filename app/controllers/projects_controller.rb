@@ -1,7 +1,8 @@
 class ProjectsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_project, only: %i[ show edit update destroy ]
-  before_action :set_admins
+  before_action :set_admins, :set_stages_options, :set_status_options
+  before_action :get_stage_and_status, only: %i[ show edit update]
 
   # GET /projects or /projects.json
   def index
@@ -67,6 +68,38 @@ class ProjectsController < ApplicationController
 
     def set_admins
       @admins = User.where(role: 1)
+    end
+
+    def set_stages_options
+      @stage_options = [
+        ["Diseño conceptual", :conceptual_design],
+        ["Diseño arquitectónico", :arch_design],
+        ["Diseño de ingeniería", :eng_design],
+        ["Permisos y aprovaciones", :approvals],
+        ["Licitación y contratación", :contracting],
+        ["Construcción", :construction],
+        ["Finalización y entrega", :completion_delivery]
+      ]
+    end
+
+    def set_status_options
+      @stage_status_options = [
+        ["Pendiente", :pending],
+        ["En proceso", :in_process],
+        ["Aprobado", :approved],
+        ["Rechazado", :denied],
+        ["Finalizado", :finished]
+      ]
+    end
+
+    def get_stage_and_status
+      @stage_options.each do |stage|
+        @stage = stage[0] if stage[1].to_s == @project.stage 
+      end
+
+      @stage_status_options.each do |status|
+        @status = status[0] if status[1].to_s == @project.stage_status 
+      end
     end
 
     # Only allow a list of trusted parameters through.

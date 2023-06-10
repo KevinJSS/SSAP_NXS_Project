@@ -12,41 +12,41 @@
   <% end %>
 
   <div>
-    <%= form.label :name, style: "display: block" %>
-    <%= form.text_field :name %>
+    <%= form.label "Nombre del proyecto", style: "display: block" %>
+    <%= form.text_field :name, class: "form-control", placeholder: "Ej: CASA SABANA" %>
   </div>
 
   <div>
-    <%= form.label :start_date, style: "display: block" %>
-    <%= form.date_field :start_date %>
+    <%= form.label "Fecha de inicio", style: "display: block" %>
+    <%= form.date_field :start_date, class: "form-control" %>
   </div>
 
   <div>
-    <%= form.label :scheduled_deadline, style: "display: block" %>
-    <%= form.date_field :scheduled_deadline %>
+    <%= form.label "Fecha de cierre programado", style: "display: block" %>
+    <%= form.date_field :scheduled_deadline, class: "form-control" %>
   </div>
 
   <div>
     <%= form.label "Encargado", style: "display: block" %>
-    <%= form.select :user_id, options_for_select(@admins.collect { |a| [a.fullname, a.id] }) %>
+    <%= form.select :user_id, options_for_select(@admins.collect { |a| [a.fullname, a.id] }), {prompt: "-- Seleccione un encargado ---"}, class: "form-select"  %>
   </div>
 
   <div>
-    <%= form.label :location, style: "display: block" %>
-    <%= form.text_area :location %>
+    <%= form.label "Ubicación", style: "display: block" %>
+    <%= form.text_area :location, class: "form-control", placeholder: "Detalle la ubicación física del proyecto" %>
   </div>
 
   <div>
-    <%= form.label :stage, style: "display: block" %>
-    <%= form.number_field :stage %>
+    <%= form.label "Etapa", style: "display: block" %>
+    <%= form.select :stage, options_for_select(@stage_options), {prompt: "-- Seleccione una etapa ---"}, class: "form-select"  %>
   </div>
 
   <div>
-    <%= form.label :stage_status, style: "display: block" %>
-    <%= form.text_field :stage_status %>
+    <%= form.label "Estado de la etapa", style: "display: block" %>
+    <%= form.select :stage_status, options_for_select(@stage_status_options), {prompt: "-- Seleccione un estado ---"}, class: "form-select"  %>
   </div>
 
   <div>
-    <%= form.submit %>
+    <%= form.submit "Guardar" %>
   </div>
 <% end %>
