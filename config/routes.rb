@@ -6,7 +6,7 @@ Rails.application.routes.draw do
 
   devise_for :users, controllers: { sessions: 'users/sessions', registrations: 'users/registrations' }
   # Ruta personalizada para users#index
-  get '/users', to: 'users#index', as: 'users_path'
+  resources :users, only: [:index, :show]
 
   root 'main#home'
 end
