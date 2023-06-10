@@ -10,6 +10,7 @@ class ProjectsController < ApplicationController
 
   # GET /projects/1 or /projects/1.json
   def show
+    redirect_to edit_project_path(@project)
   end
 
   # GET /projects/new

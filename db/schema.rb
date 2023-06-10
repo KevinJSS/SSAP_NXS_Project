@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_06_08_230648) do
+ActiveRecord::Schema[7.0].define(version: 2023_06_10_212716) do
   create_table "activities", force: :cascade do |t|
     t.integer "worked_hours", null: false
     t.date "date", null: false
@@ -84,7 +84,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_08_230648) do
     t.date "scheduled_deadline"
     t.text "location"
     t.integer "stage", null: false
-    t.string "stage_status", null: false
+    t.integer "stage_status", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "user_id", null: false

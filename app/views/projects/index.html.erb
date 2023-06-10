@@ -6,9 +6,12 @@
   <% @projects.each do |project| %>
     <%= render project %>
     <p>
-      <%= link_to "Show this project", project %>
+      <%= link_to "Ver detalles", edit_project_path(project), class: "btn btn-outline-primary" %>
+      <% if !project.has_associated_minutes_and_activities? %>
+        <%= button_to 'Eliminar', project, method: :delete, form:{ data: { turbo_confirm: '¿Estás seguro de que deseas eliminar este proyecto?' }} , class: "btn btn-outline-danger"%>
+      <% end %>
     </p>
   <% end %>
 </div>
 
-<%= link_to "New project", new_project_path, class: "btn btn-outline-primary" %>
+<%= link_to "New project", new_project_path, class: "btn btn-primary" %>

@@ -1,7 +1,8 @@
 class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
-  
+  enum :role, [:worker, :admin]
+
   #validations & format
   # This is a regular expression that matches the RFC 5322 standard for email addresses.
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
@@ -42,10 +43,4 @@ class User < ApplicationRecord
   has_many :assigned_tasks
 
   devise :database_authenticatable, :registerable, :recoverable, :rememberable, :validatable
-
-  enum :role, [:worker, :admin]
-
-  # def set_default_role
-  #   self.role ||= :worker
-  # end
 end
