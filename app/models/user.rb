@@ -17,7 +17,7 @@ class User < ApplicationRecord
   validates :fullname, presence: true, length: { in: 5..100 }
   validates :phone, presence: true, length: { in: 8..20 }
   validates :address, presence: true, length: { maximum: 200 }
-  validates :job_position, presence: true, length: { in: 4..20 }
+  validates :job_position, presence: true, length: { in: 4..100 }
 
   def trim_values
     self.email = email.strip if email.present?
@@ -30,7 +30,10 @@ class User < ApplicationRecord
   
   #associations
   has_many :projects
+  
   has_one :emergency_contact
+  accepts_nested_attributes_for :emergency_contact
+
   has_many :activities
 
   has_many :minutes_users
