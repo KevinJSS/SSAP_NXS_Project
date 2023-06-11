@@ -5,10 +5,14 @@
 <div id="phases">
   <% @phases.each do |phase| %>
     <%= render phase %>
-    <p>
+    <div class="d-flex align-items-center mt-3 gap-1">
       <%= link_to "Ver detalles", phase, class: "btn btn-outline-primary" %>
-    </p>
+
+      <% if !phase.has_associated_activities? %>
+        <%= button_to 'Eliminar', phase, method: :delete, form:{ data: { turbo_confirm: '¿Está seguro(a) de que desea eliminar esta fase?' }} , class: "btn btn-outline-danger"%>
+      <% end %>
+    </div>
   <% end %>
 </div>
 
-<%= link_to "Agregar fase", new_phase_path, class: "btn btn-primary" %>
+<%= link_to "Agregar fase", new_phase_path, class: "btn btn-primary mt-3" %>
