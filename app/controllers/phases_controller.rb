@@ -9,6 +9,7 @@ class PhasesController < ApplicationController
 
   # GET /phases/1 or /phases/1.json
   def show
+    redirect_to edit_phase_path(@phase)
   end
 
   # GET /phases/new

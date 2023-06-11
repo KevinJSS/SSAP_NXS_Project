@@ -12,16 +12,17 @@
   <% end %>
 
   <div>
-    <%= form.label :code, style: "display: block" %>
-    <%= form.text_field :code %>
+    <%= form.label "Código", style: "display: block" %>
+    <%= form.text_field :code, class: "form-control", placeholder: "Ej: F1" %>
   </div>
 
   <div>
-    <%= form.label :name, style: "display: block" %>
-    <%= form.text_field :name %>
+    <%= form.label "Nombre", style: "display: block" %>
+    <%= form.text_field :name, class: "form-control", placeholder: "Ej: Preparación del sitio" %>
   </div>
 
-  <div>
-    <%= form.submit %>
+  <div class="actions mt-3">
+    <%= form.submit phase.new_record? ? "Guardar" : "Actualizar", class: "btn btn-primary" %>
+    <%= link_to "Regresar", phases_path, class: "btn btn-secondary" %>
   </div>
 <% end %>

@@ -1,12 +1,16 @@
 <div id="<%= dom_id phase %>">
   <p>
-    <strong>Code:</strong>
+    <strong>Código:</strong>
     <%= phase.code %>
   </p>
 
   <p>
-    <strong>Name:</strong>
+    <strong>Nombre:</strong>
     <%= phase.name %>
   </p>
 
+  <p>
+    <strong>Actividades asociadas:</strong> 
+    <%= phase.activities.count %> <%# Link que lo lleva a la lista de actividades filtrada por esta fase %>
+  </p>
 </div>
