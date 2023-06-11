@@ -75,9 +75,8 @@
     <%= f.password_field :current_password, autocomplete: "current-password", class: "form-control", placeholder: "Contraseña actual" %>
   </div>
 
-  <div class="actions">
-    <%= f.submit "Actualizar" %>
+  <div class="actions mt-3">
+    <%= f.submit "Actualizar", class: "btn btn-primary" %>
+    <%= link_to "Regresar", :back, class: "btn btn-secondary" %>
   </div>
 <% end %>
-
-<%= link_to "Regresar", :back %>
