@@ -42,6 +42,7 @@
       <%= link_to "Regresar", activities_path, class: "btn btn-secondary" %>
     </div>
 
+    <%# Arreglar este boton de eliminar %>
     <% if !activity.new_record? %>
       <%= button_to 'Eliminar', @activity, method: :delete, form:{ data: { turbo_confirm: 'Esta acción es irreversible y será registrada en el historial de cambios. ¿Está seguro(a) de que desea eliminar esta actividad?' }} , class: "btn btn-outline-danger"%>
     <% end %>
