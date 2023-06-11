@@ -17,7 +17,7 @@ class Project < ApplicationRecord
         finished: 4
    }
 
-    #input validations
+    #validations
     before_save { self.name = name.upcase }
     before_save :trim_values
 

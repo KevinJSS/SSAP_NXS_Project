@@ -13,30 +13,37 @@
 
   <div>
     <%= form.label "Trabajador", style: "display: block" %>
-    <%= form.select :user_id, options_for_select(@workers.collect { |w| [w.fullname, w.id] }) %>
+    <%= form.select :user_id, options_for_select(@workers.collect { |w| [w.fullname, w.id] }, selected: activity.user_id), { prompt: "-- Seleccione un trabajador --" }, class: "form-select" %>
   </div>
 
   <div>
     <%= form.label "Proyecto", style: "display: block" %>
-    <%= form.select :project_id, options_for_select(@projects.collect { |pr| [pr.name, pr.id] }) %>
+    <%= form.select :project_id, options_for_select(@projects.collect { |pr| [pr.name, pr.id] }, selected: activity.project_id), { prompt: "-- Seleccione un proyecto --" }, class: "form-select" %>
   </div>
 
   <div>
     <%= form.label "Fase trabajada", style: "display: block" %>
-    <%= form.select :phase_id, options_for_select(@phases.collect { |ph| [(ph.code + ": " +ph.name), ph.id] }) %>
+    <%= form.select :phase_id, options_for_select(@phases.collect { |ph| [(ph.code + " - " + ph.name), ph.id] }, selected: activity.phase_id), { prompt: "-- Indique la fase trabajada --" }, class: "form-select" %>
   </div>
 
   <div>
-    <%= form.label :worked_hours, style: "display: block" %>
-    <%= form.number_field :worked_hours %>
+    <%= form.label "Cantidad de horas trabajadas", style: "display: block" %>
+    <%= form.number_field :worked_hours, placeholder: "Cantidad en horas", class: "form-control" %>
   </div>
 
   <div>
-    <%= form.label :date, style: "display: block" %>
-    <%= form.date_field :date %>
+    <%= form.label "Fecha", style: "display: block" %>
+    <%= form.date_field :date, class: "form-control" %>
   </div>
 
-  <div>
-    <%= form.submit %>
+  <div class="d-flex justify-content-between align-items-center mt-3">
+    <div class="actions">
+      <%= form.submit activity.new_record? ? "Guardar" : "Actualizar", class: "btn btn-primary" %>
+      <%= link_to "Regresar", activities_path, class: "btn btn-secondary" %>
+    </div>
+
+    <% if !activity.new_record? %>
+      <%= button_to 'Eliminar', @activity, method: :delete, form:{ data: { turbo_confirm: 'Esta acción es irreversible y será registrada en el historial de cambios. ¿Está seguro(a) de que desea eliminar esta actividad?' }} , class: "btn btn-outline-danger"%>
+    <% end %>
   </div>
 <% end %>
