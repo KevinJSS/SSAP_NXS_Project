@@ -1,12 +1,12 @@
-<h1>Users</h1>
+<h1>LISTA DE USUARIOS</h1>
 
 <div id="users">
   <% @users.each do |user| %>
     <%= render user %>
     <p>
-      <%= link_to "Ver detalles", edit_user_path(user), user: user %>
+      <%= link_to "Ver detalles", edit_user_path(user), user: user, class: "btn btn-outline-primary" %>
     </p>
   <% end %>
 </div>
 
-<%= link_to "New user", new_user_registration_path, class: "btn btn-outline-primary" %>
+<%= link_to "Agregar usuario", new_user_registration_path, class: "btn btn-primary" %>

@@ -1,6 +1,6 @@
 <!-- <p style="color: green"><%= notice %></p> --> 
 
-<h1>Projects</h1>
+<h1>LISTA DE PROYECTOS</h1>
 
 <div id="projects">
   <% @projects.each do |project| %>
@@ -8,10 +8,10 @@
     <p>
       <%= link_to "Ver detalles", edit_project_path(project), class: "btn btn-outline-primary" %>
       <% if !project.has_associated_minutes_and_activities? %>
-        <%= button_to 'Eliminar', project, method: :delete, form:{ data: { turbo_confirm: '¿Estás seguro de que deseas eliminar este proyecto?' }} , class: "btn btn-outline-danger"%>
+        <%= button_to 'Eliminar', project, method: :delete, form:{ data: { turbo_confirm: '¿Está seguro(a) de que desea eliminar este proyecto?' }} , class: "btn btn-outline-danger"%>
       <% end %>
     </p>
   <% end %>
 </div>
 
-<%= link_to "New project", new_project_path, class: "btn btn-primary" %>
+<%= link_to "Agregar proyecto", new_project_path, class: "btn btn-primary" %>

@@ -6,9 +6,9 @@
   <% @activities.each do |activity| %>
     <%= render activity %>
     <p>
-      <%= link_to "Show this activity", activity %>
+      <%= link_to "Ver detalles", activity, class: "btn btn-outline-primary" %>
     </p>
   <% end %>
 </div>
 
-<%= link_to "New activity", new_activity_path, class: "btn btn-outline-primary" %>
+<%= link_to "Agregar actividad", new_activity_path, class: "btn btn-primary" %>

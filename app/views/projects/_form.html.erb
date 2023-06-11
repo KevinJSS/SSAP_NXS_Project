@@ -46,7 +46,8 @@
     <%= form.select :stage_status, options_for_select(project.get_status_options, selected: project.stage_status), {prompt: "-- Seleccione un estado ---"}, class: "form-select"  %>
   </div>
 
-  <div>
-    <%= form.submit "Guardar" %>
+  <div class="actions mt-3">
+    <%= form.submit "Actualizar", class: "btn btn-primary" %>
+    <%= link_to "Regresar", projects_path, class: "btn btn-secondary" %>
   </div>
 <% end %>
