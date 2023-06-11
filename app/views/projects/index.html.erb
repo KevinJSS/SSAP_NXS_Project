@@ -4,14 +4,18 @@
 
 <div id="projects">
   <% @projects.each do |project| %>
-    <%= render project %>
-    <p>
+    <div class="mt-3">
+      <%= render project %>
+    </div>
+
+    <div class="d-flex align-items-center mt-3 gap-1">
       <%= link_to "Ver detalles", edit_project_path(project), class: "btn btn-outline-primary" %>
+
       <% if !project.has_associated_minutes_and_activities? %>
         <%= button_to 'Eliminar', project, method: :delete, form:{ data: { turbo_confirm: '¿Está seguro(a) de que desea eliminar este proyecto?' }} , class: "btn btn-outline-danger"%>
       <% end %>
-    </p>
+    </div>
   <% end %>
 </div>
 
-<%= link_to "Agregar proyecto", new_project_path, class: "btn btn-primary" %>
+<%= link_to "Agregar proyecto", new_project_path, class: "btn btn-primary mt-3" %>

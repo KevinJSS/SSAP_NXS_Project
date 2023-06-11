@@ -5,23 +5,8 @@
   </p>
 
   <p>
-    <strong>Fecha de inicio:</strong>
-    <%= project.start_date.strftime('%d/%m/%Y') %>
-  </p>
-
-  <p>
-    <strong>Fecha de cierre programado:</strong>
-    <%= project.scheduled_deadline.strftime('%d/%m/%Y') %>
-  </p>
-
-  <p>
     <strong>Encargado:</strong>
     <%= project.user.fullname %> 
-  </p>
-
-  <p>
-    <strong>Ubicación del proyecto:</strong>
-    <%= project.location %>
   </p>
 
   <p>
@@ -32,5 +17,15 @@
   <p>
     <strong>Estado:</strong>
     <%= project.get_humanize_status  %>
+  </p>
+
+  <p>
+    <strong>Actividades registradas:</strong>
+    <%= project.activities.count %> <%# Agregar link para ir a lista de actividades filtradas por este proyecto %>
+  </p>
+
+  <p>
+    <strong>Minutas registradas:</strong>
+    <%= project.minutes.count  %> <%# Agregar link para ir a lista de actividades minutas por este proyecto %>
   </p>
 </div>
