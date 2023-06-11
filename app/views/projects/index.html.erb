@@ -1,6 +1,9 @@
 <!-- <p style="color: green"><%= notice %></p> --> 
 
-<h1>LISTA DE PROYECTOS</h1>
+<div class="d-flex justify-content-between align-items-center">
+  <h1>LISTA DE PROYECTOS</h1>
+  <%= link_to "Agregar proyecto", new_project_path, class: "btn btn-primary" %>
+</div>
 
 <div id="projects">
   <% @projects.each do |project| %>
@@ -17,5 +20,3 @@
     </div>
   <% end %>
 </div>
-
-<%= link_to "Agregar proyecto", new_project_path, class: "btn btn-primary mt-3" %>

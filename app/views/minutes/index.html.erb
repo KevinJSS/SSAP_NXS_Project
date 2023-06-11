@@ -1,6 +1,9 @@
 <!-- <p style="color: green"><%= notice %></p> -->
 
-<h1>Minutes</h1>
+<div class="d-flex justify-content-between align-items-center">
+  <h1>Minutes</h1>
+  <%= link_to "Agregar minuta", new_minute_path, class: "btn btn-primary" %>
+</div>
 
 <div id="minutes">
   <% @minutes.each do |minute| %>
@@ -10,5 +13,3 @@
     </p>
   <% end %>
 </div>
-
-<%= link_to "New minute", new_minute_path, class: "btn btn-outline-primary" %>

@@ -1,6 +1,9 @@
 <!-- <p style="color: green"><%= notice %></p> -->
 
-<h1>Activities</h1>
+<div class="d-flex justify-content-between align-items-center">
+  <h1>Activities</h1>
+  <%= link_to "Agregar actividad", new_activity_path, class: "btn btn-primary" %>
+</div>
 
 <div id="activities">
   <% @activities.each do |activity| %>
@@ -10,5 +13,3 @@
     </p>
   <% end %>
 </div>
-
-<%= link_to "Agregar actividad", new_activity_path, class: "btn btn-primary" %>
