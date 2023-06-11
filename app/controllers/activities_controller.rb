@@ -10,6 +10,7 @@ class ActivitiesController < ApplicationController
 
   # GET /activities/1 or /activities/1.json
   def show
+    redirect_to edit_activity_path(@activity)
   end
 
   # GET /activities/new
@@ -66,8 +67,8 @@ class ActivitiesController < ApplicationController
     end
 
     def set_workers
-      #@workers = User.where(role: 2)
-      @workers = User.all
+      @workers = User.where(role: 0)
+      #@workers = User.all
     end
 
     def set_phases

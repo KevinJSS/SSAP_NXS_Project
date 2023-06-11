@@ -1,9 +1,0 @@
-<!-- <p style="color: green"><%= notice %></p> -->
-
-<%= render @activity %>
-
-<div>
-  <%= link_to "Edit this activity", edit_activity_path(@activity) %>
-  <%= button_to 'Eliminar', @activity, method: :delete, form:{ data: { turbo_confirm: '¿Está seguro(a) de que desea eliminar esta actividad?' }} , class: "btn btn-outline-danger"%>
-  <%= link_to "Regresar", activities_path %>
-</div>

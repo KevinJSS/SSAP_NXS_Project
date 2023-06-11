@@ -11,17 +11,17 @@
 
   <p>
     <strong>Fase trabajada:</strong>
-    <%= activity.phase.code + ": " + activity.phase.name %>
+    <%= activity.phase.code + " - " + activity.phase.name %>
   </p>
 
   <p>
-    <strong>Worked hours:</strong>
+    <strong>Horas trabajadas:</strong>
     <%= activity.worked_hours %>
   </p>
 
   <p>
-    <strong>Date:</strong>
-    <%= activity.date %>
+    <strong>Fecha:</strong>
+    <%= activity.date.strftime('%d/%m/%Y') %>
   </p>
 
 </div>

@@ -28,7 +28,7 @@
 
   <div>
     <%= form.label "Encargado", style: "display: block" %>
-    <%= form.select :user_id, options_for_select(@admins.collect { |a| [a.fullname, a.id] }, selected: project.user_id), {prompt: "-- Seleccione un encargado ---"}, class: "form-select"  %>
+    <%= form.select :user_id, options_for_select(@admins.collect { |a| [a.fullname, a.id] }, selected: project.user_id), { prompt: "-- Seleccione un encargado ---" }, class: "form-select"  %>
   </div>
 
   <div>
@@ -38,16 +38,16 @@
 
   <div>
     <%= form.label "Etapa", style: "display: block" %>
-    <%= form.select :stage, options_for_select(project.get_stage_options, selected: project.stage), {prompt: "-- Seleccione una etapa ---"}, class: "form-select"  %>
+    <%= form.select :stage, options_for_select(project.get_stage_options, selected: project.stage), { prompt: "-- Seleccione una etapa ---" }, class: "form-select"  %>
   </div>
 
   <div>
     <%= form.label "Estado de la etapa", style: "display: block" %>
-    <%= form.select :stage_status, options_for_select(project.get_status_options, selected: project.stage_status), {prompt: "-- Seleccione un estado ---"}, class: "form-select"  %>
+    <%= form.select :stage_status, options_for_select(project.get_status_options, selected: project.stage_status), { prompt: "-- Seleccione un estado ---" }, class: "form-select"  %>
   </div>
 
   <div class="actions mt-3">
-    <%= form.submit "Actualizar", class: "btn btn-primary" %>
+    <%= form.submit project.new_record? ? "Guardar" : "Actualizar", class: "btn btn-primary" %>
     <%= link_to "Regresar", projects_path, class: "btn btn-secondary" %>
   </div>
 <% end %>
