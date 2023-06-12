@@ -12,56 +12,63 @@
   <% end %>
 
   <div>
-    <%= form.label :meeting_title, style: "display: block" %>
-    <%= form.text_field :meeting_title %>
+    <%= form.label "Titulo de la reunión", style: "display: block" %>
+    <%= form.text_field :meeting_title, placeholder: "Ingrese un titulo descriptivo", class: "form-control" %>
   </div>
 
   <div>
     <%= form.label "Proyecto", style: "display: block" %>
-    <%= form.select :project_id, options_for_select(@projects.collect { |pr| [pr.name, pr.id] }) %>
+    <%= form.select :project_id, options_for_select(@projects.collect { |pr| [pr.name, pr.id] }, selected: minute.project_id), { prompt: "-- Seleccione un proyecto --"}, class: "form-select" %>
   </div>
 
   <div>
-    <%= form.label :meeting_date, style: "display: block" %>
-    <%= form.date_field :meeting_date %>
+    <%= form.label "Fecha de la reunión", style: "display: block" %>
+    <%= form.date_field :meeting_date, class: "form-control" %>
   </div>
 
   <div>
-    <%= form.label :start_time, style: "display: block" %>
-    <%= form.time_field :start_time %>
+    <%= form.label "Hora de inicio", style: "display: block" %>
+    <%= form.time_field :start_time, class: "form-control" %>
   </div>
 
   <div>
-    <%= form.label :end_time, style: "display: block" %>
-    <%= form.time_field :end_time %>
+    <%= form.label "Hora de fin", style: "display: block" %>
+    <%= form.time_field :end_time, class: "form-control" %>
   </div>
 
   <div>
-    <%= form.label :meeting_objectives, style: "display: block" %>
-    <%= form.text_area :meeting_objectives %>
+    <%= form.label "Objetivos de la reunión", style: "display: block" %>
+    <%= form.text_area :meeting_objectives, placeholder: "Enumere los objetivos de la reunión", class: "form-control" %>
   </div>
 
   <div>
-    <%= form.label :discussed_topics, style: "display: block" %>
-    <%= form.text_area :discussed_topics %>
+    <%= form.label "Temas tratados", style: "display: block" %>
+    <%= form.text_area :discussed_topics, placeholder: "Enumere los temas tratados en la reunión", class: "form-control" %>
   </div>
 
   <div>
-    <%= form.label :pending_topics, style: "display: block" %>
-    <%= form.text_area :pending_topics %>
+    <%= form.label "Temas pendientes", style: "display: block" %>
+    <%= form.text_area :pending_topics, placeholder: "Enumere los temas que quedaron pendientes de discutir", class: "form-control" %>
   </div>
 
   <div>
-    <%= form.label :agreements, style: "display: block" %>
-    <%= form.text_area :agreements %>
+    <%= form.label "Acuerdos", style: "display: block" %>
+    <%= form.text_area :agreements, placeholder: "Enumere los acuerdos establecidos en la reunión", class: "form-control" %>
   </div>
 
   <div>
-    <%= form.label :meeting_notes, style: "display: block" %>
-    <%= form.text_area :meeting_notes %>
+    <%= form.label "Comentarios u observaciones", style: "display: block" %>
+    <%= form.text_area :meeting_notes, placeholder: "Anote cualquier observación o comentario", class: "form-control" %>
   </div>
 
-  <div>
-    <%= form.submit %>
+  <div class="actions mt-3">
+    <%= form.submit minute.new_record? ? "Guardar" : "Actualizar", class: "btn btn-primary" %>
+    <%= link_to "Regresar", minutes_path, class: "btn btn-secondary" %>
+  </div>
+<% end %>
+
+<% if !minute.new_record? %>
+  <div class="d-flex justify-content-end">
+    <%= button_to 'Eliminar', @minute, method: :delete, form:{ data: { turbo_confirm: 'Esta acción es irreversible y será registrada en el historial de cambios. ¿Está seguro(a) de que desea eliminar esta minuta?' }} , class: "btn btn-outline-danger"%>
   </div>
 <% end %>
