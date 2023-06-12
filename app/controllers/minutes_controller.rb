@@ -10,6 +10,7 @@ class MinutesController < ApplicationController
 
   # GET /minutes/1 or /minutes/1.json
   def show
+    redirect_to edit_minute_path(@minute)
   end
 
   # GET /minutes/new
