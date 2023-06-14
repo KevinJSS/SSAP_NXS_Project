@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_06_14_170130) do
+ActiveRecord::Schema[7.0].define(version: 2023_06_14_225212) do
   create_table "activities", force: :cascade do |t|
     t.integer "worked_hours", null: false
     t.date "date", null: false
@@ -102,10 +102,19 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_14_170130) do
     t.string "id_card", null: false
     t.string "fullname", null: false
     t.string "phone", null: false
-    t.string "address"
+    t.string "address", null: false
     t.integer "role", null: false
-    t.string "job_position"
+    t.string "job_position", null: false
     t.string "account_number"
+    t.integer "id_card_type", null: false
+    t.integer "marital_status", null: false
+    t.date "birth_date", null: false
+    t.string "province", null: false
+    t.string "canton", null: false
+    t.string "district", null: false
+    t.integer "education", null: false
+    t.string "nationality", null: false
+    t.integer "gender", null: false
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
