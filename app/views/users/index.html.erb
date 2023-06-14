@@ -1,6 +1,6 @@
 <div class="d-flex justify-content-between align-items-center">
   <h1 class="mt-4">LISTA DE USUARIOS</h1>
-  <%= link_to "Agregar usuario", new_user_registration_path, class: "btn btn-primary" %>
+  <%= link_to "Agregar usuario", new_user_registration_path(:role => "admin"), class: "btn btn-primary" %>
 </div>
 
 <div id="users">

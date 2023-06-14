@@ -7,12 +7,15 @@ class Users::RegistrationsController < Devise::RegistrationsController
   skip_before_action :require_no_authentication, only: [:new, :create]
   before_action :set_user, only: [:edit, :update]
   before_action :authenticate_user!
+  before_action :validate_role_param, only: [:new]
 
   # GET /resource/sign_up
   def new
     if user_signed_in? && current_user.role == "admin"
-      @user = User.new
+      @user = User.new(role: @role_param)
       @user.build_emergency_contact
+
+      #byebug
     else
       redirect_to root_path
     end
@@ -25,7 +28,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
     respond_to do |format|
       if @user.save
-        validate_emergency_contact_data
+        validate_emergency_contact_data if @user.role == "collaborator"
 
         format.html { redirect_to @user, notice: "#{user_role} registrado correctamente" }
         format.json { render :show, status: :created, location: @user }
@@ -86,7 +89,16 @@ class Users::RegistrationsController < Devise::RegistrationsController
   end
 
   def user_role
-    @user.role == "admin" ? "Administrador" : "Trabajador"
+    @user.role == "admin" ? "Administrador" : "Colaborador"
+  end
+
+  def validate_role_param
+    @role_param ||= params[:role]
+
+    if @role_param.nil?
+      flash[:alert] = "Se intento ingresar mediante una url inválida, intenta nuevamente."
+      redirect_to users_path if user_signed_in?
+    end
   end
 
   #Checks for new password update adn current password presence and validation to authorize changes.

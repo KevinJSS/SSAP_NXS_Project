@@ -5,8 +5,10 @@ Rails.application.routes.draw do
   resources :projects
 
   devise_for :users, controllers: { sessions: 'users/sessions', registrations: 'users/registrations' }
-  # Ruta personalizada para users#index
   resources :users, only: [:index, :show, :edit, :update]
+
+  # Route for listing collaborator users
+  get 'collaborator_users', to: 'users#collaborator_index', as: 'collaborator_users'
 
   root 'main#home'
 end
