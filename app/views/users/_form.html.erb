@@ -36,17 +36,15 @@
     <%= form.text_field :job_position, placeholder: "Puesto de trabajo", class:"form-control" %>
   </div>
 
-  <% if user.role != "admin" %>
-    <div class="field">
-      <%= form.label "Dirección de habitación" %>
-      <%= form.text_area :address, placeholder: "Dirección de habitación", class:"form-control" %>
-    </div>
+  <div class="field">
+    <%= form.label "Dirección de habitación" %>
+    <%= form.text_area :address, placeholder: "Dirección de habitación", class:"form-control" %>
+  </div>
 
-    <div class="field">
-      <%= form.label "Número de cuenta bancaria" %>
-      <%= form.text_field :account_number, placeholder: "Número de cuenta bancaria", class:"form-control" %>
-    </div>
-  <% end %>
+  <div class="field">
+    <%= form.label "Número de cuenta bancaria" %>
+    <%= form.text_field :account_number, placeholder: "Número de cuenta bancaria", class:"form-control" %>
+  </div>
 
   <div class="field">
     <%= form.label "Rol de usuario" %>

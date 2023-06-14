@@ -28,7 +28,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
     respond_to do |format|
       if @user.save
-        validate_emergency_contact_data if @user.role == "collaborator"
+        validate_emergency_contact_data
 
         format.html { redirect_to @user, notice: "#{user_role} registrado correctamente" }
         format.json { render :show, status: :created, location: @user }
