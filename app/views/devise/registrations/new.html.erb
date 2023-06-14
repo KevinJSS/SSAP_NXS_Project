@@ -7,10 +7,40 @@
     <%= f.label "Nombre completo *" %><br />
     <%= f.text_field :fullname, autofocus: true, placeholder: "Ej: Nombre Apellido1 Apellido2", class: "form-control" %>
   </div>
+
+  <div>
+    <%= f.label "Tipo de identificación *", style: "display: block" %>
+    <%= f.select :id_card_type, options_for_select(resource.get_id_card_types, selected: resource.id_card_type), {prompt: "-- Indique el tipo de identificación ---"}, class: "form-select"  %>
+  </div>
   
   <div class="field">
-    <%= f.label "Número de cédula *" %><br />
+    <%= f.label "Número de identificación *" %><br />
     <%= f.text_field :id_card, placeholder: "Ej: 101110111", class: "form-control" %>
+  </div>
+
+  <div class="field">
+    <%= f.label "Fecha de nacimiento *" %><br />
+    <%= f.date_field :birth_date, class: "form-control" %>
+  </div>
+
+  <div class="field">
+    <%= f.label "Nacionalidad *" %><br />
+    <%= f.text_field :nationality, placeholder: "Ej: Costarricense", class: "form-control" %>
+  </div>
+
+  <div>
+    <%= f.label "Género *", style: "display: block" %>
+    <%= f.select :gender, options_for_select(resource.get_gender_options, selected: resource.gender), {prompt: "-- Seleccione el género ---"}, class: "form-select"  %>
+  </div>
+
+  <div>
+    <%= f.label "Estado civil *", style: "display: block" %>
+    <%= f.select :marital_status, options_for_select(resource.get_marital_status_options, selected: resource.marital_status), {prompt: "-- Seleccione el estado civil ---"}, class: "form-select"  %>
+  </div>
+
+  <div>
+    <%= f.label "Escolaridad *", style: "display: block" %>
+    <%= f.select :education, options_for_select(resource.get_education_options, selected: resource.education), {prompt: "-- Indique el nivel de escolaridad---"}, class: "form-select"  %>
   </div>
 
   <div class="field">
@@ -28,17 +58,30 @@
     <%= f.text_field :job_position, placeholder: "Ej: Arquitecto", class: "form-control" %>
   </div>
   
-  <% if @user.role != "admin" %>
-    <div class="field">
-      <%= f.label "Dirección de habitación *" %><br />
-      <%= f.text_area :address, placeholder: "Detalle la ubicación física de domicilio", class: "form-control" %>
-    </div>
+  <div class="field">
+    <%= f.label "Dirección de habitación *" %><br />
+    <%= f.text_area :address, placeholder: "Detalle la ubicación física de domicilio", class: "form-control" %>
+  </div>
 
-    <div class="field">
-      <%= f.label "Número de cuenta bancaria" %>
-      <%= f.text_field :account_number, placeholder: "Número de cuenta bancaria", class:"form-control" %>
-    </div>
-  <% end %>
+  <div class="field">
+    <%= f.label "Provincia *" %><br />
+    <%= f.text_field :province, placeholder: "Ej: Alajuela", class: "form-control" %>
+  </div>
+
+  <div class="field">
+    <%= f.label "Cantón *" %><br />
+    <%= f.text_field :canton, placeholder: "Ej: Naranjo", class: "form-control" %>
+  </div>
+
+  <div class="field">
+    <%= f.label "Distrito *" %><br />
+    <%= f.text_field :district, placeholder: "Ej: Lourdes", class: "form-control" %>
+  </div>
+
+  <div class="field">
+    <%= f.label "Número de cuenta bancaria" %>
+    <%= f.text_field :account_number, placeholder: "Número de cuenta bancaria", class:"form-control" %>
+  </div>
 
   <div class="field">
     <%= f.label "Rol de usuario *" %><br />

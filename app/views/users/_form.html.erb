@@ -12,39 +12,85 @@
   <% end %>
 
   <div class="field">
-    <%= form.label "Nombre completo" %>
-    <%= form.text_field :fullname, placeholder: "Nombre completo", class:"form-control" %>
+    <%= form.label "Nombre completo" %><br />
+    <%= form.text_field :fullname, autofocus: true, placeholder: "Ej: Nombre Apellido1 Apellido2", class: "form-control" %>
+  </div>
+
+  <div>
+    <%= form.label "Tipo de identificación", style: "display: block" %>
+    <%= form.select :id_card_type, options_for_select(user.get_id_card_types, selected: user.id_card_type), {prompt: "-- Indique el tipo de identificación ---"}, class: "form-select"  %>
+  </div>
+  
+  <div class="field">
+    <%= form.label "Número de identificación" %><br />
+    <%= form.text_field :id_card, placeholder: "Ej: 101110111", class: "form-control" %>
   </div>
 
   <div class="field">
-    <%= form.label "Número de cédula" %>
-    <%= form.text_field :id_card, placeholder: "Número de cédula", class:"form-control" %>
+    <%= form.label "Fecha de nacimiento" %><br />
+    <%= form.date_field :birth_date, class: "form-control" %>
   </div>
 
   <div class="field">
-    <%= form.label "Número de teléfono" %>
-    <%= form.text_field :phone, placeholder: "Número de teléfono", class:"form-control" %>
+    <%= form.label "Nacionalidad" %><br />
+    <%= form.text_field :nationality, placeholder: "Ej: Costarricense", class: "form-control" %>
+  </div>
+
+  <div>
+    <%= form.label "Género", style: "display: block" %>
+    <%= form.select :gender, options_for_select(user.get_gender_options, selected: user.gender), {prompt: "-- Seleccione el género ---"}, class: "form-select"  %>
+  </div>
+
+  <div>
+    <%= form.label "Estado civil", style: "display: block" %>
+    <%= form.select :marital_status, options_for_select(user.get_marital_status_options, selected: user.marital_status), {prompt: "-- Seleccione el estado civil ---"}, class: "form-select"  %>
+  </div>
+
+  <div>
+    <%= form.label "Escolaridad", style: "display: block" %>
+    <%= form.select :education, options_for_select(user.get_education_options, selected: user.education), {prompt: "-- Indique el nivel de escolaridad---"}, class: "form-select"  %>
   </div>
 
   <div class="field">
-    <%= form.label "Correo electrónico" %>
-    <%= form.text_field :email, placeholder: "Correo electrónico", class:"form-control" %>
+    <%= form.label "Número de teléfono" %><br />
+    <%= form.text_field :phone, placeholder: "Ej: (+506) 8888 8888", class: "form-control" %>
+  </div>
+  
+  <div class="field">
+    <%= form.label "Correo electrónico" %><br />
+    <%= form.email_field :email, autocomplete: "email", placeholder: "Ej: correo@gmail.com", class: "form-control" %>
   </div>
 
   <div class="field">
-    <%= form.label "Puesto de trabajo" %>
-    <%= form.text_field :job_position, placeholder: "Puesto de trabajo", class:"form-control" %>
+    <%= form.label "Puesto de trabajo" %><br />
+    <%= form.text_field :job_position, placeholder: "Ej: Arquitecto", class: "form-control" %>
+  </div>
+  
+  <div class="field">
+    <%= form.label "Dirección de habitación" %><br />
+    <%= form.text_area :address, placeholder: "Detalle la ubicación física de domicilio", class: "form-control" %>
   </div>
 
   <div class="field">
-    <%= form.label "Dirección de habitación" %>
-    <%= form.text_area :address, placeholder: "Dirección de habitación", class:"form-control" %>
+    <%= form.label "Provincia" %><br />
+    <%= form.text_field :province, placeholder: "Ej: Alajuela", class: "form-control" %>
+  </div>
+
+  <div class="field">
+    <%= form.label "Cantón" %><br />
+    <%= form.text_field :canton, placeholder: "Ej: Naranjo", class: "form-control" %>
+  </div>
+
+  <div class="field">
+    <%= form.label "Distrito" %><br />
+    <%= form.text_field :district, placeholder: "Ej: Lourdes", class: "form-control" %>
   </div>
 
   <div class="field">
     <%= form.label "Número de cuenta bancaria" %>
     <%= form.text_field :account_number, placeholder: "Número de cuenta bancaria", class:"form-control" %>
   </div>
+
 
   <div class="field">
     <%= form.label "Rol de usuario" %>

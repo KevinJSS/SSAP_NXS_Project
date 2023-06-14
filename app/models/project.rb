@@ -15,7 +15,7 @@ class Project < ApplicationRecord
         approved: 2,
         denied: 3,
         finished: 4
-   }
+    }
 
     #validations
     before_save { self.name = name.upcase }
