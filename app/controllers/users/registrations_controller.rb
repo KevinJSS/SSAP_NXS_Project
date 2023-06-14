@@ -23,8 +23,6 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   # POST /resource
   def create
-    byebug
-
     @user = User.new(user_params)
     @user.password = "Usuario_#{@user.id_card}" #Se debe generar un contrasena aleatoria y enviarla por el correo registrado
 
