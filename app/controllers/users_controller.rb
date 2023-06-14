@@ -3,7 +3,11 @@ class UsersController < ApplicationController
   before_action :set_user, only: %i[ show edit update ]
 
   def index
-    @users = User.where.not(id: current_user.id)
+    @users = User.where(role: "admin")
+  end
+
+  def collaborator_index
+    @collaborator_users = User.where(role: "collaborator")
   end
 
   def show
@@ -37,11 +41,11 @@ class UsersController < ApplicationController
   end
 
   def user_params
-    params.require(:user).permit(:fullname, :id_card, :phone, :email, :job_position, :address, :role)
+    params.require(:user).permit(:fullname, :id_card, :phone, :email, :job_position, :address, :role, :account_number)
   end
 
   def user_role
-    @user.role == "admin" ? "Administrador" : "Trabajador"
+    @user.role == "admin" ? "Administrador" : "Colaborador"
   end
 
   def validate_emergency_contact_data

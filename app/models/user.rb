@@ -1,7 +1,7 @@
 class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
-  enum :role, [:worker, :admin]
+  enum :role, [:collaborator, :admin]
 
   #validations & format
   # This is a regular expression that matches the RFC 5322 standard for email addresses.
@@ -17,8 +17,9 @@ class User < ApplicationRecord
   validates :id_card, presence: true, uniqueness: true, length: { in: 8..12 } 
   validates :fullname, presence: true, length: { in: 5..100 }
   validates :phone, presence: true, length: { in: 8..20 }
-  validates :address, presence: true, length: { maximum: 200 }
+  validates :address, length: { maximum: 200 }
   validates :job_position, presence: true, length: { in: 4..100 }
+  validates :account_number, length: { maximum: 100 }
 
   def trim_values
     self.email = email.strip if email.present?

@@ -1,7 +1,7 @@
 class ActivitiesController < ApplicationController
   before_action :authenticate_user!
   before_action :set_activity, only: %i[ show edit update destroy ]
-  before_action :set_workers, :set_projects, :set_phases
+  before_action :set_collaborators, :set_projects, :set_phases
 
   # GET /activities or /activities.json
   def index
@@ -66,9 +66,9 @@ class ActivitiesController < ApplicationController
       @activity = Activity.find(params[:id])
     end
 
-    def set_workers
-      @workers = User.where(role: 0)
-      #@workers = User.all
+    def set_collaborators
+      @collaborators = User.where(role: 0)
+      #@collaborators = User.all
     end
 
     def set_phases

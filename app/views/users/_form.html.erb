@@ -36,18 +36,24 @@
     <%= form.text_field :job_position, placeholder: "Puesto de trabajo", class:"form-control" %>
   </div>
 
-  <div class="field">
-    <%= form.label "Dirección de habitación" %>
-    <%= form.text_area :address, placeholder: "Dirección de habitación", class:"form-control" %>
-  </div>
+  <% if user.role != "admin" %>
+    <div class="field">
+      <%= form.label "Dirección de habitación" %>
+      <%= form.text_area :address, placeholder: "Dirección de habitación", class:"form-control" %>
+    </div>
+
+    <div class="field">
+      <%= form.label "Número de cuenta bancaria" %>
+      <%= form.text_field :account_number, placeholder: "Número de cuenta bancaria", class:"form-control" %>
+    </div>
+  <% end %>
 
   <div class="field">
     <%= form.label "Rol de usuario" %>
-
     <% if user.role == "admin" %>
-        <%= form.select :role, options_for_select([['Administrador', "admin"], ['Trabajador', "worker"]]), {}, class: "form-select" %>
+        <%= form.select :role, options_for_select([['Administrador', "admin"], ['Colaborador', "collaborator"]], user.role), {}, class: "form-select" %>
     <% else %>
-        <%= form.select :role, options_for_select([['Trabajador', "worker"], ['Administrador', "admin"]]), {}, class: "form-select" %>
+        <%= form.select :role, options_for_select([['Colaborador', "collaborator"], ['Administrador', "admin"]], user.role), {}, class: "form-select" %>
     <% end %>
   </div>
 
@@ -66,6 +72,6 @@
 
   <div class="actions mt-3">
     <%= form.submit "Actualizar", class: "btn btn-primary" %>
-    <%= link_to "Regresar", users_path, class: "btn btn-secondary" %>
+    <%= link_to "Regresar", user.role == "admin" ? users_path : collaborator_users_url, class: "btn btn-secondary" %>
   </div>
 <% end %>

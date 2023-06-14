@@ -1,7 +1,7 @@
 <div id="<%= dom_id user%>">
     <p>
         <strong>Name:</strong>
-        <%= user.fullname %>
+        <%= current_user == user ? user.fullname + " (Yo)" : user.fullname %> 
     </p>
 
     <p>
@@ -21,6 +21,6 @@
 
     <p>
         <strong>Role:</strong>
-        <%= user.role == "admin" ? "Administrador" : "Trabajador" %>
+        <%= user.role == "admin" ? "Administrador" : "Colaborador" %>
     </p>
 </div>

@@ -12,13 +12,13 @@
   <% end %>
 
   <div>
-    <%= form.label "Trabajador", style: "display: block" %>
-    <%= form.select :user_id, options_for_select(@workers.collect { |w| [w.fullname, w.id] }, selected: activity.user_id), { prompt: "-- Seleccione un trabajador --" }, class: "form-select" %>
+    <%= form.label "Proyecto", style: "display: block" %>
+    <%= form.select :project_id, options_for_select(@projects.collect { |pr| [pr.name, pr.id] }, selected: activity.project_id), { prompt: "-- Seleccione un proyecto --" }, class: "form-select" %>
   </div>
 
   <div>
-    <%= form.label "Proyecto", style: "display: block" %>
-    <%= form.select :project_id, options_for_select(@projects.collect { |pr| [pr.name, pr.id] }, selected: activity.project_id), { prompt: "-- Seleccione un proyecto --" }, class: "form-select" %>
+    <%= form.label "Colaborador", style: "display: block" %>
+    <%= form.select :user_id, options_for_select(@collaborators.collect { |w| [w.fullname, w.id] }, selected: activity.user_id), { prompt: "-- Seleccione un colaborador --" }, class: "form-select" %>
   </div>
 
   <div>
