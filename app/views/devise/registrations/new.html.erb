@@ -27,11 +27,18 @@
     <%= f.label "Puesto de trabajo *" %><br />
     <%= f.text_field :job_position, placeholder: "Ej: Arquitecto", class: "form-control" %>
   </div>
+  
+  <% if @user.role != "admin" %>
+    <div class="field">
+      <%= f.label "Dirección de habitación *" %><br />
+      <%= f.text_area :address, placeholder: "Detalle la ubicación física de domicilio", class: "form-control" %>
+    </div>
 
-  <div class="field">
-    <%= f.label "Dirección de habitación *" %><br />
-    <%= f.text_area :address, placeholder: "Detalle la ubicación física de domicilio", class: "form-control" %>
-  </div>
+    <div class="field">
+      <%= f.label "Número de cuenta bancaria" %>
+      <%= f.text_field :account_number, placeholder: "Número de cuenta bancaria", class:"form-control" %>
+    </div>
+  <% end %>
 
   <div class="field">
     <%= f.label "Rol de usuario *" %><br />
