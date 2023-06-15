@@ -23,12 +23,15 @@
 
   <div>
     <%= form.label "Fase trabajada", style: "display: block" %>
-    <%= form.select :phase_id, options_for_select(@phases.collect { |ph| [(ph.code + " - " + ph.name), ph.id] }, selected: activity.phase_id), { prompt: "-- Indique la fase trabajada --" }, class: "form-select" %>
+    <%= form.collection_check_boxes :phase_ids, @phases, :id, :name do |cb| %>
+      <%= cb.check_box(checked: activity.phase_ids.include?(cb.value.to_i)) %>
+      <%= cb.label %> <br>
+    <% end %>
   </div>
 
   <div>
     <%= form.label "Cantidad de horas trabajadas", style: "display: block" %>
-    <%= form.number_field :worked_hours, placeholder: "Cantidad en horas", class: "form-control" %>
+    <%= form.number_field :worked_hours, placeholder: "Cantidad en horas", class: "form-control", min: 1,  max: 24%>
   </div>
 
   <div>

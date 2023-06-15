@@ -5,6 +5,8 @@ class PhasesController < ApplicationController
   # GET /phases or /phases.json
   def index
     @phases = Phase.all
+
+    #byebug
   end
 
   # GET /phases/1 or /phases/1.json

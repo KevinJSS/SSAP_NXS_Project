@@ -16,6 +16,7 @@ class ActivitiesController < ApplicationController
   # GET /activities/new
   def new
     @activity = Activity.new
+    @activity.phases.build
   end
 
   # GET /activities/1/edit
@@ -25,9 +26,12 @@ class ActivitiesController < ApplicationController
   # POST /activities or /activities.json
   def create
     @activity = Activity.new(activity_params)
+    @activity.nested_phases = true if validate_nested_phases
+
+    #byebug
 
     respond_to do |format|
-      if @activity.save
+      if !@activity.errors.any? && @activity.save
         format.html { redirect_to activity_url(@activity), notice: "Activity was successfully created." }
         format.json { render :show, status: :created, location: @activity }
       else
@@ -39,8 +43,12 @@ class ActivitiesController < ApplicationController
 
   # PATCH/PUT /activities/1 or /activities/1.json
   def update
+    @activity.nested_phases = true if validate_nested_phases
+
+    #byebug
+
     respond_to do |format|
-      if @activity.update(activity_params)
+      if !@activity.errors.any? && @activity.update(activity_params)
         format.html { redirect_to activity_url(@activity), notice: "Activity was successfully updated." }
         format.json { render :show, status: :ok, location: @activity }
       else
@@ -79,8 +87,16 @@ class ActivitiesController < ApplicationController
       @projects = Project.all
     end
 
+    def validate_nested_phases
+      if params[:activity][:phase_ids].reject(&:blank?).blank?
+        @activity.errors.add(:nested_phases, "Es necesario seleccionar al menos una fase.")
+        false
+      end
+      true
+    end
+
     # Only allow a list of trusted parameters through.
     def activity_params
-      params.require(:activity).permit(:worked_hours, :date, :user_id, :project_id, :phase_id)
+      params.require(:activity).permit(:worked_hours, :date, :user_id, :project_id, phase_ids: [])
     end
 end

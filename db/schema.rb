@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_06_15_130831) do
+ActiveRecord::Schema[7.0].define(version: 2023_06_15_143655) do
   create_table "activities", force: :cascade do |t|
     t.integer "worked_hours", null: false
     t.date "date", null: false
@@ -18,8 +18,16 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_15_130831) do
     t.datetime "updated_at", null: false
     t.integer "project_id", null: false
     t.integer "user_id", null: false
+    t.boolean "nested_phases", default: false
     t.index ["project_id"], name: "index_activities_on_project_id"
     t.index ["user_id"], name: "index_activities_on_user_id"
+  end
+
+  create_table "activities_phases", id: false, force: :cascade do |t|
+    t.integer "phase_id", null: false
+    t.integer "activity_id", null: false
+    t.index ["activity_id", "phase_id"], name: "index_activities_phases_on_activity_id_and_phase_id"
+    t.index ["phase_id", "activity_id"], name: "index_activities_phases_on_phase_id_and_activity_id"
   end
 
   create_table "assigned_tasks", force: :cascade do |t|

@@ -10,8 +10,13 @@
   </p>
 
   <p>
-    <strong>Fase trabajada:</strong>
-    <%= activity.phase.code + " - " + activity.phase.name %>
+    <% if activity.phases.count > 1 %>
+      <strong>Fases asociadas:</strong>
+      <%= activity.phases.count %>
+    <% else %>
+      <strong>Fase asociada:</strong>
+      <%= activity.phases[0].code + " - " + activity.phases[0].name %>
+    <% end %>
   </p>
 
   <p>
