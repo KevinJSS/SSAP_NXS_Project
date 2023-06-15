@@ -173,7 +173,7 @@ class User < ApplicationRecord
   #associations
   has_many :projects
   
-  has_one :emergency_contact
+  has_one :emergency_contact, dependent: :destroy
   accepts_nested_attributes_for :emergency_contact
 
   has_many :activities
