@@ -9,5 +9,5 @@ class Phase < ApplicationRecord
     end
 
     #associations
-    has_many :activities
+    #has_many :activities
 end
