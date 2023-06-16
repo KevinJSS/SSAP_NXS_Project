@@ -32,7 +32,7 @@ class ActivitiesController < ApplicationController
 
     respond_to do |format|
       if !@activity.errors.any? && @activity.save
-        format.html { redirect_to activity_url(@activity), notice: "Activity was successfully created." }
+        format.html { redirect_to activities_path, notice: "Activity was successfully created." }
         format.json { render :show, status: :created, location: @activity }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -49,7 +49,7 @@ class ActivitiesController < ApplicationController
 
     respond_to do |format|
       if !@activity.errors.any? && @activity.update(activity_params)
-        format.html { redirect_to activity_url(@activity), notice: "Activity was successfully updated." }
+        format.html { redirect_to activities_path, notice: "Activity was successfully updated." }
         format.json { render :show, status: :ok, location: @activity }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -80,7 +80,7 @@ class ActivitiesController < ApplicationController
     end
 
     def set_phases
-      @phases = Phase.all
+      @phases = Phase.paginate(page: params[:page], per_page: 5)
     end
 
     def set_projects 
