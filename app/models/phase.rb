@@ -11,5 +11,6 @@ class Phase < ApplicationRecord
     #associations
     #has_many :activities
 
-    has_and_belongs_to_many :activities
+    has_many :phases_activities, dependent: :destroy
+    has_many :activities, through: :phases_activities
 end

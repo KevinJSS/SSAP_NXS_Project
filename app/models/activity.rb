@@ -30,5 +30,6 @@ class Activity < ApplicationRecord
     belongs_to :project
     #belongs_to :phase
 
-    has_and_belongs_to_many :phases
+    has_many :phases_activities, dependent: :destroy
+    has_many :phases, through: :phases_activities
 end
