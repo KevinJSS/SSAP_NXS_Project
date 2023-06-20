@@ -17,7 +17,7 @@
 #     job_position: "Desarrollador",
 #     account_number: "CR12309870123",
 #     id_card_type: 0,  
-#     marital_status: 0,  
+#     marital_status: 1,  
 #     birth_date: Date.new(1990, 1, 1), 
 #     province: "Alajuela",
 #     canton: "Naranjo",
@@ -26,6 +26,27 @@
 #     nationality: "Costarricense",
 #     gender: 0  
 #   )
+
+# User.create!(
+#     email: "colaborador@gmail.com",
+#     password: "colaborador123",
+#     id_card: "206750987",
+#     fullname: "Usuario Colaborador",
+#     phone: "(+506) 7777 7777",
+#     address: "Dirección de habitación aquí",
+#     role: 0,
+#     job_position: "Maestro de obras",
+#     account_number: "CR4233432341",
+#     id_card_type: 0,  
+#     marital_status: 0,  
+#     birth_date: Date.new(1995, 12, 12), 
+#     province: "Alajuela",
+#     canton: "Naranjo",
+#     district: "Lourdes",
+#     education: 2,  
+#     nationality: "Costarricense",
+#     gender: 0 
+# ) 
 
 # Phase.create(code: 'I-01', name: 'Inicio')
 # Phase.create(code: 'T-01', name: 'Terreno')
