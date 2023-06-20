@@ -1,20 +1,19 @@
 class Project < ApplicationRecord
     enum :stage, { 
-        conceptual_design: 0, 
-        arch_design: 1, 
-        eng_design: 2,
-        approvals: 3, 
-        contracting: 4, 
+        initial_meetings: 0, 
+        preliminary_studies: 1, 
+        preliminary_design: 2,
+        technical_specifications: 3, 
+        project_management: 4,
         construction: 5, 
-        completition_delivery: 6 
+        technical_supervision: 6, 
+        construction_inspection: 7
     }
 
     enum :stage_status, {
-        pending: 0,
-        in_process: 1,
-        approved: 2,
-        denied: 3,
-        finished: 4
+        in_process: 0,
+        suspended: 1,
+        delivered: 2
     }
 
     #validations
@@ -42,23 +41,22 @@ class Project < ApplicationRecord
 
     def get_stage_options
         stage_options = [
-            ["Diseño conceptual", :conceptual_design],
-            ["Diseño arquitectónico", :arch_design],
-            ["Diseño de ingeniería", :eng_design],
-            ["Permisos y aprobaciones", :approvals],
-            ["Licitación y contratación", :contracting],
+            ["Visitas y reuniones iniciales", :initial_meetings],
+            ["Estudios preliminares", :preliminary_studies],
+            ["Anteproyecto", :preliminary_design],
+            ["Planos y especificaciones técnicas", :technical_specifications],
+            ["Presupuesto y dirección de obra", :project_management],
             ["Construcción", :construction],
-            ["Finalización y entrega", :completion_delivery]
+            ["Dirección técnica", :technical_supervision],
+            ["Inspección de obra", :construction_inspection]
         ]
     end
 
     def get_status_options
         status_options = [
-            ["Pendiente", :pending],
             ["En proceso", :in_process],
-            ["Aprobado", :approved],
-            ["Rechazado", :denied],
-            ["Finalizado", :finished]
+            ["Suspendido", :suspended],
+            ["Entregado", :delivered]
         ]
     end
 
