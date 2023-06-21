@@ -2,8 +2,7 @@ import NestedForm from 'stimulus-rails-nested-form'
 
 export default class extends NestedForm {
   connect() {
-    super.connect()
-    console.log(this.element.dataset.formModel == "activities")
+    super.connect();
     if (this.element.dataset.formModel == "activities") this.showTotalHours();
   }
 
@@ -91,7 +90,6 @@ export default class extends NestedForm {
   }
 
   showTotalHours() {
-    console.log("showTotalHours");
     const wrappers = document.querySelectorAll('.nested-form-wrapper');
 
     for (let i = 0; i < wrappers.length; i++) {
