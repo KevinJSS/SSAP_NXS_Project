@@ -4,6 +4,7 @@ class Activity < ApplicationRecord
     validate :date_lower_than_or_equal_to_today
     validate :validate_nested_phases
     validate :duplicate_phases
+    validate :min_max_total_hours
 
     def date_lower_than_or_equal_to_today
         if date.present? && date > Date.today
@@ -28,6 +29,13 @@ class Activity < ApplicationRecord
 
     def get_total_hours
         self.phases_activities.sum(:hours)
+    end
+
+    def min_max_total_hours
+        total_hours = get_total_hours
+        if total_hours < 1 || total_hours > 24
+            errors.add(:phases_activities, "el total de horas debe estar entre 1 y 24")
+        end
     end
 
     #associations

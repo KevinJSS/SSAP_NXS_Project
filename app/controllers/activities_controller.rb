@@ -93,10 +93,11 @@ class ActivitiesController < ApplicationController
         #validate if all phases are marked to be destroyed
         deletedAssociations = 0
         nested_attributes = params[:activity][:phases_activities_attributes]
+
         nested_attributes.each do |index, attributes|
-          if attributes["_destroy"] == "1"
-            deletedAssociations += 1
-          end
+          @destroy_value = attributes["_destroy"]
+          return true if @destroy_value == "false"
+          deletedAssociations += 1
         end
 
         if @activity.phases_activities.count == deletedAssociations
