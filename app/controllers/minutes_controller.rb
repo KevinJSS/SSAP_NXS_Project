@@ -84,7 +84,7 @@ class MinutesController < ApplicationController
       end
 
       if !@minute.new_record?
-        #validate if all phases are marked to be destroyed
+        #validate if all nested attributes are marked to be destroyed
         deletedAssociations = 0
         nested_attributes = params[:minute][:minutes_users_attributes]
         nested_attributes.each do |index, attributes|

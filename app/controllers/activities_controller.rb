@@ -26,9 +26,8 @@ class ActivitiesController < ApplicationController
   # POST /activities or /activities.json
   def create
     @activity = Activity.new(activity_params)
-    @activity.nested_phases = true if validate_nested_phases
 
-    #byebug
+    validate_nested_phases
 
     respond_to do |format|
       if !@activity.errors.any? && @activity.save
@@ -43,9 +42,7 @@ class ActivitiesController < ApplicationController
 
   # PATCH/PUT /activities/1 or /activities/1.json
   def update
-    @activity.nested_phases = true if validate_nested_phases
-
-    #byebug
+    validate_nested_phases
 
     respond_to do |format|
       if !@activity.errors.any? && @activity.update(activity_params)
@@ -80,7 +77,7 @@ class ActivitiesController < ApplicationController
     end
 
     def set_phases
-      @phases = Phase.paginate(page: params[:page], per_page: 5)
+      @phases = Phase.all
     end
 
     def set_projects 
@@ -88,15 +85,28 @@ class ActivitiesController < ApplicationController
     end
 
     def validate_nested_phases
-      if params[:activity][:phase_ids].reject(&:blank?).blank?
-        @activity.errors.add(:nested_phases, "Es necesario seleccionar al menos una fase.")
-        false
+      if params[:activity][:phases_activities_attributes].nil? || params[:activity][:phases_activities_attributes].empty?
+        @activity.errors.add(:phases_activities, "es necesario seleccionar al menos una fase y horas realizadas")
       end
-      true
+
+      if !@activity.new_record?
+        #validate if all phases are marked to be destroyed
+        deletedAssociations = 0
+        nested_attributes = params[:activity][:phases_activities_attributes]
+        nested_attributes.each do |index, attributes|
+          if attributes["_destroy"] == "1"
+            deletedAssociations += 1
+          end
+        end
+
+        if @activity.phases_activities.count == deletedAssociations
+          @activity.errors.add(:phases_activities, "es necesario seleccionar al menos una fase y horas realizadas")
+        end
+      end
     end
 
     # Only allow a list of trusted parameters through.
     def activity_params
-      params.require(:activity).permit(:worked_hours, :date, :user_id, :project_id, phase_ids: [])
+      params.require(:activity).permit(:worked_hours, :date, :user_id, :project_id, phases_activities_attributes: [:id, :phase_id, :hours, :_destroy])
     end
 end

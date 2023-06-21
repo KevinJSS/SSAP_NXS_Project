@@ -60,12 +60,12 @@
   <%# Start Attendees Nested Form %>
     <template data-nested-form-target="template">
       <%= form.fields_for :minutes_users, MinutesUser.new, child_index: 'NEW_RECORD' do |minutes_user| %>
-        <%= render "minute_user_form", f: minutes_user, attendees: @attendees, count: @count %>
+        <%= render "minute_user_form", f: minutes_user, attendees: @attendees %>
       <% end %>
     </template>
 
     <%= form.fields_for :minutes_users do |minutes_user| %>
-      <%= render "minute_user_form", f: minutes_user, attendees: @attendees, count: @count %>
+      <%= render "minute_user_form", f: minutes_user, attendees: @attendees %>
     <% end %>
 
     <!-- Inserted elements will be injected before that target. -->
