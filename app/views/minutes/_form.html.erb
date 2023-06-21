@@ -1,4 +1,4 @@
-<%= form_with(model: minute) do |form| %>
+<%= form_with(model: minute, data: { controller: 'nested-form', nested_form_wrapper_selector_value: '.nested-form-wrapper' }) do |form| %>
   <% if minute.errors.any? %>
     <div style="color: red">
       <h2><%= pluralize(minute.errors.count, "error") %> prohibited this minute from being saved:</h2>
@@ -39,6 +39,28 @@
   <div>
     <%= form.label "Objetivos de la reunión", style: "display: block" %>
     <%= form.text_area :meeting_objectives, placeholder: "Enumere los objetivos de la reunión", class: "form-control" %>
+  </div>
+
+  <div>
+    <div class="d-flex justify-content-between align-items-center">
+      <%= form.label "Asistentes", style: "display: block" %>
+      <button type="button" data-action="nested-form#add" class="btn btn-outline-primary">Agregar asistente</button>
+    </div>
+    
+  <%# Start Attendees Nested Form %>
+    <template data-nested-form-target="template">
+      <%= form.fields_for :minutes_users, MinutesUser.new, child_index: 'NEW_RECORD' do |minutes_user| %>
+        <%= render "minute_user_form", f: minutes_user %>
+      <% end %>
+    </template>
+
+    <%= form.fields_for :minutes_users do |minutes_user| %>
+      <%= render "minute_user_form", f: minutes_user %>
+    <% end %>
+
+    <!-- Inserted elements will be injected before that target. -->
+    <div data-nested-form-target="target"></div>
+  <%# End Attendees Nested Form %>
   </div>
 
   <div>

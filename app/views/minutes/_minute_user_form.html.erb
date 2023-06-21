@@ -1,0 +1,5 @@
+<div class="nested-form-wrapper d-flex justify-content-between" data-new-record="<%= f.object.new_record? %>">
+  <%= f.select :user_id, options_for_select(@attendees.collect { |a| [a.fullname, a.id] }), {prompt: "-- Seleccione un asistente ---"}, class: "form-select"  %>
+  <button type="button" data-action="click->nested-form#hide click->nested-form#remove" class="btn btn-danger" data-form-model="minutes">&times;</button>
+  <%= f.hidden_field :_destroy %>
+</div>

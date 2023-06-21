@@ -26,6 +26,8 @@ class MinutesController < ApplicationController
   def create
     @minute = Minute.new(minute_params)
 
+    byebug
+
     respond_to do |format|
       if @minute.save
         format.html { redirect_to minute_url(@minute), notice: "Minute was successfully created." }
@@ -76,6 +78,6 @@ class MinutesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def minute_params
-      params.require(:minute).permit(:meeting_title, :meeting_date, :start_time, :end_time, :meeting_objectives, :discussed_topics, :pending_topics, :agreements, :meeting_notes, :project_id)
+      params.require(:minute).permit(:meeting_title, :meeting_date, :start_time, :end_time, :meeting_objectives, :discussed_topics, :pending_topics, :agreements, :meeting_notes, :project_id, minutes_users_attributes: [:id, :user_id, :_destroy])
     end
 end
