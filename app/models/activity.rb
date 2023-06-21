@@ -3,7 +3,6 @@ class Activity < ApplicationRecord
     validates :date, presence: true
     validate :date_lower_than_or_equal_to_today
     validate :validate_nested_phases
-    validate :duplicate_phases
 
     def date_lower_than_or_equal_to_today
         if date.present? && date > Date.today
@@ -15,15 +14,6 @@ class Activity < ApplicationRecord
         if self.phases_activities.empty?
             errors.add(:phases_activities, "es necesario seleccionar al menos una fase y horas realizadas")
         end
-    end
-
-    def duplicate_phases
-        # nested_attributes = self.phases_activities
-        # phase_ids = nested_attributes.map(&:phase_id)
-        # duplicates = phase_ids.select { |id| phase_ids.count(id) > 1 }.uniq
-        # if !duplicates.empty?
-        #     errors.add(:phases_activities, "no puede haber fases duplicadas")
-        # end
     end
 
     def get_total_hours
