@@ -20,8 +20,7 @@ class Minute < ApplicationRecord
     #associations
     belongs_to :project
 
-    has_many :minutes_users
+    has_many :minutes_users, dependent: :destroy
     has_many :users, through: :minutes_users
-
-    has_many :assigned_tasks
+    accepts_nested_attributes_for :minutes_users, allow_destroy: true, reject_if: :all_blank
 end
