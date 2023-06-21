@@ -26,12 +26,12 @@ class Minute < ApplicationRecord
     end
 
     def duplicate_attendees
-        nested_attributes = self.minutes_users
-        user_ids = nested_attributes.map(&:user_id)
-        duplicates = user_ids.select { |id| user_ids.count(id) > 1 }.uniq
-        if !duplicates.empty?
-            errors.add(:minutes_users, "no puede haber asistentes duplicados")
-        end
+        # nested_attributes = self.minutes_users
+        # user_ids = nested_attributes.map(&:user_id)
+        # duplicates = user_ids.select { |id| user_ids.count(id) > 1 }.uniq
+        # if !duplicates.empty?
+        #     errors.add(:minutes_users, "no puede haber asistentes duplicados")
+        # end
     end
 
     #associations

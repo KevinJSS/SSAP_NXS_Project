@@ -95,6 +95,9 @@ class ActivitiesController < ApplicationController
 
       #Phase delete validation
       destroyed_phases_validation
+
+      #Duplicate phases validation
+      duplicate_phases_validation
     end
 
     def total_hours_validation
@@ -125,6 +128,20 @@ class ActivitiesController < ApplicationController
         if @activity.phases_activities.count == deletedAssociations
           @activity.errors.add(:phases_activities, "es necesario seleccionar al menos una fase y horas realizadas")
         end
+      end
+    end
+
+    def duplicate_phases_validation
+      nested_attributes = params[:activity][:phases_activities_attributes]
+
+      phase_ids = []
+      nested_attributes.each do |index, attributes|
+        phase_ids << attributes["phase_id"] if attributes["_destroy"] == "false"
+      end
+
+      duplicates = phase_ids.select { |id| phase_ids.count(id) > 1 }.uniq
+      if !duplicates.empty?
+        @activity.errors.add(:phases_activities, "no puede haber fases duplicadas")
       end
     end
 

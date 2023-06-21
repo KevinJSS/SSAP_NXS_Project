@@ -18,12 +18,12 @@ class Activity < ApplicationRecord
     end
 
     def duplicate_phases
-        nested_attributes = self.phases_activities
-        phase_ids = nested_attributes.map(&:phase_id)
-        duplicates = phase_ids.select { |id| phase_ids.count(id) > 1 }.uniq
-        if !duplicates.empty?
-            errors.add(:phases_activities, "no puede haber fases duplicadas")
-        end
+        # nested_attributes = self.phases_activities
+        # phase_ids = nested_attributes.map(&:phase_id)
+        # duplicates = phase_ids.select { |id| phase_ids.count(id) > 1 }.uniq
+        # if !duplicates.empty?
+        #     errors.add(:phases_activities, "no puede haber fases duplicadas")
+        # end
     end
 
     def get_total_hours

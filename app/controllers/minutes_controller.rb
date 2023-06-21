@@ -79,12 +79,21 @@ class MinutesController < ApplicationController
     end
 
     def validate_attendees
+      #validate if nested attributes are empty
       if params[:minute][:minutes_users_attributes].nil? || params[:minute][:minutes_users_attributes].empty?
         @minute.errors.add(:minutes_users, "es necesario seleccionar al menos un asistente")
       end
 
+      #validate if all nested attributes are marked to be destroyed
+      destroyed_attemdees_validation
+
+      #Duplicated attendees validation
+      duplicate_attendees_validation
+    end
+
+    def destroyed_attemdees_validation
+      #validate if all nested attributes are marked to be destroyed
       if !@minute.new_record?
-        #validate if all nested attributes are marked to be destroyed
         deletedAssociations = 0
         nested_attributes = params[:minute][:minutes_users_attributes]
         nested_attributes.each do |index, attributes|
@@ -97,6 +106,20 @@ class MinutesController < ApplicationController
           @minute.errors.add(:minutes_users, "es necesario seleccionar al menos un asistente")
           false
         end
+      end
+    end
+
+    def duplicate_attendees_validation
+      nested_attributes = params[:minute][:minutes_users_attributes]
+      
+      user_ids = []
+      nested_attributes.each do |index, attributes|
+        user_ids << attributes["user_id"] if attributes["_destroy"] == "false"
+      end
+
+      duplicates = user_ids.select { |id| user_ids.count(id) > 1 }.uniq
+      if !duplicates.empty?
+        @minute.errors.add(:minutes_users, "no puede haber asistentes duplicados")
       end
     end
 
