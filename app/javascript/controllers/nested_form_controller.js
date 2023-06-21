@@ -20,16 +20,22 @@ export default class extends NestedForm {
     const hiddenInput=lastWrapper.querySelector("input[type*=hidden]");
     const inputName=lastWrapper.querySelector(".nested-input-name");
 
+    if (modalInput.dataset.value == "") {
+      this.hide(lastWrapper.querySelector(".btn-danger"));
+      return;
+    }
+
     //Set modal input value to form nested input
     hiddenInput.value = modalInput.dataset.value;
     inputName.value = modalInput.value;
 
     //Clear modal input
     modalInput.value = "";
+    modalInput.dataset.value = "";
   }
 
   hide(event) {
-    parent = event.target.parentElement;
+    parent = event.type == 'click' ? event.target.parentElement : event;
     const wrapper = parent.type == "button" ? parent.parentElement : parent;
 
     if (wrapper) {
@@ -44,7 +50,7 @@ export default class extends NestedForm {
         child.style.display = 'none';
       });
 
-      if (event.target.dataset.formModel == "activities") this.updatedTotalHours(wrapper);
+      if (wrapper.dataset.formModel == "activities") this.updatedTotalHours(wrapper);
     }
   }
 

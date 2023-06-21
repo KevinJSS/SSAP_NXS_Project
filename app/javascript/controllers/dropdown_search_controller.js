@@ -61,7 +61,7 @@ export default class extends Controller {
 
   addOptionToInput(option) {
     this.input.value = option.textContent.replace(/\n/g, "").trim();
-    this.input.setAttribute("data-value", option.value);
+    this.input.dataset.value = option.value;
     this.select.classList.remove("active");
   }
 
