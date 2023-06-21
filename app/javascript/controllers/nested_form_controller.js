@@ -3,6 +3,8 @@ import NestedForm from 'stimulus-rails-nested-form'
 export default class extends NestedForm {
   connect() {
     super.connect()
+    console.log(this.element.dataset.formModel == "activities")
+    if (this.element.dataset.formModel == "activities") this.showTotalHours();
   }
 
   addPhase(event) {
@@ -82,6 +84,22 @@ export default class extends NestedForm {
   }
 
   updatedTotalHours(wrapper, action) {
-    alert("updated total hours");
+    const totalHours = document.getElementById("totalHours");
+    const inputHours = wrapper.querySelector(".nested-input-hours");
+    if (totalHours.value == "") totalHours.value = 0;
+    totalHours.value = action == "add" ? parseFloat(totalHours.value) + parseFloat(inputHours.value) : parseFloat(totalHours.value) - parseFloat(inputHours.value);
+  }
+
+  showTotalHours() {
+    console.log("showTotalHours");
+    const wrappers = document.querySelectorAll('.nested-form-wrapper');
+
+    for (let i = 0; i < wrappers.length; i++) {
+      const wrapper = wrappers[i];
+      const inputHours = wrapper.querySelector(".nested-input-hours");
+      const totalHours = document.getElementById("totalHours");
+      if (totalHours.value == "") totalHours.value = 0;
+      totalHours.value = parseFloat(totalHours.value) + parseFloat(inputHours.value);
+    }
   }
 }

@@ -1,6 +1,5 @@
 class Activity < ApplicationRecord
     #validations
-    validates :worked_hours, presence: true, numericality: { greater_than_or_equal_to: 1, less_than_or_equal_to: 24 }
     validates :date, presence: true
     validate :date_lower_than_or_equal_to_today
     validate :validate_nested_phases

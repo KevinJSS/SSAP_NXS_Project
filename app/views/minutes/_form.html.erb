@@ -1,4 +1,4 @@
-<%= form_with(model: minute, data: { controller: 'nested-form', nested_form_wrapper_selector_value: '.nested-form-wrapper' }, class: "d-flex flex-column gap-3") do |form| %>
+<%= form_with(model: minute, data: { controller: 'nested-form', nested_form_wrapper_selector_value: '.nested-form-wrapper', form_model: "minutes" }, class: "d-flex flex-column gap-3") do |form| %>
   <% if minute.errors.any? %>
     <div style="color: red">
       <h2><%= pluralize(minute.errors.count, "error") %> prohibited this minute from being saved:</h2>
