@@ -15,7 +15,7 @@ export default class extends NestedForm {
 
     if (modalHours.value == "") {
       alert("Indique las horas realizadas de la fase seleccionada");
-      this.hide(lastWrapper.querySelector(".btn-danger"));
+      if (lastWrapper) this.hide(lastWrapper.querySelector(".btn-danger"));
       return;
     }
 
@@ -97,6 +97,7 @@ export default class extends NestedForm {
       const inputHours = wrapper.querySelector(".nested-input-hours");
       const totalHours = document.getElementById("totalHours");
       if (totalHours.value == "") totalHours.value = 0;
+      if (inputHours.value != "") return;
       totalHours.value = parseFloat(totalHours.value) + parseFloat(inputHours.value);
     }
   }
