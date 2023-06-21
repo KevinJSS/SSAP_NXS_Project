@@ -85,12 +85,34 @@ class ActivitiesController < ApplicationController
     end
 
     def validate_nested_phases
+      #validate if there are nested attributes
       if params[:activity][:phases_activities_attributes].nil? || params[:activity][:phases_activities_attributes].empty?
         @activity.errors.add(:phases_activities, "es necesario seleccionar al menos una fase y horas realizadas")
       end
 
+      #Total hours validation
+      total_hours_validation
+
+      #Phase delete validation
+      destroyed_phases_validation
+    end
+
+    def total_hours_validation
+      nested_attributes = params[:activity][:phases_activities_attributes]
+      total_hours = 0
+
+      nested_attributes.each do |index, attributes|
+        total_hours += attributes["hours"].to_i if attributes["_destroy"] == "false"
+      end
+
+      if total_hours < 1 || total_hours > 24
+        @activity.errors.add(:phases_activities, "el total de horas debe estar entre 1 y 24")
+      end
+    end
+
+    def destroyed_phases_validation
+      #validate if all phases are marked to be destroyed
       if !@activity.new_record?
-        #validate if all phases are marked to be destroyed
         deletedAssociations = 0
         nested_attributes = params[:activity][:phases_activities_attributes]
 

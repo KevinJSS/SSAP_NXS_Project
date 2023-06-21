@@ -86,7 +86,6 @@ export default class extends NestedForm {
     const totalHours = document.getElementById("totalHours");
     const inputHours = wrapper.querySelector(".nested-input-hours");
     if (totalHours.value == "") totalHours.value = 0;
-    if (inputHours.value != "") return;
     totalHours.value = action == "add" ? parseFloat(totalHours.value) + parseFloat(inputHours.value) : parseFloat(totalHours.value) - parseFloat(inputHours.value);
   }
 
