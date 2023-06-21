@@ -9,7 +9,7 @@
             <div class="modal-body d-flex flex-column gap-3">
                 <div>
                     <label for="modalInput" class="mb-2"><strong>Fase realizada:</strong></label>
-                    <input type="text" name="phases" id="modalInput" class="form-select search-bar" data-action="click->dropdown-search#openDropdown keyup->dropdown-search#searchInput" data-value="" placeholder="-- Selecciona una opción --">
+                    <input type="text" name="phases" id="modalInput" class="form-select search-bar" autocomplete="off" data-action="click->dropdown-search#openDropdown keyup->dropdown-search#searchInput" data-value="" placeholder="-- Selecciona una opción --">
                     
                     <select class="form-select multiple-select" multiple>
                         <% phases.each do |p| %>
