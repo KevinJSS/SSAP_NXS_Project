@@ -1,5 +1,17 @@
-<div class="nested-form-wrapper d-flex justify-content-between" data-new-record="<%= f.object.new_record? %>">
-  <%= f.select :user_id, options_for_select(@attendees.collect { |a| [a.fullname, a.id] }), {prompt: "-- Seleccione un asistente ---"}, class: "form-select"  %>
+<div class="nested-form-wrapper d-flex justify-content-between align-items-center py-3 border-bottom" data-new-record="<%= f.object.new_record? %>" data-controller="update-fields">
+  <%= f.hidden_field :user_id %>
+  <input type="text" class="form-control-plaintext nested-input-name" readonly>
+  <input type="text" class="form-control-plaintext nested-input-position" readonly>
+
+  <select class="d-none" id="selectList">
+      <% if !attendees.nil? %>
+        <% attendees.each do |a| %>
+            <option value="<%= a.id %>" data-job-position="<%= a.job_position %>"><%= a.fullname %></option>
+        <% end %>
+      <% end %>
+  </select>
+
+  <%# f.select :user_id, options_for_select(@attendees.collect { |a| [a.fullname, a.id] }), {prompt: "-- Seleccione un asistente ---"}, class: "form-select"  %>
   <button type="button" data-action="click->nested-form#hide click->nested-form#remove" class="btn btn-danger" data-form-model="minutes">&times;</button>
   <%= f.hidden_field :_destroy %>
 </div>

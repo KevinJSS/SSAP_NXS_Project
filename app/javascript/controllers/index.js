@@ -4,8 +4,14 @@
 
 import { application } from "./application"
 
+import DropdownSearchController from "./dropdown_search_controller"
+application.register("dropdown-search", DropdownSearchController)
+
 import HelloController from "./hello_controller"
 application.register("hello", HelloController)
 
 import NestedFormController from "./nested_form_controller"
 application.register("nested-form", NestedFormController)
+
+import UpdateFieldsController from "./update_fields_controller"
+application.register("update-fields", UpdateFieldsController)
