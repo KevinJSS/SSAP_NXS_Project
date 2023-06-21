@@ -26,6 +26,10 @@ class Activity < ApplicationRecord
         end
     end
 
+    def get_total_hours
+        self.phases_activities.sum(:hours)
+    end
+
     #associations
     belongs_to :user
     belongs_to :project
