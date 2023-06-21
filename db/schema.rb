@@ -10,15 +10,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_06_20_172641) do
+ActiveRecord::Schema[7.0].define(version: 2023_06_21_205231) do
   create_table "activities", force: :cascade do |t|
-    t.integer "worked_hours", null: false
     t.date "date", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "project_id", null: false
     t.integer "user_id", null: false
-    t.boolean "nested_phases", default: false
     t.index ["project_id"], name: "index_activities_on_project_id"
     t.index ["user_id"], name: "index_activities_on_user_id"
   end
@@ -69,6 +67,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_20_172641) do
     t.integer "activity_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "hours", default: 0, null: false
     t.index ["activity_id"], name: "index_phases_activities_on_activity_id"
     t.index ["phase_id"], name: "index_phases_activities_on_phase_id"
   end

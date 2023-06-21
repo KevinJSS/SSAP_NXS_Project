@@ -1,0 +1,5 @@
+class RemoveNestedPhasesFromActivity < ActiveRecord::Migration[7.0]
+  def change
+    remove_column :activities, :nested_phases
+  end
+end

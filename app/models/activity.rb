@@ -1,12 +1,8 @@
 class Activity < ApplicationRecord
-    before_save :remove_duplicate_phases
-
     #validations
-    validates :worked_hours, presence: true, numericality: { greater_than_or_equal_to: 1, less_than_or_equal_to: 24 }
     validates :date, presence: true
-    validates :nested_phases, presence: true, inclusion: { in: [true], message: "debe seleccionar al menos una fase." }
-    validate :nested_phases_array
     validate :date_lower_than_or_equal_to_today
+    validate :validate_nested_phases
 
     def date_lower_than_or_equal_to_today
         if date.present? && date > Date.today
@@ -14,15 +10,14 @@ class Activity < ApplicationRecord
         end
     end
 
-    def remove_duplicate_phases
-        self.phase_ids = self.phase_ids.uniq
+    def validate_nested_phases
+        if self.phases_activities.empty?
+            errors.add(:phases_activities, "es necesario seleccionar al menos una fase y horas realizadas")
+        end
     end
 
-    def nested_phases_array
-        return unless nested_phases == true
-        if phase_ids.blank?
-            errors.add(:nested_phases, "debe seleccionar al menos una fase.")
-        end
+    def get_total_hours
+        self.phases_activities.sum(:hours)
     end
 
     #associations
@@ -32,4 +27,5 @@ class Activity < ApplicationRecord
 
     has_many :phases_activities, dependent: :destroy
     has_many :phases, through: :phases_activities
+    accepts_nested_attributes_for :phases_activities, allow_destroy: true, reject_if: :all_blank
 end

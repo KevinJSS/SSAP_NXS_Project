@@ -5,6 +5,7 @@ class Minute < ApplicationRecord
     validates :start_time, presence: true
     validates :end_time, presence: true
     validate :start_time_greater_than_end_time
+    validate :validate_attendees
 
     def start_time_greater_than_end_time
         if start_time.present? && end_time.present? && end_time <= start_time
@@ -15,6 +16,12 @@ class Minute < ApplicationRecord
     def get_meeting_duration
         duration = (self.end_time - self.start_time) / 1.hour
         duration.round(2) 
+    end
+
+    def validate_attendees
+        if self.minutes_users.empty?
+            errors.add(:minutes_users, "es necesario seleccionar al menos un asistente")
+        end
     end
 
     #associations

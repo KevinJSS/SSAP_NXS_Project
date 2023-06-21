@@ -1,4 +1,4 @@
-<%= form_with(model: activity) do |form| %>
+<%= form_with(model: activity, data: { controller: 'nested-form', nested_form_wrapper_selector_value: '.nested-form-wrapper', form_model: "activities" }, class: "d-flex flex-column gap-3") do |form| %>
   <% if activity.errors.any? %>
     <div style="color: red">
       <h2><%= pluralize(activity.errors.count, "error") %> prohibited this activity from being saved:</h2>
@@ -22,27 +22,54 @@
   </div>
 
   <div>
-    <%= form.label "Fase trabajada", style: "display: block" %>
-    <%= form.collection_check_boxes :phase_ids, @phases, :id, :name do |cb| %>
-      <%= cb.check_box(checked: activity.phase_ids.include?(cb.value.to_i)) %>
-      <%= cb.label %> <br>
-    <% end %>
-  </div>
-
-  <div>
-    <%= form.label "Cantidad de horas trabajadas", style: "display: block" %>
-    <%= form.number_field :worked_hours, placeholder: "Cantidad en horas", class: "form-control", min: 1,  max: 24%>
-  </div>
-
-  <div>
     <%= form.label "Fecha", style: "display: block" %>
     <%= form.date_field :date, class: "form-control" %>
+  </div>
+
+  <div>
+     <div class="d-flex justify-content-between align-items-center mt-2">
+      <%= form.label "Fases seleccionadas", style: "display: block" %>
+      <button type="button" data-bs-toggle="modal" data-bs-target="#phasesModal" id="addPhase" class="btn btn-outline-primary">Seleccionar fase</button>
+    </div>
+
+    <table class="table mb-0">
+      <thead>
+        <tr>
+          <th style="width: 40%;">Fase</th> <%# Add responsive width %>
+          <th>Horas trabajadas</th>
+          <th></th>
+        </tr>
+      </thead>
+    </table>
+
+    <%# Start Phases_Activities Nested Form %>
+      <template data-nested-form-target="template">
+      <%= form.fields_for :phases_activities, PhasesActivity.new, child_index: 'NEW_RECORD' do |phase_activity| %>
+        <%= render "activities/phase_activity_form", f: phase_activity, phases: @phases %>
+      <% end %>
+    </template>
+
+    <%= form.fields_for :phases_activities do |phase_activity| %>
+      <%= render "activities/phase_activity_form", f: phase_activity, phases: @phases %>
+    <% end %>
+
+    <!-- Inserted elements will be injected before that target. -->
+    <div data-nested-form-target="target"></div>
+    <%# End Phases_Activities Nested Form %>
+  </div>
+
+  <div>
+    <%= form.label "Total de horas realizadas", style: "display: block" %>
+    <input type="number" id="totalHours" placeholder="Suma de horas por fase" class="form-control" readonly>
   </div>
 
   <div class="actions mt-3">
     <%= form.submit activity.new_record? ? "Guardar" : "Actualizar", class: "btn btn-primary" %>
     <%= link_to "Regresar", activities_path, class: "btn btn-secondary" %>
   </div>
+
+  <%# MODAL %>
+  <%= render 'activities/phase_hours_modal', phases: @phases %>
 <% end %>
 
 <% if !activity.new_record? %>
