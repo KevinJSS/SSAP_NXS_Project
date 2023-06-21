@@ -59,9 +59,9 @@ class User < ApplicationRecord
   validates :education, presence: true
   validates :phone, presence: true, length: { in: 8..20 }
   validates :address, length: { maximum: 200 }
-  validates :province, presence: true, length: { in: 5..50 }
-  validates :canton, presence: true, length: { in: 5..50 }
-  validates :district, presence: true, length: { in: 5..50 }
+  validates :province, presence: true, length: { in: 2..50 }
+  validates :canton, presence: true, length: { in: 2..50 }
+  validates :district, presence: true, length: { in: 2..50 }
   validates :job_position, presence: true, length: { in: 4..100 }
   validates :account_number, length: { maximum: 100 }
   validate :birth_date_validation

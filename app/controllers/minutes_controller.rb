@@ -26,10 +26,10 @@ class MinutesController < ApplicationController
   def create
     @minute = Minute.new(minute_params)
 
-    byebug
+    validate_attendees
 
     respond_to do |format|
-      if @minute.save
+      if !@minute.errors.any? && @minute.save
         format.html { redirect_to minute_url(@minute), notice: "Minute was successfully created." }
         format.json { render :show, status: :created, location: @minute }
       else
@@ -41,8 +41,10 @@ class MinutesController < ApplicationController
 
   # PATCH/PUT /minutes/1 or /minutes/1.json
   def update
+    validate_attendees
+
     respond_to do |format|
-      if @minute.update(minute_params)
+      if !@minute.errors.any? && @minute.update(minute_params)
         format.html { redirect_to minute_url(@minute), notice: "Minute was successfully updated." }
         format.json { render :show, status: :ok, location: @minute }
       else
@@ -74,6 +76,28 @@ class MinutesController < ApplicationController
 
     def set_attendees
       @attendees = User.all
+    end
+
+    def validate_attendees
+      if params[:minute][:minutes_users_attributes].nil? || params[:minute][:minutes_users_attributes].empty?
+        @minute.errors.add(:minutes_users, "es necesario seleccionar al menos un asistente")
+      end
+
+      if !@minute.new_record?
+        #validate if all phases are marked to be destroyed
+        deletedAssociations = 0
+        nested_attributes = params[:minute][:minutes_users_attributes]
+        nested_attributes.each do |index, attributes|
+          @destroy_value = attributes["_destroy"]
+          return true if @destroy_value == "false"
+          deletedAssociations += 1
+        end
+
+        if @minute.minutes_users.count == deletedAssociations
+          @minute.errors.add(:minutes_users, "es necesario seleccionar al menos un asistente")
+          false
+        end
+      end
     end
 
     # Only allow a list of trusted parameters through.
