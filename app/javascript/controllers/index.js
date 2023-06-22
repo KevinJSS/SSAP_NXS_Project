@@ -13,5 +13,8 @@ application.register("hello", HelloController)
 import NestedFormController from "./nested_form_controller"
 application.register("nested-form", NestedFormController)
 
+import SidebarController from "./sidebar_controller"
+application.register("sidebar", SidebarController)
+
 import UpdateFieldsController from "./update_fields_controller"
 application.register("update-fields", UpdateFieldsController)

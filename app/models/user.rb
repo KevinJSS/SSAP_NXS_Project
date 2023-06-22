@@ -169,6 +169,11 @@ class User < ApplicationRecord
 
     @education
   end
+
+  def get_short_name
+    fullname = self.fullname.split(" ")
+    short_name = fullname[0] + " " + fullname[1]
+  end
   
   #associations
   has_many :projects

@@ -1,0 +1,51 @@
+//COLOR PALLETE
+$primary: #44ABA6;
+
+$light1: #FEFEFF;
+$light2: #F9F8F8;
+
+$dark1: #1D1D1D;
+$dark2: #383844;
+
+$grey: #9090A4;
+
+$success: #0BCE97;
+$warning: #F0B757;
+$danger: #F5365E;
+
+//TYPOGRAPHY
+$font-family: 'Poppins', sans-serif;
+
+$fs-sm: 1.6rem;
+$fs-rg: 1.8rem;
+$fs-md: 2.0rem;
+$fs-lg: 2.5rem;
+$fs-xl: 3.5rem;
+
+// Media Queries
+$mobile: 480px;
+$tablet: 768px;
+$desktop: 992px;
+$desktop-md: 1024px;
+$desktop-lg: 1200px;
+$desktop-xl: 1400px;
+$desktop-xxl: 1600px;
+
+// Spacing
+$spacing-sm: 2rem;
+$spacing-rg: 5rem;
+$spacing-lg: 10rem;
+
+// Border radius
+$border-radius-sm: .5rem;
+$border-radius-rg: 1rem;
+$border-radius-lg: 2rem;
+
+// Transitions
+$hover-transition-1: background-color .2s ease;
+$hover-transition-2: background-color .5s ease;
+
+// Box shadows
+$box-shadow-sm: 0 5px 5px rgba(0, 0, 0, 0.100);
+$box-shadow-rg: 0px 1px 4px rgba(0, 0, 0, 0.25);
+$sidebar-shadow: 1px 0px 4px 0px rgba(0, 0, 0, 0.25)
