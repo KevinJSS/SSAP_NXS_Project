@@ -1,15 +1,17 @@
 <!-- <p style="color: green"><%= notice %></p> -->
 
-<div class="d-flex justify-content-between align-items-center">
-  <h1 class="mt-4">LISTA DE MINUTAS</h1>
-  <%= link_to "Agregar minuta", new_minute_path, class: "btn btn-primary" %>
-</div>
-
-<div id="minutes">
-  <% @minutes.each do |minute| %>
-    <%= render minute %>
-    <p>
-      <%= link_to "Ver detalles", minute, class: "btn btn-outline-primary" %>
-    </p>
-  <% end %>
-</div>
+<main data-view-id="8">
+  <div class="d-flex justify-content-between align-items-center">
+    <h1 class="mt-4">LISTA DE MINUTAS</h1>
+    <%= link_to "Agregar minuta", new_minute_path, class: "btn btn-primary" %>
+  </div>
+  
+  <div id="minutes">
+    <% @minutes.each do |minute| %>
+      <%= render minute %>
+      <p>
+        <%= link_to "Ver detalles", minute, class: "btn btn-outline-primary" %>
+      </p>
+    <% end %>
+  </div>
+</main>

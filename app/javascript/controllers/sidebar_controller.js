@@ -2,7 +2,7 @@ import { Controller } from "@hotwired/stimulus"
 
 // Connects to data-controller="sidebar"
 export default class extends Controller {
-  static targets = ["link"];
+  static targets = ["link", "subtitle"];
 
   connect() {
     this.setActiveLink();
@@ -14,30 +14,29 @@ export default class extends Controller {
   }
 
   setActiveLink() {
-    const activeLinkId = sessionStorage.getItem("activeLinkId");
-    if (activeLinkId) {
+    const main = document.querySelector("main");
+
+    if (main) {
+      const dataViewId = main.dataset.viewId;
+
+      if (!dataViewId) return;
+
       this.linkTargets.forEach((link) => {
         link.classList.remove("active");
         link.parentElement.classList.remove("active");
       });
 
-      const activeLink = this.linkTargets.find((link) => link.dataset.linkId === activeLinkId);
+      const activeSection = this.subtitleTargets.find((subtitle) => subtitle.dataset.sectionId === dataViewId);
+      const activeLink = this.linkTargets.find((link) => link.dataset.linkId === dataViewId);
+
       if (activeLink) {
         activeLink.parentElement.classList.add("active");
         activeLink.classList.add("active");
+
+      } else if (activeSection) {
+        activeSection.classList.add("active");
       }
     }
-  }
-
-  onClick(event) {
-    this.linkTargets.forEach((link) => {
-      link.parentElement.classList.remove("active");
-      link.classList.remove("active");
-    });
-
-    const clickedLink = event.currentTarget;
-    const activeLinkId = clickedLink.dataset.linkId;
-    sessionStorage.setItem("activeLinkId", activeLinkId);
   }
 
   removeActiveLink(event) {

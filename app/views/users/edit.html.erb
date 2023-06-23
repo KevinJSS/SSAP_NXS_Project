@@ -1,3 +1,5 @@
-<h1 class="mt-4">DETALLE DE <%= @user.role == "admin" ? "ADMINISTRADOR" : "COLABORADOR" %></h1>
-
-<%= render "form", user: @user %>
+<main data-view-id="17">
+    <h1 class="mt-4">DETALLE DE <%= @user.role == "admin" ? "ADMINISTRADOR" : "COLABORADOR" %></h1>
+    
+    <%= render "form", user: @user %>
+</main>

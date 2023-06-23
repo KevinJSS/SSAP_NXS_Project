@@ -1,15 +1,17 @@
 <!-- <p style="color: green"><%= notice %></p> -->
 
-<div class="d-flex justify-content-between align-items-center">
-  <h1 class="mt-4">LISTA DE ACTIVIDADES</h1>
-  <%= link_to "Agregar actividad", new_activity_path, class: "btn btn-primary" %>
-</div>
-
-<div id="activities">
-  <% @activities.each do |activity| %>
-    <%= render activity %>
-    <p>
-      <%= link_to "Ver detalles", activity, class: "btn btn-outline-primary" %>
-    </p>
-  <% end %>
-</div>
+<main data-view-id="3">
+  <div class="d-flex justify-content-between align-items-center">
+    <h1 class="mt-4">LISTA DE ACTIVIDADES</h1>
+    <%= link_to "Agregar actividad", new_activity_path, class: "btn btn-primary" %>
+  </div>
+  
+  <div id="activities">
+    <% @activities.each do |activity| %>
+      <%= render activity %>
+      <p>
+        <%= link_to "Ver detalles", activity, class: "btn btn-outline-primary" %>
+      </p>
+    <% end %>
+  </div>
+</main>

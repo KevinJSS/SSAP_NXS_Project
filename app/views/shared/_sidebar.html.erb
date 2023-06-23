@@ -15,8 +15,8 @@
                 <strong class="sidebar__subtitle">INICIO</strong>
 
                 <ul class="sidebar__list">
-                    <li class="sidebar__item active">
-                        <a href="<%= root_path %>" class="sidebar__link active" data-sidebar-target="link" data-action="click->sidebar#onClick" data-link-id="0">
+                    <li class="sidebar__item">
+                        <a href="<%= root_path %>" class="sidebar__link active" data-sidebar-target="link"  data-link-id="0">
                             <%= image_tag('home-icon.svg', alt: 'icono inicio', class: "sidebar__icon") %>
                             Pagina de inicio
                         </a>
@@ -25,18 +25,18 @@
             </div>
 
             <div class="sidebar__section"> <%# PROJECTS SECTION %>
-                <strong class="sidebar__subtitle">GESTIÓN DE PROYECTOS</strong>
+                <strong class="sidebar__subtitle" data-sidebar-target="subtitle" data-section-id="14">GESTIÓN DE PROYECTOS</strong>
 
                 <ul class="sidebar__list">
                     <li class="sidebar__item">
-                        <a href="<%= projects_path %>" class="sidebar__link" data-sidebar-target="link" data-action="click->sidebar#onClick" data-link-id="1">
+                        <a href="<%= projects_path %>" class="sidebar__link" data-sidebar-target="link"  data-link-id="1">
                             <%= image_tag('list-icon.svg', alt: 'icono lista de proyectos', class: "sidebar__icon") %>
                             Lista de proyectos
                         </a>
                     </li>
 
                     <li class="sidebar__item">
-                        <a href="<%= new_project_path %>" class="sidebar__link" data-sidebar-target="link" data-action="click->sidebar#onClick" data-link-id="2">
+                        <a href="<%= new_project_path %>" class="sidebar__link" data-sidebar-target="link"  data-link-id="2">
                             <%= image_tag('add-icon.svg', alt: 'icono agregar proyecto', class: "sidebar__icon") %>
                             Agregar proyecto
                         </a>
@@ -45,39 +45,39 @@
             </div>
 
             <div class="sidebar__section"> <%# ACTIVITIES SECTION %>
-                <strong class="sidebar__subtitle">GESTIÓN DE ACTIVIDADES</strong>
+                <strong class="sidebar__subtitle" data-sidebar-target="subtitle" data-section-id="15">GESTIÓN DE ACTIVIDADES</strong>
 
                 <ul class="sidebar__list">
                     <li class="sidebar__item">
-                        <a href="<%= activities_path %>" class="sidebar__link" data-sidebar-target="link" data-action="click->sidebar#onClick" data-link-id="3">
+                        <a href="<%= activities_path %>" class="sidebar__link" data-sidebar-target="link"  data-link-id="3">
                             <%= image_tag('list-icon.svg', alt: 'icono lista de actividades', class: "sidebar__icon") %>
                             Lista de actividades
                         </a>
                     </li>
 
                     <li class="sidebar__item">
-                        <a href="<%= new_activity_path %>" class="sidebar__link" data-sidebar-target="link" data-action="click->sidebar#onClick" data-link-id="4">
+                        <a href="<%= new_activity_path %>" class="sidebar__link" data-sidebar-target="link"  data-link-id="4">
                             <%= image_tag('add-icon.svg', alt: 'icono registrar actividad', class: "sidebar__icon") %>
                             Registrar actividad
                         </a>
                     </li>
 
                     <li class="sidebar__item">
-                        <a href="#" class="sidebar__link" data-sidebar-target="link" data-action="click->sidebar#onClick" data-link-id="5">
+                        <a href="#" class="sidebar__link" data-sidebar-target="link"  data-link-id="5">
                             <%= image_tag('doc-icon.svg', alt: 'icono generar reporte', class: "sidebar__icon") %>
                             Generar reporte
                         </a>
                     </li>
 
                     <li class="sidebar__item">
-                        <a href="<%= phases_path %>" class="sidebar__link" data-sidebar-target="link" data-action="click->sidebar#onClick" data-link-id="6">
+                        <a href="<%= phases_path %>" class="sidebar__link" data-sidebar-target="link"  data-link-id="6">
                             <%= image_tag('list-icon.svg', alt: 'icono lista de fases', class: "sidebar__icon") %>
                             Lista de fases
                         </a>
                     </li>
 
                     <li class="sidebar__item">
-                        <a href="<%= new_phase_path %>" class="sidebar__link" data-sidebar-target="link" data-action="click->sidebar#onClick" data-link-id="7">
+                        <a href="<%= new_phase_path %>" class="sidebar__link" data-sidebar-target="link"  data-link-id="7">
                             <%= image_tag('add-icon.svg', alt: 'icono agregar fase', class: "sidebar__icon") %>
                             Agregar fase
                         </a>
@@ -86,18 +86,18 @@
             </div>
 
             <div class="sidebar__section"> <%# MINUTES SECTION %>
-                <strong class="sidebar__subtitle">GESTIÓN DE MINUTAS</strong>
+                <strong class="sidebar__subtitle" data-sidebar-target="subtitle" data-section-id="16">GESTIÓN DE MINUTAS</strong>
 
                 <ul class="sidebar__list">
                     <li class="sidebar__item">
-                        <a href="<%= minutes_path %>" class="sidebar__link" data-sidebar-target="link" data-action="click->sidebar#onClick" data-link-id="8">
+                        <a href="<%= minutes_path %>" class="sidebar__link" data-sidebar-target="link"  data-link-id="8">
                             <%= image_tag('list-icon.svg', alt: 'icono lista de minutas', class: "sidebar__icon") %>
                             Lista de minutas
                         </a>
                     </li>
 
                     <li class="sidebar__item">
-                        <a href="<%= new_minute_path %>" class="sidebar__link" data-sidebar-target="link" data-action="click->sidebar#onClick" data-link-id="9">
+                        <a href="<%= new_minute_path %>" class="sidebar__link" data-sidebar-target="link"  data-link-id="9">
                             <%= image_tag('add-icon.svg', alt: 'icono agregar minuta', class: "sidebar__icon") %>
                             Agregar minuta
                         </a>
@@ -106,32 +106,32 @@
             </div>
 
             <div class="sidebar__section"> <%# USERS SECTION %>
-                <strong class="sidebar__subtitle">GESTIÓN DE USUARIOS</strong>
+                <strong class="sidebar__subtitle" data-sidebar-target="subtitle" data-section-id="17">GESTIÓN DE USUARIOS</strong>
 
                 <ul class="sidebar__list">
                     <li class="sidebar__item">
-                        <a href="<%= collaborator_users_url %>" class="sidebar__link" data-sidebar-target="link" data-action="click->sidebar#onClick" data-link-id="10">
+                        <a href="<%= collaborator_users_url %>" class="sidebar__link" data-sidebar-target="link"  data-link-id="10">
                             <%= image_tag('list-icon.svg', alt: 'icono lista de colaboradores', class: "sidebar__icon") %>
                             Lista de colaboradores
                         </a>
                     </li>
 
                     <li class="sidebar__item">
-                        <a href="<%= new_user_registration_path(:role => "collaborator") %>" class="sidebar__link" data-sidebar-target="link" data-action="click->sidebar#onClick" data-link-id="11">
+                        <a href="<%= new_user_registration_path(:role => "collaborator") %>" class="sidebar__link" data-sidebar-target="link"  data-link-id="11">
                             <%= image_tag('add-icon.svg', alt: 'icono agregar colaborador', class: "sidebar__icon") %>
                             Agregar colaborador
                         </a>
                     </li>
 
                     <li class="sidebar__item">
-                        <a href="<%= users_path %>" class="sidebar__link" data-sidebar-target="link" data-action="click->sidebar#onClick" data-link-id="12">
+                        <a href="<%= users_path %>" class="sidebar__link" data-sidebar-target="link"  data-link-id="12">
                             <%= image_tag('list-icon.svg', alt: 'icono lista de administradores', class: "sidebar__icon") %>
                             Lista de administradores
                         </a>
                     </li>
 
                     <li class="sidebar__item">
-                        <a href="<%= new_user_registration_path(:role => "admin") %>" class="sidebar__link" data-sidebar-target="link" data-action="click->sidebar#onClick" data-link-id="13">
+                        <a href="<%= new_user_registration_path(:role => "admin") %>" class="sidebar__link" data-sidebar-target="link"  data-link-id="13">
                             <%= image_tag('add-icon.svg', alt: 'icono agregar administrador', class: "sidebar__icon") %>
                             Agregar administrador
                         </a>
@@ -142,7 +142,7 @@
 
 
         <div class="sidebar__footer">
-            <a href="<%= edit_user_registration_path %>" class="sidebar__user" data-action="click->sidebar#onClick">
+            <a href="<%= edit_user_registration_path %>" class="sidebar__user" >
                 <strong><%= current_user.get_short_name %></strong>
                 <p><%= current_user.job_position %></p>
             </a>
@@ -178,7 +178,7 @@
 
                 <ul class="sidebar__list">
                     <li class="sidebar__item active">
-                        <a href="<%= root_path %>" class="sidebar__link active" data-sidebar-target="link" data-action="click->sidebar#onClick" data-link-id="0">
+                        <a href="<%= root_path %>" class="sidebar__link active" data-sidebar-target="link"  data-link-id="0">
                             <%= image_tag('home-icon.svg', alt: 'icono inicio', class: "sidebar__icon") %>
                             Pagina de inicio
                         </a>
@@ -187,18 +187,18 @@
             </div>
 
             <div class="sidebar__section"> <%# PROJECTS SECTION %>
-                <strong class="sidebar__subtitle">GESTIÓN DE PROYECTOS</strong>
+                <strong class="sidebar__subtitle" data-sidebar-target="subtitle" data-section-id="14">GESTIÓN DE PROYECTOS</strong>
 
                 <ul class="sidebar__list">
                     <li class="sidebar__item">
-                        <a href="<%= projects_path %>" class="sidebar__link" data-sidebar-target="link" data-action="click->sidebar#onClick" data-link-id="1">
+                        <a href="<%= projects_path %>" class="sidebar__link" data-sidebar-target="link"  data-link-id="1">
                             <%= image_tag('list-icon.svg', alt: 'icono lista de proyectos', class: "sidebar__icon") %>
                             Lista de proyectos
                         </a>
                     </li>
 
                     <li class="sidebar__item">
-                        <a href="<%= new_project_path %>" class="sidebar__link" data-sidebar-target="link" data-action="click->sidebar#onClick" data-link-id="2">
+                        <a href="<%= new_project_path %>" class="sidebar__link" data-sidebar-target="link"  data-link-id="2">
                             <%= image_tag('add-icon.svg', alt: 'icono agregar proyecto', class: "sidebar__icon") %>
                             Agregar proyecto
                         </a>
@@ -207,39 +207,39 @@
             </div>
 
             <div class="sidebar__section"> <%# ACTIVITIES SECTION %>
-                <strong class="sidebar__subtitle">GESTIÓN DE ACTIVIDADES</strong>
+                <strong class="sidebar__subtitle" data-sidebar-target="subtitle" data-section-id="15">GESTIÓN DE ACTIVIDADES</strong>
 
                 <ul class="sidebar__list">
                     <li class="sidebar__item">
-                        <a href="<%= activities_path %>" class="sidebar__link" data-sidebar-target="link" data-action="click->sidebar#onClick" data-link-id="3">
+                        <a href="<%= activities_path %>" class="sidebar__link" data-sidebar-target="link"  data-link-id="3">
                             <%= image_tag('list-icon.svg', alt: 'icono lista de actividades', class: "sidebar__icon") %>
                             Lista de actividades
                         </a>
                     </li>
 
                     <li class="sidebar__item">
-                        <a href="<%= new_activity_path %>" class="sidebar__link" data-sidebar-target="link" data-action="click->sidebar#onClick" data-link-id="4">
+                        <a href="<%= new_activity_path %>" class="sidebar__link" data-sidebar-target="link"  data-link-id="4">
                             <%= image_tag('add-icon.svg', alt: 'icono registrar actividad', class: "sidebar__icon") %>
                             Registrar actividad
                         </a>
                     </li>
 
                     <li class="sidebar__item">
-                        <a href="#" class="sidebar__link" data-sidebar-target="link" data-action="click->sidebar#onClick" data-link-id="5">
+                        <a href="#" class="sidebar__link" data-sidebar-target="link"  data-link-id="5">
                             <%= image_tag('doc-icon.svg', alt: 'icono generar reporte', class: "sidebar__icon") %>
                             Generar reporte
                         </a>
                     </li>
 
                     <li class="sidebar__item">
-                        <a href="<%= phases_path %>" class="sidebar__link" data-sidebar-target="link" data-action="click->sidebar#onClick" data-link-id="6">
+                        <a href="<%= phases_path %>" class="sidebar__link" data-sidebar-target="link"  data-link-id="6">
                             <%= image_tag('list-icon.svg', alt: 'icono lista de fases', class: "sidebar__icon") %>
                             Lista de fases
                         </a>
                     </li>
 
                     <li class="sidebar__item">
-                        <a href="<%= new_phase_path %>" class="sidebar__link" data-sidebar-target="link" data-action="click->sidebar#onClick" data-link-id="7">
+                        <a href="<%= new_phase_path %>" class="sidebar__link" data-sidebar-target="link"  data-link-id="7">
                             <%= image_tag('add-icon.svg', alt: 'icono agregar fase', class: "sidebar__icon") %>
                             Agregar fase
                         </a>
@@ -248,18 +248,18 @@
             </div>
 
             <div class="sidebar__section"> <%# MINUTES SECTION %>
-                <strong class="sidebar__subtitle">GESTIÓN DE MINUTAS</strong>
+                <strong class="sidebar__subtitle" data-sidebar-target="subtitle" data-section-id="16">GESTIÓN DE MINUTAS</strong>
 
                 <ul class="sidebar__list">
                     <li class="sidebar__item">
-                        <a href="<%= minutes_path %>" class="sidebar__link" data-sidebar-target="link" data-action="click->sidebar#onClick" data-link-id="8">
+                        <a href="<%= minutes_path %>" class="sidebar__link" data-sidebar-target="link"  data-link-id="8">
                             <%= image_tag('list-icon.svg', alt: 'icono lista de minutas', class: "sidebar__icon") %>
                             Lista de minutas
                         </a>
                     </li>
 
                     <li class="sidebar__item">
-                        <a href="<%= new_minute_path %>" class="sidebar__link" data-sidebar-target="link" data-action="click->sidebar#onClick" data-link-id="9">
+                        <a href="<%= new_minute_path %>" class="sidebar__link" data-sidebar-target="link"  data-link-id="9">
                             <%= image_tag('add-icon.svg', alt: 'icono agregar minuta', class: "sidebar__icon") %>
                             Agregar minuta
                         </a>
@@ -268,32 +268,32 @@
             </div>
 
             <div class="sidebar__section"> <%# USERS SECTION %>
-                <strong class="sidebar__subtitle">GESTIÓN DE USUARIOS</strong>
+                <strong class="sidebar__subtitle" data-sidebar-target="subtitle" data-section-id="17">GESTIÓN DE USUARIOS</strong>
 
                 <ul class="sidebar__list">
                     <li class="sidebar__item">
-                        <a href="<%= collaborator_users_url %>" class="sidebar__link" data-sidebar-target="link" data-action="click->sidebar#onClick" data-link-id="10">
+                        <a href="<%= collaborator_users_url %>" class="sidebar__link" data-sidebar-target="link"  data-link-id="10">
                             <%= image_tag('list-icon.svg', alt: 'icono lista de colaboradores', class: "sidebar__icon") %>
                             Lista de colaboradores
                         </a>
                     </li>
 
                     <li class="sidebar__item">
-                        <a href="<%= new_user_registration_path(:role => "collaborator") %>" class="sidebar__link" data-sidebar-target="link" data-action="click->sidebar#onClick" data-link-id="11">
+                        <a href="<%= new_user_registration_path(:role => "collaborator") %>" class="sidebar__link" data-sidebar-target="link"  data-link-id="11">
                             <%= image_tag('add-icon.svg', alt: 'icono agregar colaborador', class: "sidebar__icon") %>
                             Agregar colaborador
                         </a>
                     </li>
 
                     <li class="sidebar__item">
-                        <a href="<%= users_path %>" class="sidebar__link" data-sidebar-target="link" data-action="click->sidebar#onClick" data-link-id="12">
+                        <a href="<%= users_path %>" class="sidebar__link" data-sidebar-target="link"  data-link-id="12">
                             <%= image_tag('list-icon.svg', alt: 'icono lista de administradores', class: "sidebar__icon") %>
                             Lista de administradores
                         </a>
                     </li>
 
                     <li class="sidebar__item">
-                        <a href="<%= new_user_registration_path(:role => "admin") %>" class="sidebar__link" data-sidebar-target="link" data-action="click->sidebar#onClick" data-link-id="13">
+                        <a href="<%= new_user_registration_path(:role => "admin") %>" class="sidebar__link" data-sidebar-target="link"  data-link-id="13">
                             <%= image_tag('add-icon.svg', alt: 'icono agregar administrador', class: "sidebar__icon") %>
                             Agregar administrador
                         </a>
@@ -304,7 +304,7 @@
 
 
         <div class="sidebar__footer">
-            <a href="<%= edit_user_registration_path %>" class="sidebar__user" data-action="click->sidebar#onClick">
+            <a href="<%= edit_user_registration_path %>" class="sidebar__user" >
                 <strong><%= current_user.get_short_name %></strong>
                 <p><%= current_user.job_position %></p>
             </a>

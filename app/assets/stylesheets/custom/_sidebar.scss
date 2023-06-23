@@ -109,6 +109,10 @@ div.offcanvas {
     &__subtitle {
         color: v.$grey;
         font-size: 14px;
+
+        &.active {
+            color: v.$primary;
+        }
     }
 
     & ul.sidebar__list {
