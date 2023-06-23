@@ -50,7 +50,7 @@
 
 # User.create!(
 #     email: "alina@gmail.com",
-#     password: "adriana1234",
+#     password: "alina1234",
 #     id_card: "208880113",
 #     fullname: "Alina Rodríguez Ávila",
 #     phone: "(+506) 8888 8883",
