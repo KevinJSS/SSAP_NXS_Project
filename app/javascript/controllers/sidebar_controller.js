@@ -38,8 +38,4 @@ export default class extends Controller {
       }
     }
   }
-
-  removeActiveLink(event) {
-    sessionStorage.removeItem("activeLinkId");
-  }
 }

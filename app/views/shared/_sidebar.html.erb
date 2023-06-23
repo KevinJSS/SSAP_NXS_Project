@@ -147,7 +147,7 @@
                 <p><%= current_user.job_position %></p>
             </a>
 
-            <%= button_to destroy_user_session_path, method: :delete, form: { data: { turbo_confirm: '¿Está seguro(a) que desea cerrar sesión?', action: "click->sidebar#removeActiveLink" } }, class: "sidebar__logout" do %>
+            <%= button_to destroy_user_session_path, method: :delete, form: { data: { turbo_confirm: '¿Está seguro(a) que desea cerrar sesión?' } }, class: "sidebar__logout" do %>
                 <%= image_tag('signout-icon.svg', alt: 'icono cerrar sesion') %>
             <% end %>
         </div><%# End Sidebar Footer %>
@@ -309,7 +309,7 @@
                 <p><%= current_user.job_position %></p>
             </a>
 
-            <%= button_to destroy_user_session_path, method: :delete, form: { data: { turbo_confirm: '¿Está seguro(a) que desea cerrar sesión?', action: "click->sidebar#removeActiveLink" } }, class: "sidebar__logout" do %>
+            <%= button_to destroy_user_session_path, method: :delete, form: { data: { turbo_confirm: '¿Está seguro(a) que desea cerrar sesión?' } }, class: "sidebar__logout" do %>
                 <%= image_tag('signout-icon.svg', alt: 'icono cerrar sesion') %>
             <% end %>
         </div><%# End Sidebar Footer %>
