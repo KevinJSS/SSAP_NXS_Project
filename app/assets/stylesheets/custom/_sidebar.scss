@@ -1,0 +1,214 @@
+@use 'variables' as v;
+@use 'mixins' as m;
+
+.sidebar,
+div.offcanvas {
+    height: 100%;
+    width: 320px !important;
+    position: fixed;
+    color: v.$light2;
+    overflow: hidden;
+    background-color: v.$dark2;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: baseline;
+    box-shadow: v.$sidebar-shadow;
+}
+
+.sidebar {
+    display: none;
+
+    @include m.desktop-md {
+        display: flex;
+    }
+
+    &__content {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        height: 100%;
+        overflow-y: scroll;
+
+        @media(min-height: 970px) {
+            overflow-y: hidden;
+        }
+    }
+
+    &__menu-icon {
+        width: 20px;
+        margin-top: -3px;
+    }
+
+    &__close-button {
+        position: fixed;
+        top: 0;
+        left: 325px;
+        background-color: v.$primary;
+        padding: 1.5% 3%;
+        border-radius: 7px;
+        -webkit-border-radius: 7px;
+        -moz-border-radius: 7px;
+        -ms-border-radius: 7px;
+        -o-border-radius: 7px;
+        border: none;
+        cursor: pointer;
+
+        @include m.mobile {
+            padding: 7px 12px;
+        }
+    }
+
+    &__close-icon {
+        width: 16px;
+        margin-top: -5px;
+    }
+
+    &__header {
+        width: 100%;
+        text-align: center;
+        border-bottom: 1px solid v.$grey;
+    }
+
+    &__logo {
+        width: 180px;
+        padding: 30px 0;
+
+        @include m.desktop-md {
+            width: 200px;
+        }
+    }
+
+    &__section {
+        &:first-of-type {
+            margin-top: 20px;
+        }
+
+        &:last-of-type {
+            margin-bottom: 20px;
+        }
+    }
+
+    &__section,
+    &__list,
+    &__body {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+    }
+
+    &__body {
+        gap: 20px;
+    }
+
+    &__subtitle,
+    &__link {
+        padding-left: 40px;
+    }
+
+    &__subtitle {
+        color: v.$grey;
+        font-size: 14px;
+
+        &.active {
+            color: v.$primary;
+        }
+    }
+
+    & ul.sidebar__list {
+        padding: 0;
+        margin: 0;
+    }
+
+    & li.sidebar__item.active {
+        background-color: v.$primary;
+        width: 90%;
+        border-top-right-radius: 7px;
+        border-bottom-right-radius: 7px;
+
+        @include m.desktop-xl {
+            width: 85%;
+        }
+    }
+
+    & a.sidebar__link,
+    & a.sidebar__user {
+        color: inherit;
+        text-decoration: none;
+    }
+
+    & a.sidebar__link {
+        display: flex;
+        align-items: center;
+        padding: 5px 0 5px 40px;
+        gap: 10px;
+        transition: color .1s ease-in;
+        -webkit-transition: color .1s ease-in;
+        -moz-transition: color .1s ease-in;
+        -ms-transition: color .1s ease-in;
+        -o-transition: color .1s ease-in;
+    }
+    
+    & a.sidebar__link:hover {
+        color: v.$primary;
+    }
+    
+    & a.sidebar__link.active:hover,
+    & a.sidebar__user:hover {
+        color: v.$light2;
+    }
+
+    &__icon {
+        width: 16px;
+    }
+
+    &__logout {
+        background-color: transparent;
+        border: none;
+        box-shadow: none;
+
+        padding: 2px 4px 5px 7px;
+        transition: background-color .1s ease-in;
+        -webkit-transition: background-color .1s ease-in;
+        -moz-transition: background-color .1s ease-in;
+        -ms-transition: background-color .1s ease-in;
+        -o-transition: background-color .1s ease-in;
+        border-radius: 5px;
+        -webkit-border-radius: 5px;
+        -moz-border-radius: 5px;
+        -ms-border-radius: 5px;
+        -o-border-radius: 5px;
+
+        &:hover {
+            background-color: v.$primary;
+        }
+    }
+
+    &__user p {
+        color: v.$primary;
+    }
+
+    &__footer {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border-top: 1px solid v.$grey;
+        padding: 10px 30px;
+    }
+}
+
+@include m.desktop-md {
+    a.sidebar__menu-button,
+    div.offcanvas {
+        display: none;
+    }
+
+    .content {
+        margin-left: 340px;
+
+        &.sign-in {
+            margin: 0;
+            padding: 0;
+        }
+    }       
+}

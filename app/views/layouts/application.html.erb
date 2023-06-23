@@ -11,14 +11,15 @@
   </head>
 
   <body>
-    <% if current_user %>
-      <%= render "shared/navbar" %>
-    <% end %>
+    <div class="d-flex" data-controller="sidebar">
+      <% if current_user %>
+        <%= render "shared/sidebar" %>
+      <% end %>
 
-    <%= render "shared/notifications" %>
-
-    <div class="container-fluid col-11">
-      <%= yield %>
+      <div class="content <%= !current_user ? "sign-in" : "" %> container-fluid ps-3 pe-md-4">
+        <%= render "shared/notifications" %>
+        <%= yield %>
+      </div>
     </div>
   </body>
 </html>

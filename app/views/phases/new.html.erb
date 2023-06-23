@@ -1,3 +1,8 @@
-<h1 class="mt-4">AGREGAR FASE</h1>
-
-<%= render "form", phase: @phase %>
+<main data-view-id="7">
+    <div class="d-flex justify-content-between align-items-center gap-2 mt-4">
+        <h1>AGREGAR FASE</h1>
+        <%= render "shared/sidebar_button" %>
+    </div>
+    
+    <%= render "form", phase: @phase %>
+</main>
