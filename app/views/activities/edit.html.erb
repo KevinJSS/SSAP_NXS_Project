@@ -1,5 +1,8 @@
 <main data-view-id="15">
-    <h1 class="mt-4">DETALLE DE ACTIVIDAD</h1>
+    <div class="d-flex justify-content-between align-items-center gap-2 mt-4">
+        <h1>DETALLE DE ACTIVIDAD</h1>
+        <%= render "shared/sidebar_button" %>
+    </div>
     
     <%= render "form", activity: @activity %>
 </main>

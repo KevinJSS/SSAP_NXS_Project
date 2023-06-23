@@ -1,7 +1,11 @@
 <main data-view-id="10">
   <div class="d-flex justify-content-between align-items-center">
     <h1 class="mt-4">LISTA DE COLABORADORES</h1>
-    <%= link_to "Agregar colaborador", new_user_registration_path(:role => "collaborator"), class: "btn btn-primary" %>
+
+    <div class="d-flex align-items-center gap-2">
+        <%= link_to "Agregar colaborador", new_user_registration_path(:role => "collaborator"), class: "btn btn-primary" %>
+        <%= render "shared/sidebar_button" %>
+    </div>
   </div>
   
   <div id="collaborator_users">

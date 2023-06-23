@@ -1,5 +1,8 @@
 <main data-view-id="<%= @user.role == "admin" ? "13" : "11" %>">
-  <h2 class="mt-4">REGISTRAR <%= @user.role == "admin" ? "ADMINISTRADOR" : "COLABORADOR" %></h2>
+  <div class="d-flex justify-content-between align-items-center gap-2 mt-4">
+      <h1>REGISTRAR <%= @user.role == "admin" ? "ADMINISTRADOR" : "COLABORADOR" %></h1>
+      <%= render "shared/sidebar_button" %>
+  </div>
   
   <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
     <%= render "devise/shared/error_messages", resource: resource %>

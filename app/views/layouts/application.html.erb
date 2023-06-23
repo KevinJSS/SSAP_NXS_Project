@@ -16,10 +16,9 @@
         <%= render "shared/sidebar" %>
       <% end %>
 
-      <div class="content <%= !current_user ? "sign-in" : "" %> container-fluid ps-3 pe-3">
+      <div class="content <%= !current_user ? "sign-in" : "" %> container-fluid ps-3 pe-md-4">
         <%= render "shared/notifications" %>
         <%= yield %>
-        <%= render "shared/sidebar_button" %>
       </div>
     </div>
   </body>

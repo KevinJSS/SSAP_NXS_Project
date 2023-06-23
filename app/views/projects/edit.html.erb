@@ -1,5 +1,8 @@
 <main data-view-id="14">
-    <h1 class="mt-4">DETALLE DEL PROYECTO</h1>
+    <div class="d-flex justify-content-between align-items-center gap-2 mt-4">
+        <h1>DETALLE DEL PROYECTO</h1>
+        <%= render "shared/sidebar_button" %>
+    </div>
     
     <%= render "form", project: @project %>
 </main>

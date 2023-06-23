@@ -3,7 +3,10 @@
 <main data-view-id="8">
   <div class="d-flex justify-content-between align-items-center">
     <h1 class="mt-4">LISTA DE MINUTAS</h1>
-    <%= link_to "Agregar minuta", new_minute_path, class: "btn btn-primary" %>
+    <div class="d-flex align-items-center gap-2">
+        <%= link_to "Agregar minuta", new_minute_path, class: "btn btn-primary" %>
+        <%= render "shared/sidebar_button" %>
+    </div>
   </div>
   
   <div id="minutes">
