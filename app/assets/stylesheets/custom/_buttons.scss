@@ -1,0 +1,37 @@
+@use 'variables' as v;
+@use 'mixins' as m;
+
+.button-primary {
+    @include m.button(v.$primary, v.$light2);
+}
+
+.button-secondary {
+    @include m.button(v.$dark2, v.$light2);
+}
+
+.button-secondary--menu {
+    width: auto;
+    display: inline-block;
+}
+
+.button-search {
+    @include m.button(v.$primary, v.$light2);
+    padding: .5rem 1.2rem;
+
+    @include m.tablet {
+        width: auto;
+        display: inline-block;
+    }
+}
+
+.button-outline-primary {
+    @include m.button-outline(v.$primary);
+}
+
+.button-outline-secondary {
+    @include m.button-outline(v.$dark2);
+}
+
+.button-outline-danger {
+    @include m.button-outline(v.$danger);
+}

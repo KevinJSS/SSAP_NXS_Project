@@ -17,6 +17,8 @@ html {
 
 body {
     height: 100vh;
+    background-color: v.$light2;
+    font-family: v.$font-family;
 }
 
 ul {
@@ -35,8 +37,16 @@ p {
     margin: 0;
 }
 
-h1 {
+h1, h2, h3 {
     margin: 0;
+}
+
+h1 {
+    font-size: v.$fs-lg;
+}
+
+h2, h3 {
+    font-size: v.$fs-md;
 }
 
 /* SCROLLER */
