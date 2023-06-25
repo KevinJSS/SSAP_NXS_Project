@@ -1,0 +1,77 @@
+@use 'variables' as v;
+@use 'mixins' as m;
+
+.form {
+    &__label {
+        font-size: v.$fs-sm;
+        font-weight: 500;
+        color: v.$dark2;
+    }
+
+    &__input {
+        font-size: v.$fs-sm;
+        
+        display: block;
+        width: 100%;
+
+        background-color: v.$light2;
+        border: 0.3px solid v.$dark3;
+        
+        border-radius: v.$border-radius-sm;
+        -webkit-border-radius: v.$border-radius-sm;
+        -moz-border-radius: v.$border-radius-sm;
+        -ms-border-radius: v.$border-radius-sm;
+        -o-border-radius: v.$border-radius-sm;
+
+        padding: 7px 10px;
+
+        &::placeholder {
+            color: v.$grey;
+        }
+
+        &::selection {
+            color: v.$grey;
+        }
+    }
+
+    &__grid {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+
+        @include m.tablet {
+            @include m.grid(2, 10px);
+        }
+
+        @include m.desktop {
+            @include m.grid(4, 7px);
+        }        
+
+        @include m.desktop-md {
+            @include m.grid(3, 7px);
+        }
+
+        @include m.desktop-lg {
+            @include m.grid(4, 7px);
+        }
+
+        &--3 {
+            @include m.desktop {
+                @include m.grid(3, 7px);
+            }
+        }
+
+        &--5 {
+            @include m.desktop {
+                @include m.grid(6, 7px);
+            } 
+        }
+    }
+
+    &__action {
+        margin-top: 15px;
+        @include m.tablet {
+            text-align: end;
+        }
+    }
+}

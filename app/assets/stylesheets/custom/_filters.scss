@@ -1,0 +1,28 @@
+@use 'variables' as v;
+@use 'mixins' as m;
+
+.filters {
+    @include m.section-bg;
+
+    &__toggle {
+        font-size: 25px;
+        color: v.$grey;
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    &__title {
+        font-size: 17px;
+        font-weight: bold;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        margin-bottom: 0;
+    }
+
+    &__content {
+        margin-top: 5px;
+    }
+}

@@ -127,3 +127,16 @@
         display: inline-block;
     }
 }
+
+//SECTION BACKGROUND
+@mixin section-bg {
+    box-shadow: v.$box-shadow-rg;
+    background-color: v.$light1;
+    padding: 25px 30px;
+    
+    border-radius: v.$border-radius-sm;
+    -webkit-border-radius: v.$border-radius-sm;
+    -moz-border-radius: v.$border-radius-sm;
+    -ms-border-radius: v.$border-radius-sm;
+    -o-border-radius: v.$border-radius-sm;
+}

@@ -2,7 +2,7 @@
 @use 'mixins' as m;
 
 .header {
-    margin-top: 25px;
+    margin: 25px 0 20px;
     display: flex;
     flex-direction: column;
     gap: 20px;
