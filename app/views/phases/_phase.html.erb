@@ -1,16 +1,35 @@
-<div id="<%= dom_id phase %>">
-  <p>
-    <strong>Código:</strong>
-    <%= phase.code %>
-  </p>
+<div id="<%= dom_id phase %>" class="item">
+  <div class="item__header">
+    <div class="item__heading">
+      <h4 class="item__title"><%= phase.name %></h4> 
+      <p class="item__text fs-5"><%= phase.code %></p>
+    </div>
+  </div>
 
-  <p>
-    <strong>Nombre:</strong>
-    <%= phase.name %>
-  </p>
+  <div class="item__content">
+    <div class="item__references">
+      <div class="item__reference">
+        <p class="item__reference-text">
+          <%= image_tag('activities-icon.svg', alt: "icono actividades asociadas", class: "item__reference-icon") %>
+          <%= phase.activities.count %>
+        </p>
+        <%# Agregar link para ir a lista de actividades filtradas por este proyecto %>
+        <p class="item__reference-label">Actividades asociadas</p>
+      </div>
+    </div>
 
-  <p>
-    <strong>Actividades asociadas:</strong> 
-    <%= phase.activities.count %> <%# Link que lo lleva a la lista de actividades filtrada por esta fase %>
-  </p>
+    <div class="item__actions">
+      <%= link_to phase, class: "button-outline-primary" do %>
+        <i class="bi bi-eye mx-1"></i>
+        <span class="item__actions-text">Ver detalles</span>
+      <% end %>
+
+      <% if phase.activities.count == 0 %>
+        <%= button_to phase, method: :delete, form:{ data: { turbo_confirm: '¿Está seguro(a) de que desea eliminar este proyecto?' }} , class: "button-outline-danger" do %>
+          <i class="bi bi-trash3 mx-1"></i>
+          <span class="item__actions-text">Eliminar</span>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
 </div>

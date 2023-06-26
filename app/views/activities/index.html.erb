@@ -51,7 +51,7 @@
     </div>
 
     <div class="card-list__pagination">
-      <%= will_paginate @activities %>
+      <%= will_paginate @activities, inner_window: 1 %>
     </div>
   </section>
 </main>
