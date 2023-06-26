@@ -6,6 +6,11 @@
         font-size: v.$fs-sm;
         font-weight: 500;
         color: v.$dark2;
+        margin-bottom: 5px;
+
+        &--primary {
+            color: v.$primary;
+        }
     }
 
     &__input {
@@ -32,6 +37,12 @@
         &::selection {
             color: v.$grey;
         }
+    }
+
+    &__flex {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
     }
 
     &__grid {

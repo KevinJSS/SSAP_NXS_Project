@@ -16,7 +16,7 @@
     <%= javascript_include_tag "application", "data-turbo-track": "reload", defer: true %>
   </head>
 
-  <body>
+  <body style="background-image: url(<%= asset_path('bg-login-image.jpg') if !current_user %>);">
     <div class="d-flex" data-controller="sidebar">
       <% if current_user %>
         <%= render "shared/sidebar" %>

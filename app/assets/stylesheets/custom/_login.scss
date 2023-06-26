@@ -1,0 +1,65 @@
+@use 'variables' as v;
+@use 'mixins' as m;
+
+.login {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 20px 0;
+
+    @media (min-height: 520px) {
+        height: 100vh;
+        margin: 0;
+    }
+
+    &__content {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    &__logo {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 17px;
+    }
+
+    &__icon {
+        width: 110px;
+        @include m.tablet {
+            width: 130px;
+        }
+    }
+
+    &__title {
+        color: v.$light2;
+        font-weight: bolder;
+    }
+
+    &__form {
+        @include m.section-bg;
+        width: 100%;
+        padding: 35px 30px;
+
+        @include m.desktop {
+            width: 450px;
+        }
+    }
+
+    &__link a {
+        text-decoration: underline;
+        color: v.$light2;
+        transition: color .1s ease-in;
+        -webkit-transition: color .1s ease-in;
+        -moz-transition: color .1s ease-in;
+        -ms-transition: color .1s ease-in;
+        -o-transition: color .1s ease-in;
+
+        &:hover {
+            color: v.$primary
+        }
+    }
+}
