@@ -21,7 +21,7 @@
         justify-content: center;
 
         @include m.tablet {
-            justify-content: start;
+            justify-content: end;
         }
     }
 }
