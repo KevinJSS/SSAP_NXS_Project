@@ -3,11 +3,11 @@ class UsersController < ApplicationController
   before_action :set_user, only: %i[ show edit update ]
 
   def index
-    @users = User.where(role: "admin")
+    @users = User.where(role: "admin").paginate(page: params[:page], per_page: 3)
   end
 
   def collaborator_index
-    @collaborator_users = User.where(role: "collaborator")
+    @collaborator_users = User.where(role: "collaborator").paginate(page: params[:page], per_page: 3)
   end
 
   def show
