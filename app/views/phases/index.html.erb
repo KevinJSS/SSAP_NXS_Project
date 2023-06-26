@@ -27,6 +27,6 @@
   </div>
   
   <div class="mt-4">
-    <%= will_paginate @phases, :container => false %>
+    <%= will_paginate @phases, inner_window: 1 %>
   </div>
 </main>

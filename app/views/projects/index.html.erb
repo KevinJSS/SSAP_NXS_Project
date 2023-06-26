@@ -41,8 +41,7 @@
     </div>
 
     <div class="card-list__pagination">
-      <p class="d-none">Mostrando <%= @paginate_projects %> resultados de <%= @projects.count %></p>
-      <div><%= will_paginate @projects, :container => false %></div>
+      <%= will_paginate @projects %>
     </div>
   </section>
 </main>

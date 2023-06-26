@@ -1,0 +1,30 @@
+@use 'variables' as v;
+
+.pagination {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    padding: 3px 6px;
+
+    & span,
+    & a {
+        text-decoration: none;
+        color: v.$dark2;
+        font-size: 18px;
+    }
+
+    & .current {
+        font-size: 18px;
+        font-style: normal;
+        color: v.$light2;
+        padding: 3px 10px;
+        background-color: v.$primary;
+        border-radius: v.$border-radius-rg;
+        -webkit-border-radius: v.$border-radius-rg;
+        -moz-border-radius: v.$border-radius-rg;
+        -ms-border-radius: v.$border-radius-rg;
+        -o-border-radius: v.$border-radius-rg;
+}
+}
