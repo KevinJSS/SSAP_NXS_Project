@@ -1,0 +1,14 @@
+@use 'variables' as v;
+@use 'mixins' as m;
+
+.responsive-width {
+    width: auto;
+    
+    @include m.tablet {
+        width: 455px;
+    }
+
+    @include m.desktop-md {
+        width: auto;
+    }
+}

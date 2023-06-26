@@ -5,7 +5,7 @@ class ActivitiesController < ApplicationController
 
   # GET /activities or /activities.json
   def index
-    @activities = Activity.all
+    @activities = Activity.paginate(page: params[:page], per_page: 3)
   end
 
   # GET /activities/1 or /activities/1.json
@@ -88,6 +88,7 @@ class ActivitiesController < ApplicationController
       #validate if there are nested attributes
       if params[:activity][:phases_activities_attributes].nil? || params[:activity][:phases_activities_attributes].empty?
         @activity.errors.add(:phases_activities, "es necesario seleccionar al menos una fase y horas realizadas")
+        return
       end
 
       #Total hours validation

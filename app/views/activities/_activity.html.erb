@@ -1,32 +1,38 @@
-<div id="<%= dom_id activity %>">
-  <p>
-    <strong>Colaborador:</strong>
-    <%= activity.user.fullname %>
-  </p>
+<div id="<%= dom_id activity %>" class="item">
+  <div class="item__header">
+    <div class="item__heading">
+      <h4 class="item__title"><%= activity.user.fullname %></h4> 
+      <p class="item__text"><%= activity.project.name %></p>
+    </div>
+    <p class="item__status fst-normal"> <%= activity.date.strftime("%A %e, %B %Y") %></p>
+  </div>
 
-  <p>
-    <strong>Proyecto:</strong>
-    <%= activity.project.name %>
-  </p>
+  <div class="item__content">
+    <div class="item__references">
+      <div class="item__reference">
+        <p class="item__reference-text">
+          <%= image_tag('activities-icon.svg', alt: "icono actividades asociadas", class: "item__reference-icon") %>
+          <%= activity.phases_activities.count %>
+        </p>
+        <%# Agregar link para ir a lista de actividades filtradas por este proyecto %>
+        <p class="item__reference-label"><%= activity.phases_activities.count == 1 ? "Fase asociada" : "Fases asociadas" %></p>
+      </div>
+      
+      <div class="item__reference">
+        <p class="item__reference-text">
+          <%= image_tag('clock-icon.svg', alt: "icono actividades asociadas", class: "item__reference-icon") %>
+          <%= activity.get_total_hours  %>
+        </p>
+        <%# Agregar link para ir a lista de minutas filtradas por este proyecto %>
+        <p class="item__reference-label">Horas realizadas</p> 
+      </div>
+    </div>
 
-  <p>
-    <% if activity.phases.count > 1 %>
-      <strong>Fases asociadas:</strong>
-      <%= activity.phases.count %>
-    <% else %>
-      <strong>Fase asociada:</strong>
-      <%= activity.phases[0].code + " " + activity.phases[0].name %>
-    <% end %>
-  </p>
-
-  <p>
-    <strong>Horas trabajadas:</strong>
-    <%= activity.get_total_hours %>
-  </p>
-
-  <p>
-    <strong>Fecha:</strong>
-    <%= activity.date.strftime('%d/%m/%Y') %>
-  </p>
-
+    <div class="item__actions">
+      <%= link_to activity, class: "button-outline-primary" do %>
+        <i class="bi bi-eye mx-1"></i>
+        <span class="item__actions-text">Ver detalles</span>
+      <% end %>
+    </div>
+  </div>
 </div>
