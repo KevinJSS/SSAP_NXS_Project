@@ -14,12 +14,7 @@
     }
 
     &__title {
-        font-size: 17px;
-        font-weight: bold;
-        display: flex;
-        align-items: center;
-        gap: 5px;
-        margin-bottom: 0;
+        @include m.section-title;
     }
 
     &__content {

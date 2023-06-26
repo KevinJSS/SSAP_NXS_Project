@@ -3,7 +3,7 @@
     <div class="header__content">
       <div class="header__heading">
         <p class="header__subtitle">GESTIÓN DE PROYECTOS</p>
-        <h1 class="header__title">LISTA DE PROEYECTOS</h1>
+        <h1 class="header__title">LISTA DE PROYECTOS</h1>
       </div>
       
       <div class="header__actions">
@@ -28,19 +28,21 @@
   
   <%= render 'project_filters' %>
 
-  <div id="projects">
-    <% @projects.each do |project| %>
-      <div class="mt-3">
+  <section class="card-list">
+    <h4 class="card-list__title">
+      <%= image_tag('card-list-icon.svg', alt: "icon lista de proyectos") %>
+      PROYECTOS
+    </h4>
+
+    <div id="projects" class="card-list__items">
+      <% @projects.each do |project| %>
         <%= render project %>
-      </div>
-  
-      <div class="d-flex align-items-center mt-3 gap-1">
-        <%= link_to "Ver detalles", edit_project_path(project), class: "btn btn-outline-primary" %>
-  
-        <% if !project.has_associated_minutes_and_activities? %>
-          <%= button_to 'Eliminar', project, method: :delete, form:{ data: { turbo_confirm: '¿Está seguro(a) de que desea eliminar este proyecto?' }} , class: "btn btn-outline-danger"%>
-        <% end %>
-      </div>
-    <% end %>
-  </div>
-</main >
+      <% end %>
+    </div>
+
+    <div class="card-list__pagination">
+      <p class="d-none">Mostrando <%= @paginate_projects %> resultados de <%= @projects.count %></p>
+      <div><%= will_paginate @projects, :container => false %></div>
+    </div>
+  </section>
+</main>

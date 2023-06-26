@@ -96,7 +96,7 @@
 
     text-align: center;
     font-weight: 500;
-    padding: 1rem 1.5rem;
+    padding: 10px 15px;
     font-size: v.$fs-sm;
     
     color: $color;
@@ -139,4 +139,15 @@
     -moz-border-radius: v.$border-radius-sm;
     -ms-border-radius: v.$border-radius-sm;
     -o-border-radius: v.$border-radius-sm;
+}
+
+//SECTION TITLE
+@mixin section-title {
+    font-size: 17px;
+    color: grey;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-bottom: 0;
 }

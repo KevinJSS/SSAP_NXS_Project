@@ -1,31 +1,45 @@
-<div id="<%= dom_id project %>">
-  <p>
-    <strong>Nombre del proyecto:</strong>
-    <%= project.name %>
-  </p>
+<div id="<%= dom_id project %>" class="item">
+  <div class="item__header">
+    <div class="item__heading">
+      <h4 class="item__title"><%= project.name %></h4> 
+      <p class="item__text"><%= project.user.fullname %></p>
+    </div>
+    <p class="item__status"> <%= project.get_humanize_stage %> <span class="item__status-divider">/</span> <%= project.get_humanize_status  %></p>
+  </div>
 
-  <p>
-    <strong>Encargado:</strong>
-    <%= project.user.fullname %> 
-  </p>
+  <div class="item__content">
+    <div class="item__references">
+      <div class="item__reference">
+        <p class="item__reference-text">
+          <%= image_tag('activities-icon.svg', alt: "icono actividades asociadas", class: "item__reference-icon") %>
+          <%= project.activities.count %>
+        </p>
+        <%# Agregar link para ir a lista de actividades filtradas por este proyecto %>
+        <p class="item__reference-label">Actividades asociadas</p>
+      </div>
+      
+      <div class="item__reference">
+        <p class="item__reference-text">
+          <%= image_tag('minutes-icon.svg', alt: "icono actividades asociadas", class: "item__reference-icon") %>
+          <%= project.minutes.count  %>
+        </p>
+        <%# Agregar link para ir a lista de minutas filtradas por este proyecto %>
+        <p class="item__reference-label">Minutas asociadas</p> 
+      </div>
+    </div>
 
-  <p>
-    <strong>Etapa:</strong>
-    <%= project.get_humanize_stage %>
-  </p>
+    <div class="item__actions">
+      <%= link_to edit_project_path(project), class: "button-outline-primary" do %>
+        <i class="bi bi-eye mx-1"></i>
+        <span class="item__actions-text">Ver detalles</span>
+      <% end %>
 
-  <p>
-    <strong>Estado:</strong>
-    <%= project.get_humanize_status  %>
-  </p>
-
-  <p>
-    <strong>Actividades registradas:</strong>
-    <%= project.activities.count %> <%# Agregar link para ir a lista de actividades filtradas por este proyecto %>
-  </p>
-
-  <p>
-    <strong>Minutas registradas:</strong>
-    <%= project.minutes.count  %> <%# Agregar link para ir a lista de actividades minutas por este proyecto %>
-  </p>
+      <% if !project.has_associated_minutes_and_activities? %>
+        <%= button_to project, method: :delete, form:{ data: { turbo_confirm: '¿Está seguro(a) de que desea eliminar este proyecto?' }} , class: "button-outline-danger" do %>
+          <i class="bi bi-trash3 mx-1"></i>
+          <span class="item__actions-text">Eliminar</span>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
 </div>
