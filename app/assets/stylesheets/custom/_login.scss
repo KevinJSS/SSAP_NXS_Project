@@ -44,6 +44,10 @@
         width: 100%;
         padding: 35px 30px;
 
+        @include m.tablet {
+            width: 400px;
+        }
+
         @include m.desktop {
             width: 450px;
         }
