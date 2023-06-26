@@ -50,8 +50,8 @@
     }
 
     &__link a {
-        text-decoration: underline;
-        color: v.$light2;
+        text-decoration: underline !important;
+        color: v.$light2 !important;
         transition: color .1s ease-in;
         -webkit-transition: color .1s ease-in;
         -moz-transition: color .1s ease-in;
@@ -59,7 +59,7 @@
         -o-transition: color .1s ease-in;
 
         &:hover {
-            color: v.$primary
+            color: v.$primary !important;
         }
     }
 }

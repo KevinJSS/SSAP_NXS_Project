@@ -32,7 +32,12 @@ ul {
 }
 
 a {
-    text-decoration: none;
+    text-decoration: underline;
+    color: v.$light2;
+
+    &:hover {
+        color: v.$primary;
+    }
 }
 
 img {
