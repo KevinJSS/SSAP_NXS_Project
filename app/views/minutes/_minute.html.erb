@@ -1,27 +1,38 @@
-<div id="<%= dom_id minute %>">
-  <p>
-    <strong>Titulo de reunión:</strong>
-    <%= minute.meeting_title %>
-  </p>
+<div id="<%= dom_id minute %>" class="item">
+  <div class="item__header">
+    <div class="item__heading">
+      <h4 class="item__title"><%= minute.meeting_title %></h4> 
+      <p class="item__text"><%= minute.project.name %></p>
+    </div>
+    <p class="item__status fst-normal"><%= minute.meeting_date.strftime("%A %e, %B %Y") %></p>
+  </div>
 
-  <p>
-    <strong>Proyecto:</strong>
-    <%= minute.project.name %>
-  </p>
+  <div class="item__content">
+    <div class="item__references">
+      <div class="item__reference">
+        <p class="item__reference-text">
+          <%= image_tag('person-icon.svg', alt: "icono asistentes", class: "item__reference-icon") %>
+          <%= minute.minutes_users.count %>
+        </p>
+        <%# Agregar link para ir a lista de actividades filtradas por este proyecto %>
+        <p class="item__reference-label">Asistentes</p>
+      </div>
+      
+      <div class="item__reference">
+        <p class="item__reference-text">
+          <%= image_tag('clock-icon.svg', alt: "icono duracion de la reunion", class: "item__reference-icon") %>
+          <%= minute.get_meeting_duration %>
+        </p>
+        <%# Agregar link para ir a lista de minutas filtradas por este proyecto %>
+        <p class="item__reference-label">Duración (Horas)</p> 
+      </div>
+    </div>
 
-  <p>
-    <strong>Fecha de reunión:</strong>
-    <%= minute.meeting_date %>
-  </p>
-
-  <p>
-    <strong>Asistentes:</strong>
-    <%= minute.minutes_users.count %>
-  </p>
-
-  <p>
-    <strong>Duración:</strong>
-    <%= minute.get_meeting_duration %> h
-  </p>
-
+    <div class="item__actions">
+      <%= link_to minute, class: "button-outline-primary" do %>
+        <i class="bi bi-eye mx-1"></i>
+        <span class="item__actions-text">Ver detalles</span>
+      <% end %>
+    </div>
+  </div>
 </div>

@@ -1,20 +1,47 @@
-<!-- <p style="color: green"><%= notice %></p> -->
+<main data-view-id="8" class="main">
+  <div class="header">
+    <div class="header__content">
+      <div class="header__heading">
+        <p class="header__subtitle">GESTIÓN DE MINUTAS</p>
+        <h1 class="header__title">LISTA DE MINUTAS</h1>
+      </div>
+      
+      <div class="header__actions">
+        <div class="header__actions header__actions--tablet">
+          <%= link_to new_minute_path, class: "button-primary" do %>
+            <%= image_tag('add-icon.svg', alt: "icono agregar minuta", class: "sidebar__icon") %>
+            <span class="ms-1">Agregar minuta</span>
+          <% end %>
+        </div>
+      
+        <%= render 'shared/sidebar_button' %>
+      </div>
+    </div>
 
-<main data-view-id="8">
-  <div class="d-flex justify-content-between align-items-center">
-    <h1 class="mt-4">LISTA DE MINUTAS</h1>
-    <div class="d-flex align-items-center gap-2">
-        <%= link_to "Agregar minuta", new_minute_path, class: "btn btn-primary" %>
-        <%= render "shared/sidebar_button" %>
+    <div class="header__actions header__actions--phone">
+      <%= link_to new_minute_path, class: "button-primary" do %>
+        <%= image_tag('add-icon.svg', alt: "icono agregar minuta", class: "sidebar__icon") %>
+        <span class="ms-1">Agregar minuta</span>
+      <% end %>
     </div>
   </div>
-  
-  <div id="minutes">
-    <% @minutes.each do |minute| %>
-      <%= render minute %>
-      <p>
-        <%= link_to "Ver detalles", minute, class: "btn btn-outline-primary" %>
-      </p>
-    <% end %>
-  </div>
+
+  <%= render 'minute_filters' %>
+
+  <section class="card-list mb-4">
+    <h4 class="card-list__title">
+      <%= image_tag('card-list-icon.svg', alt: "icon lista de minutas") %>
+      MINUTAS
+    </h4>
+
+    <div id="minutes" class="card-list__items">
+      <% @minutes.each do |minute| %>
+        <%= render minute %>
+      <% end %>
+    </div>
+
+    <div class="card-list__pagination">
+      <%= will_paginate @minutes, inner_window: 1 %>
+    </div>
+  </section>
 </main>

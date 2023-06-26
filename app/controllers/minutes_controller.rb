@@ -5,7 +5,7 @@ class MinutesController < ApplicationController
 
   # GET /minutes or /minutes.json
   def index
-    @minutes = Minute.all
+    @minutes = Minute.paginate(page: params[:page], per_page: 3)
   end
 
   # GET /minutes/1 or /minutes/1.json
