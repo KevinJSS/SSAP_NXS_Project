@@ -37,12 +37,24 @@
         &::selection {
             color: v.$grey;
         }
+
+        @include m.desktop-lg {
+            font-size: v.$fs-sm;
+        }
     }
 
     &__flex {
         display: flex;
         flex-direction: column;
         gap: 20px;
+
+        &--row {
+            @include m.tablet {
+                flex-direction: row;
+                gap: 10px;
+                align-items: center;                
+            }
+        }
     }
 
     &__grid {
@@ -83,6 +95,17 @@
         margin-top: 15px;
         @include m.tablet {
             text-align: end;
+        }
+    }
+
+    &__actions {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+
+        @include m.tablet {
+            flex-direction: row;
+            align-items: center;
         }
     }
 }

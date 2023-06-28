@@ -1,7 +1,7 @@
 <div id="<%= dom_id activity %>" class="item">
   <div class="item__header">
     <div class="item__heading">
-      <h4 class="item__title"><%= activity.user.fullname %></h4> 
+      <h4 class="item__title" class="item__title" data-bs-toggle="tooltip" data-bs-placement="top" title="<%= activity.user.job_position %>"><%= activity.user.fullname %></h4> 
       <p class="item__text"><%= activity.project.name %></p>
     </div>
     <p class="item__status fst-normal"> <%= activity.date.strftime("%A %e, %B %Y") %></p>
@@ -15,7 +15,7 @@
           <%= activity.phases_activities.count %>
         </p>
         <%# Agregar link para ir a lista de actividades filtradas por este proyecto %>
-        <p class="item__reference-label"><%= activity.phases_activities.count == 1 ? "Fase asociada" : "Fases asociadas" %></p>
+        <p class="item__reference-label"><%= activity.phases_activities.count == 1 ? "Actividad realizada" : "Actividades realizadas" %></p>
       </div>
       
       <div class="item__reference">
@@ -24,7 +24,7 @@
           <%= activity.get_total_hours  %>
         </p>
         <%# Agregar link para ir a lista de minutas filtradas por este proyecto %>
-        <p class="item__reference-label">Horas realizadas</p> 
+        <p class="item__reference-label">Horas trabajadas</p> 
       </div>
     </div>
 

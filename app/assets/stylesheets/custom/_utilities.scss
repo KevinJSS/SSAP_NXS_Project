@@ -12,3 +12,9 @@
         width: auto;
     }
 }
+
+.section-bg {
+    @include m.section-bg;
+    margin-bottom: 30px;
+    padding: 30px 40px;
+}
