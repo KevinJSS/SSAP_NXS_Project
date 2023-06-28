@@ -9,7 +9,7 @@
             <div class="modal-body d-flex flex-column gap-3">
                 <div>
                     <label for="modalInput" class="mb-2"><strong>Lista de personas registradas:</strong></label>
-                    <input type="text" name="users" id="modalInput" class="form-select search-bar" autocomplete="off" data-action="click->dropdown-search#openDropdown keyup->dropdown-search#searchInput" data-value="" placeholder="- Selecciona una opción -">
+                    <input type="text" name="users" id="modalInput" class="form__input form-select search-bar" autocomplete="off" data-action="click->dropdown-search#openDropdown keyup->dropdown-search#searchInput" data-value="" placeholder="- Selecciona una opción -">
                     
                     <select class="form-select multiple-select" multiple>
                         <% attendees.each do |a| %>
@@ -19,7 +19,7 @@
                 </div>
             </div>
             <div class="modal-footer d-flex justify-content-start">
-                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" data-action="nested-form#addUser">Agregar</button>
+                <button type="button" class="button-primary" data-bs-dismiss="modal" data-action="nested-form#addUser">Agregar</button>
             </div>
         </div>
     </div>
