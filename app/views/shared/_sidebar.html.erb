@@ -147,9 +147,9 @@
                 <p><%= current_user.job_position %></p>
             </a>
 
-            <%= button_to destroy_user_session_path, method: :delete, form: { data: { turbo_confirm: '¿Está seguro(a) que desea cerrar sesión?' } }, class: "sidebar__logout" do %>
+            <button type="button" data-bs-toggle="modal" data-bs-target="#logoutModal" class="sidebar__logout">
                 <%= image_tag('signout-icon.svg', alt: 'icono cerrar sesion') %>
-            <% end %>
+            </button>
         </div><%# End Sidebar Footer %>
     </div>
     <%# End Sidebar Content %>
@@ -309,11 +309,13 @@
                 <p><%= current_user.job_position %></p>
             </a>
 
-            <%= button_to destroy_user_session_path, method: :delete, form: { data: { turbo_confirm: '¿Está seguro(a) que desea cerrar sesión?' } }, class: "sidebar__logout" do %>
+            <button type="button" data-bs-toggle="modal" data-bs-target="#logoutModal" class="sidebar__logout">
                 <%= image_tag('signout-icon.svg', alt: 'icono cerrar sesion') %>
-            <% end %>
+            </button>
         </div><%# End Sidebar Footer %>
     </div>
     <%# End Sidebar Content %>
 </div>
 <%# End Boostrap Offcanvas Sidebar %>
+
+<%= render "shared/logout_confirm" %>
