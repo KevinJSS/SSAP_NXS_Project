@@ -9,6 +9,10 @@
     @include m.button(v.$dark2, v.$light2);
 }
 
+.button-danger {
+    @include m.button(v.$danger, v.$light2);
+}
+
 .button-secondary--menu {
     width: auto;
     display: inline-block;

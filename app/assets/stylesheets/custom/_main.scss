@@ -1,0 +1,25 @@
+@use 'variables' as v;
+@use 'mixins' as m;
+
+.main {
+    &__center {
+        display: flex;
+        justify-content: center;
+    }
+
+    &__width {
+        width: 100%;
+
+        @include m.desktop-md {
+            width: 100%;
+        }
+
+        @include m.desktop-lg {
+            width: 80%;
+        }
+
+        @include m.desktop-xl {
+            width: 50%;
+        }
+    }
+}

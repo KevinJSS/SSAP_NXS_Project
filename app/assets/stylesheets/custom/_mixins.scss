@@ -84,7 +84,7 @@
         color: $txt-color;
     }
 
-    @include desktop {
+    @include tablet {
         width: auto;
         display: inline-block;
     }
@@ -122,7 +122,7 @@
         color: v.$light2;
     }
 
-    @include desktop {
+    @include tablet {
         width: auto;
         display: inline-block;
     }

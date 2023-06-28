@@ -1,16 +1,18 @@
-<main data-view-id="2">
-    <div class="header">
-        <div class="header__content">
-            <div class="header__heading">
-                <p class="header__subtitle">GESTIÓN DE PROYECTOS</p>
-                <h1 class="header__title">AGREGAR PROYECTO</h1>
-            </div>
-            
-            <div class="header__actions">
-                <%= render 'shared/sidebar_button' %>
+<main data-view-id="2" class="main main__center">
+    <div class="main__width">
+        <div class="header">
+            <div class="header__content">
+                <div class="header__heading">
+                    <p class="header__subtitle">GESTIÓN DE PROYECTOS</p>
+                    <h1 class="header__title">AGREGAR PROYECTO</h1>
+                </div>
+                
+                <div class="header__actions">
+                    <%= render 'shared/sidebar_button' %>
+                </div>
             </div>
         </div>
+        
+        <%= render "form", project: @project %>
     </div>
-    
-    <%= render "form", project: @project %>
 </main>
