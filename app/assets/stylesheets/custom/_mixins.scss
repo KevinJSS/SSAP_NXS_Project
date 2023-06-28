@@ -144,7 +144,7 @@
 //SECTION TITLE
 @mixin section-title {
     font-size: 17px;
-    color: grey;
+    color: v.$grey;
     font-weight: bold;
     display: flex;
     align-items: center;

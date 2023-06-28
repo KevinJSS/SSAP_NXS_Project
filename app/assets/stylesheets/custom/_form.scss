@@ -2,6 +2,10 @@
 @use 'mixins' as m;
 
 .form {
+    &__field {
+        width: 100%;
+    }
+
     &__label {
         font-size: v.$fs-sm;
         font-weight: 500;
@@ -106,6 +110,69 @@
         @include m.tablet {
             flex-direction: row;
             align-items: center;
+        }
+    }
+
+    &__table {
+        border: 1px solid v.$dark3;
+        border-radius: v.$border-radius-sm;
+        -webkit-border-radius: v.$border-radius-sm;
+        -moz-border-radius: v.$border-radius-sm;
+        -ms-border-radius: v.$border-radius-sm;
+        -o-border-radius: v.$border-radius-sm;
+
+        &-head {
+            background-color: v.$light2;
+            border-bottom: 1px solid v.$dark3;
+            
+            & label {
+                padding: 5px 0 5px 10px;
+                margin-bottom: 0;
+
+                &:last-child {
+                    padding-left: 0;
+                }
+
+                &:first-child {
+                    width: 55%;
+
+                    @include m.mobile {
+                        width: 50%;
+                    }
+
+                    @include m.desktop-md {
+                        width: 45%;
+                    }
+                }
+            }
+        }
+
+        &-data {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            border-bottom: 1px solid v.$dark3;
+
+            &:last-of-type {
+                border: none;
+            }
+
+            & input:nth-child(2) {
+                width: 350%;
+
+                @include m.mobile {
+                    width: 130%;
+                }
+
+                @include m.desktop {
+                    width: 115%;
+                }
+
+                @include m.desktop-lg {
+                    width: 100%;
+                }
+            }
         }
     }
 }

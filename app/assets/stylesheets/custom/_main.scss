@@ -5,14 +5,14 @@
     &__center {
         display: flex;
         justify-content: center;
+
+        @include m.desktop-lg {
+          margin-left: -5%;  
+        }
     }
 
     &__width {
         width: 100%;
-
-        @include m.desktop-md {
-            width: 100%;
-        }
 
         @include m.desktop-lg {
             width: 80%;

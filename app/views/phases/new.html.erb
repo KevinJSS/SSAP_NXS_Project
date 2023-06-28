@@ -1,8 +1,18 @@
-<main data-view-id="7">
-    <div class="d-flex justify-content-between align-items-center gap-2 mt-4">
-        <h1>AGREGAR FASE</h1>
-        <%= render "shared/sidebar_button" %>
+<main data-view-id="7" class="main main__center">
+    <div class="main__width">
+        <div class="header">
+            <div class="header__content">
+                <div class="header__heading">
+                    <p class="header__subtitle">GESTIÓN DE ACTIVIDADES</p>
+                    <h1 class="header__title">AGREGAR FASE</h1>
+                </div>
+                
+                <div class="header__actions">
+                    <%= render 'shared/sidebar_button' %>
+                </div>
+            </div>
+        </div>
+        
+        <%= render "form", phase: @phase %>
     </div>
-    
-    <%= render "form", phase: @phase %>
 </main>

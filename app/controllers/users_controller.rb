@@ -21,13 +21,16 @@ class UsersController < ApplicationController
   end
 
   def update
+    @user.valid?
+
     respond_to do |format|
-      if @user.update(user_params)
+      if !@user.errors.any? && @user.update(user_params)
         validate_emergency_contact_data
 
         format.html { redirect_to @user, notice: "#{user_role} actualizado correctamente" }
         format.json { render :show, status: :ok, location: @user }
       else
+        @user.build_emergency_contact if @user.emergency_contact.nil?
         format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @user.errors, status: :unprocessable_entity }
       end
@@ -41,7 +44,7 @@ class UsersController < ApplicationController
   end
 
   def user_params
-    params.require(:user).permit(:fullname, :id_card, :phone, :email, :job_position, :address, :role, :account_number, :id_card_type, :marital_status, :education)
+    params.require(:user).permit(:fullname, :id_card, :phone, :email, :job_position, :address, :role, :account_number, :id_card_type, :marital_status, :education, :province, :canton, :district, :nationality, :gender, :birth_date, emergency_contact: [:fullname, :phone])
   end
 
   def user_role

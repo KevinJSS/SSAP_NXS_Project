@@ -110,12 +110,17 @@ class Users::RegistrationsController < Devise::RegistrationsController
     if new_password.blank? && password_confirmation.blank? 
       params[:user].delete(:password)
       params[:user].delete(:password_confirmation)
+      return #no password update
     end
 
     if current_password.blank?
-      @user.errors.add(:current_password, :presence, message: "is blank")
-    else
-      @user.errors.add(:current_password, message: "is incorrect") if !@user.valid_password?(current_password)
+      @user.errors.add(:current_password, "no puede estar en blanco.")
+      return
+    end
+
+    if !@user.valid_password?(current_password)
+      @user.errors.add(:current_password, "no es correcta.")
+      return
     end
   end
 

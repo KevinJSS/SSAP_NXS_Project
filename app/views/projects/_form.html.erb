@@ -18,12 +18,12 @@
     </div>
   
     <div class="form__flex form__flex--row">
-      <div class="form__field w-100">
+      <div class="form__field ">
         <%= form.label "Fecha de inicio", class: "form__label" %>
         <%= form.date_field :start_date, class: "form__input" %>
       </div>
       
-      <div class="form__field w-100">
+      <div class="form__field ">
         <%= form.label "Fecha de cierre", class: "form__label" %>
         <%= form.date_field :scheduled_deadline, class: "form__input" %>
       </div>
@@ -40,12 +40,12 @@
     </div>
   
     <div class="form__flex form__flex--row">
-      <div class="form__field w-100">
+      <div class="form__field ">
         <%= form.label "Etapa", class: "form__label" %>
         <%= form.select :stage, options_for_select(project.get_stage_options, selected: project.stage), {prompt: "-- Seleccione una etapa ---"}, class: "form__input form-select"  %>
       </div>
       
-      <div class="form__field w-100">
+      <div class="form__field ">
         <%= form.label "Estado de la etapa", class: "form__label" %>
         <%= form.select :stage_status, options_for_select(project.get_status_options, selected: project.stage_status), {prompt: "-- Seleccione un estado ---"}, class: "form__input form-select"  %>
       </div>

@@ -18,3 +18,14 @@
     margin-bottom: 30px;
     padding: 30px 40px;
 }
+
+.fs-xs {
+    font-size: v.$fs-xs;
+}
+
+.phone-br {
+    display: block;
+    @include m.tablet {
+        display: inline;
+    }
+}

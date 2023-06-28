@@ -27,31 +27,35 @@
   </div>
 
   <div class="form__field">
-     <div class="d-flex justify-content-between align-items-center mt-2">
+    <div class="form__flex form__flex--row gap-1 justify-content-between mb-2">
       <%= form.label "Actividades realizadas", class: "form__label" %>
-      <button type="button" data-bs-toggle="modal" data-bs-target="#phasesModal" id="addPhase" class="button-outline-primary">Seleccionar actividad</button>
+      <button type="button" data-bs-toggle="modal" data-bs-target="#phasesModal" id="addPhase" class="button-outline-primary button-outline-primary--sm">Agregar actividad</button>
     </div>
 
     <div class="form__table">
       <div class="form__table-head">
-        <label class="form__label">Fase</label>
-        <label class="form__label">Horas realizadas</label>
+        <label class="form__label">Actividad</label>
+        <label class="form__label">Horas</label>
       </div>
+
+      <p id="emptyMessage" class="text-center text-black-50 fst-italic my-2 fs-xs"><i class="bi bi-info-circle me-2"></i>Agrega al menos una actividad</p>
       
-      <%# Start Phases_Activities Nested Form %>
-      <template data-nested-form-target="template">
-        <%= form.fields_for :phases_activities, PhasesActivity.new, child_index: 'NEW_RECORD' do |phase_activity| %>
+      <div class="form__table-body">
+        <%# Start Phases_Activities Nested Form %>
+        <template data-nested-form-target="template">
+          <%= form.fields_for :phases_activities, PhasesActivity.new, child_index: 'NEW_RECORD' do |phase_activity| %>
+            <%= render "activities/phase_activity_form", f: phase_activity, phases: @phases %>
+          <% end %>
+        </template>
+        
+        <%= form.fields_for :phases_activities do |phase_activity| %>
           <%= render "activities/phase_activity_form", f: phase_activity, phases: @phases %>
         <% end %>
-      </template>
-      
-      <%= form.fields_for :phases_activities do |phase_activity| %>
-        <%= render "activities/phase_activity_form", f: phase_activity, phases: @phases %>
-      <% end %>
-      
-      <!-- Inserted elements will be injected before that target. -->
-      <div data-nested-form-target="target"></div>
-      <%# End Phases_Activities Nested Form %>
+        
+        <!-- Inserted elements will be injected before that target. -->
+        <div data-nested-form-target="target"></div>
+        <%# End Phases_Activities Nested Form %>
+      </div>
     </div>
   </div>
 

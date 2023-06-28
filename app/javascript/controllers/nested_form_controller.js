@@ -87,6 +87,7 @@ export default class extends NestedForm {
     const inputHours = wrapper.querySelector(".nested-input-hours");
     if (totalHours.value == "") totalHours.value = 0;
     totalHours.value = action == "add" ? parseFloat(totalHours.value) + parseFloat(inputHours.value) : parseFloat(totalHours.value) - parseFloat(inputHours.value);
+    document.getElementById("emptyMessage").style.display = totalHours.value == 0 || totalHours.value == "" ? "block" : "none";
   }
 
   showTotalHours() {
@@ -99,5 +100,6 @@ export default class extends NestedForm {
       if (totalHours.value == "") totalHours.value = 0;
       totalHours.value = parseFloat(totalHours.value) + parseFloat(inputHours.value);
     }
+    document.getElementById("emptyMessage").style.display = totalHours.value == 0 || totalHours.value == "" ? "block" : "none";
   }
 }

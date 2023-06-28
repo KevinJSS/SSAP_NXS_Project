@@ -1,121 +1,151 @@
-<%= form_with(model: user) do |form| %>
-  <% if user.errors.any? %>
-    <div style="color: red">
-      <h2><%= pluralize(user.errors.count, "error") %> prohibited this user from being saved:</h2>
+<% if user.errors.any? %>
+  <div style="color: red">
+    <h2><%= pluralize(user.errors.count, "error") %> prohibited this user from being saved:</h2>
 
-      <ul>
-        <% user.errors.each do |error| %>
-          <li><%= error.full_message %></li>
-        <% end %>
-      </ul>
+    <ul>
+      <% user.errors.each do |error| %>
+        <li><%= error.full_message %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
+
+<%= form_with(model: user, class: "form form__flex section-bg") do |form| %>
+  <h4 class="card-list__title mt-3">
+    <%= image_tag('user-icon.svg', alt: "icono información general usuario", class: "sidebar__icon") %>
+    INFORMACIÓN GENERAL
+  </h4>
+
+  <div class="form__flex form__flex--row">
+    <div class="form__field">
+      <%= form.label "Tipo de identificación", class: "form__label" %>
+      <%= form.select :id_card_type, options_for_select(user.get_id_card_types, selected: user.id_card_type), {prompt: "-- Indique el tipo de identificación ---"}, class: "form__input form-select"  %>
     </div>
-  <% end %>
-
-  <div class="field">
-    <%= form.label "Nombre completo" %><br />
-    <%= form.text_field :fullname, autofocus: true, placeholder: "Ej: Nombre Apellido1 Apellido2", class: "form-control" %>
+    
+    <div class="form__field">
+      <%= form.label "Número de identificación", class: "form__label" %>
+      <%= form.text_field :id_card, placeholder: "Ej: 101110111", class: "form__input" %>
+    </div>
   </div>
 
-  <div>
-    <%= form.label "Tipo de identificación", style: "display: block" %>
-    <%= form.select :id_card_type, options_for_select(user.get_id_card_types, selected: user.id_card_type), {prompt: "-- Indique el tipo de identificación ---"}, class: "form-select"  %>
+  <div class="form__field">
+    <%= form.label "Nombre completo", class: "form__label" %>
+    <%= form.text_field :fullname, placeholder: "Ej: Nombre Apellido1 Apellido2", class: "form__input" %>
+  </div>
+
+  <div class="form__flex form__flex--row">
+    <div class="form__field">
+      <%= form.label "Número de teléfono", class: "form__label" %>
+      <%= form.text_field :phone, placeholder: "Ej: (+506) 8888 8888", class: "form__input" %>
+    </div>
+    
+    <div class="form__field">
+      <%= form.label "Correo electrónico", class: "form__label" %>
+      <%= form.email_field :email, autocomplete: "email", placeholder: "Ej: correo@gmail.com", class: "form__input" %>
+    </div>
+  </div>
+
+  <div class="form__flex form__flex--row">
+    <div class="form__field">
+      <%= form.label "Fecha de nacimiento", class: "form__label" %>
+      <%= form.date_field :birth_date, class: "form__input" %>
+    </div>
+    
+    <div class="form__field">
+      <%= form.label "Género", class: "form__label" %>
+      <%= form.select :gender, options_for_select(user.get_gender_options, selected: user.gender), {prompt: "-- Seleccione el género ---"}, class: "form__input form-select"  %>
+    </div>
+    
+    <div class="form__field">
+      <%= form.label "Nacionalidad", class: "form__label" %>
+      <%= form.text_field :nationality, placeholder: "Ej: Costarricense", class: "form__input" %>
+    </div>
+  </div>
+
+  <div class="form__flex form__flex--row">
+    <div class="form__field">
+      <%= form.label "Estado civil", class: "form__label" %>
+      <%= form.select :marital_status, options_for_select(user.get_marital_status_options, selected: user.marital_status), {prompt: "-- Seleccione el estado civil ---"}, class: "form__input form-select"  %>
+    </div>
+    
+    <div class="form__field">
+      <%= form.label "Escolaridad", class: "form__label" %>
+      <%= form.select :education, options_for_select(user.get_education_options, selected: user.education), {prompt: "-- Indique el nivel de escolaridad---"}, class: "form__input form-select"  %>
+    </div>
+  </div>
+
+  <div class="form__field">
+    <%= form.label "Puesto de trabajo", class: "form__label" %>
+    <%= form.text_field :job_position, placeholder: "Ej: Arquitecto", class: "form__input" %>
   </div>
   
-  <div class="field">
-    <%= form.label "Número de identificación" %><br />
-    <%= form.text_field :id_card, placeholder: "Ej: 101110111", class: "form-control" %>
+  <div class="form__flex form__flex--row">
+    <div class="form__field">
+      <%= form.label "Provincia", class: "form__label" %>
+      <%= form.text_field :province, placeholder: "Ej: Alajuela", class: "form__input" %>
+    </div>
+    
+    <div class="form__field">
+      <%= form.label "Cantón", class: "form__label" %>
+      <%= form.text_field :canton, placeholder: "Ej: Naranjo", class: "form__input" %>
+    </div>
+    
+    <div class="form__field">
+      <%= form.label "Distrito", class: "form__label" %>
+      <%= form.text_field :district, placeholder: "Ej: Lourdes", class: "form__input" %>
+    </div>
   </div>
 
-  <div class="field">
-    <%= form.label "Fecha de nacimiento" %><br />
-    <%= form.date_field :birth_date, class: "form-control" %>
+  <div class="form__field">
+    <%= form.label "Dirección de habitación", class: "form__label" %>
+    <%= form.text_area :address, placeholder: "Detalle la ubicación física de domicilio", class: "form__input", rows: "4" %>
   </div>
 
-  <div class="field">
-    <%= form.label "Nacionalidad" %><br />
-    <%= form.text_field :nationality, placeholder: "Ej: Costarricense", class: "form-control" %>
+  <div class="form__field">
+    <%= form.label "Número de cuenta bancaria", class: "form__label" %>
+    <%= form.text_field :account_number, placeholder: "Número de cuenta bancaria", class:"form__input" %>
   </div>
 
-  <div>
-    <%= form.label "Género", style: "display: block" %>
-    <%= form.select :gender, options_for_select(user.get_gender_options, selected: user.gender), {prompt: "-- Seleccione el género ---"}, class: "form-select"  %>
-  </div>
+  <hr>
+  <h4 class="card-list__title">
+    <%= image_tag('toggles-icon.svg', alt: "icono permisos de usuario", class: "sidebar__icon") %>
+    PERMISOS DE USUARIO
+  </h4>
 
-  <div>
-    <%= form.label "Estado civil", style: "display: block" %>
-    <%= form.select :marital_status, options_for_select(user.get_marital_status_options, selected: user.marital_status), {prompt: "-- Seleccione el estado civil ---"}, class: "form-select"  %>
-  </div>
-
-  <div>
-    <%= form.label "Escolaridad", style: "display: block" %>
-    <%= form.select :education, options_for_select(user.get_education_options, selected: user.education), {prompt: "-- Indique el nivel de escolaridad---"}, class: "form-select"  %>
-  </div>
-
-  <div class="field">
-    <%= form.label "Número de teléfono" %><br />
-    <%= form.text_field :phone, placeholder: "Ej: (+506) 8888 8888", class: "form-control" %>
-  </div>
-  
-  <div class="field">
-    <%= form.label "Correo electrónico" %><br />
-    <%= form.email_field :email, autocomplete: "email", placeholder: "Ej: correo@gmail.com", class: "form-control" %>
-  </div>
-
-  <div class="field">
-    <%= form.label "Puesto de trabajo" %><br />
-    <%= form.text_field :job_position, placeholder: "Ej: Arquitecto", class: "form-control" %>
-  </div>
-  
-  <div class="field">
-    <%= form.label "Dirección de habitación" %><br />
-    <%= form.text_area :address, placeholder: "Detalle la ubicación física de domicilio", class: "form-control" %>
-  </div>
-
-  <div class="field">
-    <%= form.label "Provincia" %><br />
-    <%= form.text_field :province, placeholder: "Ej: Alajuela", class: "form-control" %>
-  </div>
-
-  <div class="field">
-    <%= form.label "Cantón" %><br />
-    <%= form.text_field :canton, placeholder: "Ej: Naranjo", class: "form-control" %>
-  </div>
-
-  <div class="field">
-    <%= form.label "Distrito" %><br />
-    <%= form.text_field :district, placeholder: "Ej: Lourdes", class: "form-control" %>
-  </div>
-
-  <div class="field">
-    <%= form.label "Número de cuenta bancaria" %>
-    <%= form.text_field :account_number, placeholder: "Número de cuenta bancaria", class:"form-control" %>
-  </div>
-
-
-  <div class="field">
-    <%= form.label "Rol de usuario" %>
+  <div class="form__field">
+    <%= form.label "Rol de usuario", class: "form__label" %>
     <% if user.role == "admin" %>
-        <%= form.select :role, options_for_select([['Administrador', "admin"], ['Colaborador', "collaborator"]], user.role), {}, class: "form-select" %>
+        <%= form.select :role, options_for_select([['Administrador', "admin"], ['Colaborador', "collaborator"]], user.role), {}, class: "form__input form-select" %>
     <% else %>
-        <%= form.select :role, options_for_select([['Colaborador', "collaborator"], ['Administrador', "admin"]], user.role), {}, class: "form-select" %>
+        <%= form.select :role, options_for_select([['Colaborador', "collaborator"], ['Administrador', "admin"]], user.role), {}, class: "form__input form-select" %>
     <% end %>
   </div>
 
   <hr>
-  <h5>INFORMACIÓN CONTACTO DE EMERGENCIA</h5>
+  <h4 class="card-list__title">
+    <%= image_tag('emergency-icon.svg', alt: "icono contacto de emergencia", class: "sidebar__icon") %>
+    CONTACTO DE EMERGENCIA
+  </h4>
+  
   <!-- Emergency contact fields -->
   <%= form.fields_for :emergency_contact do |contact_form| %>
-    <%= contact_form.label "Nombre completo" %>
-    <%= contact_form.text_field :fullname, placeholder: "Ej: Nombre Apellido1 Apellido2", class: "form-control" %>
-    
-    <%= contact_form.label "Número de teléfono" %>
-    <%= contact_form.text_field :phone, placeholder: "Ej: (+506) 8686 8686", class: "form-control" %>
+    <div class="form__flex form__flex--row">
+      <div class="form__field">
+        <%= contact_form.label "Nombre completo", class: "form__label" %>
+        <%= contact_form.text_field :fullname, placeholder: "Ej: Nombre Apellido1 Apellido2", class: "form__input" %>
+      </div>
+      
+      <div class="form__field">
+        <%= contact_form.label "Número de teléfono", class: "form__label" %>
+        <%= contact_form.text_field :phone, placeholder: "Ej: (+506) 8686 8686", class: "form__input" %>
+      </div>
+    </div>
   <% end %>
 
   <hr>
 
-  <div class="actions mt-3">
-    <%= form.submit "Actualizar", class: "btn btn-primary" %>
-    <%= link_to "Regresar", user.role == "admin" ? users_path : collaborator_users_url, class: "btn btn-secondary" %>
+  <div class="form__actions">
+    <%= form.submit "Actualizar", class: "button-primary" %>
+    <%= link_to "Regresar", user.role == "admin" ? users_path : collaborator_users_url, class: "button-secondary" %>
   </div>
 <% end %>

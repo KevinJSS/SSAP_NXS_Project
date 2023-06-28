@@ -20,10 +20,6 @@
         @include m.tablet {
             font-size: v.$fs-xl !important;
         }
-
-        @include m.desktop-md {
-            font-size: v.$fs-xxl !important;
-        }
     }
 
     &__subtitle {
