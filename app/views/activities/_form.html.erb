@@ -1,14 +1,4 @@
-<% if activity.errors.any? %>
-  <div style="color: red">
-    <h2><%= pluralize(activity.errors.count, "error") %> prohibited this activity from being saved:</h2>
-
-    <ul>
-      <% activity.errors.each do |error| %>
-        <li><%= error.full_message %></li>
-      <% end %>
-    </ul>
-  </div>
-<% end %>
+<%= render 'shared/error_message', object: activity %>
 
 <%= form_with(model: activity, data: { controller: 'nested-form', nested_form_wrapper_selector_value: '.nested-form-wrapper', form_model: "activities" }, class: "form form__flex section-bg") do |form| %>
   <div class="form__field">

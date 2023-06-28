@@ -1,59 +1,47 @@
-<div>
-    <% if project.errors.any? %>
-      <div style="color: red">
-        <h2><%= pluralize(project.errors.count, "error") %> prohibited this project from being saved:</h2>
-  
-        <ul>
-          <% project.errors.each do |error| %>
-            <li><%= error.full_message %></li>
-          <% end %>
-        </ul>
-      </div>
-    <% end %>
-  
-  <%= form_with(model: project, class: "form form__flex section-bg") do |form| %>
-    <div class="form__field">
-      <%= form.label "Nombre del proyecto", class: "form__label" %>
-      <%= form.text_field :name, class: "form__input", placeholder: "Ej: CASA SABANA" %>
-    </div>
-  
-    <div class="form__flex form__flex--row">
-      <div class="form__field ">
-        <%= form.label "Fecha de inicio", class: "form__label" %>
-        <%= form.date_field :start_date, class: "form__input" %>
-      </div>
-      
-      <div class="form__field ">
-        <%= form.label "Fecha de cierre", class: "form__label" %>
-        <%= form.date_field :scheduled_deadline, class: "form__input" %>
-      </div>
-    </div>
-  
-    <div class="form__field">
-      <%= form.label "Encargado", class: "form__label" %>
-      <%= form.select :user_id, options_for_select(@admins.collect { |a| [a.fullname, a.id] }, selected: project.user_id), {prompt: "- Seleccione un encargado -"}, class: "form__input form-select"  %>
-    </div>
-  
-    <div class="form__field">
-      <%= form.label "Ubicación", class: "form__label" %>
-      <%= form.text_area :location, class: "form__input", placeholder: "Detalle la ubicación física del proyecto", rows: "5" %>
-    </div>
-  
-    <div class="form__flex form__flex--row">
-      <div class="form__field ">
-        <%= form.label "Etapa", class: "form__label" %>
-        <%= form.select :stage, options_for_select(project.get_stage_options, selected: project.stage), {prompt: "- Seleccione una etapa -"}, class: "form__input form-select"  %>
-      </div>
-      
-      <div class="form__field ">
-        <%= form.label "Estado de la etapa", class: "form__label" %>
-        <%= form.select :stage_status, options_for_select(project.get_status_options, selected: project.stage_status), {prompt: "- Seleccione un estado -"}, class: "form__input form-select"  %>
-      </div>
-    </div>
-  
-    <div class="form__actions mt-3">
-      <%= form.submit project.new_record? ? "Guardar" : "Actualizar", class: "button-primary" %>
-      <%= link_to "Regresar", projects_path, class: "button-secondary" %>
-    </div>
-  <% end %>
+<%= render 'shared/error_message', object: project %>
+
+<%= form_with(model: project, class: "form form__flex section-bg") do |form| %>
+  <div class="form__field">
+    <%= form.label "Nombre del proyecto", class: "form__label" %>
+    <%= form.text_field :name, class: "form__input", placeholder: "Ej: CASA SABANA" %>
   </div>
+
+  <div class="form__flex form__flex--row">
+    <div class="form__field ">
+      <%= form.label "Fecha de inicio", class: "form__label" %>
+      <%= form.date_field :start_date, class: "form__input" %>
+    </div>
+    
+    <div class="form__field ">
+      <%= form.label "Fecha de cierre", class: "form__label" %>
+      <%= form.date_field :scheduled_deadline, class: "form__input" %>
+    </div>
+  </div>
+
+  <div class="form__field">
+    <%= form.label "Encargado", class: "form__label" %>
+    <%= form.select :user_id, options_for_select(@admins.collect { |a| [a.fullname, a.id] }, selected: project.user_id), {prompt: "- Seleccione un encargado -"}, class: "form__input form-select"  %>
+  </div>
+
+  <div class="form__field">
+    <%= form.label "Ubicación", class: "form__label" %>
+    <%= form.text_area :location, class: "form__input", placeholder: "Detalle la ubicación física del proyecto", rows: "5" %>
+  </div>
+
+  <div class="form__flex form__flex--row">
+    <div class="form__field ">
+      <%= form.label "Etapa", class: "form__label" %>
+      <%= form.select :stage, options_for_select(project.get_stage_options, selected: project.stage), {prompt: "- Seleccione una etapa -"}, class: "form__input form-select"  %>
+    </div>
+    
+    <div class="form__field ">
+      <%= form.label "Estado de la etapa", class: "form__label" %>
+      <%= form.select :stage_status, options_for_select(project.get_status_options, selected: project.stage_status), {prompt: "- Seleccione un estado -"}, class: "form__input form-select"  %>
+    </div>
+  </div>
+
+  <div class="form__actions mt-3">
+    <%= form.submit project.new_record? ? "Guardar" : "Actualizar", class: "button-primary" %>
+    <%= link_to "Regresar", projects_path, class: "button-secondary" %>
+  </div>
+<% end %>

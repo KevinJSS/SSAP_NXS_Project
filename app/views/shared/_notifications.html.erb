@@ -11,7 +11,7 @@
 </svg>
 
 <% if flash[:notice] %>
-    <div id="myAlert" class="alert alert-success alert-dismissible fade d-flex show mb-0 position-absolute" style="top: 3%; right: 1.2%;" role="alert">
+    <div id="myAlert1" class="alert alert-success alert-dismissible fade d-flex show mb-0 position-absolute" style="top: 3%; right: 1.2%;" role="alert">
     <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:"><use xlink:href="#check-circle-fill"/></svg>
     <div>
         <%= flash[:notice] %>
@@ -21,7 +21,7 @@
 <% end %>
 
 <% if flash[:alert] %>
-    <div id="myAlert" class="alert alert-warning alert-dismissible fade d-flex show mb-0 position-absolute" style="top: 3%; right: 1.2%;" role="alert">
+    <div id="myAlert2" class="alert alert-warning alert-dismissible fade d-flex show mb-0 position-absolute" style="top: 3%; right: 1.2%;" role="alert">
     <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Warning:"><use xlink:href="#exclamation-triangle-fill"/></svg>
     <div>
         <%= flash[:alert] %>
@@ -31,11 +31,20 @@
 <% end %>
 
 <script>
-    var alert = document.getElementById('myAlert');
+    var alert1 = document.getElementById('myAlert1');
 
-    if (alert) {
+    if (alert1) {
         setTimeout(function() {
-            var alert = document.getElementById('myAlert');
+            var alert = document.getElementById('myAlert1');
+            alert.classList.remove('show');
+        }, 5000);
+    } 
+
+    var alert2 = document.getElementById('myAlert2');
+
+    if (alert2) {
+        setTimeout(function() {
+            var alert = document.getElementById('myAlert2');
             alert.classList.remove('show');
         }, 5000);
     }

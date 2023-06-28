@@ -1,14 +1,4 @@
-<% if user.errors.any? %>
-  <div style="color: red">
-    <h2><%= pluralize(user.errors.count, "error") %> prohibited this user from being saved:</h2>
-
-    <ul>
-      <% user.errors.each do |error| %>
-        <li><%= error.full_message %></li>
-      <% end %>
-    </ul>
-  </div>
-<% end %>
+<%= render 'shared/error_message', object: user %>
 
 <%= form_with(model: user, class: "form form__flex section-bg") do |form| %>
   <h4 class="card-list__title mt-3">
