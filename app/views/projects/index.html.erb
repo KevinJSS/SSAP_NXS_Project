@@ -41,6 +41,7 @@
     </div>
 
     <div class="card-list__pagination">
+      <%= render "shared/pagination_count", object: @projects %>
       <%= will_paginate @projects, inner_window: 1 %>
     </div>
   </section>
