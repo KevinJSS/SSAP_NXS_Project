@@ -13,12 +13,12 @@
 <%= form_with(model: activity, data: { controller: 'nested-form', nested_form_wrapper_selector_value: '.nested-form-wrapper', form_model: "activities" }, class: "form form__flex section-bg") do |form| %>
   <div class="form__field">
     <%= form.label "Proyecto", class: "form__label" %>
-    <%= form.select :project_id, options_for_select(@projects.collect { |pr| [pr.name, pr.id] }, selected: activity.project_id), { prompt: "-- Seleccione un proyecto --" }, class: "form__input form-select" %>
+    <%= form.select :project_id, options_for_select(@projects.collect { |pr| [pr.name, pr.id] }, selected: activity.project_id), { prompt: "- Seleccione un proyecto -" }, class: "form__input form-select" %>
   </div>
 
   <div class="form__field">
     <%= form.label "Colaborador", class: "form__label" %>
-    <%= form.select :user_id, options_for_select(@collaborators.collect { |w| [w.fullname, w.id] }, selected: activity.user_id), { prompt: "-- Seleccione un colaborador --" }, class: "form__input form-select" %>
+    <%= form.select :user_id, options_for_select(@collaborators.collect { |w| [w.fullname, w.id] }, selected: activity.user_id), { prompt: "- Seleccione un colaborador -" }, class: "form__input form-select" %>
   </div>
 
   <div class="form__field">

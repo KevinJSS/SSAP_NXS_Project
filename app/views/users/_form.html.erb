@@ -19,7 +19,7 @@
   <div class="form__flex form__flex--row">
     <div class="form__field">
       <%= form.label "Tipo de identificación", class: "form__label" %>
-      <%= form.select :id_card_type, options_for_select(user.get_id_card_types, selected: user.id_card_type), {prompt: "-- Indique el tipo de identificación ---"}, class: "form__input form-select"  %>
+      <%= form.select :id_card_type, options_for_select(user.get_id_card_types, selected: user.id_card_type), {prompt: "- Indique el tipo de identificación -"}, class: "form__input form-select"  %>
     </div>
     
     <div class="form__field">
@@ -53,7 +53,7 @@
     
     <div class="form__field">
       <%= form.label "Género", class: "form__label" %>
-      <%= form.select :gender, options_for_select(user.get_gender_options, selected: user.gender), {prompt: "-- Seleccione el género ---"}, class: "form__input form-select"  %>
+      <%= form.select :gender, options_for_select(user.get_gender_options, selected: user.gender), {prompt: "- Seleccione el género -"}, class: "form__input form-select"  %>
     </div>
     
     <div class="form__field">
@@ -65,12 +65,12 @@
   <div class="form__flex form__flex--row">
     <div class="form__field">
       <%= form.label "Estado civil", class: "form__label" %>
-      <%= form.select :marital_status, options_for_select(user.get_marital_status_options, selected: user.marital_status), {prompt: "-- Seleccione el estado civil ---"}, class: "form__input form-select"  %>
+      <%= form.select :marital_status, options_for_select(user.get_marital_status_options, selected: user.marital_status), {prompt: "- Seleccione el estado civil -"}, class: "form__input form-select"  %>
     </div>
     
     <div class="form__field">
       <%= form.label "Escolaridad", class: "form__label" %>
-      <%= form.select :education, options_for_select(user.get_education_options, selected: user.education), {prompt: "-- Indique el nivel de escolaridad---"}, class: "form__input form-select"  %>
+      <%= form.select :education, options_for_select(user.get_education_options, selected: user.education), {prompt: "- Indique el nivel de escolaridad-"}, class: "form__input form-select"  %>
     </div>
   </div>
 

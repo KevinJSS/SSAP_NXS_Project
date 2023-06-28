@@ -25,7 +25,7 @@
         <div class="form__flex form__flex--row">
           <div class="form__field">
             <%= f.label "Tipo de identificación", style: "display: block" %>
-            <%= f.select :id_card_type, options_for_select(resource.get_id_card_types, selected: resource.id_card_type), {prompt: "-- Indique el tipo de identificación ---"}, class: "form__input form-select"  %>
+            <%= f.select :id_card_type, options_for_select(resource.get_id_card_types, selected: resource.id_card_type), {prompt: "- Indique el tipo de identificación -"}, class: "form__input form-select"  %>
           </div>
           
           <div class="form__field">
@@ -47,7 +47,7 @@
           
           <div class="form__field">
             <%= f.label "Género", style: "display: block" %>
-            <%= f.select :gender, options_for_select(resource.get_gender_options, selected: resource.gender), {prompt: "-- Seleccione el género ---"}, class: "form__input form-select"  %>
+            <%= f.select :gender, options_for_select(resource.get_gender_options, selected: resource.gender), {prompt: "- Seleccione el género -"}, class: "form__input form-select"  %>
           </div>
           
           <div class="form__field">
@@ -71,12 +71,12 @@
         <div class="form__flex form__flex--row">
           <div class="form__field">
             <%= f.label "Estado civil", style: "display: block" %>
-            <%= f.select :marital_status, options_for_select(resource.get_marital_status_options, selected: resource.marital_status), {prompt: "-- Seleccione el estado civil ---"}, class: "form__input form-select"  %>
+            <%= f.select :marital_status, options_for_select(resource.get_marital_status_options, selected: resource.marital_status), {prompt: "- Seleccione el estado civil -"}, class: "form__input form-select"  %>
           </div>
           
           <div class="form__field">
             <%= f.label "Escolaridad", style: "display: block" %>
-            <%= f.select :education, options_for_select(resource.get_education_options, selected: resource.education), {prompt: "-- Indique el nivel de escolaridad---"}, class: "form__input form-select"  %>
+            <%= f.select :education, options_for_select(resource.get_education_options, selected: resource.education), {prompt: "- Indique el nivel de escolaridad-"}, class: "form__input form-select"  %>
           </div>
         </div>
         

@@ -17,7 +17,7 @@ export default class extends Controller {
     if (!this.input.contains(event.target) && !this.select.contains(event.target)) {
       this.input.classList.remove("active");
       this.select.classList.remove("active");
-      this.input.placeholder = "-- Selecciona una opción --";
+      this.input.placeholder = "- Selecciona una opción -";
     }
   }
 
