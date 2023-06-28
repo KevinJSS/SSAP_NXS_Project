@@ -3,10 +3,38 @@
 
 .button-primary {
     @include m.button(v.$primary, v.$light2);
+
+    &--minutes {
+        @include m.desktop {
+            width: 100%;
+        }
+        
+        @include m.desktop-md {
+            width: auto;
+        }
+
+        @include m.desktop-lg {
+            width: 100%;
+        }
+    }
 }
 
 .button-secondary {
     @include m.button(v.$dark2, v.$light2);
+
+    &--minutes {
+        @include m.desktop {
+            width: 100%;
+        }
+
+        @include m.desktop-md {
+            width: auto;
+        }
+
+        @include m.desktop-lg {
+            width: 100%;
+        }
+    }
 }
 
 .button-danger {

@@ -111,6 +111,7 @@ class MinutesController < ApplicationController
 
     def duplicate_attendees_validation
       nested_attributes = params[:minute][:minutes_users_attributes]
+      return unless !nested_attributes.nil?
       
       user_ids = []
       nested_attributes.each do |index, attributes|

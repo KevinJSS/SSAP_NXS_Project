@@ -17,6 +17,75 @@
     @include m.section-bg;
     margin-bottom: 30px;
     padding: 30px 40px;
+
+    &--minutes {
+        @include m.desktop {
+            box-shadow: none;
+            background-color: transparent;
+            padding: 0;
+            margin: 0;
+            border-radius: none;
+            -webkit-border-radius: none;
+            -moz-border-radius: none;
+            -ms-border-radius: none;
+            -o-border-radius: none;
+        }
+
+        @include m.desktop-md {
+            @include m.section-bg;
+            margin-bottom: 30px;
+            padding: 30px 40px;
+        }
+
+        @include m.desktop-lg {
+            box-shadow: none;
+            background-color: transparent;
+            padding: 0;
+            margin: 0;
+            border-radius: none;
+            -webkit-border-radius: none;
+            -moz-border-radius: none;
+            -ms-border-radius: none;
+            -o-border-radius: none;
+        }
+
+        &-1,
+        &-2 {
+            box-shadow: none;
+            background-color: transparent;
+            padding: 0;
+            margin: 0;
+            border-radius: none;
+            -webkit-border-radius: none;
+            -moz-border-radius: none;
+            -ms-border-radius: none;
+            -o-border-radius: none;
+
+            @include m.desktop {
+                @include m.section-bg;
+                margin-bottom: 30px;
+                padding: 30px 40px;
+            }
+
+            @include m.desktop-md {
+                box-shadow: none;
+                background-color: transparent;
+                padding: 0;
+                margin: 0;
+                border-radius: none;
+                -webkit-border-radius: none;
+                -moz-border-radius: none;
+                -ms-border-radius: none;
+                -o-border-radius: none;
+            }
+
+            @include m.desktop-lg {
+                @include m.section-bg;
+                margin-bottom: 30px;
+                padding: 30px 40px;
+            }
+        }
+    }
 }
 
 .fs-xs {
@@ -28,4 +97,42 @@
     @include m.tablet {
         display: inline;
     }
+}
+
+.w-70 {
+    width: 100%;
+
+    @include m.desktop {
+        width: 70%;
+    }
+
+    @include m.desktop-md {
+        width: 100%;
+    }
+
+    @include m.desktop-lg {
+        width: 70%;
+    }
+}
+
+.w-30 {
+    width: 100%;
+
+    @include m.desktop {
+        width: 30%;
+    }
+
+    @include m.desktop-md {
+        width: 100%;
+    }
+
+    @include m.desktop-lg {
+        width: 30%;
+    }
+}
+
+.vertical-resize {
+    resize: vertical; 
+    min-height: 100px; 
+    max-height: 250px;
 }

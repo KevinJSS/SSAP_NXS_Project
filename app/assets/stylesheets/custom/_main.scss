@@ -7,7 +7,11 @@
         justify-content: center;
 
         @include m.desktop-lg {
-          margin-left: -5%;  
+          margin-left: -5%; 
+          
+          &--minutes {
+            margin: 0;
+          }
         }
     }
 
@@ -20,6 +24,28 @@
 
         @include m.desktop-xl {
             width: 50%;
+        }
+
+        &--minutes {
+            @include m.tablet {
+                width: 80%;
+            }
+
+            @include m.desktop {
+                width: 90%;
+            }
+
+            @include m.desktop-lg {
+                width: 100%;
+            }
+
+            @include m.desktop-xl {
+                width: 90%;
+            }
+
+            @include m.desktop-xxl {
+                width: 80%;
+            }
         }
     }
 }

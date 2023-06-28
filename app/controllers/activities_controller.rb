@@ -134,6 +134,7 @@ class ActivitiesController < ApplicationController
 
     def duplicate_phases_validation
       nested_attributes = params[:activity][:phases_activities_attributes]
+      return unless !nested_attributes.nil?
 
       phase_ids = []
       nested_attributes.each do |index, attributes|

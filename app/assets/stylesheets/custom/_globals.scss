@@ -48,6 +48,11 @@ p {
     margin: 0;
 }
 
+input:not([type="button"]):not([type="submit"]),
+textarea {
+  color: v.$dark2;
+}
+
 textarea {
     resize: none;
 }
