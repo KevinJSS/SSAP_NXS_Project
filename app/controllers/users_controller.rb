@@ -139,7 +139,7 @@ class UsersController < ApplicationController
         old_value, new_value = values
         case attribute
         when "fullname"
-          attribute_name = "el nombre completo"
+          attribute_name = "el nombre completo del contacto de emergencia"
         when "phone"
           attribute_name = "el número de teléfono del contacto de emergencia"
         end
