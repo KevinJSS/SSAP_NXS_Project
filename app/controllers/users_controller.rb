@@ -141,7 +141,7 @@ class UsersController < ApplicationController
         when "fullname"
           attribute_name = "el nombre completo"
         when "phone"
-          attribute_name = "el número de teléfono"
+          attribute_name = "el número de teléfono del contacto de emergencia"
         end
 
         next if attribute_name.empty?

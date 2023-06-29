@@ -110,7 +110,7 @@ class User < ApplicationRecord
 
   def get_marital_status_options
     marital_status_options = [
-        ["Soltero", :single],
+        ["Soltero(a)", :single],
         ["Casado(a)", :married],
         ["Separado(a)", :separated],
         ["Divorciado(a)", :divorced],

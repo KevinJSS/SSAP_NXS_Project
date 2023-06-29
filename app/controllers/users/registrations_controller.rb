@@ -8,6 +8,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   before_action :set_user, only: [:edit, :update]
   before_action :authenticate_user!
   before_action :validate_role_param, only: [:new]
+  before_action :get_change_log, only: [:show, :edit, :update]
 
   # GET /resource/sign_up
   def new
@@ -29,6 +30,8 @@ class Users::RegistrationsController < Devise::RegistrationsController
     respond_to do |format|
       if @user.save
         validate_emergency_contact_data
+
+        create_change_log
 
         format.html { redirect_to @user, notice: "#{user_role} registrado correctamente" }
         format.json { render :show, status: :created, location: @user }
@@ -86,6 +89,18 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   def user_params
     params.require(:user).permit(:fullname, :id_card, :phone, :email, :job_position, :address, :role, :password, :password_confirmation, :account_number, :id_card_type, :marital_status, :education, :province, :canton, :district, :nationality, :gender, :birth_date, emergency_contact: [:fullname, :phone])
+  end
+
+  def create_change_log
+    description = "[#{Time.now.strftime("%d/%m/%Y - %H:%M")}] #{current_user.get_short_name} crea este usuario."
+    ChangeLog.new(table_id: @user.id, user_id: current_user.id, description: description, table_name: "user").save
+  end
+
+  def get_change_log
+    @user_change_log = ChangeLog.where(table_name: 'user', table_id: @user.id) 
+    if @user_change_log.empty? || @user_change_log.nil?
+      @user_change_log = nil
+    end
   end
 
   def user_role
