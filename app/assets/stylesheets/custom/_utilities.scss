@@ -152,7 +152,7 @@
     flex-direction: column;
     gap: 20px;
 
-    @include m.tablet {
+    @include m.mobile {
         flex-direction: row;
         align-items: center;
     }
