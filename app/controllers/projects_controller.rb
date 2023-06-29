@@ -2,6 +2,7 @@ class ProjectsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_project, only: %i[ show edit update destroy ]
   before_action :set_admins
+  before_action :get_change_log, only: %i[ show edit update ]
 
   # GET /projects or /projects.json
   def index
@@ -29,6 +30,9 @@ class ProjectsController < ApplicationController
 
     respond_to do |format|
       if @project.save
+        # create the change log
+        create_change_log
+
         format.html { redirect_to project_url(@project), notice: "Project was successfully created." }
         format.json { render :show, status: :created, location: @project }
       else
@@ -42,7 +46,10 @@ class ProjectsController < ApplicationController
   def update
     respond_to do |format|
       if @project.update(project_params)
-        format.html { redirect_to projects_path, notice: "Project was successfully updated." }
+        # Register the change log
+        register_change_log
+
+        format.html { redirect_to project_url(@project), notice: "Project was successfully updated." }
         format.json { render :show, status: :ok, location: @project }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -54,6 +61,7 @@ class ProjectsController < ApplicationController
   # DELETE /projects/1 or /projects/1.json
   def destroy
     @project.destroy
+    ChangeLog.where(table_id: @project.id, table_name: "project").destroy_all
 
     respond_to do |format|
       format.html { redirect_to projects_url, notice: "Project was successfully destroyed." }
@@ -69,6 +77,63 @@ class ProjectsController < ApplicationController
 
     def set_admins
       @admins = User.where(role: 1)
+    end
+
+    def get_change_log
+      @project_change_log = ChangeLog.where(table_id: @project.id, table_name: "project")
+      if @project_change_log.empty? || @project_change_log.nil?
+        @project_change_log = nil
+      end
+    end
+
+    def register_change_log
+      changes = @project.previous_changes
+
+      description = ""
+      attribute_name = ""
+      count = 1
+
+      changes.each do |attribute, values|
+        old_value, new_value = values
+
+        case attribute
+        when "name"
+          attribute_name = "el nombre"
+        when "start_date"
+          attribute_name = "la fecha de inicio"
+        when "scheduled_deadline"
+          attribute_name = "la fecha de cierre"
+        when "location"
+          attribute_name = "la ubicación"
+        when "stage"
+          attribute_name = "la etapa"
+        when "stage_status"
+          attribute_name = "el estado"
+        when "user_id"
+          attribute_name = "el/la encargado/a"
+          old_value = User.find(old_value).get_short_name
+          new_value = User.find(new_value).get_short_name
+        end
+
+        if attribute_name.empty? then next end
+
+        description << "(#{count}) Cambió #{attribute_name} de '#{old_value.to_s.humanize}' a '#{new_value.to_s.humanize}'. "
+        attribute_name = ""
+        count += 1
+      end
+
+      # Construir el registro del cambio
+      return if description.empty?
+
+      author = current_user.get_short_name
+      current_time = Time.now.strftime("%d/%m/%Y - %H:%M")
+      description = "[#{current_time}] #{author} realizó los siguientes cambios: #{description}"
+      ChangeLog.new(table_id: @project.id, user_id: current_user.id, description: description, table_name: "project").save
+    end
+
+    def create_change_log
+      description = "[#{Time.now.strftime("%d/%m/%Y - %H:%M")}] #{current_user.get_short_name} crea este proyecto."
+      ChangeLog.new(table_id: @project.id, user_id: current_user.id, description: description, table_name: "project").save
     end
 
     # Only allow a list of trusted parameters through.

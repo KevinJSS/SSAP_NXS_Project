@@ -1,0 +1,23 @@
+<% if object && !object.nil? || object && !object.empty? %>
+    <button type="button" data-bs-toggle="modal" data-bs-target="#changeLogModal" class="button-link mt-3">
+        Ver historial de cambios
+    </button>
+
+    <div class="modal fade" id="changeLogModal" tabindex="1" aria-labelledby="changeLogModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <p class="modal-title fs-6" id="changeLogModalLabel"><strong>Historial de cambios</strong></p>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body d-flex flex-column gap-3">
+                    <div class="fs-xs text-muted form__input overflow-y-scroll" style="height: 300px;" readonly>
+                        <% object.each do |change| %>
+                            <p class="mb-3"><%= change.description %></p>
+                        <% end %>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<% end %>

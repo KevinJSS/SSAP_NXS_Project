@@ -136,3 +136,23 @@
     min-height: 100px; 
     max-height: 250px;
 }
+
+.button-link {
+    border: none;
+    outline: none;
+    background-color: transparent;
+
+    text-decoration: underline;
+    color: v.$primary;
+    
+    transition: color .1s ease-in;
+    -webkit-transition: color .1s ease-in;
+    -moz-transition: color .1s ease-in;
+    -ms-transition: color .1s ease-in;
+    -o-transition: color .1s ease-in;
+
+    &:hover {
+        color: darken(v.$primary, 5%);
+        cursor: pointer;
+    }
+}

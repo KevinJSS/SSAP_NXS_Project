@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_06_21_205231) do
+ActiveRecord::Schema[7.0].define(version: 2023_06_29_001109) do
   create_table "activities", force: :cascade do |t|
     t.date "date", null: false
     t.datetime "created_at", null: false
@@ -19,6 +19,15 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_21_205231) do
     t.integer "user_id", null: false
     t.index ["project_id"], name: "index_activities_on_project_id"
     t.index ["user_id"], name: "index_activities_on_user_id"
+  end
+
+  create_table "change_logs", force: :cascade do |t|
+    t.integer "table_id", null: false
+    t.integer "user_id", null: false
+    t.text "description", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "table_name", null: false
   end
 
   create_table "emergency_contacts", force: :cascade do |t|

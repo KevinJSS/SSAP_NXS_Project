@@ -35,8 +35,7 @@
 
     if (alert1) {
         setTimeout(function() {
-            var alert = document.getElementById('myAlert1');
-            alert.classList.remove('show');
+            if (alert1) alert1.classList.remove('show');
         }, 5000);
     } 
 
@@ -44,8 +43,7 @@
 
     if (alert2) {
         setTimeout(function() {
-            var alert = document.getElementById('myAlert2');
-            alert.classList.remove('show');
+            if (alert2) alert2.classList.remove('show');
         }, 5000);
     }
 </script>

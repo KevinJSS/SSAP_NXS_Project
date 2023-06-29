@@ -15,7 +15,7 @@ export default class extends NestedForm {
     const modalHours = document.getElementById("phaseHours");
 
     if (modalHours.value == "") {
-      alert("Indique las horas realizadas de la fase seleccionada");
+      alert("Indique las horas realizadas de la actividad seleccionada");
       if (lastWrapper) this.hide(lastWrapper.querySelector(".btn-danger"));
       return;
     }

@@ -8,7 +8,7 @@
       
       <div class="header__actions">
         <div class="header__actions header__actions--tablet">
-          <%= link_to new_user_registration_path(:role => "admin"), class: "button-primary" do %>
+          <%= link_to new_user_registration_path(:role => "collaborator"), class: "button-primary" do %>
             <%= image_tag('add-icon.svg', alt: "icono agregar colaborador", class: "sidebar__icon") %>
             <span class="ms-1">Agregar colaborador</span>
           <% end %>
@@ -19,7 +19,7 @@
     </div>
 
     <div class="header__actions header__actions--phone">
-      <%= link_to new_user_registration_path(:role => "admin"), class: "button-primary" do %>
+      <%= link_to new_user_registration_path(:role => "collaborator"), class: "button-primary" do %>
         <%= image_tag('add-icon.svg', alt: "icono agregar colaborador", class: "sidebar__icon") %>
         <span class="ms-1">Agregar colaborador</span>
       <% end %>

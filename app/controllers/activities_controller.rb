@@ -2,6 +2,7 @@ class ActivitiesController < ApplicationController
   before_action :authenticate_user!
   before_action :set_activity, only: %i[ show edit update destroy ]
   before_action :set_collaborators, :set_projects, :set_phases
+  before_action :get_change_log, only: %i[ edit update ]
 
   # GET /activities or /activities.json
   def index
@@ -84,10 +85,17 @@ class ActivitiesController < ApplicationController
       @projects = Project.all
     end
 
+    def get_change_log
+      @change_log = ChangeLog.where(table_id: params[:id], table_name: "activities")
+      if @change_log.nil? || @change_log.empty?
+        @change_log = nil
+      end
+    end
+
     def validate_nested_phases
       #validate if there are nested attributes
       if params[:activity][:phases_activities_attributes].nil? || params[:activity][:phases_activities_attributes].empty?
-        @activity.errors.add(:phases_activities, "es necesario seleccionar al menos una fase y horas realizadas")
+        @activity.errors.add(:phases_activities, "es necesario agregar al menos una actividad y horas realizadas")
         return
       end
 
@@ -127,7 +135,7 @@ class ActivitiesController < ApplicationController
         end
 
         if @activity.phases_activities.count == deletedAssociations
-          @activity.errors.add(:phases_activities, "es necesario seleccionar al menos una fase y horas realizadas")
+          @activity.errors.add(:phases_activities, "es necesario agregar al menos una actividad y horas realizadas")
         end
       end
     end
@@ -143,7 +151,7 @@ class ActivitiesController < ApplicationController
 
       duplicates = phase_ids.select { |id| phase_ids.count(id) > 1 }.uniq
       if !duplicates.empty?
-        @activity.errors.add(:phases_activities, "no puede haber fases duplicadas")
+        @activity.errors.add(:phases_activities, "no puede haber actividades duplicadas")
       end
     end
 
