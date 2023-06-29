@@ -99,11 +99,11 @@
     }
 }
 
-.w-70 {
+.w-65 {
     width: 100%;
 
     @include m.desktop {
-        width: 70%;
+        width: 65%;
     }
 
     @include m.desktop-md {
@@ -111,15 +111,15 @@
     }
 
     @include m.desktop-lg {
-        width: 70%;
+        width: 65%;
     }
 }
 
-.w-30 {
+.w-35 {
     width: 100%;
 
     @include m.desktop {
-        width: 30%;
+        width: 35%;
     }
 
     @include m.desktop-md {
@@ -127,7 +127,7 @@
     }
 
     @include m.desktop-lg {
-        width: 30%;
+        width: 35%;
     }
 }
 
@@ -149,8 +149,13 @@
 
 .minutes-flex {
     display: flex;
-    align-items: center;
+    flex-direction: column;
     gap: 20px;
+
+    @include m.tablet {
+        flex-direction: row;
+        align-items: center;
+    }
 
     @include m.desktop {
         flex-direction: column;
@@ -158,6 +163,7 @@
 
     @include m.desktop-md {
         flex-direction: row;
+        align-items: center;
     }
 
     @include m.desktop-lg {
