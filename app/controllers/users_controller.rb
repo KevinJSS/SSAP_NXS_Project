@@ -129,7 +129,7 @@ class UsersController < ApplicationController
 
     if @user.emergency_contact.nil?
       @em_contact = EmergencyContact.new(fullname: fullname, phone: phone, user: @user)
-      @description += "(#{count}) Agregó información de contacto de emergencia. " if @description
+      @description += "(#{count}) Agregó información de contacto de emergencia. " if @description && !fullname && !phone
     else
       @user.emergency_contact.update(fullname: fullname, phone: phone)
       @em_contact = @user.emergency_contact
