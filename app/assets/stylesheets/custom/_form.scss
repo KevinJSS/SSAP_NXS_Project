@@ -152,7 +152,8 @@
                 }
             }
 
-            &-2 {
+            &-2,
+            &-3 {
                 @include m.desktop {
                     display: none;
                 }
@@ -164,6 +165,11 @@
                 @include m.desktop-lg {
                     display: none;
                 }
+            }
+
+            &-3 {
+                width: 100%;
+                justify-content: space-between;
             }
         }
     }

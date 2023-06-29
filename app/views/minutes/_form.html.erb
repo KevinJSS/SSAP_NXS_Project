@@ -4,6 +4,11 @@
 <%= form_with(model: minute, data: { controller: 'nested-form', nested_form_wrapper_selector_value: '.nested-form-wrapper', form_model: "minutes" }, class: "form") do |form| %>
   <div class="form__flex form__flex--minute section-bg section-bg--minutes">
     <div class="form__flex section-bg--minutes-1 w-30 mb-0">
+      <h4 class="card-list__title">
+        <%= image_tag('meeting-icon.svg', alt: "icono contacto de emergencia", class: "sidebar__icon") %>
+        DATOS DE REUNIÓN
+      </h4>
+
       <div class="form__field">
         <%= form.label "Titulo de la reunión", class: "form__label" %>
         <%= form.text_field :meeting_title, placeholder: "Ingrese un titulo descriptivo", class: "form__input" %>
@@ -19,23 +24,36 @@
         <%= form.date_field :meeting_date, class: "form__input" %>
       </div>
       
-      <div class="form__field">
-        <%= form.label "Hora de inicio", class: "form__label" %>
-        <%= form.time_field :start_time, class: "form__input" %>
+      <div class="minutes-flex">
+        <div class="form__field">
+          <%= form.label "Hora de inicio", class: "form__label" %>
+          <%= form.time_field :start_time, class: "form__input" %>
+        </div>
+        
+        <div class="form__field">
+          <%= form.label "Hora de fin", class: "form__label" %>
+          <%= form.time_field :end_time, class: "form__input" %>
+        </div>
       </div>
-      
-      <div class="form__field">
-        <%= form.label "Hora de fin", class: "form__label" %>
-        <%= form.time_field :end_time, class: "form__input" %>
-      </div>
-      
+
       <div class="form__actions form__actions--minutes form__actions--minutes-1 mt-3">
         <%= form.submit minute.new_record? ? "Guardar" : "Actualizar", class: "button-primary button-primary--minutes" %>
         <%= link_to "Regresar", minutes_path, class: "button-secondary button-secondary--minutes" %>
+
+        <%# OPEN CHANGE LOG %>
+        <button type="button" data-bs-toggle="modal" data-bs-target="#changeLogModal" class="button-link mt-3">
+            Ver historial de cambios
+        </button>
       </div>
     </div>
     
     <div class="form__flex section-bg--minutes-2 w-70">
+      <hr class="minutes-divider">
+      <h4 class="card-list__title">
+        <%= image_tag('document-icon.svg', alt: "icono contacto de emergencia", class: "sidebar__icon") %>
+        MINUTA DE REUNIÓN
+      </h4>
+
       <div class="form__field">
         <%= form.label "Objetivos de la reunión", class: "form__label" %>
         <%= form.text_area :meeting_objectives, placeholder: "Enumere los objetivos de la reunión", class: "form__input  vertical-resize", rows: "5" %>
@@ -95,14 +113,22 @@
       </div>
     </div>
 
-    <div class="form__actions form__actions--minutes-2 mt-3">
-      <%= form.submit minute.new_record? ? "Guardar" : "Actualizar", class: "button-primary button-primary--minutes" %>
-      <%= link_to "Regresar", minutes_path, class: "button-secondary button-secondary--minutes" %>
+    <div class="form__actions form__actions--minutes-3 mt-3">
+      <div class="form__actions form__actions--minutes-2">
+        <%= form.submit minute.new_record? ? "Guardar" : "Actualizar", class: "button-primary button-primary--minutes" %>
+        <%= link_to "Regresar", minutes_path, class: "button-secondary button-secondary--minutes" %>
+      </div>
+
+      <%# OPEN CHANGE LOG %>
+      <button type="button" data-bs-toggle="modal" data-bs-target="#changeLogModal" class="button-link mt-3">
+          Ver historial de cambios
+      </button>
     </div>
     
     <%# Users Modal %>
     <%= render "minutes/users_modal", attendees: @attendees %>
   </div>
+  
 <% end %>
 
 <% if !minute.new_record? %>
@@ -110,3 +136,21 @@
     <%= button_to 'Eliminar', @minute, method: :delete, form:{ data: { turbo_confirm: 'Esta acción es irreversible y será registrada en el historial de cambios. ¿Está seguro(a) de que desea eliminar esta minuta?' }} , class: "btn btn-outline-danger"%>
   </div>
 <% end %>
+
+<div class="modal fade" id="changeLogModal" tabindex="1" aria-labelledby="changeLogModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <p class="modal-title fs-6" id="changeLogModalLabel"><strong>Historial de cambios</strong></p>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body d-flex flex-column gap-3">
+                <div class="fs-xs text-muted form__input overflow-y-scroll" style="height: 300px;" readonly>
+                    <% @minutes_change_log.each do |change| %>
+                        <p class="mb-3"><%= change.description %></p>
+                    <% end %>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -109,7 +109,7 @@ class UsersController < ApplicationController
 
       if attribute_name.empty? then next end
 
-      @description << "(#{count}) Cambió #{attribute_name} de '#{old_value}' a '#{new_value}'. "
+      @description = @description + "(#{count}) Cambió #{attribute_name} de '#{old_value}' a '#{new_value}'. "
       attribute_name = ""
       count += 1
     end
@@ -128,7 +128,7 @@ class UsersController < ApplicationController
 
     if @user.emergency_contact.nil?
       @em_contact = EmergencyContact.new(fullname: fullname, phone: phone, user: @user)
-      @description += "(#{count}) Agregó información de contacto de emergencia. "
+      @description += "(#{count}) Agregó información de contacto de emergencia. " if @description
     else
       @user.emergency_contact.update(fullname: fullname, phone: phone)
       @em_contact = @user.emergency_contact
@@ -146,7 +146,7 @@ class UsersController < ApplicationController
 
         next if attribute_name.empty?
 
-        @description << "(#{count}) Cambió #{attribute_name} de '#{old_value}' a '#{new_value}'. "
+        @description = @description + "(#{count}) Cambió #{attribute_name} de '#{old_value}' a '#{new_value}'. " if @description
         attribute_name = ""
         count += 1
       end

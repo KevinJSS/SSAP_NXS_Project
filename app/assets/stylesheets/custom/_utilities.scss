@@ -131,6 +131,40 @@
     }
 }
 
+.minutes-divider {
+    display: block;
+
+    @include m.desktop {
+        display: none;
+    }
+
+    @include m.desktop-md {
+        display: block;
+    }
+
+    @include m.desktop-lg {
+        display: none;
+    }
+}
+
+.minutes-flex {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+
+    @include m.desktop {
+        flex-direction: column;
+    }
+
+    @include m.desktop-md {
+        flex-direction: row;
+    }
+
+    @include m.desktop-lg {
+        flex-direction: column;
+    }
+}
+
 .vertical-resize {
     resize: vertical; 
     min-height: 100px; 

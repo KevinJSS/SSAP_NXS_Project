@@ -148,9 +148,11 @@
           <i class="bi bi-shield-lock"></i>
           CAMBIO DE CONTRASEÑA
         </h4>
+
+        <i class="phone-br fst-italic text-muted text-center fs-xs">(Deja los siguientes campos en blanco si no deseas cambiar la contraseña)</i>
         
         <div class="form__field">
-          <%= f.label "Contraseña", class: "form__label me-1"%><i class="phone-br fst-italic fs-xs">(Deja los campos en blanco si no deseas cambiar la contraseña)</i>
+          <%= f.label "Contraseña", class: "form__label me-1"%>
           <%= f.password_field :password, autocomplete: "new-password", class: "form__input", placeholder: "#{@minimum_password_length} caracteres mínimo" %>
         </div>
         
@@ -160,15 +162,20 @@
         </div>
         
         <div class="form__field text-danger">
-          <%= f.label "Contraseña actual", class: "form__label me-1" %><i class="phone-br fst-italic fs-xs">(Ingresa la contraseña actual para confirmar el cambio)</i>
+          <%= f.label "Contraseña actual", class: "form__label me-1" %>
           <%= f.password_field :current_password, autocomplete: "current-password", class: "form__input", placeholder: "Contraseña actual" %>
         </div>
 
         <hr>
-        
-        <div class="form__actions">
-          <%= f.submit "Actualizar", class: "button-primary" %>
-          <%= link_to "Regresar", :back, class: "button-secondary" %>
+      
+        <div class="form__flex form__flex--row justify-content-between">
+          <div class="form__actions">
+            <%= f.submit "Actualizar", class: "button-primary" %>
+            <%= link_to "Regresar", :back, class: "button-secondary" %>
+          </div>
+
+          <%# RENDER CHANGE LOG %>
+          <%= render 'shared/change_log', object: @user_change_log %>
         </div>
       </div>
     <% end %>

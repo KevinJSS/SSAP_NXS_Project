@@ -15,7 +15,8 @@ class Minute < ApplicationRecord
 
     def get_meeting_duration
         duration = (self.end_time - self.start_time) / 1.hour
-        duration.round(2) 
+        formatted_duration = sprintf("%.1f", duration)
+        formatted_duration.to_f
     end
 
     def validate_attendees
