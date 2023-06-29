@@ -5,7 +5,7 @@ class PhasesController < ApplicationController
 
   # GET /phases or /phases.json
   def index
-    @phases = Phase.paginate(page: params[:page], per_page: 3)
+    @phases = Phase.order(updated_at: :desc).paginate(page: params[:page], per_page: 3)
   end
 
   # GET /phases/1 or /phases/1.json

@@ -4,11 +4,11 @@ class UsersController < ApplicationController
   before_action :get_change_log, only: %i[ show edit update ]
 
   def index
-    @users = User.where(role: "admin").paginate(page: params[:page], per_page: 3)
+    @users = User.where(role: "admin").order(fullname: :asc).paginate(page: params[:page], per_page: 3)
   end
 
   def collaborator_index
-    @collaborator_users = User.where(role: "collaborator").paginate(page: params[:page], per_page: 3)
+    @collaborator_users = User.where(role: "collaborator").order(fullname: :asc).paginate(page: params[:page], per_page: 3)
   end
 
   def show
