@@ -111,6 +111,7 @@ class PhasesController < ApplicationController
 
       description = "[#{Time.now.strftime("%d/%m/%Y - %H:%M")}] #{current_user.get_short_name} realizó los siguientes cambios: #{description}"
       ChangeLog.new(table_id: @phase.id, user_id: current_user.id, description: description, table_name: "phase").save
+      description = ""
     end
 
     # Only allow a list of trusted parameters through.

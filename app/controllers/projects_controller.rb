@@ -129,6 +129,7 @@ class ProjectsController < ApplicationController
       current_time = Time.now.strftime("%d/%m/%Y - %H:%M")
       description = "[#{current_time}] #{author} realizó los siguientes cambios: #{description}"
       ChangeLog.new(table_id: @project.id, user_id: current_user.id, description: description, table_name: "project").save
+      description = ""
     end
 
     def create_change_log

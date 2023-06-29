@@ -41,9 +41,11 @@
         <%= link_to "Regresar", minutes_path, class: "button-secondary button-secondary--minutes" %>
 
         <%# OPEN CHANGE LOG %>
-        <button type="button" data-bs-toggle="modal" data-bs-target="#changeLogModal" class="button-link mt-3">
-            Ver historial de cambios
-        </button>
+        <% if !@minutes_change_log.nil? %>
+          <button type="button" data-bs-toggle="modal" data-bs-target="#changeLogModal" class="button-link mt-3">
+              Ver historial de cambios
+          </button>
+        <% end %>
       </div>
     </div>
     
@@ -120,9 +122,11 @@
       </div>
 
       <%# OPEN CHANGE LOG %>
-      <button type="button" data-bs-toggle="modal" data-bs-target="#changeLogModal" class="button-link mt-3">
-          Ver historial de cambios
-      </button>
+      <% if !@minutes_change_log.nil? %>
+        <button type="button" data-bs-toggle="modal" data-bs-target="#changeLogModal" class="button-link mt-3">
+            Ver historial de cambios
+        </button>
+      <% end %>
     </div>
     
     <%# Users Modal %>
@@ -137,20 +141,22 @@
   </div>
 <% end %>
 
-<div class="modal fade" id="changeLogModal" tabindex="1" aria-labelledby="changeLogModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <p class="modal-title fs-6" id="changeLogModalLabel"><strong>Historial de cambios</strong></p>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body d-flex flex-column gap-3">
-                <div class="fs-xs text-muted form__input overflow-y-scroll" style="height: 300px;" readonly>
-                    <% @minutes_change_log.each do |change| %>
-                        <p class="mb-3"><%= change.description %></p>
-                    <% end %>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+<% if !@minutes_change_log.nil? %>
+  <div class="modal fade" id="changeLogModal" tabindex="1" aria-labelledby="changeLogModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <p class="modal-title fs-6" id="changeLogModalLabel"><strong>Historial de cambios</strong></p>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body d-flex flex-column gap-3">
+                  <div class="fs-xs text-muted form__input overflow-y-scroll" style="height: 300px;" readonly>
+                      <% @minutes_change_log.each do |change| %>
+                          <p class="mb-3"><%= change.description %></p>
+                      <% end %>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+<% end %>

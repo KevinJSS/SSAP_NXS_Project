@@ -2,7 +2,7 @@ class ActivitiesController < ApplicationController
   before_action :authenticate_user!
   before_action :set_activity, only: %i[ show edit update destroy ]
   before_action :set_collaborators, :set_projects, :set_phases
-  before_action :get_change_log, only: %i[ edit update ]
+  before_action :get_change_log, only: %i[ show edit update ]
 
   # GET /activities or /activities.json
   def index
@@ -32,6 +32,9 @@ class ActivitiesController < ApplicationController
 
     respond_to do |format|
       if !@activity.errors.any? && @activity.save
+        #create change log
+        create_change_log
+
         format.html { redirect_to new_activity_path, notice: "Activity was successfully created." }
         format.json { render :show, status: :created, location: @activity }
       else
@@ -44,6 +47,9 @@ class ActivitiesController < ApplicationController
   # PATCH/PUT /activities/1 or /activities/1.json
   def update
     validate_nested_phases
+
+    #register change log
+    register_change_log
 
     respond_to do |format|
       if !@activity.errors.any? && @activity.update(activity_params)
@@ -86,10 +92,54 @@ class ActivitiesController < ApplicationController
     end
 
     def get_change_log
-      @change_log = ChangeLog.where(table_id: params[:id], table_name: "activities")
-      if @change_log.nil? || @change_log.empty?
-        @change_log = nil
+      @activity_change_log = ChangeLog.where(table_id: @activity.id, table_name: "activity")
+      if @activity_change_log.nil? || @activity_change_log.empty?
+        @activity_change_log = nil
       end
+    end
+
+    def create_change_log
+      description = "[#{Time.now.strftime("%d/%m/%Y - %H:%M")}] #{current_user.get_short_name} registra esta actividad."
+      ChangeLog.new(table_id: @activity.id, user_id: current_user.id, description: description, table_name: "activity").save
+    end
+
+    def register_change_log
+      changes = @activity.previous_changes
+
+      @description = ""
+      attribute_name = ""
+      count = 1
+
+      changes.each do |attribute, values|
+        old_value, new_value = values
+        
+        case attribute
+        when "project_id"
+          attribute_name = "el proyecto"
+          old_value = Project.find(old_value).name
+          new_value = Project.find(new_value).name
+        when "user_id"
+          attribute_name = "el colaborador"
+          old_value = User.find(old_value).get_short_name
+          new_value = User.find(new_value).get_short_name
+        when "date"
+          attribute_name = "la fecha"
+        end
+
+        next if attribute_name.empty?
+
+        @description = @description + "(#{count}) Cambió #{attribute_name} de '#{old_value}' a '#{new_value}'. "
+        attribute_name = ""
+        count += 1
+      end
+      
+      validate_phases_changes(count)
+
+      return if @description.empty?
+
+      @description = "[#{Time.now.strftime("%d/%m/%Y - %H:%M")}] #{current_user.get_short_name} realizó los siguientes cambios: " + @description
+      ChangeLog.new(table_id: @activity.id, user_id: current_user.id, description: @description, table_name: "activity").save
+      @description = ""
     end
 
     def validate_nested_phases
@@ -152,6 +202,46 @@ class ActivitiesController < ApplicationController
       duplicates = phase_ids.select { |id| phase_ids.count(id) > 1 }.uniq
       if !duplicates.empty?
         @activity.errors.add(:phases_activities, "no puede haber actividades duplicadas")
+      end
+    end
+
+    def validate_phases_changes(count)
+      require 'pp'
+      return if @activity.errors.any?
+
+      return if @activity.errors.any?
+      new_attributes = params.fetch(:activity, {}).fetch(:phases_activities_attributes, {}).values
+      removed_phases = new_attributes.select { |phase| phase[:_destroy] == "1"}
+
+      if !removed_phases.empty?
+        @description = @description + "(#{count}) Eliminó las siguientes actividades: "
+        removed_phases.each do |phase|
+          current_phase = Phase.find_by(id: phase["phase_id"])
+          @description = @description + "'#{current_phase.code} #{current_phase.name}' con '#{phase["hours"]}' horas, "
+        end
+        @description = @description.chomp(", ") + ". "
+        count += 1
+      end
+
+      new_phases = []
+      nested_attributes = params[:activity][:phases_activities_attributes]
+      nested_attributes.each do |index, phase|
+        next if phase["_destroy"] == "1" || phase["phase_id"].nil?
+        found = false
+        @activity.phases_activities.each do |phase_activity|
+          next if phase_activity.phase_id != phase["phase_id"].to_i
+          found = true
+        end
+        new_phases << phase if !found
+      end
+
+      if !new_phases.empty?
+        @description = @description + "(#{count}) Agregó las siguientes actividades: "
+        new_phases.each do |phase|
+          current_phase = Phase.find_by(id: phase["phase_id"])
+          @description = @description + "'#{current_phase.code} #{current_phase.name}' con '#{phase["hours"]}' horas, "
+        end
+        @description = @description.chomp(", ") + ". "
       end
     end
 

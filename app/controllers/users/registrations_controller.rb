@@ -163,6 +163,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
     @description = "[#{Time.now.strftime("%d/%m/%Y - %H:%M")}] Ha realizado los siguientes cambios: #{@description}"
     ChangeLog.new(table_id: @user.id, user_id: current_user.id, description: @description, table_name: "user").save
+    @description = ""
   end
 
   def user_role

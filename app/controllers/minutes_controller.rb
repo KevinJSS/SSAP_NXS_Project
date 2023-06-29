@@ -150,6 +150,7 @@ class MinutesController < ApplicationController
 
       @description = "[#{Time.now.strftime("%d/%m/%Y - %H:%M")}] #{current_user.get_short_name} realizó los siguientes cambios: #{@description}"
       ChangeLog.new(table_id: @minute.id, user_id: current_user.id, description: @description, table_name: "minute").save
+      @description = ""
     end
 
     def validate_attendees

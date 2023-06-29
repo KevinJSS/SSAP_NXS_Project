@@ -120,6 +120,7 @@ class UsersController < ApplicationController
 
     @description = "[#{Time.now.strftime("%d/%m/%Y - %H:%M")}] #{current_user.get_short_name} realizó los siguientes cambios: #{@description}"
     ChangeLog.new(table_id: @user.id, user_id: current_user.id, description: @description, table_name: "user").save
+    @description = ""
   end
 
   def validate_emergency_contact_data(count = 1)
