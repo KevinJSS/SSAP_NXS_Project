@@ -34,7 +34,7 @@ class MinutesController < ApplicationController
         #Create change log
         create_change_log
 
-        format.html { redirect_to minute_url(@minute), notice: "Minute was successfully created." }
+        format.html { redirect_to minute_url(@minute), notice: "Minuta agregada correctamente." }
         format.json { render :show, status: :created, location: @minute }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -53,7 +53,7 @@ class MinutesController < ApplicationController
         #register change log
         register_change_log
 
-        format.html { redirect_to minute_url(@minute), notice: "Minute was successfully updated." }
+        format.html { redirect_to minute_url(@minute), notice: "Minuta actualizada correctamente." }
         format.json { render :show, status: :ok, location: @minute }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -67,7 +67,7 @@ class MinutesController < ApplicationController
     @minute.destroy
 
     respond_to do |format|
-      format.html { redirect_to minutes_url, notice: "Minute was successfully destroyed." }
+      format.html { redirect_to minutes_url, notice: "Minuta eliminada correctamente." }
       format.json { head :no_content }
     end
   end

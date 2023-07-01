@@ -30,7 +30,7 @@ class PhasesController < ApplicationController
       if @phase.save
         create_change_log
 
-        format.html { redirect_to phase_url(@phase), notice: "Phase was successfully created." }
+        format.html { redirect_to phase_url(@phase), notice: "Fase agregada correctamente." }
         format.json { render :show, status: :created, location: @phase }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -45,7 +45,7 @@ class PhasesController < ApplicationController
       if @phase.update(phase_params)
         register_change_log
 
-        format.html { redirect_to phase_url(@phase), notice: "Phase was successfully updated." }
+        format.html { redirect_to phase_url(@phase), notice: "Fase actualizada correctamente." }
         format.json { render :show, status: :ok, location: @phase }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -60,7 +60,7 @@ class PhasesController < ApplicationController
     ChangeLog.where(table_name: 'phase', table_id: @phase.id).destroy_all
 
     respond_to do |format|
-      format.html { redirect_to phases_url, notice: "Phase was successfully destroyed." }
+      format.html { redirect_to phases_url, notice: "Fase eliminada correctamente." }
       format.json { head :no_content }
     end
   end
