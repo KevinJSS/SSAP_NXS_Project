@@ -91,8 +91,12 @@ class UsersController < ApplicationController
         attribute_name = "el número de cuenta"
       when "id_card_type"
         attribute_name = "el tipo de cédula"
+        old_value = @user.get_humanize_id_card_type(old_value)
+        new_value = @user.get_humanize_id_card_type(new_value)
       when "marital_status"
         attribute_name = "el estado civil"
+        old_value = @user.get_humanize_marital_status(old_value)
+        new_value = @user.get_humanize_marital_status(new_value)
       when "birth_date"
         attribute_name = "la fecha de nacimiento"
       when "province"
@@ -103,8 +107,12 @@ class UsersController < ApplicationController
         attribute_name = "el distrito"
       when "education"
         attribute_name = "el nivel de educación"
+        old_value = @user.get_humanize_education(old_value)
+        new_value = @user.get_humanize_education(new_value)
       when "gender"
         attribute_name = "el género"
+        old_value = @user.get_humanize_gender(old_value)
+        new_value = @user.get_humanize_gender(new_value)
       end
 
       if attribute_name.empty? then next end

@@ -107,8 +107,12 @@ class ProjectsController < ApplicationController
           attribute_name = "la ubicación"
         when "stage"
           attribute_name = "la etapa"
+          old_value = @project.get_humanize_stage(old_value)
+          new_value = @project.get_humanize_stage(new_value)
         when "stage_status"
           attribute_name = "el estado"
+          old_value = @project.get_humanize_status(old_value)
+          new_value = @project.get_humanize_status(new_value)
         when "user_id"
           attribute_name = "el/la encargado/a"
           old_value = User.find(old_value).get_short_name

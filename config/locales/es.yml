@@ -27,9 +27,8 @@ es:
         restrict_dependent_destroy:
           has_one: No se puede eliminar el registro porque existe un %{record} dependiente
           has_many: No se puede eliminar el registro porque existen %{record} dependientes
-  enums:
-    project:
-      stage:
+    attributes:
+      project/stage:
         initial_meetings: Reuniones iniciales
         preliminary_studies: Estudios preliminares
         preliminary_design: Diseño preliminar
@@ -38,7 +37,7 @@ es:
         construction: Construcción
         technical_supervision: Supervisión técnica
         construction_inspection: Inspección de construcción
-      stage_status:
+      project/stage_status:
         in_process: En proceso
         suspended: Suspendido
         delivered: Entregado
@@ -254,3 +253,4 @@ es:
       long: "%-d de %B de %Y %H:%M"
       short: "%-d de %b %H:%M"
     pm: pm
+
