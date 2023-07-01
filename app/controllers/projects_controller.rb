@@ -33,7 +33,7 @@ class ProjectsController < ApplicationController
         # create the change log
         create_change_log
 
-        format.html { redirect_to project_url(@project), notice: "Project was successfully created." }
+        format.html { redirect_to project_url(@project), notice: "Proyecto agregado correctamente." }
         format.json { render :show, status: :created, location: @project }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -49,7 +49,7 @@ class ProjectsController < ApplicationController
         # Register the change log
         register_change_log
 
-        format.html { redirect_to project_url(@project), notice: "Project was successfully updated." }
+        format.html { redirect_to project_url(@project), notice: "Proyecto actualizado correctamente." }
         format.json { render :show, status: :ok, location: @project }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -64,7 +64,7 @@ class ProjectsController < ApplicationController
     ChangeLog.where(table_id: @project.id, table_name: "project").destroy_all
 
     respond_to do |format|
-      format.html { redirect_to projects_url, notice: "Project was successfully destroyed." }
+      format.html { redirect_to projects_url, notice: "Proyecto eliminado correctamente." }
       format.json { head :no_content }
     end
   end

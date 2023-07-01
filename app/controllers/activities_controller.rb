@@ -35,7 +35,7 @@ class ActivitiesController < ApplicationController
         #create change log
         create_change_log
 
-        format.html { redirect_to new_activity_path, notice: "Activity was successfully created." }
+        format.html { redirect_to new_activity_path, notice: "Actividad de #{User.find_by(id: @activity.user_id).get_short_name}, registrada correctamente." }
         format.json { render :show, status: :created, location: @activity }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -49,11 +49,17 @@ class ActivitiesController < ApplicationController
     validate_nested_phases
 
     #register change log
-    register_change_log
+    @count = 1
+    @phases_changes = false
+    @phase_changes_description = ""
+    validate_phases_changes
 
     respond_to do |format|
       if !@activity.errors.any? && @activity.update(activity_params)
-        format.html { redirect_to activity_url(@activity), notice: "Activity was successfully updated." }
+
+        register_change_log
+
+        format.html { redirect_to activity_url(@activity), notice: "Actividad de #{User.find_by(id: @activity.user_id).get_short_name}, actualizada correctamente." }
         format.json { render :show, status: :ok, location: @activity }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -67,7 +73,7 @@ class ActivitiesController < ApplicationController
     @activity.destroy
 
     respond_to do |format|
-      format.html { redirect_to activities_url, notice: "Activity was successfully destroyed." }
+      format.html { redirect_to activities_url, notice: "Actividad eliminada correctamente." }
       format.json { head :no_content }
     end
   end
@@ -108,7 +114,6 @@ class ActivitiesController < ApplicationController
 
       @description = ""
       attribute_name = ""
-      count = 1
 
       changes.each do |attribute, values|
         old_value, new_value = values
@@ -128,12 +133,12 @@ class ActivitiesController < ApplicationController
 
         next if attribute_name.empty?
 
-        @description = @description + "(#{count}) Cambió #{attribute_name} de '#{old_value}' a '#{new_value}'. "
+        @description = @description + "(#{@count}) Cambió #{attribute_name} de '#{old_value}' a '#{new_value}'. "
         attribute_name = ""
-        count += 1
+        @count += 1
       end
       
-      validate_phases_changes(count)
+      @description = @description + @phase_changes_description if @phases_changes
 
       return if @description.empty?
 
@@ -205,8 +210,7 @@ class ActivitiesController < ApplicationController
       end
     end
 
-    def validate_phases_changes(count)
-      require 'pp'
+    def validate_phases_changes
       return if @activity.errors.any?
 
       return if @activity.errors.any?
@@ -214,13 +218,14 @@ class ActivitiesController < ApplicationController
       removed_phases = new_attributes.select { |phase| phase[:_destroy] == "1"}
 
       if !removed_phases.empty?
-        @description = @description + "(#{count}) Eliminó las siguientes actividades: "
+        @phase_changes_description = @phase_changes_description + "(#{@count}) Eliminó las siguientes actividades: "
         removed_phases.each do |phase|
           current_phase = Phase.find_by(id: phase["phase_id"])
-          @description = @description + "'#{current_phase.code} #{current_phase.name}' con '#{phase["hours"]}' horas, "
+          @phase_changes_description = @phase_changes_description + "'#{current_phase.code} #{current_phase.name}' con '#{phase["hours"]}' horas, "
         end
-        @description = @description.chomp(", ") + ". "
-        count += 1
+        @phase_changes_description = @phase_changes_description.chomp(", ") + ". "
+        @count += 1
+        @phases_changes = true
       end
 
       new_phases = []
@@ -236,12 +241,14 @@ class ActivitiesController < ApplicationController
       end
 
       if !new_phases.empty?
-        @description = @description + "(#{count}) Agregó las siguientes actividades: "
+        @phase_changes_description = @phase_changes_description + "(#{@count}) Agregó las siguientes actividades: "
         new_phases.each do |phase|
           current_phase = Phase.find_by(id: phase["phase_id"])
-          @description = @description + "'#{current_phase.code} #{current_phase.name}' con '#{phase["hours"]}' horas, "
+          @phase_changes_description = @phase_changes_description + "'#{current_phase.code} #{current_phase.name}' con '#{phase["hours"]}' horas, "
         end
-        @description = @description.chomp(", ") + ". "
+        @phase_changes_description = @phase_changes_description.chomp(", ") + ". "
+        @count += 1
+        @phases_changes = true
       end
     end
 

@@ -6,7 +6,7 @@ class Activity < ApplicationRecord
 
     def date_lower_than_or_equal_to_today
         if date.present? && date > Date.today
-            errors.add(:date, "La fecha no puede ser mayor a la fecha de hoy")
+            errors.add(:date, "no puede ser mayor a la fecha de hoy")
         end
     end
 
