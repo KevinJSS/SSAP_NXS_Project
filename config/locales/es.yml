@@ -14,6 +14,11 @@ es:
     sessions:
       user:
         signed_in: "Sesión iniciada correctamente."
+    
+    passwords:
+      user:
+        send_instructions: "Se han enviado correctamente las instrucción al correo ingresado."
+        updated: "Acceso restablecido. Contraseña actualizada correctamente."
 
   activerecord:
     errors:

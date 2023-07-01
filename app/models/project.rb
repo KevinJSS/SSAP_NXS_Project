@@ -35,7 +35,7 @@ class Project < ApplicationRecord
 
     def deadline_greater_than_start_date
         if start_date.present? && scheduled_deadline.present? && scheduled_deadline <= start_date
-            errors.add(:scheduled_deadline, "must be greater than the start date")
+            errors.add(:scheduled_deadline, "debe ser mayor a la fecha de inicio")
         end
     end
 

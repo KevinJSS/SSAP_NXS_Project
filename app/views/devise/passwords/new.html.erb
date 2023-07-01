@@ -4,12 +4,12 @@
       <%= image_tag("login-icon.svg", alt: "Logo inicio de sesión", class: "login__icon") %>
       <h1 class="login__title">OLVIDÉ MI CONTRASEÑA</h1>
     </div>
+
+    <%= render 'shared/error_message', object: resource %>
     
-    <div class="login__form">
+    <div class="login__form w-100">
       <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>    
         <div class="form__flex">
-          <%= render "devise/shared/error_messages", resource: resource %>
-    
           <div class="field">
             <%= f.label "Correo electrónico", class: "form__label form__label--primary" %><br />
             <%= f.email_field :email, autocomplete: "email", class: "form__input", placeholder: "Correo electrónico asociado" %>
@@ -22,6 +22,6 @@
       <% end %>
     </div>
     
-    <%= link_to "Regresar a inicio de sesión", :back, class: "login__link" %>
+    <%= link_to "Regresar a inicio de sesión", root_path, class: "login__link" %>
   </div>
 </main>
