@@ -11,7 +11,7 @@
                     <label for="modalInput" class="mb-2"><strong>Lista de personas registradas:</strong></label>
                     <input type="text" name="users" id="modalInput" class="form__input form-select search-bar" autocomplete="off" data-action="click->dropdown-search#openDropdown keyup->dropdown-search#searchInput" data-value="" placeholder="- Selecciona una opción -">
                     
-                    <select class="form-select multiple-select" multiple>
+                    <select class="form-select multiple-select" data-dropdown-type="modal" multiple>
                         <% attendees.each do |a| %>
                             <option value="<%= a.id %>"><%= a.fullname %></option>
                         <% end %>

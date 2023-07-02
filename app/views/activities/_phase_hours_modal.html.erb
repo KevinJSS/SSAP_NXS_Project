@@ -11,7 +11,7 @@
                     <label for="modalInput" class="mb-2"><strong>Fase en la que trabajó:</strong></label>
                     <input type="text" name="phases" id="modalInput" class="form__input form-select search-bar" autocomplete="off" data-action="click->dropdown-search#openDropdown keyup->dropdown-search#searchInput" data-value="" placeholder="- Selecciona una opción -">
                     
-                    <select class="form-select multiple-select" multiple>
+                    <select class="form-select multiple-select" data-dropdown-type="modal" multiple>
                         <% phases.each do |p| %>
                             <option value="<%= p.id %>"><%= p.code %> <%= p.name %></option>
                         <% end %>

@@ -63,6 +63,13 @@ export default class extends Controller {
     this.input.value = option.textContent.replace(/\n/g, "").trim();
     this.input.dataset.value = option.value;
     this.select.classList.remove("active");
+
+    const inputField  = this.input.parentElement;
+    const hiddenInput = inputField.querySelector("input[type='hidden']");
+
+    if (hiddenInput) {
+      hiddenInput.value = option.value;
+    }
   }
 
   searchInput() {

@@ -18,9 +18,16 @@
     </div>
   </div>
 
-  <div class="form__field">
+  <div class="form__field" data-controller="dropdown-search update-fields">
     <%= form.label "Encargado", class: "form__label" %>
-    <%= form.select :user_id, options_for_select(@admins.collect { |a| [a.fullname, a.id] }, selected: project.user_id), {prompt: "- Seleccione un encargado -"}, class: "form__input form-select"  %>
+    <%= form.hidden_field :user_id, data: {id: "hidden-input"}%>
+    
+    <input type="text" name="users" class="form__input form-select search-bar" autocomplete="off" data-action="click->dropdown-search#openDropdown keyup->dropdown-search#searchInput" data-value="" placeholder="- Selecciona una opción -">
+    <select class="form-select multiple-select" data-dropdown-type="form" multiple>
+        <% @admins.each do |a| %>
+            <option value="<%= a.id %>"><%= a.fullname %></option>
+        <% end %>
+    </select>
   </div>
 
   <div class="form__field">
