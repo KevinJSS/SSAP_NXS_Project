@@ -9,7 +9,7 @@ export default class extends Controller {
     const dropdownType = selectList.dataset.dropdownType;
 
     if (dropdownType && dropdownType == "form") {
-      const parent = this.element.parentElement;
+      const parent = selectList.parentElement;
       const hiddenInput = parent.querySelector("[data-id='hidden-input']");
       const searchInput = parent.querySelector(".search-bar");
 
