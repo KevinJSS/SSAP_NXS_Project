@@ -64,10 +64,8 @@ class MinutesController < ApplicationController
 
   # DELETE /minutes/1 or /minutes/1.json
   def destroy
-    @minute.destroy
-
     respond_to do |format|
-      format.html { redirect_to minutes_url, notice: "Minuta eliminada correctamente." }
+      format.html { redirect_to minute_url(@minute), alert: "No es permitido eliminar este registro." }
       format.json { head :no_content }
     end
   end

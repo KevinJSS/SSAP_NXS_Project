@@ -135,12 +135,6 @@
   
 <% end %>
 
-<% if !minute.new_record? %>
-  <div class="d-flex justify-content-end">
-    <%= button_to 'Eliminar', @minute, method: :delete, form:{ data: { turbo_confirm: 'Esta acción es irreversible y será registrada en el historial de cambios. ¿Está seguro(a) de que desea eliminar esta minuta?' }} , class: "btn btn-outline-danger"%>
-  </div>
-<% end %>
-
 <% if !@minutes_change_log.nil? %>
   <div class="modal fade" id="changeLogModal" tabindex="1" aria-labelledby="changeLogModalLabel" aria-hidden="true">
       <div class="modal-dialog">

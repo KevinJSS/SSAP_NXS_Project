@@ -60,12 +60,17 @@ class ProjectsController < ApplicationController
 
   # DELETE /projects/1 or /projects/1.json
   def destroy
-    @project.destroy
+    @project.destroy if !@project.has_associated_minutes_and_activities?
     ChangeLog.where(table_id: @project.id, table_name: "project").destroy_all
 
     respond_to do |format|
-      format.html { redirect_to projects_url, notice: "Proyecto eliminado correctamente." }
-      format.json { head :no_content }
+      if @project.has_associated_minutes_and_activities?
+        format.html { redirect_to projects_url, alert: "No se puede eliminar el proyecto porque tiene minutas y/o actividades asociadas." }
+        format.json { head :no_content }
+      else
+        format.html { redirect_to projects_url, notice: "Proyecto eliminado correctamente." }
+        format.json { head :no_content }
+      end
     end
   end
 

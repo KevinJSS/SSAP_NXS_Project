@@ -70,10 +70,8 @@ class ActivitiesController < ApplicationController
 
   # DELETE /activities/1 or /activities/1.json
   def destroy
-    @activity.destroy
-
     respond_to do |format|
-      format.html { redirect_to activities_url, notice: "Actividad eliminada correctamente." }
+      format.html { redirect_to activity_url(@activity), alert: "No es permitido eliminar este registro." }
       format.json { head :no_content }
     end
   end
