@@ -35,7 +35,7 @@
       <% end %>
 
       <% if !project.has_associated_minutes_and_activities? %>
-        <button type="button" data-bs-toggle="modal" data-bs-target="#deleteModal" class="button-outline-danger">
+        <button type="button" data-bs-toggle="modal" data-bs-target="#deleteModal<%=project.id%>" class="button-outline-danger">
             <i class="bi bi-trash3 mx-1"></i>
             <span class="item__actions-text">Eliminar</span>
         </button>

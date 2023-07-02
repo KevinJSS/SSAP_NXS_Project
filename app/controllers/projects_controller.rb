@@ -68,7 +68,7 @@ class ProjectsController < ApplicationController
         format.html { redirect_to projects_url, alert: "No se puede eliminar el proyecto porque tiene minutas y/o actividades asociadas." }
         format.json { head :no_content }
       else
-        format.html { redirect_to projects_url, notice: "Proyecto eliminado correctamente." }
+        format.html { redirect_to projects_url, notice: "Proyecto '#{@project.name}' eliminado correctamente." }
         format.json { head :no_content }
       end
     end

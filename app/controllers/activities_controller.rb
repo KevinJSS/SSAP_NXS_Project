@@ -35,7 +35,7 @@ class ActivitiesController < ApplicationController
         #create change log
         create_change_log
 
-        format.html { redirect_to new_activity_path, notice: "Actividad de #{User.find_by(id: @activity.user_id).get_short_name}, registrada correctamente." }
+        format.html { redirect_to new_activity_path, notice: "Actividad de '#{User.find_by(id: @activity.user_id).get_short_name}' registrada correctamente." }
         format.json { render :show, status: :created, location: @activity }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -59,7 +59,7 @@ class ActivitiesController < ApplicationController
 
         register_change_log
 
-        format.html { redirect_to activity_url(@activity), notice: "Actividad de #{User.find_by(id: @activity.user_id).get_short_name}, actualizada correctamente." }
+        format.html { redirect_to activity_url(@activity), notice: "Actividad de '#{User.find_by(id: @activity.user_id).get_short_name}' actualizada correctamente." }
         format.json { render :show, status: :ok, location: @activity }
       else
         format.html { render :edit, status: :unprocessable_entity }

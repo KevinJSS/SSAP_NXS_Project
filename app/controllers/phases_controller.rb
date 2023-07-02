@@ -5,7 +5,7 @@ class PhasesController < ApplicationController
 
   # GET /phases or /phases.json
   def index
-    @phases = Phase.order(updated_at: :desc).paginate(page: params[:page], per_page: 3)
+    @phases = Phase.paginate(page: params[:page], per_page: 3)
   end
 
   # GET /phases/1 or /phases/1.json
@@ -56,12 +56,17 @@ class PhasesController < ApplicationController
 
   # DELETE /phases/1 or /phases/1.json
   def destroy
-    @phase.destroy
+    @phase.destroy if @phase.activities.count == 0
     ChangeLog.where(table_name: 'phase', table_id: @phase.id).destroy_all
 
     respond_to do |format|
-      format.html { redirect_to phases_url, notice: "Fase eliminada correctamente." }
-      format.json { head :no_content }
+      if @phase.activities.count == 0
+        format.html { redirect_to phases_url, notice: "Fase '#{@phase.name}' eliminada correctamente." }
+        format.json { head :no_content }
+      else
+        format.html { redirect_to phases_url, alert: "No se puede eliminar la fase porque tiene actividades asociadas." }
+        format.json { head :no_content }
+      end
     end
   end
 
