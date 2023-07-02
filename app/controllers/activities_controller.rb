@@ -219,6 +219,7 @@ class ActivitiesController < ApplicationController
         @phase_changes_description = @phase_changes_description + "(#{@count}) Eliminó las siguientes actividades: "
         removed_phases.each do |phase|
           current_phase = Phase.find_by(id: phase["phase_id"])
+          next if current_phase.nil?
           @phase_changes_description = @phase_changes_description + "'#{current_phase.code} #{current_phase.name}' con '#{phase["hours"]}' horas, "
         end
         @phase_changes_description = @phase_changes_description.chomp(", ") + ". "
@@ -242,6 +243,7 @@ class ActivitiesController < ApplicationController
         @phase_changes_description = @phase_changes_description + "(#{@count}) Agregó las siguientes actividades: "
         new_phases.each do |phase|
           current_phase = Phase.find_by(id: phase["phase_id"])
+          next if current_phase.nil?
           @phase_changes_description = @phase_changes_description + "'#{current_phase.code} #{current_phase.name}' con '#{phase["hours"]}' horas, "
         end
         @phase_changes_description = @phase_changes_description.chomp(", ") + ". "

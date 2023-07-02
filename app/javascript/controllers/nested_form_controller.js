@@ -16,7 +16,7 @@ export default class extends NestedForm {
 
     if (modalHours.value == "") {
       alert("Indique las horas realizadas de la actividad seleccionada");
-      if (lastWrapper) this.hide(lastWrapper.querySelector(".btn-danger"));
+      if (lastWrapper) this.hide(lastWrapper.querySelector(".text-danger"));
       return;
     }
 
@@ -47,7 +47,7 @@ export default class extends NestedForm {
 
     if (modalInput.dataset.value == "") {
       alert("Seleccione una opción");
-      this.hide(lastWrapper.querySelector(".btn-danger"));
+      this.hide(lastWrapper.querySelector(".text-danger"));
       return;
     }
 
