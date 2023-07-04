@@ -10,18 +10,23 @@ export default class extends Controller {
 
     if (dropdownType && dropdownType == "form") {
       const parent = selectList.parentElement;
-      const hiddenInput = parent.querySelector("[data-id='hidden-input']");
       const searchInput = parent.querySelector(".search-bar");
+      const hiddenName = document.getElementById("hidden-name");
 
+      const hiddenInput = parent.querySelector("[data-id='hidden-input']");
       if (hiddenInput && hiddenInput.value != "") {
         for (let i = 0; i < selectList.length; i++) {
           if (selectList[i].value == hiddenInput.value) {
             searchInput.value = selectList[i].text;
-            break;
+            return;
           }
         }
       }
-      return;
+      
+      if (hiddenName && hiddenName.value != "") {
+        searchInput.value = hiddenName.defaultValue;
+        return;
+      }
     }
 
     for (let i = 0; i < selectList.length; i++) {
