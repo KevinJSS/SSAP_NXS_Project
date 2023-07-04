@@ -8,10 +8,10 @@
       
       <div class="header__actions">
         <div class="header__actions header__actions--tablet responsive-width">
-          <%= link_to "#", class: "button-secondary" do %> <%# CAMBIAR A LA ACCION DE GENERAR REPORTE %>
+          <button type="button" data-bs-toggle="modal" data-bs-target="#reportModal" class="button-secondary">
             <%= image_tag('doc-icon.svg', alt: "icono generar reporte", class: "sidebar__icon") %>
             <span class="ms-1">Generar reporte</span>
-          <% end %>
+          </button>
 
           <%= link_to new_activity_path, class: "button-primary" do %>
             <%= image_tag('add-icon.svg', alt: "icono registrar actividad", class: "sidebar__icon") %>
@@ -24,10 +24,10 @@
     </div>
 
     <div class="header__actions header__actions--phone">
-      <%= link_to "#", class: "button-secondary" do %> <%# CAMBIAR A LA ACCION DE GENERAR REPORTE %>
+      <button type="button" data-bs-toggle="modal" data-bs-target="#reportModal" class="button-secondary">
         <%= image_tag('doc-icon.svg', alt: "icono generar reporte", class: "sidebar__icon") %>
         <span class="ms-1">Generar reporte</span>
-      <% end %>
+      </button>
       
       <%= link_to new_activity_path, class: "button-primary" do %>
         <%= image_tag('add-icon.svg', alt: "icono registrar actividad", class: "sidebar__icon") %>
@@ -55,5 +55,7 @@
       <%= will_paginate @activities, inner_window: 1 %>
     </div>
   </section>
+
+  <%= render 'report_modal', collaborators: @active_collaborators %>
 </main>
 
