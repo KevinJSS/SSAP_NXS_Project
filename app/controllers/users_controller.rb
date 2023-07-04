@@ -24,6 +24,12 @@ class UsersController < ApplicationController
   def update
     @user.valid?
 
+    if params[:user][:status] == "false" && @user.projects.any?
+      @user.errors.add(:status, "no se puede inactivar debido a que tiene proyectos a su cargo.")
+    elsif params[:user][:role] == "collaborator" && @user.projects.any?
+      @user.errors.add(:role, "no se puede cambiar debido a que tiene proyectos a su cargo.")
+    end
+
     respond_to do |format|
       if !@user.errors.any? && @user.update(user_params)
         # Register the change log
@@ -48,7 +54,7 @@ class UsersController < ApplicationController
   end
 
   def user_params
-    params.require(:user).permit(:fullname, :id_card, :phone, :email, :job_position, :address, :role, :account_number, :id_card_type, :marital_status, :education, :province, :canton, :district, :nationality, :gender, :birth_date, emergency_contact: [:fullname, :phone])
+    params.require(:user).permit(:fullname, :id_card, :phone, :email, :job_position, :address, :role, :status, :account_number, :id_card_type, :marital_status, :education, :province, :canton, :district, :nationality, :gender, :birth_date, emergency_contact: [:fullname, :phone])
   end
 
   def user_role
@@ -85,6 +91,10 @@ class UsersController < ApplicationController
         attribute_name = "la dirección"
       when "role"
         attribute_name = "el rol"
+      when "status"
+        attribute_name = "el estado"
+        old_value = old_value == true ? "Activo(a)" : "Inactivo(a)"
+        new_value = new_value == true ? "Activo(a)" : "Inactivo(a)"
       when "job_position"
         attribute_name = "el puesto de trabajo"
       when "account_number"

@@ -7,7 +7,6 @@ class ProjectsController < ApplicationController
   # GET /projects or /projects.json
   def index
     @projects = Project.order(updated_at: :desc).paginate(page: params[:page], per_page: 3)
-    
   end
 
   # GET /projects/1 or /projects/1.json
@@ -81,7 +80,7 @@ class ProjectsController < ApplicationController
     end
 
     def set_admins
-      @admins = User.where(role: 1)
+      @admins = User.where(role: "admin", status: "active").order(fullname: :desc)
     end
 
     def get_change_log

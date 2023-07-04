@@ -83,8 +83,7 @@ class ActivitiesController < ApplicationController
     end
 
     def set_collaborators
-      @collaborators = User.where(role: 0)
-      #@collaborators = User.all
+      @collaborators = User.where(role: "collaborator", status: "active").order(fullname: :desc)
     end
 
     def set_phases

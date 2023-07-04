@@ -82,6 +82,7 @@ class MinutesController < ApplicationController
 
     def set_attendees
       @attendees = User.all
+      @active_attendees = User.where(status: "active").order(fullname: :desc)
     end
 
     def get_change_log

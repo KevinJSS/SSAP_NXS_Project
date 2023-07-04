@@ -102,13 +102,20 @@
     PERMISOS DE USUARIO
   </h4>
 
-  <div class="form__field">
-    <%= form.label "Rol de usuario", class: "form__label" %>
-    <% if user.role == "admin" %>
-        <%= form.select :role, options_for_select([['Administrador', "admin"], ['Colaborador', "collaborator"]], user.role), {}, class: "form__input form-select" %>
-    <% else %>
-        <%= form.select :role, options_for_select([['Colaborador', "collaborator"], ['Administrador', "admin"]], user.role), {}, class: "form__input form-select" %>
-    <% end %>
+  <div class="form__flex form__flex--row">
+    <div class="form__field">
+      <%= form.label "Rol de usuario", class: "form__label" %>
+      <% if user.role == "admin" %>
+          <%= form.select :role, options_for_select([['Administrador', "admin"], ['Colaborador', "collaborator"]], user.role), {}, class: "form__input form-select" %>
+      <% else %>
+          <%= form.select :role, options_for_select([['Colaborador', "collaborator"], ['Administrador', "admin"]], user.role), {}, class: "form__input form-select" %>
+      <% end %>
+    </div>
+    
+    <div class="form__field">
+      <%= form.label "Estado", class: "form__label" %>
+      <%= form.select :status, options_for_select([['Activo(a)', true], ['Inactivo(a)', false]], user.status), {}, class: "form__input form-select" %>
+    </div>
   </div>
 
   <hr>

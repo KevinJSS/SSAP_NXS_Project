@@ -97,3 +97,4 @@ es:
         reset_password_token: Restablecer token de contraseña  #g
         password_confirmation: La confirmación de contraseña
         role: El rol de usuario  #g
+        status: "El estado del usuario"

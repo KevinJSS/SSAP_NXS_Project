@@ -4,7 +4,19 @@
             <h4 class="item__title"><%= current_user == user ? user.fullname + " (Yo)" : user.fullname %></h4> 
             <p class="item__text"><%= user.job_position %></p>
         </div>
-        <p class="item__status"><%= user.role == "admin" ? "Administrador" : "Colaborador" %></p>
+        <p class="item__status">
+            <% if user.role == "admin" %>
+                Administrador(a)
+                <% if user.status == false %>
+                  / <span class="text-danger" style="font-weight:bold!important; font-style: normal !important;">Inactivo(a)</span>
+                <% end %>
+            <% else %>
+                Colaborador(a)
+                <% if user.status == false %>
+                  / <span class="text-danger" style="font-weight:bold!important; font-style: normal !important;">Inactivo(a)</span>
+                <% end %>
+            <% end %>
+        </p>
     </div>
 
     <div class="item__content">

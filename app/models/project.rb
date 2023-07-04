@@ -92,6 +92,6 @@ class Project < ApplicationRecord
 
     #associations
     belongs_to :user
-    has_many :activities
-    has_many :minutes
+    has_many :activities, dependent: :destroy
+    has_many :minutes, dependent: :destroy
 end

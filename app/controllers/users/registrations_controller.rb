@@ -51,6 +51,13 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   # PUT /resource
   def update
+
+    if params[:user][:status] == "false" && @user.projects.any?
+      @user.errors.add(:status, "no se puede inactivar el/la administrador(a) porque tiene proyectos a su cargo.")
+    elsif params[:user][:role] == "collaborator" && @user.projects.any?
+      @user.errors.add(:role, "no se puede cambiar el rol de acceso del administrador(a) porque tiene proyectos a su cargo.")
+    end
+
     validate_password_params
 
     respond_to do |format|
@@ -90,7 +97,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   protected
 
   def user_params
-    params.require(:user).permit(:fullname, :id_card, :phone, :email, :job_position, :address, :role, :password, :password_confirmation, :account_number, :id_card_type, :marital_status, :education, :province, :canton, :district, :nationality, :gender, :birth_date, emergency_contact: [:fullname, :phone])
+    params.require(:user).permit(:fullname, :id_card, :phone, :email, :job_position, :address, :role, :status, :password, :password_confirmation, :account_number, :id_card_type, :marital_status, :education, :province, :canton, :district, :nationality, :gender, :birth_date, emergency_contact: [:fullname, :phone])
   end
 
   def create_change_log
@@ -128,6 +135,10 @@ class Users::RegistrationsController < Devise::RegistrationsController
         attribute_name = "la dirección"
       when "role"
         attribute_name = "el rol"
+      when "status"
+        attribute_name = "el estado"
+        old_value = old_value == true ? "Activo(a)" : "Inactivo(a)"
+        new_value = new_value == true ? "Activo(a)" : "Inactivo(a)"
       when "job_position"
         attribute_name = "el puesto de trabajo"
       when "account_number"

@@ -182,12 +182,12 @@ class User < ApplicationRecord
   #associations
   has_many :projects
   
-  has_one :emergency_contact
-  accepts_nested_attributes_for :emergency_contact
+  has_one :emergency_contact, dependent: :destroy
+  accepts_nested_attributes_for :emergency_contact, allow_destroy: true, reject_if: :all_blank
 
   has_many :activities
 
-  has_many :minutes_users
+  has_many :minutes_users, dependent: :destroy
   has_many :minutes, through: :minutes_users
 
   has_many :assigned_tasks
