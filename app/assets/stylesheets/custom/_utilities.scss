@@ -1,0 +1,198 @@
+@use 'variables' as v;
+@use 'mixins' as m;
+
+.responsive-width {
+    width: auto;
+    
+    @include m.tablet {
+        width: 455px;
+    }
+
+    @include m.desktop-md {
+        width: auto;
+    }
+}
+
+.section-bg {
+    @include m.section-bg;
+    margin-bottom: 30px;
+    padding: 30px 40px;
+
+    &--minutes {
+        @include m.desktop {
+            box-shadow: none;
+            background-color: transparent;
+            padding: 0;
+            margin: 0;
+            border-radius: none;
+            -webkit-border-radius: none;
+            -moz-border-radius: none;
+            -ms-border-radius: none;
+            -o-border-radius: none;
+        }
+
+        @include m.desktop-md {
+            @include m.section-bg;
+            margin-bottom: 30px;
+            padding: 30px 40px;
+        }
+
+        @include m.desktop-lg {
+            box-shadow: none;
+            background-color: transparent;
+            padding: 0;
+            margin: 0;
+            border-radius: none;
+            -webkit-border-radius: none;
+            -moz-border-radius: none;
+            -ms-border-radius: none;
+            -o-border-radius: none;
+        }
+
+        &-1,
+        &-2 {
+            box-shadow: none;
+            background-color: transparent;
+            padding: 0;
+            margin: 0;
+            border-radius: none;
+            -webkit-border-radius: none;
+            -moz-border-radius: none;
+            -ms-border-radius: none;
+            -o-border-radius: none;
+
+            @include m.desktop {
+                @include m.section-bg;
+                margin-bottom: 30px;
+                padding: 30px 40px;
+            }
+
+            @include m.desktop-md {
+                box-shadow: none;
+                background-color: transparent;
+                padding: 0;
+                margin: 0;
+                border-radius: none;
+                -webkit-border-radius: none;
+                -moz-border-radius: none;
+                -ms-border-radius: none;
+                -o-border-radius: none;
+            }
+
+            @include m.desktop-lg {
+                @include m.section-bg;
+                margin-bottom: 30px;
+                padding: 30px 40px;
+            }
+        }
+    }
+}
+
+.fs-xs {
+    font-size: v.$fs-xs;
+}
+
+.phone-br {
+    display: block;
+    @include m.tablet {
+        display: inline;
+    }
+}
+
+.w-65 {
+    width: 100%;
+
+    @include m.desktop {
+        width: 65%;
+    }
+
+    @include m.desktop-md {
+        width: 100%;
+    }
+
+    @include m.desktop-lg {
+        width: 65%;
+    }
+}
+
+.w-35 {
+    width: 100%;
+
+    @include m.desktop {
+        width: 35%;
+    }
+
+    @include m.desktop-md {
+        width: 100%;
+    }
+
+    @include m.desktop-lg {
+        width: 35%;
+    }
+}
+
+.minutes-divider {
+    display: block;
+
+    @include m.desktop {
+        display: none;
+    }
+
+    @include m.desktop-md {
+        display: block;
+    }
+
+    @include m.desktop-lg {
+        display: none;
+    }
+}
+
+.minutes-flex {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    @include m.mobile {
+        flex-direction: row;
+        align-items: center;
+    }
+
+    @include m.desktop {
+        flex-direction: column;
+    }
+
+    @include m.desktop-md {
+        flex-direction: row;
+        align-items: center;
+    }
+
+    @include m.desktop-lg {
+        flex-direction: column;
+    }
+}
+
+.vertical-resize {
+    resize: vertical; 
+    min-height: 100px; 
+    max-height: 250px;
+}
+
+.button-link {
+    border: none;
+    outline: none;
+    background-color: transparent;
+
+    text-decoration: underline;
+    color: v.$primary;
+    
+    transition: color .1s ease-in;
+    -webkit-transition: color .1s ease-in;
+    -moz-transition: color .1s ease-in;
+    -ms-transition: color .1s ease-in;
+    -o-transition: color .1s ease-in;
+
+    &:hover {
+        color: darken(v.$primary, 5%);
+        cursor: pointer;
+    }
+}

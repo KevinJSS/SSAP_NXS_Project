@@ -50,22 +50,15 @@
                 <ul class="sidebar__list">
                     <li class="sidebar__item">
                         <a href="<%= activities_path %>" class="sidebar__link" data-sidebar-target="link"  data-link-id="3">
-                            <%= image_tag('list-icon.svg', alt: 'icono lista de actividades', class: "sidebar__icon") %>
-                            Lista de actividades
+                            <%= image_tag('list-icon.svg', alt: 'icono Control de actividades', class: "sidebar__icon") %>
+                            Control de actividades
                         </a>
                     </li>
 
                     <li class="sidebar__item">
                         <a href="<%= new_activity_path %>" class="sidebar__link" data-sidebar-target="link"  data-link-id="4">
-                            <%= image_tag('add-icon.svg', alt: 'icono registrar actividad', class: "sidebar__icon") %>
+                            <%= image_tag('add-icon.svg', alt: 'icono Registrar actividad', class: "sidebar__icon") %>
                             Registrar actividad
-                        </a>
-                    </li>
-
-                    <li class="sidebar__item">
-                        <a href="#" class="sidebar__link" data-sidebar-target="link"  data-link-id="5">
-                            <%= image_tag('doc-icon.svg', alt: 'icono generar reporte', class: "sidebar__icon") %>
-                            Generar reporte
                         </a>
                     </li>
 
@@ -147,9 +140,9 @@
                 <p><%= current_user.job_position %></p>
             </a>
 
-            <%= button_to destroy_user_session_path, method: :delete, form: { data: { turbo_confirm: '¿Está seguro(a) que desea cerrar sesión?' } }, class: "sidebar__logout" do %>
+            <button type="button" data-bs-toggle="modal" data-bs-target="#logoutModal" class="sidebar__logout">
                 <%= image_tag('signout-icon.svg', alt: 'icono cerrar sesion') %>
-            <% end %>
+            </button>
         </div><%# End Sidebar Footer %>
     </div>
     <%# End Sidebar Content %>
@@ -158,7 +151,7 @@
 
 
 <%# Start Boostrap Offcanvas Sidebar %>
-<div class="offcanvas offcanvas-start sidebar" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel" data-controller="sidebar">
+<div class="offcanvas offcanvas-start sidebar" tabindex="1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel" data-controller="sidebar">
     <%# Start Sidebar Header %>
     <div class="sidebar__header">
         <%= link_to root_path do %>
@@ -212,22 +205,15 @@
                 <ul class="sidebar__list">
                     <li class="sidebar__item">
                         <a href="<%= activities_path %>" class="sidebar__link" data-sidebar-target="link"  data-link-id="3">
-                            <%= image_tag('list-icon.svg', alt: 'icono lista de actividades', class: "sidebar__icon") %>
-                            Lista de actividades
+                            <%= image_tag('list-icon.svg', alt: 'icono Control de actividades', class: "sidebar__icon") %>
+                            Control de actividades
                         </a>
                     </li>
 
                     <li class="sidebar__item">
                         <a href="<%= new_activity_path %>" class="sidebar__link" data-sidebar-target="link"  data-link-id="4">
-                            <%= image_tag('add-icon.svg', alt: 'icono registrar actividad', class: "sidebar__icon") %>
+                            <%= image_tag('add-icon.svg', alt: 'icono Registrar actividad', class: "sidebar__icon") %>
                             Registrar actividad
-                        </a>
-                    </li>
-
-                    <li class="sidebar__item">
-                        <a href="#" class="sidebar__link" data-sidebar-target="link"  data-link-id="5">
-                            <%= image_tag('doc-icon.svg', alt: 'icono generar reporte', class: "sidebar__icon") %>
-                            Generar reporte
                         </a>
                     </li>
 
@@ -309,11 +295,13 @@
                 <p><%= current_user.job_position %></p>
             </a>
 
-            <%= button_to destroy_user_session_path, method: :delete, form: { data: { turbo_confirm: '¿Está seguro(a) que desea cerrar sesión?' } }, class: "sidebar__logout" do %>
+            <button type="button" data-bs-toggle="modal" data-bs-target="#logoutModal" class="sidebar__logout">
                 <%= image_tag('signout-icon.svg', alt: 'icono cerrar sesion') %>
-            <% end %>
+            </button>
         </div><%# End Sidebar Footer %>
     </div>
     <%# End Sidebar Content %>
 </div>
 <%# End Boostrap Offcanvas Sidebar %>
+
+<%= render "shared/logout_confirm" %>

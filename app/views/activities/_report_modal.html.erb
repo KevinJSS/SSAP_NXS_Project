@@ -1,0 +1,41 @@
+
+<div class="modal fade" id="reportModal" tabindex="1" aria-labelledby="reportModalLabel" aria-hidden="true" data-controller="dropdown-search">
+    <div class="modal-dialog">
+        <div class="modal-content p-3">
+            <div class="modal-header">
+                <div class="header__heading">
+                    <p class="header__subtitle">GESTIÓN DE ACTIVIDADES</p>
+                    <h1 class="fw-bold">REPORTE DE ACTIVIDADES</h1>
+                </div>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body d-flex flex-column gap-3">
+                <div class="form__field">
+                    <label for="modalInput" class="form__label">Colaborador</label>
+                    <input type="text" name="collaborators" id="modalInput" class="form__input form-select search-bar" autocomplete="off" data-action="click->dropdown-search#openDropdown keyup->dropdown-search#searchInput" data-value="" placeholder="- Selecciona una opción -">
+                    
+                    <select class="form-select multiple-select" data-dropdown-type="modal" multiple>
+                        <% collaborators.each do |c| %>
+                            <option value="<%= c.id %>"><%= c.fullname %></option>
+                        <% end %>
+                    </select>
+                </div>
+
+                <div class="form__flex form__flex--row">
+                    <div class="form__field">
+                        <label for="startDate" class="form__label">Fecha de inicio</label>
+                        <input type="date" name="startDate" id="startDate" class="form__input">
+                    </div>
+
+                    <div class="form__field">
+                        <label for="endDate" class="form__label">Fecha final</label>
+                        <input type="date" name="endDate" id="endDate" class="form__input">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer d-flex justify-content-start">
+                <button type="button" class="button-primary" data-bs-dismiss="modal">Generar</button>
+            </div>
+        </div>
+    </div>
+</div>

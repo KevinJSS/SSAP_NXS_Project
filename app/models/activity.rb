@@ -6,13 +6,13 @@ class Activity < ApplicationRecord
 
     def date_lower_than_or_equal_to_today
         if date.present? && date > Date.today
-            errors.add(:date, "La fecha no puede ser mayor a la fecha de hoy")
+            errors.add(:date, "no puede ser mayor a la fecha de hoy")
         end
     end
 
     def validate_nested_phases
         if self.phases_activities.empty?
-            errors.add(:phases_activities, "es necesario seleccionar al menos una fase y horas realizadas")
+            errors.add(:phases_activities, "es necesario agregar al menos una actividad y horas realizadas")
         end
     end
 

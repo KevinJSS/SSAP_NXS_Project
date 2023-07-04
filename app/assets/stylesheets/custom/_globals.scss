@@ -12,11 +12,19 @@ html {
     padding: 0;
     margin: 0;
     box-sizing: inherit;
-    font-size: 16px;
 }
 
 body {
     height: 100vh;
+    background-color: v.$light2;
+    font-family: v.$font-family;
+    background-position: center;
+    background-repeat: no-repeat;
+    font-size: 16px;
+    
+    @media (min-height: 520px) {
+        background-size: cover;
+    }
 }
 
 ul {
@@ -24,7 +32,12 @@ ul {
 }
 
 a {
-    text-decoration: none;
+    text-decoration: underline;
+    color: v.$light2;
+
+    &:hover {
+        color: v.$primary;
+    }
 }
 
 img {
@@ -35,8 +48,25 @@ p {
     margin: 0;
 }
 
-h1 {
+input:not([type="button"]):not([type="submit"]),
+textarea {
+  color: v.$dark2;
+}
+
+textarea {
+    resize: none;
+}
+
+h1, h2, h3 {
     margin: 0;
+}
+
+h1 {
+    font-size: v.$fs-lg;
+}
+
+h2, h3 {
+    font-size: v.$fs-md;
 }
 
 /* SCROLLER */

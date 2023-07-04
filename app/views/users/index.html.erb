@@ -1,19 +1,48 @@
-<main data-view-id="12">
-  <div class="d-flex justify-content-between align-items-center">
-    <h1 class="mt-4">LISTA DE ADMINISTRADORES</h1>
+<main data-view-id="12" class="main">
+  <div class="header">
+    <div class="header__content">
+      <div class="header__heading">
+        <p class="header__subtitle">GESTIÓN DE USUARIOS</p>
+        <h1 class="header__title">LISTA DE ADMINISTRADORES</h1>
+      </div>
+      
+      <div class="header__actions">
+        <div class="header__actions header__actions--tablet">
+          <%= link_to new_user_registration_path(:role => "admin"), class: "button-primary" do %>
+            <%= image_tag('add-icon.svg', alt: "icono agregar administrador", class: "sidebar__icon") %>
+            <span class="ms-1">Agregar administrador</span>
+          <% end %>
+        </div>
+      
+        <%= render 'shared/sidebar_button' %>
+      </div>
+    </div>
 
-    <div class="d-flex align-items-center gap-2">
-        <%= link_to "Agregar administrador", new_user_registration_path(:role => "admin"), class: "btn btn-primary" %>
-        <%= render "shared/sidebar_button" %>
+    <div class="header__actions header__actions--phone">
+      <%= link_to new_user_registration_path(:role => "admin"), class: "button-primary" do %>
+        <%= image_tag('add-icon.svg', alt: "icono agregar administrador", class: "sidebar__icon") %>
+        <span class="ms-1">Agregar administrador</span>
+      <% end %>
     </div>
   </div>
-  
-  <div id="users">
-    <% @users.each do |user| %>
-      <%= render user %>
-      <p>
-        <%= link_to "Ver detalles", edit_user_path(user), user: user, class: "btn btn-outline-primary" %>
-      </p>
-    <% end %>
-  </div>
+
+  <%= render 'user_filters' %>
+
+  <section class="card-list mb-4">
+    <h4 class="card-list__title">
+      <%= image_tag('card-list-icon.svg', alt: "icon lista de administradores") %>
+      ADMINISTRADORES
+    </h4>
+
+    <div id="users" class="card-list__items">
+      <% @users.each do |user| %>
+        <%= render user %>
+      <% end %>
+    </div>
+
+    <div class="card-list__pagination">
+      <%= render "shared/pagination_count", object: @users %>
+      <%= will_paginate @users, inner_window: 1 %>
+    </div>
+  </section>
 </main>

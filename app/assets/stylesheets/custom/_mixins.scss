@@ -84,7 +84,7 @@
         color: $txt-color;
     }
 
-    @include desktop {
+    @include tablet {
         width: auto;
         display: inline-block;
     }
@@ -96,7 +96,7 @@
 
     text-align: center;
     font-weight: 500;
-    padding: 1rem 1.5rem;
+    padding: 10px 15px;
     font-size: v.$fs-sm;
     
     color: $color;
@@ -122,8 +122,32 @@
         color: v.$light2;
     }
 
-    @include desktop {
+    @include tablet {
         width: auto;
         display: inline-block;
     }
+}
+
+//SECTION BACKGROUND
+@mixin section-bg {
+    box-shadow: v.$box-shadow-rg;
+    background-color: v.$light1;
+    padding: 25px 30px;
+    
+    border-radius: v.$border-radius-sm;
+    -webkit-border-radius: v.$border-radius-sm;
+    -moz-border-radius: v.$border-radius-sm;
+    -ms-border-radius: v.$border-radius-sm;
+    -o-border-radius: v.$border-radius-sm;
+}
+
+//SECTION TITLE
+@mixin section-title {
+    font-size: 17px;
+    color: v.$grey;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-bottom: 0;
 }

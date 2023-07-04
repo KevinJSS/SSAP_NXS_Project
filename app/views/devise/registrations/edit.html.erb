@@ -1,138 +1,190 @@
-<main data-view-id="17">
-  <div class="d-flex justify-content-between align-items-center gap-2 mt-4">
-      <h1>DETALLE DE ADMINISTRADOR</h1>
-      <%= render "shared/sidebar_button" %>
-  </div>
-  
-  <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
-    <%= render "devise/shared/error_messages", resource: resource %>
-  
-    <div class="field">
-      <%= f.label "Nombre completo *" %><br />
-      <%= f.text_field :fullname, autofocus: true, placeholder: "Ej: Nombre Apellido1 Apellido2", class: "form-control" %>
-    </div>
-  
-    <div>
-      <%= f.label "Tipo de identificación *", style: "display: block" %>
-      <%= f.select :id_card_type, options_for_select(resource.get_id_card_types, selected: resource.id_card_type), {prompt: "-- Indique el tipo de identificación ---"}, class: "form-select"  %>
+<main data-view-id="17" class="main main__center">
+  <div class="main__width">
+    <div class="header">
+        <div class="header__content">
+            <div class="header__heading">
+                <p class="header__subtitle">GESTIÓN DE USUARIOS</p>
+                <h1 class="header__title">DETALLE DE ADMINISTRADOR</h1>
+            </div>
+            
+            <div class="header__actions">
+                <%= render 'shared/sidebar_button' %>
+            </div>
+        </div>
     </div>
     
-    <div class="field">
-      <%= f.label "Número de identificación *" %><br />
-      <%= f.text_field :id_card, placeholder: "Ej: 101110111", class: "form-control" %>
-    </div>
-  
-    <div class="field">
-      <%= f.label "Fecha de nacimiento *" %><br />
-      <%= f.date_field :birth_date, class: "form-control" %>
-    </div>
-  
-    <div class="field">
-      <%= f.label "Nacionalidad *" %><br />
-      <%= f.text_field :nationality, placeholder: "Ej: Costarricense", class: "form-control" %>
-    </div>
-  
-    <div>
-      <%= f.label "Género *", style: "display: block" %>
-      <%= f.select :gender, options_for_select(resource.get_gender_options, selected: resource.gender), {prompt: "-- Seleccione el género ---"}, class: "form-select"  %>
-    </div>
-  
-    <div>
-      <%= f.label "Estado civil *", style: "display: block" %>
-      <%= f.select :marital_status, options_for_select(resource.get_marital_status_options, selected: resource.marital_status), {prompt: "-- Seleccione el estado civil ---"}, class: "form-select"  %>
-    </div>
-  
-    <div>
-      <%= f.label "Escolaridad *", style: "display: block" %>
-      <%= f.select :education, options_for_select(resource.get_education_options, selected: resource.education), {prompt: "-- Indique el nivel de escolaridad---"}, class: "form-select"  %>
-    </div>
-  
-    <div class="field">
-      <%= f.label "Número de teléfono *" %><br />
-      <%= f.text_field :phone, placeholder: "Ej: (+506) 8888 8888", class: "form-control" %>
-    </div>
+    <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
+      <%= render 'shared/error_message', object: resource %>
     
-    <div class="field">
-      <%= f.label "Correo electrónico *" %><br />
-      <%= f.email_field :email, autocomplete: "email", placeholder: "Ej: correo@gmail.com", class: "form-control" %>
-    </div>
-  
-    <div class="field">
-      <%= f.label "Puesto de trabajo *" %><br />
-      <%= f.text_field :job_position, placeholder: "Ej: Arquitecto", class: "form-control" %>
-    </div>
-    
-    <div class="field">
-      <%= f.label "Dirección de habitación *" %><br />
-      <%= f.text_area :address, placeholder: "Detalle la ubicación física de domicilio", class: "form-control" %>
-    </div>
-  
-    <div class="field">
-      <%= f.label "Provincia *" %><br />
-      <%= f.text_field :province, placeholder: "Ej: Alajuela", class: "form-control" %>
-    </div>
-  
-    <div class="field">
-      <%= f.label "Cantón *" %><br />
-      <%= f.text_field :canton, placeholder: "Ej: Naranjo", class: "form-control" %>
-    </div>
-  
-    <div class="field">
-      <%= f.label "Distrito *" %><br />
-      <%= f.text_field :district, placeholder: "Ej: Lourdes", class: "form-control" %>
-    </div>
-  
-    <div class="field">
-      <%= f.label "Número de cuenta bancaria" %>
-      <%= f.text_field :account_number, placeholder: "Número de cuenta bancaria", class:"form-control" %>
-    </div>
-  
-  
-    <%#  Permitir que se pueda cambiar en caso de ser un administrador a otro usuario. No se puede cambiar así mismo %>
-    <div class="field"> 
-      <%= f.label "Rol de usuario" %><br />
-      <%= f.text_field :role, class: "form-control", value: (resource.role == "admin" ? "Administrador" : "Trabajador"), disabled: true %>
-    </div>
-  
-    <hr>
-    <h5>INFORMACIÓN CONTACTO DE EMERGENCIA</h5>
-    <!-- Emergency contact fields -->
-    <%= f.fields_for :emergency_contact do |contact_form| %>
-      <%= contact_form.label "Nombre completo" %>
-      <%= contact_form.text_field :fullname, placeholder: "Ej: Nombre Apellido1 Apellido2", class: "form-control" %>
+      <div class="form form__flex section-bg">
+        <h4 class="card-list__title mt-3">
+          <%= image_tag('user-icon.svg', alt: "icono información general usuario", class: "sidebar__icon") %>
+          INFORMACIÓN GENERAL
+        </h4>
+
+        <div class="form__flex form__flex--row">
+          <div class="form__field">
+            <%= f.label "Tipo de identificación", style: "display: block" %>
+            <%= f.select :id_card_type, options_for_select(resource.get_id_card_types, selected: resource.id_card_type), {prompt: "- Indique el tipo de identificación -"}, class: "form__input form-select"  %>
+          </div>
+          
+          <div class="form__field">
+            <%= f.label "Número de identificación", class: "form__label" %>
+            <%= f.text_field :id_card, placeholder: "Ej: 101110111", class: "form__input" %>
+          </div>
+        </div>
+
+        <div class="form__field">
+          <%= f.label "Nombre completo", class: "form__label" %>
+          <%= f.text_field :fullname, placeholder: "Ej: Nombre Apellido1 Apellido2", class: "form__input" %>
+        </div>
+
+        <div class="form__flex form__flex--row">
+          <div class="form__field">
+            <%= f.label "Fecha de nacimiento", class: "form__label" %>
+            <%= f.date_field :birth_date, class: "form__input" %>
+          </div>
+          
+          <div class="form__field">
+            <%= f.label "Género", style: "display: block" %>
+            <%= f.select :gender, options_for_select(resource.get_gender_options, selected: resource.gender), {prompt: "- Seleccione el género -"}, class: "form__input form-select"  %>
+          </div>
+          
+          <div class="form__field">
+            <%= f.label "Nacionalidad", class: "form__label" %>
+            <%= f.text_field :nationality, placeholder: "Ej: Costarricense", class: "form__input" %>
+          </div>
+        </div>
+
+        <div class="form__flex form__flex--row">
+          <div class="form__field">
+            <%= f.label "Número de teléfono", class: "form__label" %>
+            <%= f.text_field :phone, placeholder: "Ej: (+506) 8888 8888", class: "form__input" %>
+          </div>
+          
+          <div class="form__field">
+            <%= f.label "Correo electrónico", class: "form__label" %>
+            <%= f.email_field :email, autocomplete: "email", placeholder: "Ej: correo@gmail.com", class: "form__input" %>
+          </div>
+        </div>
+        
+        <div class="form__flex form__flex--row">
+          <div class="form__field">
+            <%= f.label "Estado civil", style: "display: block" %>
+            <%= f.select :marital_status, options_for_select(resource.get_marital_status_options, selected: resource.marital_status), {prompt: "- Seleccione el estado civil -"}, class: "form__input form-select"  %>
+          </div>
+          
+          <div class="form__field">
+            <%= f.label "Escolaridad", style: "display: block" %>
+            <%= f.select :education, options_for_select(resource.get_education_options, selected: resource.education), {prompt: "- Indique el nivel de escolaridad-"}, class: "form__input form-select"  %>
+          </div>
+        </div>
+        
+        <div class="form__field">
+          <%= f.label "Puesto de trabajo", class: "form__label" %>
+          <%= f.text_field :job_position, placeholder: "Ej: Arquitecto", class: "form__input" %>
+        </div>
+
+        <div class="form__flex form__flex--row">
+          <div class="form__field">
+            <%= f.label "Provincia", class: "form__label" %>
+            <%= f.text_field :province, placeholder: "Ej: Alajuela", class: "form__input" %>
+          </div>
+          
+          <div class="form__field">
+            <%= f.label "Cantón", class: "form__label" %>
+            <%= f.text_field :canton, placeholder: "Ej: Naranjo", class: "form__input" %>
+          </div>
+          
+          <div class="form__field">
+            <%= f.label "Distrito", class: "form__label" %>
+            <%= f.text_field :district, placeholder: "Ej: Lourdes", class: "form__input" %>
+          </div>
+        </div>
+        
+        <div class="form__field">
+          <%= f.label "Dirección de habitación", class: "form__label" %>
+          <%= f.text_area :address, placeholder: "Detalle la ubicación física de domicilio", class: "form__input", rows: "4" %>
+        </div>
+        
+        <div class="form__field">
+          <%= f.label "Número de cuenta bancaria" %>
+          <%= f.text_field :account_number, placeholder: "Número de cuenta bancaria", class:"form__input" %>
+        </div>
+        
+        <hr>
+        <h4 class="card-list__title">
+          <%= image_tag('toggles-icon.svg', alt: "icono permisos de usuario", class: "sidebar__icon") %>
+          PERMISOS DE USUARIO
+        </h4>
+
+        <div class="form__flex form__flex--row">
+          <div class="form__field"> 
+            <%= f.label "Rol de usuario", class: "form__label" %>
+            <%= f.text_field :role, class: "form__input", value: (resource.role == "admin" ? "Administrador" : "Trabajador"), disabled: true %>
+          </div>
+          
+          <div class="form__field">
+            <%= f.label "Estado", class: "form__label" %>
+            <%= f.select :status, options_for_select([['Activo(a)', true], ['Inactivo(a)', false]], resource.status), {}, class: "form__input form-select", disabled: true if current_user == resource %>
+          </div>
+        </div>
+        
+        <hr>
+        <h4 class="card-list__title">
+          <%= image_tag('emergency-icon.svg', alt: "icono contacto de emergencia", class: "sidebar__icon") %>
+          CONTACTO DE EMERGENCIA
+        </h4>
+        <!-- Emergency contact fields -->
+        <%= f.fields_for :emergency_contact do |contact_form| %>
+          <div class="form__flex form__flex--row">
+            <div class="form__field">
+              <%= contact_form.label "Nombre completo" %>
+              <%= contact_form.text_field :fullname, placeholder: "Ej: Nombre Apellido1 Apellido2", class: "form__input" %>
+            </div>
+            
+            <div class="form__field">
+              <%= contact_form.label "Número de teléfono" %>
+              <%= contact_form.text_field :phone, placeholder: "Ej: (+506) 8686 8686", class: "form__input" %>
+            </div>
+          </div>
+        <% end %>
+        
+        <hr>
+        <h4 class="card-list__title">
+          <i class="bi bi-shield-lock"></i>
+          CAMBIO DE CONTRASEÑA
+        </h4>
+
+        <i class="phone-br fst-italic text-muted text-center fs-xs">(Deja los siguientes campos en blanco si no deseas cambiar la contraseña)</i>
+        
+        <div class="form__field">
+          <%= f.label "Contraseña", class: "form__label me-1"%>
+          <%= f.password_field :password, autocomplete: "new-password", class: "form__input", placeholder: "#{@minimum_password_length} caracteres mínimo" %>
+        </div>
+        
+        <div class="form__field">
+          <%= f.label "Confirmar contraseña", class: "form__label" %>
+          <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "form__input", placeholder: "#{@minimum_password_length} caracteres mínimo" %>
+        </div>
+        
+        <div class="form__field text-danger">
+          <%= f.label "Contraseña actual", class: "form__label me-1" %>
+          <%= f.password_field :current_password, autocomplete: "current-password", class: "form__input", placeholder: "Contraseña actual" %>
+        </div>
+
+        <hr>
       
-      <%= contact_form.label "Número de teléfono" %>
-      <%= contact_form.text_field :phone, placeholder: "Ej: (+506) 8686 8686", class: "form-control" %>
+        <div class="form__flex form__flex--row justify-content-between">
+          <div class="form__actions">
+            <%= f.submit "Actualizar", class: "button-primary" %>
+            <%= link_to "Regresar", :back, class: "button-secondary" %>
+          </div>
+
+          <%# RENDER CHANGE LOG %>
+          <%= render 'shared/change_log', object: @user_change_log %>
+        </div>
+      </div>
     <% end %>
-  
-    <hr>
-    <h5>CAMBIO DE CONTRASEÑA</h5>
-  
-    <!-- <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
-      <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
-    <% end %> -->
-  
-    <div class="field">
-      <%= f.label "Contraseña" %> <i>(Deja el campo en blanco si no deseas cambiarlo)</i><br />
-      <%= f.password_field :password, autocomplete: "new-password", class: "form-control", placeholder: "#{@minimum_password_length} caracteres mínimo" %>
-    </div>
-  
-    <div class="field">
-      <%= f.label "Confirmar contraseña" %><br />
-      <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "form-control", placeholder: "#{@minimum_password_length} caracteres mínimo" %>
-    </div>
-  
-    <hr>
-    <h5>CONFIRMAR CAMBIOS</h5>
-  
-    <div class="field text-danger">
-      <%= f.label "Contraseña actual" %> <i>(Necesitamos tu contraseña actual para confirmar los cambios)</i><br />
-      <%= f.password_field :current_password, autocomplete: "current-password", class: "form-control", placeholder: "Contraseña actual" %>
-    </div>
-  
-    <main class="actions mt-3">
-      <%= f.submit "Actualizar", class: "btn btn-primary" %>
-      <%= link_to "Regresar", :back, class: "btn btn-secondary" %>
-    </div>
-  <% end %>
-</main data-view-id="17">
+  </div>
+</main>

@@ -105,6 +105,9 @@ GEM
       activesupport (>= 5.0)
     i18n (1.14.1)
       concurrent-ruby (~> 1.0)
+    i18n_generators (2.2.2)
+      activerecord (>= 3.0.0)
+      railties (>= 3.0.0)
     io-console (0.6.0)
     irb (1.7.0)
       reline (>= 0.3.0)
@@ -245,6 +248,7 @@ DEPENDENCIES
   debug
   devise
   faker
+  i18n_generators
   jbuilder
   jsbundling-rails
   puma (~> 5.0)

@@ -1,0 +1,18 @@
+
+<div class="modal fade" id="logoutModal" tabindex="1" aria-labelledby="logoutModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <p class="modal-title fs-6" id="logoutModalLabel"><strong>Mensaje de confirmación</strong></p>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body d-flex flex-column gap-3">
+                <h5>¿Está seguro(a) que desea cerrar sesión?</h5>
+            </div>
+            <div class="modal-footer d-flex justify-content-start">
+                <%= button_to "Aceptar", destroy_user_session_path, method: :delete, data: { bs_dismiss: "modal" }, class: "button-primary"%>
+                <button type="button" class="button-secondary w-auto" data-bs-dismiss="modal" aria-label="Close">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>

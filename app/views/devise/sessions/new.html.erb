@@ -1,28 +1,39 @@
-<main class="d-flex justify-content-center align-items-center vh-100">
-  <section class="col-12 col-sm-8 col-md-6 col-lg-5 col-xl-4 row">
-    
-    <div class="text-center mb-2 mb-3">
-      <h1 class="fw-bold">INICIO DE SESIÓN</h1>
+<main class="login">
+  <div class="login__content">
+    <div class="login__logo">
+      <%= image_tag("login-icon.svg", alt: "Logo inicio de sesión", class: "login__icon") %>
+      <h1 class="login__title">INICIO DE SESIÓN</h1>
     </div>
     
-    <div class="py-5 px-4 shadow rounded-3 bg-white mb-3">
+    <div class="form login__form">
       <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-        <div class="field mb-3">
-          <%= f.label "Correo electrónico" %>
-          <%= f.email_field :email, autofocus: true, autocomplete: "email", placeholder: "Ingrese su correo electrónico", class: "form-control w-100" %>
-        </div>
-      
-        <div class="field mb-4">
-          <%= f.label "Contraseña" %>
-          <%= f.password_field :password, autocomplete: "current-password", placeholder: "Ingrese su contraseña", class: "form-control w-100" %>
-        </div>
-      
-        <div class="actions d-flex justify-content-between align-items-center">
-          <%= f.submit "Iniciar sesión", class: "btn btn-primary w-100 fw-bold" %>
+        <div class="form__flex">
+          <div class="form__field">
+            <label for="email" class="form__label form__label--primary">
+              <i class="bi bi-envelope me-1"></i>
+              Correo electrónico
+            </label>
+          
+            <%= f.email_field :email, autocomplete: "email", class: "form__input", placeholder: "Ingrese su correo electrónico" %>
+          </div>
+          
+          <div class="form__field">
+            <label for="email" class="form__label form__label--primary">
+              <i class="bi bi-shield-lock me-1"></i>
+              Contraseña
+            </label>
+            <%= f.password_field :password, autocomplete: "current-password", class: "form__input", placeholder: "Ingrese su contraseña" %>
+          </div>
+          
+          <div class="form__field">
+            <%= f.submit "Iniciar sesión", class: "button-primary fw-bold w-100" %>
+          </div>
         </div>
       <% end %>
     </div>
     
-    <%= render "devise/shared/links" %>
-  </section>
+    <div class="login__links">
+      <%= render "devise/shared/links" %>
+    </div>
+  </div>
 </main>

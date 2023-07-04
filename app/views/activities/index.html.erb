@@ -1,21 +1,61 @@
-<!-- <p style="color: green"><%= notice %></p> -->
+<main data-view-id="3" class="main">
+  <div class="header">
+    <div class="header__content">
+      <div class="header__heading">
+        <p class="header__subtitle">GESTIÓN DE ACTIVIDADES</p>
+        <h1 class="header__title">CONTROL DE ACTIVIDADES</h1>
+      </div>
+      
+      <div class="header__actions">
+        <div class="header__actions header__actions--tablet responsive-width">
+          <button type="button" data-bs-toggle="modal" data-bs-target="#reportModal" class="button-secondary">
+            <%= image_tag('doc-icon.svg', alt: "icono generar reporte", class: "sidebar__icon") %>
+            <span class="ms-1">Generar reporte</span>
+          </button>
 
-<main data-view-id="3">
-  <div class="d-flex justify-content-between align-items-center">
-    <h1 class="mt-4">LISTA DE ACTIVIDADES</h1>
+          <%= link_to new_activity_path, class: "button-primary" do %>
+            <%= image_tag('add-icon.svg', alt: "icono registrar actividad", class: "sidebar__icon") %>
+            <span class="ms-1">Registrar actividad</span>
+          <% end %>
+        </div>
+      
+        <%= render 'shared/sidebar_button' %>
+      </div>
+    </div>
 
-    <div class="d-flex align-items-center gap-2">
-        <%= link_to "Agregar actividad", new_activity_path, class: "btn btn-primary" %>
-        <%= render "shared/sidebar_button" %>
+    <div class="header__actions header__actions--phone">
+      <button type="button" data-bs-toggle="modal" data-bs-target="#reportModal" class="button-secondary">
+        <%= image_tag('doc-icon.svg', alt: "icono generar reporte", class: "sidebar__icon") %>
+        <span class="ms-1">Generar reporte</span>
+      </button>
+      
+      <%= link_to new_activity_path, class: "button-primary" do %>
+        <%= image_tag('add-icon.svg', alt: "icono registrar actividad", class: "sidebar__icon") %>
+        <span class="ms-1">Registrar actividad</span>
+      <% end %>
     </div>
   </div>
-  
-  <div id="activities">
-    <% @activities.each do |activity| %>
-      <%= render activity %>
-      <p>
-        <%= link_to "Ver detalles", activity, class: "btn btn-outline-primary" %>
-      </p>
-    <% end %>
-  </div>
+
+  <%= render "activity_filters" %>
+
+  <section class="card-list mb-4">
+    <h4 class="card-list__title">
+      <%= image_tag('card-list-icon.svg', alt: "icon lista de actividades") %>
+      ACTIVIDADES
+    </h4>
+
+    <div id="activities" class="card-list__items">
+      <% @activities.each do |activity| %>
+        <%= render activity %>
+      <% end %>
+    </div>
+
+    <div class="card-list__pagination">
+      <%= render "shared/pagination_count", object: @activities %>
+      <%= will_paginate @activities, inner_window: 1 %>
+    </div>
+  </section>
+
+  <%= render 'report_modal', collaborators: @active_collaborators %>
 </main>
+

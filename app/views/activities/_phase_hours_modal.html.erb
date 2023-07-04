@@ -1,17 +1,17 @@
 
-<div class="modal fade" id="phasesModal" tabindex="-1" aria-labelledby="phasesModalLabel" aria-hidden="true" data-controller="dropdown-search">
+<div class="modal fade" id="phasesModal" tabindex="1" aria-labelledby="phasesModalLabel" aria-hidden="true" data-controller="dropdown-search">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="phasesModalLabel"><strong>Registrar fase y horas realizadas</strong></h5>
+                <h5 class="modal-title" id="phasesModalLabel"><strong>Actividad realizada</strong></h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body d-flex flex-column gap-3">
                 <div>
-                    <label for="modalInput" class="mb-2"><strong>Fase realizada:</strong></label>
-                    <input type="text" name="phases" id="modalInput" class="form-select search-bar" autocomplete="off" data-action="click->dropdown-search#openDropdown keyup->dropdown-search#searchInput" data-value="" placeholder="-- Selecciona una opción --">
+                    <label for="modalInput" class="mb-2"><strong>Fase en la que trabajó:</strong></label>
+                    <input type="text" name="phases" id="modalInput" class="form__input form-select search-bar" autocomplete="off" data-action="click->dropdown-search#openDropdown keyup->dropdown-search#searchInput" data-value="" placeholder="- Selecciona una opción -">
                     
-                    <select class="form-select multiple-select" multiple>
+                    <select class="form-select multiple-select" data-dropdown-type="modal" multiple>
                         <% phases.each do |p| %>
                             <option value="<%= p.id %>"><%= p.code %> <%= p.name %></option>
                         <% end %>
@@ -19,12 +19,12 @@
                 </div>
 
                 <div>
-                    <label for="hours"><strong>Horas realizadas:</strong></label>
-                    <input type="number" name="hours" id="phaseHours" class="form-control" min="1" max="24" placeholder="Cantidad de horas trabajadas">
+                    <label for="hours"><strong>Horas trabajadas:</strong></label>
+                    <input type="number" name="hours" id="phaseHours" class="form__input" min="1" max="24" placeholder="Cantidad de horas trabajadas">
                 </div>
             </div>
             <div class="modal-footer d-flex justify-content-start">
-                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" data-action="nested-form#addPhase">Agregar</button>
+                <button type="button" class="button-primary" data-bs-dismiss="modal" data-action="nested-form#addPhase">Agregar</button>
             </div>
         </div>
     </div>

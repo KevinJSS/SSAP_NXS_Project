@@ -1,16 +1,27 @@
-<h2>Forgot your password?</h2>
+<main class="login">
+  <div class="login__content">
+    <div class="login__logo">
+      <%= image_tag("login-icon.svg", alt: "Logo inicio de sesión", class: "login__icon") %>
+      <h1 class="login__title">OLVIDÉ MI CONTRASEÑA</h1>
+    </div>
 
-<%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
-  <%= render "devise/shared/error_messages", resource: resource %>
-
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
+    <%= render 'shared/error_message', object: resource %>
+    
+    <div class="login__form w-100">
+      <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>    
+        <div class="form__flex">
+          <div class="field">
+            <%= f.label "Correo electrónico", class: "form__label form__label--primary" %><br />
+            <%= f.email_field :email, autocomplete: "email", class: "form__input", placeholder: "Correo electrónico asociado" %>
+          </div>
+          
+          <div class="actions">
+            <%= f.submit "Solicitar instrucciones", class: "button-primary fw-bold w-100" %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+    
+    <%= link_to "Regresar a inicio de sesión", root_path, class: "login__link" %>
   </div>
-
-  <div class="actions">
-    <%= f.submit "Send me reset password instructions" %>
-  </div>
-<% end %>
-
-<%= render "devise/shared/links" %>
+</main>

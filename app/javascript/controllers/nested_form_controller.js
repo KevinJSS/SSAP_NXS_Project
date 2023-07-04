@@ -3,6 +3,7 @@ import NestedForm from 'stimulus-rails-nested-form'
 export default class extends NestedForm {
   connect() {
     super.connect();
+    this.checkEmptyTable();
     if (this.element.dataset.formModel == "activities") this.showTotalHours();
   }
 
@@ -14,8 +15,8 @@ export default class extends NestedForm {
     const modalHours = document.getElementById("phaseHours");
 
     if (modalHours.value == "") {
-      alert("Indique las horas realizadas de la fase seleccionada");
-      if (lastWrapper) this.hide(lastWrapper.querySelector(".btn-danger"));
+      alert("Indique las horas realizadas de la actividad seleccionada");
+      if (lastWrapper) this.hide(lastWrapper.querySelector(".text-danger"));
       return;
     }
 
@@ -46,9 +47,12 @@ export default class extends NestedForm {
 
     if (modalInput.dataset.value == "") {
       alert("Seleccione una opción");
-      this.hide(lastWrapper.querySelector(".btn-danger"));
+      this.hide(lastWrapper.querySelector(".text-danger"));
       return;
     }
+
+    //remove empty message
+    this.checkEmptyTable();
 
     //Set modal input value to form nested input
     hiddenInput.value = modalInput.dataset.value;
@@ -79,6 +83,8 @@ export default class extends NestedForm {
       });
 
       if (wrapper.dataset.formModel == "activities") this.updatedTotalHours(wrapper, "hide");
+
+      this.checkEmptyTable(); //check if table is empty to show empty message
     }
   }
 
@@ -98,6 +104,22 @@ export default class extends NestedForm {
       const totalHours = document.getElementById("totalHours");
       if (totalHours.value == "") totalHours.value = 0;
       totalHours.value = parseFloat(totalHours.value) + parseFloat(inputHours.value);
+    }
+  }
+
+  checkEmptyTable() {
+    const wrappers = document.querySelectorAll('.nested-form-wrapper');
+    let empty = true;
+    wrappers.forEach(wrapper => {
+      if (wrapper.querySelector("input[name*=_destroy]").value == "false") empty = false;
+    });
+
+    const emptyMessage = document.getElementById("emptyMessage");
+
+    if (empty) {
+      emptyMessage.style.display = "block";
+    } else {
+      emptyMessage.style.display = emptyMessage.style.display == "block" || emptyMessage.style.display == "" ? "none" : emptyMessage.style.display;
     }
   }
 }

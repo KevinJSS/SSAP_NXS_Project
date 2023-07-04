@@ -1,0 +1,180 @@
+@use 'variables' as v;
+@use 'mixins' as m;
+
+.card-list {
+    margin-top: 25px;
+    @include m.section-bg;
+    
+    &__title {
+        @include m.section-title;
+    }
+
+    &__items {
+        display: flex;
+        flex-direction: column;
+        gap: 25px;
+    }
+
+    &__pagination {
+        margin-top: 30px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+
+        @include m.tablet {
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+        }
+    }
+}
+
+.item {
+    box-shadow: v.$box-shadow-rg;
+    background-color: v.$light2;
+    padding: 25px 30px;
+    border-radius: v.$border-radius-sm;
+    -webkit-border-radius: v.$border-radius-sm;
+    -moz-border-radius: v.$border-radius-sm;
+    -ms-border-radius: v.$border-radius-sm;
+    -o-border-radius: v.$border-radius-sm;
+
+    &:first-of-type {
+        margin-top: 20px;
+    }
+
+    &__header,
+    &__heading,
+    &__content,
+    &__actions,
+    &__references {
+        display: flex;
+    }
+
+    &__header,
+    &__content,
+    &__actions,
+    &__references {
+        flex-direction: column;
+        text-align: center;
+        gap: 15px;
+
+        @include m.tablet {
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            text-align: left;
+        }
+    }
+
+    &__references {
+        gap: 20px;
+    }
+
+    &__actions {
+        gap: 10px;
+    }
+
+    &__header {
+        padding-bottom: 10px;
+        margin-bottom: 17px;
+        border-bottom: 1px solid v.$dark3;
+
+        @include m.tablet {
+            padding-bottom: 17px;
+        }
+    }
+
+    &__heading {
+        gap: 5px;
+        flex-direction: column;
+
+        @include m.desktop {
+            flex-direction: row;
+            align-items: center;
+            gap: 7px;
+        }
+
+        @include m.desktop-md {
+            flex-direction: column;
+            align-items: baseline;
+            gap: 5px;
+        }
+
+        @include m.desktop-lg {
+            flex-direction: row;
+            align-items: center;
+            gap: 7px;
+        }
+    }
+
+    &__title {
+        margin: 0;
+        font-size: 20px;
+        font-weight: bolder;
+    }
+
+    &__text {
+        @include m.desktop {
+            padding-left: 7px;
+            border-left: 1.2px solid v.$dark3;
+        }
+
+        @include m.desktop-md {
+            padding-left: 0;
+            border-left: none;
+        }
+
+        @include m.desktop-lg {
+            padding-left: 7px;
+            border-left: 1.2px solid v.$dark3;
+        }
+    }
+
+    &__status {
+        font-size: 16px;
+        font-style: italic;
+
+        &-divider {
+            color: v.$dark3;
+        }
+    }
+
+    &__reference {
+        &-text {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 5px;
+            font-size: 30px;
+            font-weight: 500;
+
+            @include m.tablet {
+                justify-content: start;
+            }
+        }
+
+        &-icon {
+            width: 25px;
+            margin-top: -5px;
+        }
+    }
+
+    &__actions-text {
+        @include m.tablet {
+            display: none;
+        }
+
+        @include m.desktop {
+            display: inline-block;
+        }
+
+        @include m.desktop-md {
+            display: none;
+        }
+
+        @include m.desktop-lg {
+            display: inline-block;
+        }
+    }
+}

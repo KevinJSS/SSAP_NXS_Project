@@ -1,26 +1,50 @@
-<div id="<%= dom_id user%>">
-    <p>
-        <strong>Name:</strong>
-        <%= current_user == user ? user.fullname + " (Yo)" : user.fullname %> 
-    </p>
+<div id="<%= dom_id user%>" class="item">
+    <div class="item__header">
+        <div class="item__heading">
+            <h4 class="item__title"><%= current_user == user ? user.fullname + " (Yo)" : user.fullname %></h4> 
+            <p class="item__text"><%= user.job_position %></p>
+        </div>
+        <p class="item__status">
+            <% if user.role == "admin" %>
+                Administrador(a)
+                <% if user.status == false %>
+                  / <span class="text-danger" style="font-weight:bold!important; font-style: normal !important;">Inactivo(a)</span>
+                <% end %>
+            <% else %>
+                Colaborador(a)
+                <% if user.status == false %>
+                  / <span class="text-danger" style="font-weight:bold!important; font-style: normal !important;">Inactivo(a)</span>
+                <% end %>
+            <% end %>
+        </p>
+    </div>
 
-    <p>
-        <strong>Email:</strong>
-        <%= user.email %>
-    </p>
+    <div class="item__content">
+    <div class="item__references">
+        <div class="item__reference">
+            <p class="item__reference-text fs-5">
+                <%= image_tag('phone-icon.svg', alt: "icono numero telefonico", class: "item__reference-icon") %>
+                <%= user.phone %>
+            </p>
+            <%# Agregar link para ir a lista de minutas filtradas por este proyecto %>
+            <p class="item__reference-label">Número de teléfono</p> 
+        </div>
 
-    <p>
-        <strong>Phone:</strong>
-        <%= user.phone %>
-    </p>
+        <div class="item__reference">
+            <p class="item__reference-text fs-5">
+                <%= image_tag('email-icon.svg', alt: "icono correo electronico", class: "item__reference-icon") %>
+                <%= user.email %>
+            </p>
+            <%# Agregar link para ir a lista de actividades filtradas por este proyecto %>
+            <p class="item__reference-label">Correo electrónico</p>
+        </div>
+    </div>
 
-    <p>
-        <strong>Job Position:</strong>
-        <%= user.job_position %>
-    </p>
-
-    <p>
-        <strong>Role:</strong>
-        <%= user.role == "admin" ? "Administrador" : "Colaborador" %>
-    </p>
+    <div class="item__actions">
+      <%= link_to edit_user_path(user), user: user, class: "button-outline-primary" do %>
+        <i class="bi bi-eye mx-1"></i>
+        <span class="item__actions-text">Ver detalles</span>
+      <% end %>
+    </div>
+  </div>
 </div>

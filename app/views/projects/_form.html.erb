@@ -1,53 +1,59 @@
-<%= form_with(model: project) do |form| %>
-  <% if project.errors.any? %>
-    <div style="color: red">
-      <h2><%= pluralize(project.errors.count, "error") %> prohibited this project from being saved:</h2>
+<%= render 'shared/error_message', object: project %>
 
-      <ul>
-        <% project.errors.each do |error| %>
-          <li><%= error.full_message %></li>
-        <% end %>
-      </ul>
+<%= form_with(model: project, class: "form form__flex section-bg") do |form| %>
+  <div class="form__field">
+    <%= form.label "Nombre del proyecto", class: "form__label" %>
+    <%= form.text_field :name, class: "form__input", placeholder: "Ej: CASA SABANA" %>
+  </div>
+
+  <div class="form__flex form__flex--row">
+    <div class="form__field ">
+      <%= form.label "Fecha de inicio", class: "form__label" %>
+      <%= form.date_field :start_date, class: "form__input" %>
     </div>
-  <% end %>
-
-  <div>
-    <%= form.label "Nombre del proyecto", style: "display: block" %>
-    <%= form.text_field :name, class: "form-control", placeholder: "Ej: CASA SABANA" %>
+    
+    <div class="form__field ">
+      <%= form.label "Fecha de cierre", class: "form__label" %>
+      <%= form.date_field :scheduled_deadline, class: "form__input" %>
+    </div>
   </div>
 
-  <div>
-    <%= form.label "Fecha de inicio", style: "display: block" %>
-    <%= form.date_field :start_date, class: "form-control" %>
+  <div class="form__field" data-controller="dropdown-search update-fields">
+    <%= form.label "Encargado", class: "form__label" %>
+    <%= form.hidden_field :user_id, data: {id: "hidden-input"}%>
+    
+    <input type="text" name="users" class="form__input form-select search-bar" autocomplete="off" data-action="click->dropdown-search#openDropdown keyup->dropdown-search#searchInput" data-value="" placeholder="- Selecciona una opción -">
+    <select class="form-select multiple-select" data-dropdown-type="form" multiple>
+        <% @admins.each do |a| %>
+            <option value="<%= a.id %>"><%= a.fullname %></option>
+        <% end %>
+    </select>
   </div>
 
-  <div>
-    <%= form.label "Fecha de cierre programado", style: "display: block" %>
-    <%= form.date_field :scheduled_deadline, class: "form-control" %>
+  <div class="form__field">
+    <%= form.label "Ubicación", class: "form__label" %>
+    <%= form.text_area :location, class: "form__input", placeholder: "Detalle la ubicación física del proyecto", rows: "5" %>
   </div>
 
-  <div>
-    <%= form.label "Encargado", style: "display: block" %>
-    <%= form.select :user_id, options_for_select(@admins.collect { |a| [a.fullname, a.id] }, selected: project.user_id), {prompt: "-- Seleccione un encargado ---"}, class: "form-select"  %>
-  </div>
+  <div class="form__flex form__flex--row">
+    <div class="form__field ">
+      <%= form.label "Etapa", class: "form__label" %>
+      <%= form.select :stage, options_for_select(project.get_stage_options, selected: project.stage), {prompt: "- Seleccione una etapa -"}, class: "form__input form-select"  %>
+    </div>
+    
+    <div class="form__field ">
+      <%= form.label "Estado de la etapa", class: "form__label" %>
+      <%= form.select :stage_status, options_for_select(project.get_status_options, selected: project.stage_status), {prompt: "- Seleccione un estado -"}, class: "form__input form-select"  %>
+    </div>
+  </div>  
 
-  <div>
-    <%= form.label "Ubicación", style: "display: block" %>
-    <%= form.text_area :location, class: "form-control", placeholder: "Detalle la ubicación física del proyecto" %>
-  </div>
+  <div class="form__flex form__flex--row justify-content-between">
+    <div class="form__actions mt-3">
+      <%= form.submit project.new_record? ? "Guardar" : "Actualizar", class: "button-primary" %>
+      <%= link_to "Regresar", projects_path, class: "button-secondary" %>
+    </div>
 
-  <div>
-    <%= form.label "Etapa", style: "display: block" %>
-    <%= form.select :stage, options_for_select(project.get_stage_options, selected: project.stage), {prompt: "-- Seleccione una etapa ---"}, class: "form-select"  %>
-  </div>
-
-  <div>
-    <%= form.label "Estado de la etapa", style: "display: block" %>
-    <%= form.select :stage_status, options_for_select(project.get_status_options, selected: project.stage_status), {prompt: "-- Seleccione un estado ---"}, class: "form-select"  %>
-  </div>
-
-  <div class="actions mt-3">
-    <%= form.submit project.new_record? ? "Guardar" : "Actualizar", class: "btn btn-primary" %>
-    <%= link_to "Regresar", projects_path, class: "btn btn-secondary" %>
+    <%# RENDER CHANGE LOG %>
+    <%= render 'shared/change_log', object: @project_change_log %>
   </div>
 <% end %>

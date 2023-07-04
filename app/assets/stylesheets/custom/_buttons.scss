@@ -1,0 +1,87 @@
+@use 'variables' as v;
+@use 'mixins' as m;
+
+.button-primary {
+    @include m.button(v.$primary, v.$light2);
+
+    &--minutes {
+        @include m.desktop {
+            width: 100%;
+        }
+        
+        @include m.desktop-md {
+            width: auto;
+        }
+
+        @include m.desktop-lg {
+            width: 100%;
+        }
+    }
+}
+
+.button-secondary {
+    @include m.button(v.$dark2, v.$light2);
+
+    &--minutes {
+        @include m.desktop {
+            width: 100%;
+        }
+
+        @include m.desktop-md {
+            width: auto;
+        }
+
+        @include m.desktop-lg {
+            width: 100%;
+        }
+    }
+}
+
+.button-danger {
+    @include m.button(v.$danger, v.$light2);
+
+    &--sm {
+        font-size: v.$fs-sm;
+        padding: 7px 10px;
+
+        @include m.tablet {
+            font-size: v.$fs-xs;
+        }
+    }
+}
+
+.button-secondary--menu {
+    width: auto;
+    display: inline-block;
+}
+
+.button-search {
+    @include m.button(v.$primary, v.$light2);
+    padding: .5rem 1.2rem;
+
+    @include m.tablet {
+        width: auto;
+        display: inline-block;
+    }
+}
+
+.button-outline-primary {
+    @include m.button-outline(v.$primary);
+
+    &--sm {
+        font-size: v.$fs-sm;
+        padding: 7px 10px;
+
+        @include m.tablet {
+            font-size: v.$fs-xs;
+        }
+    }
+}
+
+.button-outline-secondary {
+    @include m.button-outline(v.$dark2);
+}
+
+.button-outline-danger {
+    @include m.button-outline(v.$danger);
+}

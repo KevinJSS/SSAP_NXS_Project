@@ -1,109 +1,164 @@
-<%= form_with(model: minute, data: { controller: 'nested-form', nested_form_wrapper_selector_value: '.nested-form-wrapper', form_model: "minutes" }, class: "d-flex flex-column gap-3") do |form| %>
-  <% if minute.errors.any? %>
-    <div style="color: red">
-      <h2><%= pluralize(minute.errors.count, "error") %> prohibited this minute from being saved:</h2>
+<%= render 'shared/error_message', object: minute %>
 
-      <ul>
-        <% minute.errors.each do |error| %>
-          <li><%= error.full_message %></li>
+
+<%= form_with(model: minute, data: { controller: 'nested-form', nested_form_wrapper_selector_value: '.nested-form-wrapper', form_model: "minutes" }, class: "form") do |form| %>
+  <div class="form__flex form__flex--minute section-bg section-bg--minutes">
+    <div class="form__flex section-bg--minutes-1 w-35 mb-0">
+      <h4 class="card-list__title">
+        <%= image_tag('meeting-icon.svg', alt: "icono contacto de emergencia", class: "sidebar__icon") %>
+        DATOS DE REUNIÓN
+      </h4>
+
+      <div class="form__field">
+        <%= form.label "Titulo de la reunión", class: "form__label" %>
+        <%= form.text_field :meeting_title, placeholder: "Ingrese un titulo descriptivo", class: "form__input" %>
+      </div>
+      
+      <div class="form__field" data-controller="dropdown-search update-fields">
+        <%= form.label "Proyecto asociado", class: "form__label" %>
+        <%# form.select :project_id, options_for_select(@projects.collect { |pr| [pr.name, pr.id] }, selected: minute.project_id), { prompt: "- Seleccione un proyecto -"}, class: "form__input form-select" %>
+
+        <%= form.hidden_field :project_id, data: {id: "hidden-input"}%>
+        <input type="text" name="projects" class="form__input form-select search-bar" autocomplete="off" data-action="click->dropdown-search#openDropdown keyup->dropdown-search#searchInput" data-value="" placeholder="- Selecciona una opción -">
+        <select class="form-select multiple-select" data-dropdown-type="form" multiple>
+          <% @projects.each do |p| %>
+            <option value="<%= p.id %>"><%= p.name %></option>
+          <% end %>
+        </select>
+      </div>
+      
+      <div class="form__field">
+        <%= form.label "Fecha", class: "form__label" %>
+        <%= form.date_field :meeting_date, class: "form__input" %>
+      </div>
+      
+      <div class="minutes-flex">
+        <div class="form__field">
+          <%= form.label "Hora de inicio", class: "form__label" %>
+          <%= form.time_field :start_time, class: "form__input" %>
+        </div>
+        
+        <div class="form__field">
+          <%= form.label "Hora de fin", class: "form__label" %>
+          <%= form.time_field :end_time, class: "form__input" %>
+        </div>
+      </div>
+
+      <div class="form__actions form__actions--minutes form__actions--minutes-1 mt-3">
+        <%= form.submit minute.new_record? ? "Guardar" : "Actualizar", class: "button-primary button-primary--minutes" %>
+        <%= link_to "Regresar", minutes_path, class: "button-secondary button-secondary--minutes" %>
+
+        <%# OPEN CHANGE LOG %>
+        <% if !@minutes_change_log.nil? %>
+          <button type="button" data-bs-toggle="modal" data-bs-target="#changeLogModal" class="button-link mt-3">
+              Ver historial de cambios
+          </button>
         <% end %>
-      </ul>
+      </div>
     </div>
-  <% end %>
-
-  <div>
-    <%= form.label "Titulo de la reunión", style: "display: block" %>
-    <%= form.text_field :meeting_title, placeholder: "Ingrese un titulo descriptivo", class: "form-control" %>
-  </div>
-
-  <div>
-    <%= form.label "Proyecto", style: "display: block" %>
-    <%= form.select :project_id, options_for_select(@projects.collect { |pr| [pr.name, pr.id] }, selected: minute.project_id), { prompt: "-- Seleccione un proyecto --"}, class: "form-select" %>
-  </div>
-
-  <div>
-    <%= form.label "Fecha de la reunión", style: "display: block" %>
-    <%= form.date_field :meeting_date, class: "form-control" %>
-  </div>
-
-  <div>
-    <%= form.label "Hora de inicio", style: "display: block" %>
-    <%= form.time_field :start_time, class: "form-control" %>
-  </div>
-
-  <div>
-    <%= form.label "Hora de fin", style: "display: block" %>
-    <%= form.time_field :end_time, class: "form-control" %>
-  </div>
-
-  <div>
-    <%= form.label "Objetivos de la reunión", style: "display: block" %>
-    <%= form.text_area :meeting_objectives, placeholder: "Enumere los objetivos de la reunión", class: "form-control" %>
-  </div>
-
-  <div>
-    <div class="d-flex justify-content-between align-items-center">
-      <%= form.label "Lista de asistentes", style: "display: block" %>
-      <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#usersModal">Agregar asistente</button>
-    </div>
-
-    <table class="table mb-0">
-      <thead>
-        <tr>
-          <th>Nombre</th>
-          <th>Cargo</th>
-          <th></th>
-        </tr>
-      </thead>
-    </table>
     
-  <%# Start Attendees Nested Form %>
-    <template data-nested-form-target="template">
-      <%= form.fields_for :minutes_users, MinutesUser.new, child_index: 'NEW_RECORD' do |minutes_user| %>
-        <%= render "minute_user_form", f: minutes_user, attendees: @attendees %>
+    <div class="form__flex section-bg--minutes-2 w-65">
+      <hr class="minutes-divider">
+      <h4 class="card-list__title">
+        <%= image_tag('document-icon.svg', alt: "icono contacto de emergencia", class: "sidebar__icon") %>
+        MINUTA DE REUNIÓN
+      </h4>
+
+      <div class="form__field">
+        <%= form.label "Objetivos de la reunión", class: "form__label" %>
+        <%= form.text_area :meeting_objectives, placeholder: "Enumere los objetivos de la reunión", class: "form__input  vertical-resize", rows: "5" %>
+      </div>
+      
+      <div class="form__field">
+        <div class="form__flex form__flex--row gap-1 justify-content-between mb-2">
+          <%= form.label "Lista de asistentes", class: "form__label" %>
+          <button type="button" class="button-outline-primary button-outline-primary--sm" data-bs-toggle="modal" data-bs-target="#usersModal">Agregar asistente</button>
+        </div>
+      
+        <div class="form__table">
+          <div class="form__table-head">
+            <label class="form__label">Nombre</label>
+            <label class="form__label ps-md-3 ps-sm-2">Puesto</label>
+          </div>
+
+          <p id="emptyMessage" class="text-center text-black-50 fst-italic my-2 fs-xs"><i class="bi bi-info-circle me-2"></i>Agrega al menos a un(a) asistente</p>
+
+          <div class="form__table-body">
+            <%# Start Attendees Nested Form %>
+            <template data-nested-form-target="template">
+              <%= form.fields_for :minutes_users, MinutesUser.new, child_index: 'NEW_RECORD' do |minutes_user| %>
+                <%= render "minute_user_form", f: minutes_user, attendees: @attendees %>
+              <% end %>
+            </template>
+            
+            <%= form.fields_for :minutes_users do |minutes_user| %>
+              <%= render "minute_user_form", f: minutes_user, attendees: @attendees %>
+            <% end %>
+            
+            <!-- Inserted elements will be injected before that target. -->
+            <div data-nested-form-target="target"></div>
+            <%# End Attendees Nested Form %>
+          </div>
+        </div>
+      </div>
+      
+      <div class="form__field">
+        <%= form.label "Temas tratados", class: "form__label" %>
+        <%= form.text_area :discussed_topics, placeholder: "Enumere los temas tratados en la reunión", class: "form__input vertical-resize", rows: "5" %>
+      </div>
+      
+      <div class="form__field">
+        <%= form.label "Temas pendientes", class: "form__label" %>
+        <%= form.text_area :pending_topics, placeholder: "Enumere los temas que quedaron pendientes de discutir", class: "form__input vertical-resize", rows: "5" %>
+      </div>
+      
+      <div class="form__field">
+        <%= form.label "Acuerdos", class: "form__label" %>
+        <%= form.text_area :agreements, placeholder: "Enumere los acuerdos establecidos en la reunión", class: "form__input vertical-resize", rows: "5" %>
+      </div>
+      
+      <div class="form__field">
+        <%= form.label "Comentarios u observaciones", class: "form__label" %>
+        <%= form.text_area :meeting_notes, placeholder: "Anote cualquier observación o comentario", class: "form__input vertical-resize", rows: "5" %>
+      </div>
+    </div>
+
+    <div class="form__actions form__actions--minutes-3 mt-3">
+      <div class="form__actions form__actions--minutes-2">
+        <%= form.submit minute.new_record? ? "Guardar" : "Actualizar", class: "button-primary button-primary--minutes" %>
+        <%= link_to "Regresar", minutes_path, class: "button-secondary button-secondary--minutes" %>
+      </div>
+
+      <%# OPEN CHANGE LOG %>
+      <% if !@minutes_change_log.nil? %>
+        <button type="button" data-bs-toggle="modal" data-bs-target="#changeLogModal" class="button-link mt-3">
+            Ver historial de cambios
+        </button>
       <% end %>
-    </template>
-
-    <%= form.fields_for :minutes_users do |minutes_user| %>
-      <%= render "minute_user_form", f: minutes_user, attendees: @attendees %>
-    <% end %>
-
-    <!-- Inserted elements will be injected before that target. -->
-    <div data-nested-form-target="target"></div>
-  <%# End Attendees Nested Form %>
+    </div>
+    
+    <%# Users Modal %>
+    <%= render "minutes/users_modal", attendees: @active_attendees %>
   </div>
-
-  <div>
-    <%= form.label "Temas tratados", style: "display: block" %>
-    <%= form.text_area :discussed_topics, placeholder: "Enumere los temas tratados en la reunión", class: "form-control" %>
-  </div>
-
-  <div>
-    <%= form.label "Temas pendientes", style: "display: block" %>
-    <%= form.text_area :pending_topics, placeholder: "Enumere los temas que quedaron pendientes de discutir", class: "form-control" %>
-  </div>
-
-  <div>
-    <%= form.label "Acuerdos", style: "display: block" %>
-    <%= form.text_area :agreements, placeholder: "Enumere los acuerdos establecidos en la reunión", class: "form-control" %>
-  </div>
-
-  <div>
-    <%= form.label "Comentarios u observaciones", style: "display: block" %>
-    <%= form.text_area :meeting_notes, placeholder: "Anote cualquier observación o comentario", class: "form-control" %>
-  </div>
-
-  <div class="actions mt-3">
-    <%= form.submit minute.new_record? ? "Guardar" : "Actualizar", class: "btn btn-primary" %>
-    <%= link_to "Regresar", minutes_path, class: "btn btn-secondary" %>
-  </div>
-
-  <%# Users Modal %>
-  <%= render "minutes/users_modal", attendees: @attendees %>
+  
 <% end %>
 
-<% if !minute.new_record? %>
-  <div class="d-flex justify-content-end">
-    <%= button_to 'Eliminar', @minute, method: :delete, form:{ data: { turbo_confirm: 'Esta acción es irreversible y será registrada en el historial de cambios. ¿Está seguro(a) de que desea eliminar esta minuta?' }} , class: "btn btn-outline-danger"%>
+<% if !@minutes_change_log.nil? %>
+  <div class="modal fade" id="changeLogModal" tabindex="1" aria-labelledby="changeLogModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <p class="modal-title fs-6" id="changeLogModalLabel"><strong>Historial de cambios</strong></p>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body d-flex flex-column gap-3">
+                  <div class="fs-xs text-muted form__input overflow-y-scroll" style="height: 300px;" readonly>
+                      <% @minutes_change_log.each do |change| %>
+                          <p class="mb-3"><%= change.description %></p>
+                      <% end %>
+                  </div>
+              </div>
+          </div>
+      </div>
   </div>
 <% end %>

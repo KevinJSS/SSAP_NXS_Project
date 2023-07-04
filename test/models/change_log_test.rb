@@ -1,6 +1,6 @@
 require "test_helper"
 
-class AssignedTasksControllerTest < ActionDispatch::IntegrationTest
+class ChangeLogTest < ActiveSupport::TestCase
   # test "the truth" do
   #   assert true
   # end

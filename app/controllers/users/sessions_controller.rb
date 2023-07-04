@@ -26,7 +26,7 @@ class Users::SessionsController < Devise::SessionsController
   def check_admin_role
     user = User.find_by(email: params[:user][:email])
     
-    if user && user.role != "admin"
+    if (user && user.role != "admin") || (user && user.role == "admin" && user.status == false)
       flash[:alert] = "Permiso denegado, contacta a un encargado del sistema."
       redirect_to new_user_session_path
     end

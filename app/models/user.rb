@@ -110,7 +110,7 @@ class User < ApplicationRecord
 
   def get_marital_status_options
     marital_status_options = [
-        ["Soltero", :single],
+        ["Soltero(a)", :single],
         ["Casado(a)", :married],
         ["Separado(a)", :separated],
         ["Divorciado(a)", :divorced],
@@ -130,41 +130,45 @@ class User < ApplicationRecord
     ]
   end
 
-  def get_humanize_id_card_type
-    id_card_options = self.get_id_card_options
+  def get_humanize_id_card_type(t = nil)
+    t ||= self.id_card_type
+    id_card_options = self.get_id_card_types
 
     id_card_options.each do |id_card_type|
-      @id_card_type = id_card_type[0] if id_card_type[1].to_s == self.id_card_type 
+      @id_card_type = id_card_type[0] if id_card_type[1].to_s == t.to_s
     end
 
     @id_card_type
   end
 
-  def get_humanize_gender
+  def get_humanize_gender(g = nil)
+    g ||= self.gender
     gender_options = self.get_gender_options
 
     gender_options.each do |gender|
-      @gender = gender[0] if gender[1].to_s == self.gender 
+      @gender = gender[0] if gender[1].to_s == g.to_s
     end
 
     @gender
   end
 
-  def get_humanize_marital_status
+  def get_humanize_marital_status(m = nil)
+    m ||= self.marital_status
     marital_status_options = self.get_marital_status_options
 
     marital_status_options.each do |marital_status|
-      @marital_status = marital_status[0] if marital_status[1].to_s == self.marital_status 
+      @marital_status = marital_status[0] if marital_status[1].to_s == m.to_s 
     end
 
     @marital_status
   end
 
-  def get_humanize_education
+  def get_humanize_education(e = nil)
+    e ||= self.education
     education_options = self.get_education_options
 
     education_options.each do |education|
-      @education = education[0] if education[1].to_s == self.education 
+      @education = education[0] if education[1].to_s == e.to_s
     end
 
     @education
@@ -178,12 +182,12 @@ class User < ApplicationRecord
   #associations
   has_many :projects
   
-  has_one :emergency_contact
-  accepts_nested_attributes_for :emergency_contact
+  has_one :emergency_contact, dependent: :destroy
+  accepts_nested_attributes_for :emergency_contact, allow_destroy: true, reject_if: :all_blank
 
   has_many :activities
 
-  has_many :minutes_users
+  has_many :minutes_users, dependent: :destroy
   has_many :minutes, through: :minutes_users
 
   has_many :assigned_tasks

@@ -35,7 +35,7 @@ class Project < ApplicationRecord
 
     def deadline_greater_than_start_date
         if start_date.present? && scheduled_deadline.present? && scheduled_deadline <= start_date
-            errors.add(:scheduled_deadline, "must be greater than the start date")
+            errors.add(:scheduled_deadline, "debe ser mayor a la fecha de inicio")
         end
     end
 
@@ -60,21 +60,25 @@ class Project < ApplicationRecord
         ]
     end
 
-    def get_humanize_stage
-        stage_options = self.get_stage_options
+    def get_humanize_stage(stage_value = nil)
+        stage_value ||= self.stage
 
+        stage_options = get_stage_options
+        humanized_stage = nil
+      
         stage_options.each do |stage|
-          @stage = stage[0] if stage[1].to_s == self.stage 
+          humanized_stage = stage[0] if stage[1].to_s == stage_value.to_s
         end
-
-        @stage
+      
+        humanized_stage
     end
 
-    def get_humanize_status
+    def get_humanize_status(status_value = nil)
+        status_value ||= self.stage_status
         status_options = self.get_status_options
 
         status_options.each do |status|
-          @status = status[0] if status[1].to_s == self.stage_status 
+          @status = status[0] if status[1].to_s == status_value.to_s
         end
 
         @status
@@ -88,6 +92,6 @@ class Project < ApplicationRecord
 
     #associations
     belongs_to :user
-    has_many :activities
-    has_many :minutes
+    has_many :activities, dependent: :destroy
+    has_many :minutes, dependent: :destroy
 end

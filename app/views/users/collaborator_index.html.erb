@@ -1,19 +1,48 @@
-<main data-view-id="10">
-  <div class="d-flex justify-content-between align-items-center">
-    <h1 class="mt-4">LISTA DE COLABORADORES</h1>
+<main data-view-id="10" class="main">
+  <div class="header">
+    <div class="header__content">
+      <div class="header__heading">
+        <p class="header__subtitle">GESTIÓN DE USUARIOS</p>
+        <h1 class="header__title">LISTA DE COLABORADORES</h1>
+      </div>
+      
+      <div class="header__actions">
+        <div class="header__actions header__actions--tablet">
+          <%= link_to new_user_registration_path(:role => "collaborator"), class: "button-primary" do %>
+            <%= image_tag('add-icon.svg', alt: "icono agregar colaborador", class: "sidebar__icon") %>
+            <span class="ms-1">Agregar colaborador</span>
+          <% end %>
+        </div>
+      
+        <%= render 'shared/sidebar_button' %>
+      </div>
+    </div>
 
-    <div class="d-flex align-items-center gap-2">
-        <%= link_to "Agregar colaborador", new_user_registration_path(:role => "collaborator"), class: "btn btn-primary" %>
-        <%= render "shared/sidebar_button" %>
+    <div class="header__actions header__actions--phone">
+      <%= link_to new_user_registration_path(:role => "collaborator"), class: "button-primary" do %>
+        <%= image_tag('add-icon.svg', alt: "icono agregar colaborador", class: "sidebar__icon") %>
+        <span class="ms-1">Agregar colaborador</span>
+      <% end %>
     </div>
   </div>
-  
-  <div id="collaborator_users">
-    <% @collaborator_users.each do |collaborator| %>
-      <%= render collaborator %>
-      <p>
-        <%= link_to "Ver detalles", edit_user_path(collaborator), collaborator: collaborator, class: "btn btn-outline-primary" %>
-      </p>
-    <% end %>
-  </div>
+
+  <%= render 'user_filters' %>
+
+  <section class="card-list mb-4">
+    <h4 class="card-list__title">
+      <%= image_tag('card-list-icon.svg', alt: "icon lista de colaboradores") %>
+      COLABORADORES
+    </h4>
+
+    <div id="collaborator_users" class="card-list__items">
+      <% @collaborator_users.each do |collaborator| %>
+        <%= render collaborator %>
+      <% end %>
+    </div>
+
+    <div class="card-list__pagination">
+      <%= render "shared/pagination_count", object: @collaborator_users %>
+      <%= will_paginate @collaborator_users, inner_window: 1 %>
+    </div>
+  </section>
 </main>

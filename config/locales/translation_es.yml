@@ -1,0 +1,100 @@
+es:
+  activerecord:
+    models:
+      activity: La actividad  #g
+      change_log: El registro de cambios  #g
+      emergency_contact: El contacto de emergencia  #g
+      minute: La minuta  #g
+      minutes_user: 'Asistentes:'  #g
+      phase: La fase  #g
+      phases_activity: 'Actividades:'  #g
+      project: El proyecto  #g
+      user: El usuario  #g
+
+    attributes:
+      activity:
+        date: La fecha  #g
+        phases: Las etapas  #g
+        phases_activities: 'Actividades:'  #g
+        project: :activerecord.models.project  #g
+        user: El colaborador  #g
+
+      change_log:
+        description: La descripción  #g
+        table_name: El nombre de la tabla  #g
+
+      emergency_contact:
+        fullname: El nombre completo del contacto de emergencia #g
+        phone: El número de teléfono del contacto de emergencia #g
+        user: :activerecord.models.user  #g
+
+      minute:
+        agreements: Los acuerdos #g
+        discussed_topics: Los temas discutidos  #g
+        end_time: La hora de finalización  #g
+        meeting_date: La fecha de la reunión  #g
+        meeting_notes: las notas u observaciones de la reunión  #g
+        meeting_objectives: Los objetivos de la reunión  #g
+        meeting_title: El título de la reunión  #g
+        minutes_users: 'Asistentes:'  #g
+        pending_topics: Los temas pendientes  #g
+        project: :activerecord.models.project  #g
+        start_time: La hora de inicio  #g
+        users: Los usuarios  #g
+
+      minutes_user:
+        minute: :activerecord.models.minute  #g
+        user: :activerecord.models.user  #g
+
+      phase:
+        activities: Las actividades  #g
+        code: El código de la fase #g
+        name: El nombre de la fase  #g
+        phases_activities: 'Actividades:'  #g
+
+      phases_activity:
+        activity: :activerecord.models.activity  #g
+        hours: Las horas trabajadas  #g
+        phase: :activerecord.models.phase  #g
+
+      project:
+        activities: Las actividades  #g
+        location: La ubicación del proyecto #g
+        minutes: Las minutas  #g
+        name: El nombre del proyecto #g
+        scheduled_deadline: La fecha límite programada  #g
+        stage: La etapa del proyecto  #g
+        stage_status: El estado de la etapa  #g
+        start_date: La fecha de inicio  #g
+        user: :activerecord.models.user  #g
+
+      user:
+        account_number: El número de cuenta  #g
+        activities: Las actividades  #g
+        address: La dirección de habitación  #g
+        assigned_tasks: Las tareas asignadas  #g
+        birth_date: La fecha de nacimiento  #g
+        canton: El cantón  #g
+        district: El distrito  #g
+        education: El nivel de educación  #g
+        email: El correo electrónico  #g
+        emergency_contact: :activerecord.models.emergency_contact  #g
+        encrypted_password: La contraseña encriptada  #g
+        fullname: El nombre completo del usuario  #g
+        gender: El género  #g
+        id_card: El número de identificación  #g
+        id_card_type: El tipo de identificación  #g
+        job_position: El puesto de trabajo  #g
+        marital_status: El estado civil  #g
+        minutes: Las minutas  #g
+        minutes_users: 'Asistentes:'  #g
+        nationality: L nacionalidad  #g
+        phone: El número de teléfono del usuario  #g
+        projects: Los proyectos  #g
+        province: La provincia  #g
+        remember_created_at: Recordar creado en  #g
+        reset_password_sent_at: Restablecer contraseña enviada a  #g
+        reset_password_token: Restablecer token de contraseña  #g
+        password_confirmation: La confirmación de contraseña
+        role: El rol de usuario  #g
+        status: "El estado del usuario"

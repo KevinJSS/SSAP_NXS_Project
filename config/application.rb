@@ -8,6 +8,8 @@ Bundler.require(*Rails.groups)
 
 module SSAPNxsProject
   class Application < Rails::Application
+    config.i18n.default_locale = :es
+    config.i18n.fallbacks = true
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 7.0
 
