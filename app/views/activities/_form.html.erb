@@ -24,7 +24,9 @@
         <% end %>
     </select>
 
-    <input type="text" id="hidden-name" value="<%= activity.user.fullname%>" disabled="true" hidden>
+    <% if !activity.new_record? %>
+      <input type="text" id="hidden-name" value="<%= activity.user.fullname%>" disabled="true" hidden>  
+    <% end %>
   </div>
 
   <div class="form__field">
