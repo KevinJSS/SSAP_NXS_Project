@@ -50,7 +50,11 @@ class UsersController < ApplicationController
   private
 
   def set_user
-    @user = User.find(params[:id])
+    @user = User.find(params[:id]) rescue nil
+
+    if @user.nil?
+      redirect_to users_path, alert: "El usuario al que intenta acceder no existe."
+    end
   end
 
   def user_params

@@ -11,4 +11,7 @@ Rails.application.routes.draw do
   get 'collaborator_users', to: 'users#collaborator_index', as: 'collaborator_users'
 
   root 'main#home'
+
+  # Ruta para capturar rutas no definidas y redirigir a la acción not_found
+  get '*unmatched_route', to: 'application#not_found' 
 end

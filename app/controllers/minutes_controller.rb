@@ -73,7 +73,11 @@ class MinutesController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_minute
-      @minute = Minute.find(params[:id])
+      @minute = Minute.find(params[:id]) rescue nil
+
+      if @minute.nil?
+        redirect_to minutes_path, alert: "La minuta a la que intenta acceder no existe."
+      end
     end
 
     def set_projects 

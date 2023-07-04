@@ -79,7 +79,11 @@ class ActivitiesController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_activity
-      @activity = Activity.find(params[:id])
+      @activity = Activity.find(params[:id]) rescue nil
+
+      if @activity.nil?
+        redirect_to activities_path, alert: "La actividad a la que intenta acceder no existe."
+      end
     end
 
     def set_collaborators

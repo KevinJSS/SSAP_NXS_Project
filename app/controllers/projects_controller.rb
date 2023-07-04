@@ -76,7 +76,11 @@ class ProjectsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_project
-      @project = Project.find(params[:id])
+      @project = Project.find(params[:id]) rescue nil
+
+      if @project.nil?
+        redirect_to projects_path, alert: "El proyecto al que intenta acceder no existe."
+      end
     end
 
     def set_admins

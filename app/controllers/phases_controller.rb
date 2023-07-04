@@ -73,7 +73,11 @@ class PhasesController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_phase
-      @phase = Phase.find(params[:id])
+      @phase = Phase.find(params[:id]) rescue nil
+
+      if @phase.nil?
+        redirect_to phases_path, alert: "La fase a la que intenta acceder no existe."
+      end
     end
 
     def get_change_log
