@@ -1,6 +1,6 @@
 <section class="filters" data-controller="filters">
     <div class="filters__header">
-        <a class="filters__toggle" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample" data-action="click->filters#toggle">
+        <a class="filters__toggle" data-action="click->filters#toggle">
             <h4 class="filters__title">
                 <%= image_tag("filter-icon.svg", alt: "icono seccion filtros", class: "sidebar__icon") %>FILTROS
             </h4>
@@ -8,46 +8,43 @@
         </a>
     </div>
 
-    <div class="filters__content collapse" id="collapseExample">
+    <div class="filters__content">
         <div class="card card-body border-0 p-0 pt-3">
-
-            <%# CAMBIAR POR FILTROS DE RAILS %>
-            <form action="#" class="form">
+            <%= search_form_for @q, class: "form" do |f| %>
                 <div class="form__grid">
                     <div class="form__field">
-                        <label for="project_name" class="form__label">Nombre del proyecto</label>
-                        <input type="text" name="project_name" id="project_name" class="form__input" placeholder="Nombre del proyecto">
+                        <%= f.label :name_cont, "Nombre del proyecto", class: "form__label" %>
+                        <%= f.text_field :name_cont, class: "form__input", placeholder: "Ej: CASA SABANA" %>
                     </div>
-
-                    <div class="form__field">
-                        <label for="user" class="form__label">Encargado de proyecto</label>
-                        <select name="user" id="user" class="form__input form-select">
-                            <option value="#" selected disabled>Seleccione un encargado</option>
-                        </select>
-                    </div>
+                    
+                    <div class="form__field" data-controller="dropdown-search update-fields">
+                        <%= f.label :user_id_eq, "Encargado del proyecto", class: "form__label" %>
+                        <%= f.hidden_field :user_id_eq, data: {id: "hidden-input"}%>
                         
-                    <div class="form__field">
-                        <label for="stage" class="form__label">Etapa del proyecto</label>
-                        <select name="stage" id="stage" class="form__input form-select">
-                            <option value="#" selected disabled>Seleccione una etapa</option>
+                        <input type="text" name="users" class="form__input form-select search-bar" autocomplete="off" data-action="click->dropdown-search#openDropdown keyup->dropdown-search#searchInput" data-value="" placeholder="- Selecciona una opción -">
+                        <select class="form-select multiple-select" data-dropdown-type="form" multiple>
+                            <% @admins.each do |a| %>
+                                <option value="<%= a.id %>"><%= a.fullname %></option>
+                            <% end %>
                         </select>
                     </div>
-                        
+                    
+                    
                     <div class="form__field">
-                        <label for="status" class="form__label">Estado</label>
-                        <select name="status" id="status" class="form__input form-select">
-                            <option value="#" selected disabled>Seleccione un estado</option>
-                        </select>
+                        <%= f.label :stage_eq, 'Etapa del proyecto', class: "form__label" %>
+                        <%= f.select :stage_eq, [['Visitas y reuniones iniciales', 0], ['Estudios preliminares', 1], ['Anteproyecto', 2], ['Planos y especificaciones técnicas', 3], ['Presupuesto y dirección de obra', 4], ['Construcción', 5], ['Dirección técnica', 6], ['Inspección de obra', 7]], {prompt: "- Selecciona una etapa -"}, class: "form__input form-select" %>
+                    </div>
+                    
+                    <div class="form__field">
+                        <%= f.label :stage_status_eq, 'Estado del proyecto', class: "form__label" %>
+                        <%= f.select :stage_status_eq, [['En proceso', 0], ['Suspendido', 1], ['Entregado', 2]], {prompt: "- Selecciona un estado -"}, class: "form__input form-select" %>
                     </div>
                 </div>
 
                 <div class="form__action">
-                    <a href="#" class="button-search">
-                        <i class="bi bi-search me-2"></i>
-                        Buscar
-                    </a>
+                    <%= f.submit "Buscar", class: "button-primary" %>
                 </div>
-            </form>
+            <% end %>
         </div>
     </div>
 </section>

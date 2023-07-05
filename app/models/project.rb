@@ -90,6 +90,14 @@ class Project < ApplicationRecord
         activities != 0 || minutes != 0
     end
 
+    def self.ransackable_associations(auth_object = nil)
+        ["activities", "minutes", "user"]
+    end
+
+    def self.ransackable_attributes(auth_object = nil)
+        ["created_at", "id", "location", "name", "scheduled_deadline", "stage", "stage_status", "start_date", "updated_at", "user_id"]
+    end
+
     #associations
     belongs_to :user
     has_many :activities, dependent: :destroy
