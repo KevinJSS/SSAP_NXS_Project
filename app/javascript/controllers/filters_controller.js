@@ -4,7 +4,7 @@ import { Controller } from "@hotwired/stimulus"
 export default class extends Controller {
   connect() {
     this.showFiltersButton();
-    this.toggle();
+    this.fixedFiltersContent();
   }
 
   clearFilters(event) {
@@ -26,19 +26,29 @@ export default class extends Controller {
   }
 
   toggle(event) {
-    const filtersContentState = sessionStorage.getItem('filtersContentState');
-    
-    const toggle = document.querySelector('#toggle');
+    const toggle = event.currentTarget.querySelector('#toggle');
     const filtersContent = document.querySelector('.filters__content');
     
-    if (filtersContentState === 'closed' || filtersContentState === null) {
-      sessionStorage.setItem('filtersContentState', 'open');
+    if (toggle.innerHTML == '<i class="bi bi-caret-down-fill"></i>') {
       toggle.innerHTML = '<i class="bi bi-caret-up-fill"></i>';
       filtersContent.style.display = 'block';
-    } else {
-      sessionStorage.setItem('filtersContentState', 'closed');
-      toggle.innerHTML = '<i class="bi bi-caret-down-fill"></i>';
-      filtersContent.style.display = 'none';
+      sessionStorage.setItem(`filterState-${toggle.dataset.name}`, 'opened');
+      return;
+    }
+    toggle.innerHTML = '<i class="bi bi-caret-down-fill"></i>';
+    filtersContent.style.display = 'none';
+    sessionStorage.setItem(`filterState-${toggle.dataset.name}`, 'closed');
+  }
+
+  fixedFiltersContent() {
+    const toggle = document.querySelector('#toggle');
+
+    const filtersContentState = sessionStorage.getItem(`filterState-${toggle.dataset.name}`);
+    const filtersContent = document.querySelector('.filters__content');
+
+    if (filtersContentState === `opened`) {
+      toggle.innerHTML = '<i class="bi bi-caret-up-fill"></i>';
+      filtersContent.style.display = 'block';
     }
   }
 }
