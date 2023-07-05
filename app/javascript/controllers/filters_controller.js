@@ -12,9 +12,6 @@ export default class extends Controller {
     const index = currentURL.indexOf('?q');
 
     if (index !== -1) {
-      const toggle = document.querySelector('#toggle');
-      sessionStorage.setItem(`filterState-${toggle.dataset.name}`, 'closed');
-
       const newURL = currentURL.substring(0, index);
       window.location.href = newURL;
     }

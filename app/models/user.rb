@@ -178,6 +178,10 @@ class User < ApplicationRecord
     fullname = self.fullname.split(" ")
     short_name = fullname[0] + " " + fullname[1]
   end
+
+  def self.ransackable_attributes(auth_object = nil)
+    ["account_number", "address", "birth_date", "canton", "created_at", "district", "education", "email", "encrypted_password", "fullname", "gender", "id", "id_card", "id_card_type", "job_position", "marital_status", "nationality", "phone", "province", "remember_created_at", "reset_password_sent_at", "reset_password_token", "role", "status", "updated_at"]
+  end
   
   #associations
   has_many :projects
