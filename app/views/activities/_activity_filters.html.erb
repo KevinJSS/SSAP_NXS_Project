@@ -4,13 +4,12 @@
             <h4 class="filters__title">
                 <%= image_tag("filter-icon.svg", alt: "icono seccion filtros", class: "sidebar__icon") %>FILTROS
             </h4>
-            <span id="toggle" data-name="projects"><i class="bi bi-caret-down-fill"></i></span>
+            <span id="toggle" data-name="activities"><i class="bi bi-caret-down-fill"></i></span>
         </a>
     </div>
 
     <div class="filters__content">
         <div class="card card-body border-0 p-0 pt-3">
-
            <%= search_form_for @q, class: "form" do |f| %>
                 <div class="form__grid">
                     <div class="form__field" data-controller="dropdown-search update-fields">

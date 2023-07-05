@@ -25,6 +25,10 @@ class Minute < ApplicationRecord
         end
     end
 
+    def self.ransackable_attributes(auth_object = nil)
+        ["meeting_date", "project_id", "meeting_title"]
+    end
+
     #associations
     belongs_to :project
 
