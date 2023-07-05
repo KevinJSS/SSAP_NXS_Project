@@ -95,7 +95,7 @@ class Project < ApplicationRecord
     end
 
     def self.ransackable_attributes(auth_object = nil)
-        ["created_at", "id", "location", "name", "scheduled_deadline", "stage", "stage_status", "start_date", "updated_at", "user_id"]
+        ["name", "stage", "stage_status", "user_id"]
     end
 
     #associations

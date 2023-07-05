@@ -8,9 +8,15 @@ class Phase < ApplicationRecord
         activities != 0
     end
 
-    #associations
-    #has_many :activities
+    def self.ransackable_associations(auth_object = nil)
+        ["activities"]
+    end
 
+    def self.ransackable_attributes(auth_object = nil)
+        ["code", "name"]
+    end
+
+    #associations
     has_many :phases_activities, dependent: :destroy
     has_many :activities, through: :phases_activities
 end
