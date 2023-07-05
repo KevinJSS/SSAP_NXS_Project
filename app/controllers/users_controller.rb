@@ -5,12 +5,12 @@ class UsersController < ApplicationController
 
   def index
     @admin_q = User.where(role: "admin").ransack(params[:q])
-    @users = @admin_q.result.order(fullname: :asc).paginate(page: params[:page], per_page: 3)
+    @users = @admin_q.result(distinct: true).order(fullname: :asc).paginate(page: params[:page], per_page: 3)
   end
 
   def collaborator_index
     @collaborator_q = User.where(role: "collaborator").ransack(params[:q])
-    @collaborator_users = @collaborator_q.result.order(fullname: :asc).paginate(page: params[:page], per_page: 3)
+    @collaborator_users = @collaborator_q.result(distinct: true).order(fullname: :asc).paginate(page: params[:page], per_page: 3)
   end
 
   def show

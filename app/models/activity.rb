@@ -20,6 +20,10 @@ class Activity < ApplicationRecord
         self.phases_activities.sum(:hours)
     end
 
+    def self.ransackable_attributes(auth_object = nil)
+        ["date", "project_id", "user_id"]
+    end
+
     #associations
     belongs_to :user
     belongs_to :project
