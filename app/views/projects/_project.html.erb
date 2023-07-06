@@ -2,7 +2,7 @@
   <div class="item__header">
     <div class="item__heading">
       <h4 class="item__title"><%= project.name %></h4> 
-      <p class="item__text"><%= project.user.fullname %></p>
+      <a href="<%= edit_user_path(project.user) %>" class="item__text clean-link"><%= project.user.fullname %></a>
     </div>
     <p class="item__status"> <%= project.get_humanize_stage %> <span class="item__status-divider">/</span> <%= project.get_humanize_status  %></p>
   </div>
