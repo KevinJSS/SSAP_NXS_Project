@@ -75,7 +75,7 @@
   <div class="form__flex form__flex--row justify-content-between">
     <div class="form__actions mt-3">
       <%= form.submit activity.new_record? ? "Guardar" : "Actualizar", class: "button-primary" %>
-      <%= link_to "Regresar", activities_path, class: "button-secondary" %>
+      <%= link_to "Regresar", "#", class: "button-secondary", data: {action: "click->navigation#goBack"} %>
     </div>
 
     <%# RENDER CHANGE LOG %>

@@ -16,6 +16,9 @@ application.register("filters", FiltersController)
 import HelloController from "./hello_controller"
 application.register("hello", HelloController)
 
+import NavigationController from "./navigation_controller"
+application.register("navigation", NavigationController)
+
 import NestedFormController from "./nested_form_controller"
 application.register("nested-form", NestedFormController)
 

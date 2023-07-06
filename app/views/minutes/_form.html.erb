@@ -46,7 +46,7 @@
 
       <div class="form__actions form__actions--minutes form__actions--minutes-1 mt-3">
         <%= form.submit minute.new_record? ? "Guardar" : "Actualizar", class: "button-primary button-primary--minutes" %>
-        <%= link_to "Regresar", minutes_path, class: "button-secondary button-secondary--minutes" %>
+        <%= link_to "Regresar", "#", class: "button-secondary  button-secondary--minutes", data: {action: "click->navigation#goBack"} %>
 
         <%# OPEN CHANGE LOG %>
         <% if !@minutes_change_log.nil? %>
@@ -126,7 +126,7 @@
     <div class="form__actions form__actions--minutes-3 mt-3">
       <div class="form__actions form__actions--minutes-2">
         <%= form.submit minute.new_record? ? "Guardar" : "Actualizar", class: "button-primary button-primary--minutes" %>
-        <%= link_to "Regresar", minutes_path, class: "button-secondary button-secondary--minutes" %>
+        <%= link_to "Regresar", "#", class: "button-secondary button-secondary--minutes", data: {action: "click->navigation#goBack"} %>
       </div>
 
       <%# OPEN CHANGE LOG %>

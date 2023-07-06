@@ -178,7 +178,7 @@
         <div class="form__flex form__flex--row justify-content-between">
           <div class="form__actions">
             <%= f.submit "Actualizar", class: "button-primary" %>
-            <%= link_to "Regresar", :back, class: "button-secondary" %>
+            <%= link_to "Regresar", "#", class: "button-secondary", data: {action: "click->navigation#goBack"} %>
           </div>
 
           <%# RENDER CHANGE LOG %>

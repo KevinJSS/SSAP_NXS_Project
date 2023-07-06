@@ -155,7 +155,7 @@
       
         <div class="form__actions">
           <%= f.submit "Guardar", class: "button-primary" %>
-          <%= link_to "Regresar", :back, class: "button-secondary" %>
+          <%= link_to "Regresar", "#", class: "button-secondary", data: {action: "click->navigation#goBack"} %>
         </div>
       </div>
     <% end %>
