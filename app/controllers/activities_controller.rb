@@ -7,7 +7,13 @@ class ActivitiesController < ApplicationController
   # GET /activities or /activities.json
   def index
     @q = Activity.ransack(params[:q])
-    @activities = @q.result(distinct: true).order(updated_at: :desc).paginate(page: params[:page], per_page: 3)
+    if params.dig(:q, :phase)
+      phase_id = params[:q][:phase].to_i
+      activities_ids = PhasesActivity.where(phase_id: phase_id).pluck(:activity_id)
+      @activities = Activity.where(id: activities_ids).paginate(page: params[:page], per_page: 3)
+    else
+      @activities = @q.result(distinct: true).order(updated_at: :desc).paginate(page: params[:page], per_page: 3)
+    end
   end
 
   # GET /activities/1 or /activities/1.json

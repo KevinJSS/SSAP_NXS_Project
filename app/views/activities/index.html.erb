@@ -52,7 +52,7 @@
         <%= render activity %>
       <% end %>
 
-      <% if !@q.result.any? %>
+      <% if @activities.empty? %>
         <p class="text-center text-black-50 fst-italic my-4"><i class="bi bi-info-circle me-2"></i>Lista de actividades vacía</p>
       <% end %>
     </div>
