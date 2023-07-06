@@ -4,6 +4,9 @@
 
 import { application } from "./application"
 
+import ClockController from "./clock_controller"
+application.register("clock", ClockController)
+
 import DropdownSearchController from "./dropdown_search_controller"
 application.register("dropdown-search", DropdownSearchController)
 
