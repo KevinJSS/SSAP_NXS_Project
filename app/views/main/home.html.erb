@@ -1,14 +1,145 @@
-<main data-view-id="0">
-    <div class="header">
-    <div class="header__content">
-      <div class="header__heading">
-        <p class="header__subtitle">INICIO</p>
-        <h1 class="header__title">PAGINA DE INICIO</h1>
+<main data-view-id="0" class="main main__center main__center--home">
+    <div class="main__width main__width--home">
+      <div class="header">
+        <div class="header__content">
+          <div class="header__heading">
+            <p class="header__subtitle">INICIO</p>
+            <h1 class="header__title">PAGINA DE INICIO</h1>
+          </div>
+          
+          <div class="header__actions">
+            <%= render 'shared/sidebar_button' %>
+          </div>
+        </div>
       </div>
-      
-      <div class="header__actions">
-        <%= render 'shared/sidebar_button' %>
+
+      <div class="section-bg p-4">
+        <h4 class="card-list__title">
+          <%= image_tag('grid-icon.svg', alt: "icon lista de proyectos") %>
+          TABLERO
+        </h4>
+
+        <div class="home__cards">
+          <div class="home__card">
+            <%= link_to projects_path, class: "d-flex justify-content-between align-items-center clean-link mb-3" do %>
+              <div class="home__card-heading">
+                <%= image_tag('projects-dashboard-icon.svg', alt: "icon tablero proyectos", class: "home__card-icon") %>
+                <h2 class="home__card-title fw-bold">PROYECTOS</h2>
+              </div>
+              <%= image_tag('arrow-head-icon.svg', alt: "icon", class: "smart-display") %>
+            <% end %>
+
+            <div class="home__card-content">
+              <div class="home__card-data">
+                <h4 class="home__card-number fs-1 mb-0"><%= @projects %></h4>
+                <p class="home__card-subtitle fs-xs">Total</p>
+              </div>
+
+              <div class="home__card-data home__card-data--primary">
+                <h4 class="home__card-number fs-1 mb-0"><%= @active_projects %></h4>
+                <p class="home__card-subtitle fs-xs">Abiertos</p>
+              </div>
+
+              <div class="home__card-data home__card-data--grey">
+                <h4 class="home__card-number fs-1 mb-0"><%= @closed_projects %></h4>
+                <p class="home__card-subtitle fs-xs">Cerrados</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="home__card home__card--welcome">
+            <div class="header__heading">
+              <p class="header__subtitle pb-0 fs-5"><%= current_user.gender == "male" ? "Bienvenido" : "Bienvenida" %>,</p>
+              <h2 class="fw-bold fs-3"><%= current_user.get_short_name %></h2>
+            </div>
+            <div class="home__card-datetime">
+              <h3 class="home__card-clock fs-3">11:20 PM</h3>
+              <p class="home__card-date fs-xs text-muted"><%= l(Date.today, format: :default).capitalize %></p>
+            </div>
+          </div>
+
+          <div class="home__card">
+            <%= link_to activities_path, class: "d-flex justify-content-between align-items-center clean-link mb-3" do %>
+              <div class="home__card-heading">
+                <%= image_tag('activities-dashboard-icon.svg', alt: "icon tablero actividades", class: "home__card-icon") %>
+                <h2 class="home__card-title fw-bold">ACTIVIDADES</h2>
+              </div>
+              <%= image_tag('arrow-head-icon.svg', alt: "icon", class: "smart-display") %>
+            <% end %>
+
+            <div class="home__card-content">
+              <div class="home__card-data">
+                <h4 class="home__card-number fs-1 mb-0"><%= @month_activitites %></h4>
+                <p class="home__card-subtitle fs-xs">Este mes</p>
+              </div>
+
+              <div class="home__card-data home__card-data--primary">
+                <h4 class="home__card-number fs-1 mb-0"><%= @week_activitites %></h4>
+                <p class="home__card-subtitle fs-xs">Esta semana</p>
+              </div>
+
+              <div class="home__card-data home__card-data--grey">
+                <h4 class="home__card-number fs-1 mb-0"><%= @day_activitites %></h4>
+                <p class="home__card-subtitle fs-xs">Este día</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="home__card">
+            <%= link_to collaborator_users_path, class: "d-flex justify-content-between align-items-center clean-link mb-3" do %>
+              <div class="home__card-heading">
+                <%= image_tag('collaborators-dashboard-icon.svg', alt: "icon tablero colaboradores", class: "home__card-icon") %>
+                <h2 class="home__card-title fw-bold">COLABORADORES</h2>
+              </div>
+              <%= image_tag('arrow-head-icon.svg', alt: "icon", class: "smart-display") %>
+            <% end %>
+
+            <div class="home__card-content">
+              <div class="home__card-data">
+                <h4 class="home__card-number fs-1 mb-0"><%= @collaborators %></h4>
+                <p class="home__card-subtitle fs-xs">Total</p>
+              </div>
+
+              <div class="home__card-data home__card-data--primary">
+                <h4 class="home__card-number fs-1 mb-0"><%= @active_collaborators %></h4>
+                <p class="home__card-subtitle fs-xs">Activos</p>
+              </div>
+
+              <div class="home__card-data home__card-data--grey">
+                <h4 class="home__card-number fs-1 mb-0"><%= @inactive_collaborators %></h4>
+                <p class="home__card-subtitle fs-xs">Inactivos</p>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="home__card">
+            <%= link_to users_path, class: "d-flex justify-content-between align-items-center clean-link mb-3" do %>
+              <div class="home__card-heading">
+                <%= image_tag('users-dashboard-icon.svg', alt: "icon tablero administradores", class: "home__card-icon") %>
+                <h2 class="home__card-title fw-bold">ADMINISTRAODRES</h2>
+              </div>
+              <%= image_tag('arrow-head-icon.svg', alt: "icon", class: "smart-display") %>
+            <% end %>
+
+            <div class="home__card-content">
+              <div class="home__card-data">
+                <h4 class="home__card-number fs-1 mb-0"><%= @admins %></h4>
+                <p class="home__card-subtitle fs-xs">Total</p>
+              </div>
+
+              <div class="home__card-data home__card-data--primary">
+                <h4 class="home__card-number fs-1 mb-0"><%= @active_admins %></h4>
+                <p class="home__card-subtitle fs-xs">Activos</p>
+              </div>
+
+              <div class="home__card-data home__card-data--grey">
+                <h4 class="home__card-number fs-1 mb-0"><%= @inactive_admins %></h4>
+                <p class="home__card-subtitle fs-xs">Inactivos</p>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
 </main>
