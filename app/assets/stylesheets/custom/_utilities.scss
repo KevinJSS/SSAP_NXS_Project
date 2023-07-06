@@ -216,7 +216,16 @@
 .clean-link {
     color: inherit;
     text-decoration: none;
+
     &:hover {
         color: inherit;
+    }
+
+    &--primary:hover {
+        color: v.$primary;
+    }
+
+    &--grey:hover {
+        color: #717179;
     }
 }

@@ -30,20 +30,20 @@
             <% end %>
 
             <div class="home__card-content">
-              <div class="home__card-data">
+              <a href="<%= projects_path %>" class="home__card-data clean-link">
                 <h4 class="home__card-number fs-1 mb-0"><%= @projects %></h4>
                 <p class="home__card-subtitle fs-xs">Total</p>
-              </div>
+              </a>
 
-              <div class="home__card-data home__card-data--primary">
+              <a href="<%= projects_path(q: {active: 0}) %>" class="home__card-data home__card-data--primary clean-link clean-link--primary">
                 <h4 class="home__card-number fs-1 mb-0"><%= @active_projects %></h4>
                 <p class="home__card-subtitle fs-xs">Abiertos</p>
-              </div>
+              </a>
 
-              <div class="home__card-data home__card-data--grey">
+              <a href="<%= projects_path(q: {stage_eq: 7, stage_status_eq: 2}) %>" class="home__card-data home__card-data--grey clean-link clean-link--grey">
                 <h4 class="home__card-number fs-1 mb-0"><%= @closed_projects %></h4>
                 <p class="home__card-subtitle fs-xs">Cerrados</p>
-              </div>
+              </a>
             </div>
           </div>
 
@@ -68,20 +68,20 @@
             <% end %>
 
             <div class="home__card-content">
-              <div class="home__card-data">
+              <a href="<%= activities_path(q: { date_gteq: Date.current.beginning_of_month, date_lteq: Date.current.end_of_month }) %>" class="home__card-data clean-link">
                 <h4 class="home__card-number fs-1 mb-0"><%= @month_activitites %></h4>
                 <p class="home__card-subtitle fs-xs">Este mes</p>
-              </div>
+              </a>
 
-              <div class="home__card-data home__card-data--primary">
+              <a href="<%= activities_path(q: { date_gteq: Date.current.beginning_of_week, date_lteq: Date.current.end_of_week }) %>" class="home__card-data home__card-data--primary clean-link clean-link--primary">
                 <h4 class="home__card-number fs-1 mb-0"><%= @week_activitites %></h4>
                 <p class="home__card-subtitle fs-xs">Esta semana</p>
-              </div>
+              </a>
 
-              <div class="home__card-data home__card-data--grey">
+              <a href="<%= activities_path(q: { date_gteq: Date.today, date_lteq: Date.today }) %>" class="home__card-data home__card-data--grey clean-link clean-link--grey">
                 <h4 class="home__card-number fs-1 mb-0"><%= @day_activitites %></h4>
                 <p class="home__card-subtitle fs-xs">Este día</p>
-              </div>
+              </a>
             </div>
           </div>
 
@@ -95,20 +95,20 @@
             <% end %>
 
             <div class="home__card-content">
-              <div class="home__card-data">
+              <a href="<%= collaborator_users_path %>" class="home__card-data clean-link">
                 <h4 class="home__card-number fs-1 mb-0"><%= @collaborators %></h4>
                 <p class="home__card-subtitle fs-xs">Total</p>
-              </div>
+              </a>
 
-              <div class="home__card-data home__card-data--primary">
+              <a href="<%= collaborator_users_path(q: { status_eq: true }) %>" class="home__card-data home__card-data--primary clean-link clean-link--primary">
                 <h4 class="home__card-number fs-1 mb-0"><%= @active_collaborators %></h4>
                 <p class="home__card-subtitle fs-xs">Activos</p>
-              </div>
+              </a>
 
-              <div class="home__card-data home__card-data--grey">
+              <a href="<%= collaborator_users_path(q: { status_eq: false }) %>" class="home__card-data home__card-data--grey clean-link clean-link--grey">
                 <h4 class="home__card-number fs-1 mb-0"><%= @inactive_collaborators %></h4>
                 <p class="home__card-subtitle fs-xs">Inactivos</p>
-              </div>
+              </a>
             </div>
           </div>
 
@@ -123,20 +123,20 @@
             <% end %>
 
             <div class="home__card-content">
-              <div class="home__card-data">
+              <a href="<%= users_path %>" class="home__card-data clean-link">
                 <h4 class="home__card-number fs-1 mb-0"><%= @admins %></h4>
                 <p class="home__card-subtitle fs-xs">Total</p>
-              </div>
+              </a>
 
-              <div class="home__card-data home__card-data--primary">
+              <a href="<%= users_path(q: { status_eq: true }) %>" class="home__card-data home__card-data--primary clean-link clean-link--primary">
                 <h4 class="home__card-number fs-1 mb-0"><%= @active_admins %></h4>
                 <p class="home__card-subtitle fs-xs">Activos</p>
-              </div>
+              </a>
 
-              <div class="home__card-data home__card-data--grey">
+              <a href="<%= users_path(q: { status_eq: false }) %>" class="home__card-data home__card-data--grey clean-link clean-link--grey">
                 <h4 class="home__card-number fs-1 mb-0"><%= @inactive_admins %></h4>
                 <p class="home__card-subtitle fs-xs">Inactivos</p>
-              </div>
+              </a>
             </div>
           </div>
         </div>

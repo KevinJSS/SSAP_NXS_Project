@@ -18,7 +18,7 @@
                         
                         <input type="text" name="users" class="form__input form-select search-bar" autocomplete="off" data-action="click->dropdown-search#openDropdown keyup->dropdown-search#searchInput" data-value="" placeholder="- Selecciona una opción -">
                         <select class="form-select multiple-select" data-dropdown-type="form" multiple>
-                            <% @active_collaborators.each do |c| %>
+                            <% @collaborators.each do |c| %>
                                 <option value="<%= c.id %>"><%= c.fullname %></option>
                             <% end %>
                         </select>

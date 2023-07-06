@@ -6,8 +6,13 @@ class ProjectsController < ApplicationController
 
   # GET /projects or /projects.json
   def index
-    #byebug 
     @q = Project.ransack(params[:q])
+
+    if !params[:q].nil? && !params[:q][:active].nil?
+      @projects = Project.where.not(stage: 7, stage_status: 2).order(updated_at: :desc).paginate(page: params[:page], per_page: 3)
+      return
+    end
+
     @projects = @q.result(distinct: true).order(updated_at: :desc).paginate(page: params[:page], per_page: 3)
   end
 

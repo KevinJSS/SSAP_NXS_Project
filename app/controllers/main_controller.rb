@@ -8,12 +8,14 @@ class MainController < ApplicationController
     @active_projects = @projects - @closed_projects
 
     #activities
-    start_date = Date.today - 1.month
-    end_date = Date.today
+    start_date = Date.current.beginning_of_month
+    end_date = Date.current.end_of_month
     @month_activitites = Activity.where(date: start_date..end_date).count
-    start_date = Date.today - 1.week
-    end_date = Date.today
+
+    start_date = Date.current.beginning_of_week
+    end_date = Date.current.end_of_week
     @week_activitites = Activity.where(date: start_date..end_date).count
+    
     @day_activitites = Activity.where(date: Date.today).count
 
     #collaborators
