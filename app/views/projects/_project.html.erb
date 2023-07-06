@@ -9,23 +9,23 @@
 
   <div class="item__content">
     <div class="item__references">
-      <div class="item__reference">
+      <a href="<%= activities_path(q: { project_id_eq: project.id })%>" class="item__reference clean-link">
         <p class="item__reference-text">
           <%= image_tag('activities-icon.svg', alt: "icono actividades asociadas", class: "item__reference-icon") %>
           <%= project.activities.count %>
         </p>
         <%# Agregar link para ir a lista de actividades filtradas por este proyecto %>
         <p class="item__reference-label">Actividades asociadas</p>
-      </div>
+      </a>
       
-      <div class="item__reference">
+      <a href="<%= minutes_path(q: { project_id_eq: project.id })%>" class="item__reference clean-link">
         <p class="item__reference-text">
           <%= image_tag('minutes-icon.svg', alt: "icono actividades asociadas", class: "item__reference-icon") %>
           <%= project.minutes.count  %>
         </p>
         <%# Agregar link para ir a lista de minutas filtradas por este proyecto %>
         <p class="item__reference-label">Minutas asociadas</p> 
-      </div>
+      </a>
     </div>
 
     <div class="item__actions">
