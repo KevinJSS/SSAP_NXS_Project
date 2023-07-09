@@ -45,7 +45,7 @@
 #     district: "Zamora",
 #     education: 3,
 #     nationality: "Costarricense",
-#     gender: 0
+#     gender: 1
 #   )
 
 # User.create!(
@@ -66,7 +66,7 @@
 #     district: "Los Ángeles",
 #     education: 3,
 #     nationality: "Costarricense",
-#     gender: 0
+#     gender: 1
 #   )
 
 # 7.times do

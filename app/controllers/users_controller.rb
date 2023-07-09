@@ -26,9 +26,7 @@ class UsersController < ApplicationController
   def update
     @user.valid?
 
-    if params[:user][:status] == "false" && @user.projects.any?
-      @user.errors.add(:status, "no se puede inactivar debido a que tiene proyectos a su cargo.")
-    elsif params[:user][:role] == "collaborator" && @user.projects.any?
+    if params[:user][:role] == "collaborator" && @user.projects.any?
       @user.errors.add(:role, "no se puede cambiar debido a que tiene proyectos a su cargo.")
     end
 
