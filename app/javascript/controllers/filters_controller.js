@@ -9,7 +9,10 @@ export default class extends Controller {
 
   clearFilters(event) {
     const currentURL = window.location.href;
-    const index = currentURL.indexOf('?q');
+    const index = currentURL.indexOf('?');
+
+    console.log(currentURL);
+    console.log(index);
 
     if (index !== -1) {
       const newURL = currentURL.substring(0, index);
@@ -20,7 +23,7 @@ export default class extends Controller {
   showFiltersButton() {
     const filtersButton = document.querySelector('#clear-filters-button');
     const currentURL = window.location.href;
-    const index = currentURL.indexOf('?q');
+    const index = currentURL.indexOf('?');
     if (index != -1) filtersButton.style.display = 'block';
   }
 
