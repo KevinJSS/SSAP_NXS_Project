@@ -23,8 +23,8 @@ export default class extends Controller {
   showFiltersButton() {
     const filtersButton = document.querySelector('#clear-filters-button');
     const currentURL = window.location.href;
-    const index = currentURL.indexOf('?');
-    if (index != -1) filtersButton.style.display = 'block';
+    const query = currentURL.indexOf('q%');
+    if (query != -1) filtersButton.style.display = 'block';
   }
 
   toggle(event) {
