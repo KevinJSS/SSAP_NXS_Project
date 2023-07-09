@@ -1,6 +1,5 @@
 <%= render 'shared/error_message', object: minute %>
 
-
 <%= form_with(model: minute, data: { controller: 'nested-form', nested_form_wrapper_selector_value: '.nested-form-wrapper', form_model: "minutes" }, class: "form") do |form| %>
   <div class="form__flex form__flex--minute section-bg section-bg--minutes">
     <div class="form__flex section-bg--minutes-1 w-35 mb-0">
@@ -124,7 +123,7 @@
 
       <div class="form__field">
         <%= form.label "Ejemplo", class: "form__label" %>
-        <%= form.rich_text_area :example, placeholder: "Texto de ejemplo", class: "form__input vertical-resize", rows: "5" %>
+        <%= form.rich_text_area :example, placeholder: "Texto de ejemplo", class: "form__input" %>
       </div>
     </div>
 

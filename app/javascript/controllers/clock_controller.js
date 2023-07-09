@@ -10,11 +10,15 @@ export default class extends Controller {
   }
 
   updateTime() {
-    const currentTime = new Date();
-    const hours = currentTime.getHours();
-    const minutes = currentTime.getMinutes();
-    const formattedTime = this.formatTime(hours, minutes);
-    this.timeTarget.textContent = formattedTime;
+    const clock = document.getElementById('clock');
+
+    if (clock) {
+      const currentTime = new Date();
+      const hours = currentTime.getHours();
+      const minutes = currentTime.getMinutes();
+      const formattedTime = this.formatTime(hours, minutes);
+      clock.textContent = formattedTime;
+    }
   }
 
   formatTime(hours, minutes) {

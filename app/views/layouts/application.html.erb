@@ -22,7 +22,7 @@
         <%= render "shared/sidebar" %>
       <% end %>
 
-      <div class="content <%= !current_user ? "sign-in" : "" %> container-fluid ps-3 pe-md-4">
+      <div class="trix-content content <%= !current_user ? "sign-in" : "" %> container-fluid ps-3 pe-md-4">
         <%= render "shared/notifications" %>
         <%= yield %>
       </div>

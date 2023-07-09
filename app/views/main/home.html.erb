@@ -53,7 +53,7 @@
               <h2 class="fw-bold fs-3"><%= current_user.get_short_name %></h2>
             </div>
             <div class="home__card-datetime">
-              <h3 class="home__card-clock fs-3" data-controller="clock" data-target="clock.time">00:00 --</h3>
+              <h3 class="home__card-clock fs-3" id="clock" data-controller="clock">00:00 --</h3>
               <p class="home__card-date fs-xs text-muted"><%= l(Date.today, format: :default).capitalize %></p>
             </div>
           </div>
