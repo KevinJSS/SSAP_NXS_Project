@@ -49,6 +49,7 @@ class User < ApplicationRecord
   before_save { self.account_number = account_number.upcase }
   before_save { self.id_card = id_card.upcase }
   before_save :trim_values
+  before_destroy :clean_changes
 
   validates :email, presence: true, uniqueness: true, length: { maximum: 100 }, format: { with: VALID_EMAIL_REGEX }
   validates :id_card_type, presence: true
@@ -181,6 +182,10 @@ class User < ApplicationRecord
 
   def self.ransackable_attributes(auth_object = nil)
     ["account_number", "address", "birth_date", "canton", "created_at", "district", "education", "email", "encrypted_password", "fullname", "gender", "id", "id_card", "id_card_type", "job_position", "marital_status", "nationality", "phone", "province", "remember_created_at", "reset_password_sent_at", "reset_password_token", "role", "status", "updated_at"]
+  end
+
+  def clean_changes
+    ChangeLog.where(table_id: self.id, table_name: "user").destroy_all
   end
   
   #associations

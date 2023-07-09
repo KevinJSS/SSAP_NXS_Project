@@ -58,7 +58,6 @@ class PhasesController < ApplicationController
   # DELETE /phases/1 or /phases/1.json
   def destroy
     @phase.destroy if @phase.activities.count == 0
-    ChangeLog.where(table_name: 'phase', table_id: @phase.id).destroy_all
 
     respond_to do |format|
       if @phase.activities.count == 0

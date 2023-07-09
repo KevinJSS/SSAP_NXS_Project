@@ -1,5 +1,7 @@
 class Activity < ApplicationRecord
     #validations
+    before_save :clean_changes
+
     validates :date, presence: true
     validate :date_lower_than_or_equal_to_today
     validate :validate_nested_phases
@@ -22,6 +24,10 @@ class Activity < ApplicationRecord
 
     def self.ransackable_attributes(auth_object = nil)
         ["date", "project_id", "user_id"]
+    end
+
+    def clean_changes
+        ChangeLog.where(table_id: self.id, table_name: "activity").destroy_all
     end
 
     #associations

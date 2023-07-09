@@ -1,5 +1,6 @@
 class Phase < ApplicationRecord
     #validations
+    before_destroy :clean_changes
     validates :code, presence: true, uniqueness: true, length: { in: 1..50}
     validates :code, presence: true, length: { in: 1..100}
 
@@ -14,6 +15,10 @@ class Phase < ApplicationRecord
 
     def self.ransackable_attributes(auth_object = nil)
         ["code", "name"]
+    end
+
+    def clean_changes
+        ChangeLog.where(table_id: self.id, table_name: "phase").destroy_all
     end
 
     #associations

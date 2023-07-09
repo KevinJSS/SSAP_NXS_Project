@@ -71,7 +71,6 @@ class ProjectsController < ApplicationController
   # DELETE /projects/1 or /projects/1.json
   def destroy
     @project.destroy if !@project.has_associated_minutes_and_activities?
-    ChangeLog.where(table_id: @project.id, table_name: "project").destroy_all
 
     respond_to do |format|
       if @project.has_associated_minutes_and_activities?

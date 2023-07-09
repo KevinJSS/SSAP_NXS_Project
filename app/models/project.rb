@@ -19,6 +19,7 @@ class Project < ApplicationRecord
     #validations
     before_save { self.name = name.upcase }
     before_save :trim_values
+    before_destroy :clean_changes
 
     validates :name, presence: true, length: { in: 2..100}
     validates :start_date, presence: true
@@ -96,6 +97,10 @@ class Project < ApplicationRecord
 
     def self.ransackable_attributes(auth_object = nil)
         ["name", "stage", "stage_status", "user_id"]
+    end
+
+    def clean_changes
+        ChangeLog.where(table_id: self.id, table_name: "project").destroy_all
     end
 
     #associations
