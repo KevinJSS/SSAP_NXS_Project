@@ -121,6 +121,11 @@
         <%= form.label "Comentarios u observaciones", class: "form__label" %>
         <%= form.text_area :meeting_notes, placeholder: "Anote cualquier observación o comentario", class: "form__input vertical-resize", rows: "5" %>
       </div>
+
+      <div class="form__field">
+        <%= form.label "Ejemplo", class: "form__label" %>
+        <%= form.rich_text_area :example, placeholder: "Texto de ejemplo", class: "form__input vertical-resize", rows: "5" %>
+      </div>
     </div>
 
     <div class="form__actions form__actions--minutes-3 mt-3">

@@ -1,4 +1,6 @@
 class Minute < ApplicationRecord
+    has_rich_text :example
+
     #validations
     validates :meeting_title, presence: true, length: { in: 8..100 }
     validates :meeting_date, presence: true
