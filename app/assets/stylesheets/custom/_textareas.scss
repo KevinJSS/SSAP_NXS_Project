@@ -1,4 +1,70 @@
+@use 'variables' as v;
+@use 'mixins' as m;
+
 trix-editor {
     height: 180px;
     overflow-y: scroll;
+
+    &::-webkit-scrollbar-thumb {
+        background-color: v.$light2;
+    }
+
+    &:hover,
+    &:focus {
+        &::-webkit-scrollbar-thumb {
+            background-color: v.$primary;
+        }
+    }
+}
+
+trix-toolbar {
+    background-color: v.$light2;
+    border-top-left-radius: v.$border-radius-sm;
+    border-top-right-radius: v.$border-radius-sm;
+    border: 0.3px solid v.$dark3;
+    border-bottom: none;
+}
+
+.trix-button-row {
+    overflow: hidden;
+
+    &::-webkit-scrollbar-thumb {
+        background-color: v.$light2;
+    }
+}
+
+trix-toolbar .trix-button-group {
+    display: flex;
+    border: none;
+    gap: 2px;
+    padding: 10px 5px;
+    margin-bottom: -1px;
+
+    &:nth-child(1) > *:nth-child(4),
+    &:nth-child(2) > *:nth-child(3),
+    &:nth-child(3) > *:nth-child(1) {
+        display: none;
+    }
+}
+
+trix-toolbar .trix-button {
+    border: none;
+    background-color: transparent;
+    font-size: 13px;
+    border: none;
+
+    &.trix-active {
+        background: v.$primary;
+        color: v.$light1;
+        border-radius: v.$border-radius-sm;
+        -webkit-border-radius: v.$border-radius-sm;
+        -moz-border-radius: v.$border-radius-sm;
+        -ms-border-radius: v.$border-radius-sm;
+        -o-border-radius: v.$border-radius-sm;
+
+        &::before {
+            filter: invert(100%);
+            -webkit-filter: invert(100%);
+        }
+    }
 }

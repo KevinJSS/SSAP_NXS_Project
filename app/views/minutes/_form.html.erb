@@ -65,7 +65,7 @@
 
       <div class="form__field">
         <%= form.label "Objetivos de la reunión", class: "form__label" %>
-        <%= form.text_area :meeting_objectives, placeholder: "Enumere los objetivos de la reunión", class: "form__input  vertical-resize", rows: "5" %>
+        <%= form.rich_text_area :meeting_objectives, placeholder: "Enumere los objetivos de la reunión", class: "form__input form__input--textarea" %>
       </div>
       
       <div class="form__field">
@@ -103,27 +103,24 @@
       
       <div class="form__field">
         <%= form.label "Temas tratados", class: "form__label" %>
-        <%= form.text_area :discussed_topics, placeholder: "Enumere los temas tratados en la reunión", class: "form__input vertical-resize", rows: "5" %>
+        <div class="form__textarea">
+          <%= form.rich_text_area :discussed_topics, placeholder: "Enumere los temas tratados en la reunión", class: "form__input form__input--textarea" %>
+        </div>
       </div>
       
       <div class="form__field">
         <%= form.label "Temas pendientes", class: "form__label" %>
-        <%= form.text_area :pending_topics, placeholder: "Enumere los temas que quedaron pendientes de discutir", class: "form__input vertical-resize", rows: "5" %>
+        <%= form.rich_text_area :pending_topics, placeholder: "Enumere los temas que quedaron pendientes de discutir", class: "form__input form__input--textarea" %>
       </div>
       
       <div class="form__field">
         <%= form.label "Acuerdos", class: "form__label" %>
-        <%= form.text_area :agreements, placeholder: "Enumere los acuerdos establecidos en la reunión", class: "form__input vertical-resize", rows: "5" %>
+        <%= form.rich_text_area :agreements, placeholder: "Enumere los acuerdos establecidos en la reunión", class: "form__input form__input--textarea" %>
       </div>
       
       <div class="form__field">
         <%= form.label "Comentarios u observaciones", class: "form__label" %>
-        <%= form.text_area :meeting_notes, placeholder: "Anote cualquier observación o comentario", class: "form__input vertical-resize", rows: "5" %>
-      </div>
-
-      <div class="form__field">
-        <%= form.label "Ejemplo", class: "form__label" %>
-        <%= form.rich_text_area :example, placeholder: "Texto de ejemplo", class: "form__input" %>
+        <%= form.rich_text_area :meeting_notes, placeholder: "Anote cualquier observación o comentario", class: "form__input form__input--textarea" %>
       </div>
     </div>
 
