@@ -122,7 +122,7 @@
           <div class="form__field">
             <%= f.label "Rol de usuario", class: "form__label" %>
             <%= f.hidden_field :role, value: @user.role == "admin" ? "admin" : "collaborator" %>
-            <%= f.select :role, options_for_select([['Colaborador', "collaborator"], ['Administrador', "admin"]], @user.role), {}, class: "form__input form-select", disabled: true %>
+            <%= f.select :role, options_for_select([['Colaborador(a)', "collaborator"], ['Administrador(a)', "admin"]], @user.role), {}, class: "form__input form-select", disabled: true %>
           </div>
           
           <div class="form__field">
