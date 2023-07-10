@@ -1,8 +1,10 @@
 class Phase < ApplicationRecord
     #validations
     before_destroy :clean_changes
-    validates :code, presence: true, uniqueness: true, length: { in: 1..50}
-    validates :code, presence: true, length: { in: 1..100}
+    validates :code, presence: true, uniqueness: true
+    validates :code, length: { in: 2..50}, if: -> { code.present? }
+    validates :name, presence: true
+    validates :name, length: { in: 5..100}, if: -> { name.present? }
 
     def has_associated_activities?
         activities = self.activities.count

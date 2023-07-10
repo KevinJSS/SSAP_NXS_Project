@@ -21,10 +21,16 @@ class Project < ApplicationRecord
     before_save :trim_values
     before_destroy :clean_changes
 
-    validates :name, presence: true, length: { in: 2..100}
+    validates :name, presence: true
+    validates :name, length: { in: 2..100 }, if: -> { name.present? }
+
     validates :start_date, presence: true
     validates :scheduled_deadline, presence: true
-    validates :location, presence: true, length: { in: 2..500}
+
+    validates :location, presence: true
+    validates :location, length: { in: 2..500 }, if: -> { location.present? }
+    
+
     validates :stage, presence: true
     validates :stage_status, presence: true
     validate :deadline_greater_than_start_date

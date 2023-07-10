@@ -8,7 +8,8 @@ class Minute < ApplicationRecord
     #validations
     before_destroy :clean_changes
 
-    validates :meeting_title, presence: true, length: { in: 8..100 }
+    validates :meeting_title, presence: true
+    validates :meeting_title, length: { in: 8..100 }, if: -> { meeting_title.present? }
     validates :meeting_date, presence: true
     validates :start_time, presence: true
     validates :end_time, presence: true
