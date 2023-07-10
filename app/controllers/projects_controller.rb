@@ -54,6 +54,10 @@ class ProjectsController < ApplicationController
 
   # PATCH/PUT /projects/1 or /projects/1.json
   def update
+    if params[:project][:stage] == "finished"
+      params[:project][:stage_status] = "delivered"
+    end
+
     respond_to do |format|
       if @project.update(project_params)
         # Register the change log

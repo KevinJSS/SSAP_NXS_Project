@@ -4,7 +4,7 @@ class MainController < ApplicationController
   def home
     #projects
     @projects = Project.count
-    @closed_projects = Project.where(stage: :construction_inspection, stage_status: :delivered).length
+    @closed_projects = Project.where(stage: 8, stage_status: 2).length
     @active_projects = @projects - @closed_projects
 
     #activities
