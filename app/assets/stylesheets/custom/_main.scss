@@ -9,7 +9,8 @@
         @include m.desktop-lg {
           margin-left: -5%; 
           
-          &--minutes {
+          &--minutes,
+          &--home {
             margin: 0;
           }
         }
@@ -26,6 +27,35 @@
             width: 50%;
         }
 
+        &--minutes,
+        &--home {
+            @include m.desktop-lg {
+                width: 100%;
+            }
+        }
+
+        &--home {
+            @include m.tablet {
+                width: 85%;
+            }
+
+            @include m.desktop {
+                width: 90%;
+            }
+
+            @include m.desktop-md {
+                width: 100%;
+            }
+
+            @include m.desktop-xl {
+                width: 90%;
+            }
+
+            @include m.desktop-xxl {
+                width: 70%;
+            }
+        }
+
         &--minutes {
             @include m.tablet {
                 width: 80%;
@@ -33,10 +63,6 @@
 
             @include m.desktop {
                 width: 90%;
-            }
-
-            @include m.desktop-lg {
-                width: 100%;
             }
 
             @include m.desktop-xl {

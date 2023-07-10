@@ -19,11 +19,18 @@ class Project < ApplicationRecord
     #validations
     before_save { self.name = name.upcase }
     before_save :trim_values
+    before_destroy :clean_changes
 
-    validates :name, presence: true, length: { in: 2..100}
+    validates :name, presence: true
+    validates :name, length: { in: 2..100 }, if: -> { name.present? }
+
     validates :start_date, presence: true
     validates :scheduled_deadline, presence: true
-    validates :location, presence: true, length: { in: 2..500}
+
+    validates :location, presence: true
+    validates :location, length: { in: 2..500 }, if: -> { location.present? }
+    
+
     validates :stage, presence: true
     validates :stage_status, presence: true
     validate :deadline_greater_than_start_date
@@ -88,6 +95,18 @@ class Project < ApplicationRecord
         minutes = self.minutes.count
         activities = self.activities.count
         activities != 0 || minutes != 0
+    end
+
+    def self.ransackable_associations(auth_object = nil)
+        ["activities", "minutes", "user"]
+    end
+
+    def self.ransackable_attributes(auth_object = nil)
+        ["name", "stage", "stage_status", "user_id"]
+    end
+
+    def clean_changes
+        ChangeLog.where(table_id: self.id, table_name: "project").destroy_all
     end
 
     #associations

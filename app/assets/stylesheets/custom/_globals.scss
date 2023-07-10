@@ -21,7 +21,8 @@ body {
     background-position: center;
     background-repeat: no-repeat;
     font-size: 16px;
-    
+    overflow-x: hidden;
+
     @media (min-height: 520px) {
         background-size: cover;
     }
@@ -37,6 +38,7 @@ a {
 
     &:hover {
         color: v.$primary;
+        cursor: pointer;
     }
 }
 
@@ -71,7 +73,8 @@ h2, h3 {
 
 /* SCROLLER */
 ::-webkit-scrollbar {
-    width: 5px;
+    width: 7px;
+    height: 7px;
 }
 
 /* Handle */

@@ -8,14 +8,14 @@
 
   <div class="item__content">
     <div class="item__references">
-      <div class="item__reference">
+      <a href="<%= activities_path(q: {phase: phase.id}) %>" class="item__reference clean-link">
         <p class="item__reference-text">
           <%= image_tag('activities-icon.svg', alt: "icono actividades asociadas", class: "item__reference-icon") %>
           <%= phase.activities.count %>
         </p>
         <%# Agregar link para ir a lista de actividades filtradas por este proyecto %>
         <p class="item__reference-label">Actividades registradas</p>
-      </div>
+      </a>
     </div>
 
     <div class="item__actions">

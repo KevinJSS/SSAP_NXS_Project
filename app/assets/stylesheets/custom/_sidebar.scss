@@ -33,6 +33,19 @@ div.offcanvas {
         @media(min-height: 970px) {
             overflow-y: hidden;
         }
+
+        &--hover {
+            &::-webkit-scrollbar-thumb {
+                background-color: v.$dark2;
+            }
+        
+            &:hover,
+            &:focus {
+                &::-webkit-scrollbar-thumb {
+                    background-color: v.$primary;
+                }
+            }
+        }
     }
 
     &__menu-icon {

@@ -6,7 +6,18 @@ class ProjectsController < ApplicationController
 
   # GET /projects or /projects.json
   def index
-    @projects = Project.order(updated_at: :desc).paginate(page: params[:page], per_page: 3)
+    @q = Project.ransack(params[:q])
+
+    if !params[:q].nil? && !params[:q][:active].nil?
+      @projects = Project.where.not(stage: 7, stage_status: 2).order(updated_at: :desc).paginate(page: params[:page], per_page: 3)
+      return
+    end
+
+    @projects = @q.result(distinct: true).order(updated_at: :desc).paginate(page: params[:page], per_page: 3)
+  end
+
+  def clear_filters
+    redirect_to projects_path
   end
 
   # GET /projects/1 or /projects/1.json
@@ -60,7 +71,6 @@ class ProjectsController < ApplicationController
   # DELETE /projects/1 or /projects/1.json
   def destroy
     @project.destroy if !@project.has_associated_minutes_and_activities?
-    ChangeLog.where(table_id: @project.id, table_name: "project").destroy_all
 
     respond_to do |format|
       if @project.has_associated_minutes_and_activities?
@@ -85,6 +95,7 @@ class ProjectsController < ApplicationController
 
     def set_admins
       @admins = User.where(role: "admin", status: "active").order(fullname: :desc)
+      @all_admins = User.where(role: "admin").order(fullname: :desc)
     end
 
     def get_change_log

@@ -1,4 +1,6 @@
 class MinutesController < ApplicationController
+  include ActionView::Helpers::SanitizeHelper
+
   before_action :authenticate_user!
   before_action :set_minute, only: %i[ show edit update destroy ]
   before_action :set_attendees, :set_projects
@@ -6,7 +8,8 @@ class MinutesController < ApplicationController
 
   # GET /minutes or /minutes.json
   def index
-    @minutes = Minute.order(updated_at: :desc).paginate(page: params[:page], per_page: 3)
+    @q = Minute.ransack(params[:q])
+    @minutes = @q.result(distinct: true).order(updated_at: :desc).paginate(page: params[:page], per_page: 3)
   end
 
   # GET /minutes/1 or /minutes/1.json
@@ -102,59 +105,83 @@ class MinutesController < ApplicationController
     end
 
     def register_change_log
-      changes = @minute.previous_changes
-
       @description = ""
-      attribute_name = ""
-      count = 1
-
-      changes.each do |attribute, values|
+      @count = 1
+    
+      process_attribute_changes
+      process_action_text_changes
+    
+      validate_attendees_changes
+    
+      return if @description.empty?
+    
+      @description = "[#{Time.now.strftime("%d/%m/%Y - %H:%M")}] #{current_user.get_short_name} realizó los siguientes cambios: #{@description}"
+      ChangeLog.create(table_id: @minute.id, user_id: current_user.id, description: @description, table_name: "minute")
+      @description = ""
+    end
+    
+    def process_attribute_changes
+      attribute_mappings = {
+        "meeting_title" => "el título de la reunión",
+        "meeting_date" => "la fecha de la reunión",
+        "start_time" => "la hora de inicio de la reunión",
+        "end_time" => "la hora de finalización de la reunión",
+        "project_id" => "el proyecto"
+      }
+    
+      @minute.previous_changes.each do |attribute, values|
         old_value, new_value = values
-
-        case attribute
-        when "meeting_title"
-          attribute_name = "el título de la reunión"
-        when "meeting_date"
-          attribute_name = "la fecha de la reunión"
-        when "start_time"
-          attribute_name = "la hora de inicio de la reunión"
+        attribute_name = attribute_mappings[attribute]
+    
+        next if attribute_name.nil?
+    
+        if attribute == "start_time" || attribute == "end_time"
           old_value = old_value.strftime("%H:%M %p")
           new_value = new_value.strftime("%H:%M %p")
-        when "end_time"
-          attribute_name = "la hora de finalización de la reunión"
-          old_value = old_value.strftime("%H:%M %p")
-          new_value = new_value.strftime("%H:%M %p")
-        when "meeting_objectives"
-          attribute_name = "los objetivos de la reunión"
-        when "discussed_topics"
-          attribute_name = "los temas discutidos en la reunión"
-        when "pending_topics"
-          attribute_name = "los temas pendientes de la reunión"
-        when "agreements"
-          attribute_name = "los acuerdos de la reunión"
-        when "meeting_notes"
-          attribute_name = "las notas de la reunión"
-        when "project_id"
-          attribute_name = "el proyecto"
+        elsif attribute == "project_id"
           old_value = Project.find(old_value).name
           new_value = Project.find(new_value).name
         end
-
-        next if attribute_name.empty?
-
-        @description = @description + "(#{count}) Cambió #{attribute_name} de '#{old_value}' a '#{new_value}'. "
-        attribute_name = ""
-        count += 1
+    
+        @description += "(#{@count}) Cambió #{attribute_name} de '#{old_value}' a '#{new_value}'. "
+        @count += 1
       end
-
-      validate_attendees_changes(count)
-
-      return if @description.empty?
-
-      @description = "[#{Time.now.strftime("%d/%m/%Y - %H:%M")}] #{current_user.get_short_name} realizó los siguientes cambios: #{@description}"
-      ChangeLog.new(table_id: @minute.id, user_id: current_user.id, description: @description, table_name: "minute").save
-      @description = ""
     end
+    
+    def process_action_text_changes
+      action_text_attributes = {
+        'meeting_objectives' => 'los objetivos de la reunión',
+        'discussed_topics' => 'los temas discutidos',
+        'pending_topics' => 'los temas pendientes',
+        'meeting_notes' => 'las notas de la reunión'
+      }
+    
+      action_text_attributes.each do |attribute, attribute_name|
+        changes = @minute.send(attribute).previous_changes
+        previous_content = changes['body'][0].to_plain_text if changes.present?
+        current_content = @minute.send(attribute).body.to_plain_text
+    
+        next if previous_content.blank?
+    
+        previous_items = previous_content.split("\n").map(&:strip).reject(&:blank?)
+        current_items = current_content.split("\n").map(&:strip).reject(&:blank?)
+    
+        added_items = current_items - previous_items
+        removed_items = previous_items - current_items
+    
+        if added_items.any?
+          added_items_str = added_items.map { |item| "'#{item}'" }.join(", ")
+          @description += "(#{@count}) Agregó el siguiente contenido a #{attribute_name}: #{added_items_str}. \n"
+          @count += 1
+        end
+    
+        if removed_items.any?
+          removed_items_str = removed_items.map { |item| "'#{item}'" }.join(", ")
+          @description += "(#{@count}) Eliminó el siguiente contenido de #{attribute_name}: #{removed_items_str}. \n"
+          @count += 1
+        end
+      end
+    end    
 
     def validate_attendees
       #validate if nested attributes are empty
@@ -201,7 +228,7 @@ class MinutesController < ApplicationController
       end
     end
 
-    def validate_attendees_changes(count)
+    def validate_attendees_changes
       return if @minute.errors.any?
       new_attributes = params.fetch(:minute, {}).fetch(:minutes_users_attributes, {}).values
 
@@ -209,25 +236,25 @@ class MinutesController < ApplicationController
       removed_users = new_attributes.reject { |user| user[:_destroy] == "false" }
 
       if !removed_users.empty?
-        @description = @description + " (#{count}) Eliminó los/las siguientes asistentes: "
+        @description = @description + " (#{@count}) Eliminó los/las siguientes asistentes: "
 
         removed_users.each do |user|
           @description = @description + "#{User.find(user[:user_id]).get_short_name}, "
         end
 
         @description = @description.chomp(", ")
-        count += 1
+        @count += 1
       end
 
       if !added_users.empty?
-        @description = @description + " (#{count}) Agregó los/las siguientes asistentes: "
+        @description = @description + " (#{@count}) Agregó los/las siguientes asistentes: "
 
         added_users.each do |user|
           @description = @description + "#{User.find(user[:user_id]).get_short_name}, "
         end
 
         @description = @description.chomp(", ")
-        count += 1
+        @count += 1
       end
     end
 

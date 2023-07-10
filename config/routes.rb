@@ -2,7 +2,11 @@ Rails.application.routes.draw do
   resources :minutes
   resources :phases
   resources :activities
-  resources :projects
+  resources :projects do
+    collection do
+      delete :clear_filters
+    end
+  end
 
   devise_for :users, controllers: { sessions: 'users/sessions', registrations: 'users/registrations' }
   resources :users, only: [:index, :show, :edit, :update]

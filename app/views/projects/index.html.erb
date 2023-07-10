@@ -26,23 +26,32 @@
     </div>
   </div>
   
-  <%= render 'project_filters' %>
+  <%= render 'project_filters', project: Project.new %>
 
   <section class="card-list mb-4">
-    <h4 class="card-list__title">
-      <%= image_tag('card-list-icon.svg', alt: "icon lista de proyectos") %>
-      PROYECTOS
-    </h4>
+    <div class="d-flex justify-content-between align-items-center" data-controller="filters">
+      <h4 class="card-list__title">
+        <%= image_tag('card-list-icon.svg', alt: "icon lista de proyectos") %>
+        PROYECTOS
+      </h4>
+      <a class="text-danger" id="clear-filters-button" style="display: none; text-decoration: none;" data-action="click->filters#clearFilters">Limpiar filtros &times;</a>
+    </div>
 
     <div id="projects" class="card-list__items">
       <% @projects.each do |project| %>
         <%= render project %>
       <% end %>
+
+      <% if !@q.result.any? %>
+        <p class="text-center text-black-50 fst-italic my-4"><i class="bi bi-info-circle me-2"></i>Lista de proyectos vacía</p>
+      <% end %>
     </div>
 
-    <div class="card-list__pagination">
-      <%= render "shared/pagination_count", object: @projects %>
-      <%= will_paginate @projects, inner_window: 1 %>
-    </div>
+    <% if !@projects.empty? %>
+      <div class="card-list__pagination">
+        <%= render "shared/pagination_count", object: @projects %>
+        <%= will_paginate @projects, inner_window: 1 %>
+      </div>
+    <% end %>
   </section>
 </main>

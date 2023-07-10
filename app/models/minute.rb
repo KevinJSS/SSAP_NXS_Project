@@ -1,6 +1,15 @@
 class Minute < ApplicationRecord
+    has_rich_text :meeting_objectives
+    has_rich_text :discussed_topics
+    has_rich_text :pending_topics
+    has_rich_text :agreements
+    has_rich_text :meeting_notes
+
     #validations
-    validates :meeting_title, presence: true, length: { in: 8..100 }
+    before_destroy :clean_changes
+
+    validates :meeting_title, presence: true
+    validates :meeting_title, length: { in: 8..100 }, if: -> { meeting_title.present? }
     validates :meeting_date, presence: true
     validates :start_time, presence: true
     validates :end_time, presence: true
@@ -23,6 +32,14 @@ class Minute < ApplicationRecord
         if self.minutes_users.empty?
             errors.add(:minutes_users, "es necesario seleccionar al menos un asistente")
         end
+    end
+
+    def self.ransackable_attributes(auth_object = nil)
+        ["meeting_date", "project_id", "meeting_title"]
+    end
+
+    def clean_changes
+        ChangeLog.where(table_id: self.id, table_name: "minute").destroy_all
     end
 
     #associations

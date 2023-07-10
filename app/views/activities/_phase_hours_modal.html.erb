@@ -7,15 +7,17 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body d-flex flex-column gap-3">
-                <div>
+                <div class="form__field">
                     <label for="modalInput" class="mb-2"><strong>Fase en la que trabajó:</strong></label>
                     <input type="text" name="phases" id="modalInput" class="form__input form-select search-bar" autocomplete="off" data-action="click->dropdown-search#openDropdown keyup->dropdown-search#searchInput" data-value="" placeholder="- Selecciona una opción -">
                     
-                    <select class="form-select multiple-select" data-dropdown-type="modal" multiple>
-                        <% phases.each do |p| %>
-                            <option value="<%= p.id %>"><%= p.code %> <%= p.name %></option>
+                    <div class="dropdown-list" data-dropdown-type="modal">
+                        <% @phases.each do |p| %>
+                            <div class="dropdown-list__item" data-value="<%= p.id %>">
+                                <%= p.code %> <%= p.name %>
+                            </div>
                         <% end %>
-                    </select>
+                    </div>
                 </div>
 
                 <div>

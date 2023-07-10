@@ -41,6 +41,11 @@
         @include m.desktop-lg {
             font-size: v.$fs-sm;
         }
+
+        &--textarea {
+            border-top-left-radius: 0;
+            border-top-right-radius: 0;
+        }
     }
 
     &__flex {

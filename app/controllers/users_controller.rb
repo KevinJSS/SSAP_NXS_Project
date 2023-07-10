@@ -4,11 +4,13 @@ class UsersController < ApplicationController
   before_action :get_change_log, only: %i[ show edit update ]
 
   def index
-    @users = User.where(role: "admin").order(fullname: :asc).paginate(page: params[:page], per_page: 3)
+    @admin_q = User.where(role: "admin").ransack(params[:q])
+    @users = @admin_q.result(distinct: true).order(fullname: :asc).paginate(page: params[:page], per_page: 3)
   end
 
   def collaborator_index
-    @collaborator_users = User.where(role: "collaborator").order(fullname: :asc).paginate(page: params[:page], per_page: 3)
+    @collaborator_q = User.where(role: "collaborator").ransack(params[:q])
+    @collaborator_users = @collaborator_q.result(distinct: true).order(fullname: :asc).paginate(page: params[:page], per_page: 3)
   end
 
   def show
@@ -24,9 +26,7 @@ class UsersController < ApplicationController
   def update
     @user.valid?
 
-    if params[:user][:status] == "false" && @user.projects.any?
-      @user.errors.add(:status, "no se puede inactivar debido a que tiene proyectos a su cargo.")
-    elsif params[:user][:role] == "collaborator" && @user.projects.any?
+    if params[:user][:role] == "collaborator" && @user.projects.any?
       @user.errors.add(:role, "no se puede cambiar debido a que tiene proyectos a su cargo.")
     end
 

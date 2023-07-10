@@ -1,16 +1,29 @@
 class Phase < ApplicationRecord
     #validations
-    validates :code, presence: true, uniqueness: true, length: { in: 1..50}
-    validates :code, presence: true, length: { in: 1..100}
+    before_destroy :clean_changes
+    validates :code, presence: true, uniqueness: true
+    validates :code, length: { in: 2..50}, if: -> { code.present? }
+    validates :name, presence: true
+    validates :name, length: { in: 5..100}, if: -> { name.present? }
 
     def has_associated_activities?
         activities = self.activities.count
         activities != 0
     end
 
-    #associations
-    #has_many :activities
+    def self.ransackable_associations(auth_object = nil)
+        ["activities"]
+    end
 
+    def self.ransackable_attributes(auth_object = nil)
+        ["code", "name"]
+    end
+
+    def clean_changes
+        ChangeLog.where(table_id: self.id, table_name: "phase").destroy_all
+    end
+
+    #associations
     has_many :phases_activities, dependent: :destroy
     has_many :activities, through: :phases_activities
 end

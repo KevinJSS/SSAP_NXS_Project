@@ -1,6 +1,5 @@
 <%= render 'shared/error_message', object: minute %>
 
-
 <%= form_with(model: minute, data: { controller: 'nested-form', nested_form_wrapper_selector_value: '.nested-form-wrapper', form_model: "minutes" }, class: "form") do |form| %>
   <div class="form__flex form__flex--minute section-bg section-bg--minutes">
     <div class="form__flex section-bg--minutes-1 w-35 mb-0">
@@ -16,15 +15,16 @@
       
       <div class="form__field" data-controller="dropdown-search update-fields">
         <%= form.label "Proyecto asociado", class: "form__label" %>
-        <%# form.select :project_id, options_for_select(@projects.collect { |pr| [pr.name, pr.id] }, selected: minute.project_id), { prompt: "- Seleccione un proyecto -"}, class: "form__input form-select" %>
-
         <%= form.hidden_field :project_id, data: {id: "hidden-input"}%>
+
         <input type="text" name="projects" class="form__input form-select search-bar" autocomplete="off" data-action="click->dropdown-search#openDropdown keyup->dropdown-search#searchInput" data-value="" placeholder="- Selecciona una opción -">
-        <select class="form-select multiple-select" data-dropdown-type="form" multiple>
+        <div class="dropdown-list" data-dropdown-type="form">
           <% @projects.each do |p| %>
-            <option value="<%= p.id %>"><%= p.name %></option>
+            <div class="dropdown-list__item" data-value="<%= p.id %>">
+              <%= p.name %>
+            </div>
           <% end %>
-        </select>
+        </div>
       </div>
       
       <div class="form__field">
@@ -46,7 +46,7 @@
 
       <div class="form__actions form__actions--minutes form__actions--minutes-1 mt-3">
         <%= form.submit minute.new_record? ? "Guardar" : "Actualizar", class: "button-primary button-primary--minutes" %>
-        <%= link_to "Regresar", minutes_path, class: "button-secondary button-secondary--minutes" %>
+        <%= link_to "Regresar", "#", class: "button-secondary  button-secondary--minutes", data: {action: "click->navigation#goBack"} %>
 
         <%# OPEN CHANGE LOG %>
         <% if !@minutes_change_log.nil? %>
@@ -66,7 +66,7 @@
 
       <div class="form__field">
         <%= form.label "Objetivos de la reunión", class: "form__label" %>
-        <%= form.text_area :meeting_objectives, placeholder: "Enumere los objetivos de la reunión", class: "form__input  vertical-resize", rows: "5" %>
+        <%= form.rich_text_area :meeting_objectives, placeholder: "Enumere los objetivos de la reunión", class: "form__input form__input--textarea" %>
       </div>
       
       <div class="form__field">
@@ -104,29 +104,31 @@
       
       <div class="form__field">
         <%= form.label "Temas tratados", class: "form__label" %>
-        <%= form.text_area :discussed_topics, placeholder: "Enumere los temas tratados en la reunión", class: "form__input vertical-resize", rows: "5" %>
+        <div class="form__textarea">
+          <%= form.rich_text_area :discussed_topics, placeholder: "Enumere los temas tratados en la reunión", class: "form__input form__input--textarea" %>
+        </div>
       </div>
       
       <div class="form__field">
         <%= form.label "Temas pendientes", class: "form__label" %>
-        <%= form.text_area :pending_topics, placeholder: "Enumere los temas que quedaron pendientes de discutir", class: "form__input vertical-resize", rows: "5" %>
+        <%= form.rich_text_area :pending_topics, placeholder: "Enumere los temas que quedaron pendientes de discutir", class: "form__input form__input--textarea" %>
       </div>
       
       <div class="form__field">
         <%= form.label "Acuerdos", class: "form__label" %>
-        <%= form.text_area :agreements, placeholder: "Enumere los acuerdos establecidos en la reunión", class: "form__input vertical-resize", rows: "5" %>
+        <%= form.rich_text_area :agreements, placeholder: "Enumere los acuerdos establecidos en la reunión", class: "form__input form__input--textarea" %>
       </div>
       
       <div class="form__field">
         <%= form.label "Comentarios u observaciones", class: "form__label" %>
-        <%= form.text_area :meeting_notes, placeholder: "Anote cualquier observación o comentario", class: "form__input vertical-resize", rows: "5" %>
+        <%= form.rich_text_area :meeting_notes, placeholder: "Anote cualquier observación o comentario", class: "form__input form__input--textarea" %>
       </div>
     </div>
 
     <div class="form__actions form__actions--minutes-3 mt-3">
       <div class="form__actions form__actions--minutes-2">
         <%= form.submit minute.new_record? ? "Guardar" : "Actualizar", class: "button-primary button-primary--minutes" %>
-        <%= link_to "Regresar", minutes_path, class: "button-secondary button-secondary--minutes" %>
+        <%= link_to "Regresar", "#", class: "button-secondary button-secondary--minutes", data: {action: "click->navigation#goBack"} %>
       </div>
 
       <%# OPEN CHANGE LOG %>

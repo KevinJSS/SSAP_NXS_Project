@@ -51,10 +51,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   # PUT /resource
   def update
-
-    if params[:user][:status] == "false" && @user.projects.any?
-      @user.errors.add(:status, "no se puede inactivar el/la administrador(a) porque tiene proyectos a su cargo.")
-    elsif params[:user][:role] == "collaborator" && @user.projects.any?
+    if params[:user][:role] == "collaborator" && @user.projects.any?
       @user.errors.add(:role, "no se puede cambiar el rol de acceso del administrador(a) porque tiene proyectos a su cargo.")
     end
 

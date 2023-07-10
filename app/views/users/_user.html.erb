@@ -6,14 +6,14 @@
         </div>
         <p class="item__status">
             <% if user.role == "admin" %>
-                Administrador(a)
+                <%= user.gender == "male" ? "Administrador" : "Administradora" %>
                 <% if user.status == false %>
-                  / <span class="text-danger" style="font-weight:bold!important; font-style: normal !important;">Inactivo(a)</span>
+                  / <span class="text-danger" style="font-weight:bold!important; font-style: normal !important;"><%= user.gender == "male" ? "INACTIVO" : "INACTIVA" %></span>
                 <% end %>
             <% else %>
-                Colaborador(a)
+                <%= user.gender == "male" ? "Colaborador" : "Colaboradora" %>
                 <% if user.status == false %>
-                  / <span class="text-danger" style="font-weight:bold!important; font-style: normal !important;">Inactivo(a)</span>
+                  / <span class="text-danger" style="font-weight:bold!important; font-style: normal !important;"><%= user.gender == "male" ? "INACTIVO" : "INACTIVA" %></span>
                 <% end %>
             <% end %>
         </p>

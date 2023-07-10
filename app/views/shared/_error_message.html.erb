@@ -14,11 +14,11 @@
     <div class="alert alert-danger alert-dismissible fade show" role="alert">
         <div class="alert-heading d-flex align-items-center">
             <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:"><use xlink:href="#exclamation-triangle-fill"/></svg>
-            <h4 class="fs-5 mb-0"><%= object.errors.count %> <%= object.errors.count > 1 ? "errores encontrados" : "error encontrado" %> al intentar guardar este elemento</h4>
+            <h4 class="fs-5 mb-0"><%= object.errors.count %> <%= object.errors.count > 1 ? "errores encontrados" : "error encontrado" %> al guardar este elemento</h4>
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
 
-        <hr>
+        <hr class="my-3">
         <% count = 0 %>
         <% object.errors.each do |error| %>
             <p class="mb-1"><%= count += 1 %>) <%= error.full_message %></p>

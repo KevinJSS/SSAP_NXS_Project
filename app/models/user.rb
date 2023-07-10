@@ -49,20 +49,28 @@ class User < ApplicationRecord
   before_save { self.account_number = account_number.upcase }
   before_save { self.id_card = id_card.upcase }
   before_save :trim_values
+  before_destroy :clean_changes
 
-  validates :email, presence: true, uniqueness: true, length: { maximum: 100 }, format: { with: VALID_EMAIL_REGEX }
-  validates :id_card_type, presence: true
-  validates :id_card, presence: true, uniqueness: true, length: { in: 8..15 } 
-  validates :fullname, presence: true, length: { in: 5..100 }
+  validates :email, presence: true, uniqueness: true, format: { with: /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+\z/i }, if: -> { email.present? }
+  validates :id_card_type, presence: { message: "debe ser indicado." }
+  validates :id_card, presence: true, uniqueness: true
+  validates :id_card, length: { in: 8..15 }, if: -> { id_card.present? }
+  validates :fullname, presence: true
+  validates :fullname, length: { in: 5..100 }, if: -> { fullname.present? }
   validates :birth_date, presence: true
   validates :marital_status, presence: true
   validates :education, presence: true
-  validates :phone, presence: true, length: { in: 8..20 }
+  validates :phone, presence: true
+  validates :phone, length: { in: 8..20 }, if: -> { phone.present? }
   validates :address, length: { maximum: 200 }
-  validates :province, presence: true, length: { in: 2..50 }
-  validates :canton, presence: true, length: { in: 2..50 }
-  validates :district, presence: true, length: { in: 2..50 }
-  validates :job_position, presence: true, length: { in: 4..100 }
+  validates :province, presence: true
+  validates :province, length: { in: 2..50 }, if: -> { province.present? }
+  validates :canton, presence: true
+  validates :canton, length: { in: 2..50 }, if: -> { canton.present? }
+  validates :district, presence: true
+  validates :district, length: { in: 2..50 }, if: -> { district.present? }
+  validates :job_position, presence: true
+  validates :job_position, length: { in: 4..100 }, if: -> { job_position.present? }
   validates :account_number, length: { maximum: 100 }
   validate :birth_date_validation
 
@@ -177,6 +185,14 @@ class User < ApplicationRecord
   def get_short_name
     fullname = self.fullname.split(" ")
     short_name = fullname[0] + " " + fullname[1]
+  end
+
+  def self.ransackable_attributes(auth_object = nil)
+    ["account_number", "address", "birth_date", "canton", "created_at", "district", "education", "email", "encrypted_password", "fullname", "gender", "id", "id_card", "id_card_type", "job_position", "marital_status", "nationality", "phone", "province", "remember_created_at", "reset_password_sent_at", "reset_password_token", "role", "status", "updated_at"]
+  end
+
+  def clean_changes
+    ChangeLog.where(table_id: self.id, table_name: "user").destroy_all
   end
   
   #associations

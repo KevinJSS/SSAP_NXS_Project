@@ -1,42 +1,51 @@
-import { Controller } from "@hotwired/stimulus"
+import { Controller, add } from "@hotwired/stimulus"
 
 // Connects to data-controller="update-fields"
 export default class extends Controller {
   connect() {
     const children = this.element.childNodes;
-    const selectList = children[7];
-
-    const dropdownType = selectList.dataset.dropdownType;
+    const dropdownList = children[7];
+    const dropdownType = dropdownList.dataset.dropdownType;
 
     if (dropdownType && dropdownType == "form") {
-      const parent = selectList.parentElement;
-      const searchInput = parent.querySelector(".search-bar");
-      const hiddenName = document.getElementById("hidden-name");
-
-      const hiddenInput = parent.querySelector("[data-id='hidden-input']");
-      if (hiddenInput && hiddenInput.value != "") {
-        for (let i = 0; i < selectList.length; i++) {
-          if (selectList[i].value == hiddenInput.value) {
-            searchInput.value = selectList[i].text;
-            return;
-          }
-        }
-      }
-      
-      if (hiddenName && hiddenName.value != "") {
-        searchInput.value = hiddenName.defaultValue;
-        return;
-      }
+      this.updateDropdownForm(dropdownList);
     }
 
-    for (let i = 0; i < selectList.length; i++) {
-      if (selectList[i].value == children[1].value) {
-        children[3].value = selectList[i].text;
+    // Actualiza los campos de las listas de actividades y asistentes
+    for (let i = 0; i < dropdownList.length; i++) {
+      if (dropdownList[i].value == children[1].value) {
+        children[3].value = dropdownList[i].text;
 
         if (this.element.dataset.formModel == "minutes") {
-          children[5].value = selectList[i].dataset.jobPosition;
+          children[5].value = dropdownList[i].dataset.jobPosition;
         }
       }
+    }
+  }
+
+  updateDropdownForm(dropdownList) {
+    const parent = dropdownList.parentElement;
+    const items = dropdownList.querySelectorAll(".dropdown-list__item");
+    const searchInput = parent.querySelector(".search-bar");
+    const hiddenInput = parent.querySelector("[data-id='hidden-input']");
+
+    let added = false;
+    if (hiddenInput && hiddenInput.value != "") {
+      for (let i = 0; i < items.length; i++) {
+        if (items[i].dataset.value == hiddenInput.value) {
+          searchInput.value = items[i].textContent.replace(/\n/g, "").trim();
+          added = true;
+          return;
+        }
+      }
+    }
+    
+    //En caso de que el usuario este inactivo y no aparezca en la lista
+    //Se busca el nombre en el hidden input
+    const hiddenName = document.getElementById("hidden-name");
+    if (!added && hiddenName && hiddenName.value != "") {
+      searchInput.value = hiddenName.defaultValue;
+      return;
     }
   }
 }

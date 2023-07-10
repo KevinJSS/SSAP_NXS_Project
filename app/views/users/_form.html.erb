@@ -106,9 +106,9 @@
     <div class="form__field">
       <%= form.label "Rol de usuario", class: "form__label" %>
       <% if user.role == "admin" %>
-          <%= form.select :role, options_for_select([['Administrador', "admin"], ['Colaborador', "collaborator"]], user.role), {}, class: "form__input form-select" %>
+          <%= form.select :role, options_for_select([['Administrador(a)', "admin"], ['Colaborador(a)', "collaborator"]], user.role), {}, class: "form__input form-select" %>
       <% else %>
-          <%= form.select :role, options_for_select([['Colaborador', "collaborator"], ['Administrador', "admin"]], user.role), {}, class: "form__input form-select" %>
+          <%= form.select :role, options_for_select([['Colaborador(a)', "collaborator"], ['Administrador(a)', "admin"]], user.role), {}, class: "form__input form-select" %>
       <% end %>
     </div>
     
@@ -144,7 +144,7 @@
   <div class="form__flex form__flex--row justify-content-between">
     <div class="form__actions">
       <%= form.submit "Actualizar", class: "button-primary" %>
-      <%= link_to "Regresar", user.role == "admin" ? users_path : collaborator_users_url, class: "button-secondary" %>
+      <%= link_to "Regresar", "#", class: "button-secondary", data: {action: "click->navigation#goBack"} %>
     </div>
 
     <%# RENDER CHANGE LOG %>

@@ -4,6 +4,9 @@
 
 import { application } from "./application"
 
+import ClockController from "./clock_controller"
+application.register("clock", ClockController)
+
 import DropdownSearchController from "./dropdown_search_controller"
 application.register("dropdown-search", DropdownSearchController)
 
@@ -12,6 +15,9 @@ application.register("filters", FiltersController)
 
 import HelloController from "./hello_controller"
 application.register("hello", HelloController)
+
+import NavigationController from "./navigation_controller"
+application.register("navigation", NavigationController)
 
 import NestedFormController from "./nested_form_controller"
 application.register("nested-form", NestedFormController)

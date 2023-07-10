@@ -1,8 +1,58 @@
-.multiple-select {
-    height: 130px;
+@use 'variables' as v;
+@use 'mixins' as m;
+
+.dropdown-list {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    z-index: 999;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+    overflow-y: scroll;
+
     display: none;
+    height: 130px;
+    padding: 5px 0;
+    margin-top: 5px;
+    background-color: v.$light2;
+    border: 0.3px solid v.$dark2;
+    border-radius: v.$border-radius-sm;
+    -webkit-border-radius: v.$border-radius-sm;
+    -moz-border-radius: v.$border-radius-sm;
+    -ms-border-radius: v.$border-radius-sm;
+    -o-border-radius: v.$border-radius-sm;
 
     &.active {
         display: block;
     }
+
+    &__item {
+        padding: 2px 10px;
+        transition: all .1s ease-in;
+        -webkit-transition: all .1s ease-in;
+        -moz-transition: all .1s ease-in;
+        -ms-transition: all .1s ease-in;
+        -o-transition: all .1s ease-in;
+
+        &:hover {
+            background-color: v.$primary;
+            color: v.$light1;
+            cursor: pointer;
+        }
+    }
+}
+
+.form__field {
+    position: relative;
+    display: inline-block;
+}
+
+.form-select:focus,
+input:focus {
+    /* Remover cualquier estilo de Bootstrap que desees */
+    outline: none; /* Remover el resaltado predeterminado en algunos navegadores */
+    border-color: initial; /* Remover el borde en foco */
+    box-shadow: none; /* Remover la sombra en foco */
+    /* Agrega otros estilos personalizados si es necesario */
 }

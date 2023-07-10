@@ -5,7 +5,8 @@ class PhasesController < ApplicationController
 
   # GET /phases or /phases.json
   def index
-    @phases = Phase.paginate(page: params[:page], per_page: 3)
+    @q = Phase.ransack(params[:q])
+    @phases = @q.result(distinct: true).paginate(page: params[:page], per_page: 3)
   end
 
   # GET /phases/1 or /phases/1.json
@@ -57,7 +58,6 @@ class PhasesController < ApplicationController
   # DELETE /phases/1 or /phases/1.json
   def destroy
     @phase.destroy if @phase.activities.count == 0
-    ChangeLog.where(table_name: 'phase', table_id: @phase.id).destroy_all
 
     respond_to do |format|
       if @phase.activities.count == 0

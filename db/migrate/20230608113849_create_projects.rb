@@ -6,7 +6,7 @@ class CreateProjects < ActiveRecord::Migration[7.0]
       t.date :scheduled_deadline
       t.text :location
       t.integer :stage, null: false
-      t.string :stage_status, null: false
+      t.integer :stage_status, null: false
 
       t.timestamps
     end

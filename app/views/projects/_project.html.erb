@@ -2,30 +2,30 @@
   <div class="item__header">
     <div class="item__heading">
       <h4 class="item__title"><%= project.name %></h4> 
-      <p class="item__text"><%= project.user.fullname %></p>
+      <a href="<%= edit_user_path(project.user) %>" class="item__text clean-link"><%= project.user.fullname %></a>
     </div>
     <p class="item__status"> <%= project.get_humanize_stage %> <span class="item__status-divider">/</span> <%= project.get_humanize_status  %></p>
   </div>
 
   <div class="item__content">
     <div class="item__references">
-      <div class="item__reference">
+      <a href="<%= activities_path(q: { project_id_eq: project.id })%>" class="item__reference clean-link">
         <p class="item__reference-text">
           <%= image_tag('activities-icon.svg', alt: "icono actividades asociadas", class: "item__reference-icon") %>
           <%= project.activities.count %>
         </p>
         <%# Agregar link para ir a lista de actividades filtradas por este proyecto %>
         <p class="item__reference-label">Actividades asociadas</p>
-      </div>
+      </a>
       
-      <div class="item__reference">
+      <a href="<%= minutes_path(q: { project_id_eq: project.id })%>" class="item__reference clean-link">
         <p class="item__reference-text">
           <%= image_tag('minutes-icon.svg', alt: "icono actividades asociadas", class: "item__reference-icon") %>
           <%= project.minutes.count  %>
         </p>
         <%# Agregar link para ir a lista de minutas filtradas por este proyecto %>
         <p class="item__reference-label">Minutas asociadas</p> 
-      </div>
+      </a>
     </div>
 
     <div class="item__actions">
