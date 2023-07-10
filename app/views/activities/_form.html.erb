@@ -15,7 +15,7 @@
     </div>
 
     <% if !activity.new_record? %>
-      <input type="text" id="hidden-name" value="<%= activity.project.name %>" disabled="true" hidden>
+      <input type="text" data-id="hidden-name" value="<%= activity.project.name %>" disabled="true" hidden>
     <% end %>
   </div>
 
@@ -33,7 +33,7 @@
     </div>
 
     <% if !activity.new_record? %>
-      <input type="text" id="hidden-name" value="<%= activity.user.fullname%>" disabled="true" hidden>  
+      <input type="text" data-id="hidden-name" value="<%= activity.user.fullname%>" disabled="true" hidden>  
     <% end %>
   </div>
 

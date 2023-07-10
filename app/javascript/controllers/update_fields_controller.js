@@ -42,7 +42,7 @@ export default class extends Controller {
     
     //En caso de que el usuario este inactivo y no aparezca en la lista
     //Se busca el nombre en el hidden input
-    const hiddenName = document.getElementById("hidden-name");
+    const hiddenName = parent.querySelector("[data-id='hidden-name']");
     if (!added && hiddenName && hiddenName.value != "") {
       searchInput.value = hiddenName.defaultValue;
       return;

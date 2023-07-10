@@ -32,7 +32,7 @@
     </div>
 
     <% if !project.new_record? %>
-      <input type="text" id="hidden-name" value="<%= project.user.fullname%>" disabled="true" hidden>  
+      <input type="text" data-id="hidden-name" value="<%= project.user.fullname%>" disabled="true" hidden>  
     <% end %>
   </div>
 
