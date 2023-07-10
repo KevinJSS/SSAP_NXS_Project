@@ -9,7 +9,7 @@ class ProjectsController < ApplicationController
     @q = Project.ransack(params[:q])
 
     if !params[:q].nil? && !params[:q][:active].nil?
-      @projects = Project.where.not(stage: 7, stage_status: 2).order(updated_at: :desc).paginate(page: params[:page], per_page: 3)
+      @projects = Project.where.not(stage: 8, stage_status: 2).order(updated_at: :desc).paginate(page: params[:page], per_page: 3)
       return
     end
 
@@ -54,6 +54,10 @@ class ProjectsController < ApplicationController
 
   # PATCH/PUT /projects/1 or /projects/1.json
   def update
+    if params[:project][:stage] == "finished"
+      params[:project][:stage_status] = "delivered"
+    end
+
     respond_to do |format|
       if @project.update(project_params)
         # Register the change log

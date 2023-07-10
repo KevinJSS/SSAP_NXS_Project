@@ -7,7 +7,8 @@ class Project < ApplicationRecord
         project_management: 4,
         construction: 5, 
         technical_supervision: 6, 
-        construction_inspection: 7
+        construction_inspection: 7,
+        finished: 8
     }
 
     enum :stage_status, {
@@ -55,7 +56,8 @@ class Project < ApplicationRecord
             ["Presupuesto y dirección de obra", :project_management],
             ["Construcción", :construction],
             ["Dirección técnica", :technical_supervision],
-            ["Inspección de obra", :construction_inspection]
+            ["Inspección de obra", :construction_inspection],
+            ["Proyecto finalizado", :finished]
         ]
     end
 

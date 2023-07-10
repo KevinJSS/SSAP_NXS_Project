@@ -22,6 +22,9 @@ application.register("navigation", NavigationController)
 import NestedFormController from "./nested_form_controller"
 application.register("nested-form", NestedFormController)
 
+import ProjectStageController from "./project_stage_controller"
+application.register("project-stage", ProjectStageController)
+
 import SidebarController from "./sidebar_controller"
 application.register("sidebar", SidebarController)
 

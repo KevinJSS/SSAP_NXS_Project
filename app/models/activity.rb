@@ -1,6 +1,6 @@
 class Activity < ApplicationRecord
     #validations
-    before_save :clean_changes
+    before_destroy :clean_changes
 
     validates :date, presence: true
     validate :date_lower_than_or_equal_to_today
