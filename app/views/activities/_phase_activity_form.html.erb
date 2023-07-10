@@ -5,8 +5,8 @@
     <%= f.number_field :hours, class: "form-control-plaintext nested-input-hours", readonly: true %>
 
     <select class="d-none" id="selectList">
-        <% if !@phases.nil? %>
-            <% @phases.each do |p| %>
+        <% if !phases.nil? %>
+            <% phases.each do |p| %>
                 <option value="<%= p.id %>"><%= p.code %> <%= p.name %></option>
             <% end %>
         <% end %>
