@@ -5,11 +5,11 @@ export default class extends Controller {
   static targets = [ "stage", "status" ]
 
   connect() {
-    this.toggleStage({ currentTarget: this.stageTarget }) 
+    this.toggleStage() 
   }
 
-  toggleStage(event) {
-    const select = event.currentTarget
+  toggleStage() {
+    const select = this.stageTarget
     const stage = select.options[select.selectedIndex].value
     if (stage == "finished") {
       const status = this.statusTarget.options[this.statusTarget.selectedIndex]

@@ -44,12 +44,12 @@
   <div class="form__flex form__flex--row">
     <div class="form__field ">
       <%= form.label "Etapa", class: "form__label" %>
-      <%= form.select :stage, options_for_select(project.get_stage_options, selected: project.stage), {prompt: "- Seleccione una etapa -"}, class: "form__input form-select", data: { target: "project-stage.stage", action: "change->project-stage#toggleStage" }  %>
+      <%= form.select :stage, options_for_select(project.get_stage_options, selected: project.stage), {prompt: "- Seleccione una etapa -"}, class: "form__input form-select", data: { project_stage_target: "stage", action: "change->project-stage#toggleStage" }  %>
     </div>
     
     <div class="form__field ">
       <%= form.label "Estado de la etapa", class: "form__label" %>
-      <%= form.select :stage_status, options_for_select(project.get_status_options, selected: project.stage_status), {prompt: "- Seleccione un estado -"}, class: "form__input form-select", data: { target: "project-stage.status"}  %>
+      <%= form.select :stage_status, options_for_select(project.get_status_options, selected: project.stage_status), {prompt: "- Seleccione un estado -"}, class: "form__input form-select", data: { project_stage_target: "status"}  %>
     </div>
   </div>  
 
