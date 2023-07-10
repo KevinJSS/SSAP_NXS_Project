@@ -85,6 +85,7 @@ class MinutesController < ApplicationController
 
     def set_projects 
       @projects = Project.all
+      @open_projects = Project.where.not(stage: 8).order(name: :desc)
     end
 
     def set_attendees

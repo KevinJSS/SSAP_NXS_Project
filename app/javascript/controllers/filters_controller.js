@@ -11,9 +11,6 @@ export default class extends Controller {
     const currentURL = window.location.href;
     const index = currentURL.indexOf('?');
 
-    console.log(currentURL);
-    console.log(index);
-
     if (index !== -1) {
       const newURL = currentURL.substring(0, index);
       window.location.href = newURL;
