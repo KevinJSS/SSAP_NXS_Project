@@ -95,6 +95,7 @@ class ProjectsController < ApplicationController
 
     def set_admins
       @admins = User.where(role: "admin", status: "active").order(fullname: :desc)
+      @all_admins = User.where(role: "admin").order(fullname: :desc)
     end
 
     def get_change_log

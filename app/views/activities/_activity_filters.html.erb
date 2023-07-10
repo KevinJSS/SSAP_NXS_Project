@@ -17,11 +17,13 @@
                         <%= f.hidden_field :user_id_eq, data: {id: "hidden-input"}%>
                         
                         <input type="text" name="users" class="form__input form-select search-bar" autocomplete="off" data-action="click->dropdown-search#openDropdown keyup->dropdown-search#searchInput" data-value="" placeholder="- Selecciona una opción -">
-                        <select class="form-select multiple-select" data-dropdown-type="form" multiple>
+                        <div class="dropdown-list" data-dropdown-type="form">
                             <% @collaborators.each do |c| %>
-                                <option value="<%= c.id %>"><%= c.fullname %></option>
+                                <div class="dropdown-list__item" data-value="<%= c.id %>">
+                                <%= c.fullname %>
+                                </div>
                             <% end %>
-                        </select>
+                        </div>
                     </div>
 
                     <div class="form__field" data-controller="dropdown-search update-fields">
@@ -29,11 +31,13 @@
                         <%= f.hidden_field :project_id_eq, data: {id: "hidden-input"}%>
                         
                         <input type="text" name="projects" class="form__input form-select search-bar" autocomplete="off" data-action="click->dropdown-search#openDropdown keyup->dropdown-search#searchInput" data-value="" placeholder="- Selecciona una opción -">
-                        <select class="form-select multiple-select" data-dropdown-type="form" multiple>
+                        <div class="dropdown-list" data-dropdown-type="form">
                             <% @projects.each do |p| %>
-                                <option value="<%= p.id %>"><%= p.name %></option>
+                                <div class="dropdown-list__item" data-value="<%= p.id %>">
+                                <%= p.name %>
+                                </div>
                             <% end %>
-                        </select>
+                        </div>
                     </div>
 
                     <div class="form__field">

@@ -14,61 +14,55 @@ export default class extends Controller {
     if (this.input === undefined ) return;
 
     //If the click is outside the input and select elements, remove the active class
-    if (!this.input.contains(event.target) && !this.select.contains(event.target)) {
+    if (!this.input.contains(event.target) && !this.dropdownList.contains(event.target)) {
       this.input.classList.remove("active");
-      this.select.classList.remove("active");
+      this.dropdownList.classList.remove("active");
       this.input.placeholder = "- Selecciona una opción -";
     }
   }
 
   openDropdown(event) {
-    //Set the input and select elements
     this.input = event.target;
     const parent = this.input.parentElement;
-    this.select = parent.querySelector(".multiple-select");
+    this.dropdownList = parent.querySelector(".dropdown-list");
 
-    //Load the map if it doesn't exist or if the selected input has changed
     if (this.map == undefined || this.dataName != this.input.dataset.name) {
-      this.loadMap(this.select);
+      this.loadMap(this.dropdownList);
     }
 
-    //Add the active class to the select and input elements
-    this.select.classList.add("active");
+    this.dropdownList.classList.add("active");
     this.input.classList.add("active");
     this.input.placeholder = "Buscar...";
   }
 
-  loadMap(select) {
-    //Create the map
+  loadMap(dropdownList) {
     this.map = new Map();
     this.dataName = this.input.dataset.name;
 
-    //Get the options from the select element
-    const options = select.options;
-
-    //Add the options to the map
-    for (let i = 0; i < options.length; i++) {
-      this.map.set(options[i].value, options[i].textContent.replace(/\n/g, "").trim());
-      this.addEventToOption(options[i]);
+    const items = dropdownList.querySelectorAll(".dropdown-list__item");
+    
+    for (let i = 0; i < items.length; i++) {
+      this.map.set(items[i].dataset.value, items[i].textContent.replace(/\n/g, "").trim());
+      this.addEventToItem(items[i]);
     }
   }
 
-  addEventToOption(option) {
-    option.addEventListener("click", (event) => {
-      this.addOptionToInput(event.target);
+  addEventToItem(item) {
+    item.addEventListener("click", (event) => {
+      this.addItemToInput(event.target);
     });
   }
 
-  addOptionToInput(option) {
-    this.input.value = option.textContent.replace(/\n/g, "").trim();
-    this.input.dataset.value = option.value;
-    this.select.classList.remove("active");
+  addItemToInput(item) {
+    this.input.value = item.textContent.replace(/\n/g, "").trim();
+    this.input.dataset.value = item.dataset.value;
+    this.dropdownList.classList.remove("active");
 
     const inputField  = this.input.parentElement;
-    const hiddenInput = inputField.querySelector("input[type='hidden']");
-
+    const hiddenInput = inputField.querySelector("[data-id='hidden-input']");
+    
     if (hiddenInput) {
-      hiddenInput.value = option.value;
+      hiddenInput.value = item.dataset.value;
     }
   }
 
@@ -77,40 +71,41 @@ export default class extends Controller {
 
     //If the input is empty, show all options
     if (inputValue == "") {
-      this.updateSelect(Array.from(this.map.entries()));
+      this.updateDropdownList(Array.from(this.map.entries()));
       return;
     }
 
     //Filter the map
-    const filteredOptions = Array.from(this.map.entries()).filter((entry) => {
+    const filteredItems = Array.from(this.map.entries()).filter((entry) => {
       if (entry[1].toLowerCase().includes(inputValue)) {
         return entry;
       }
     });
 
     //Update the filtered options in the select
-    this.updateSelect(filteredOptions);
+    this.updateDropdownList(filteredItems);
   }
 
-  updateSelect(filteredOptions) {
+  updateDropdownList(filteredItems) {
     //Remove all options
-    this.select.innerHTML = "";
+    this.dropdownList.innerHTML = "";
 
     //Add the "No results found" option if there are no results
-    if (filteredOptions.length == 0) {
-      const option = document.createElement("option");
-      option.value = "0";
-      option.textContent = "No se encontraron resultados";
-      this.select.appendChild(option);
+    if (filteredItems.length == 0) {
+      const noResultsItem = document.createElement("div");
+      noResultsItem.classList.add("dropdown-list__item");
+      noResultsItem.textContent = "No se encontraron resultados";
+      this.dropdownList.appendChild(noResultsItem);
       return;
     }
 
-    for (let i = 0; i < filteredOptions.length; i++) {
-      const optionElement = document.createElement("option");
-      optionElement.value = filteredOptions[i][0];
-      optionElement.textContent = filteredOptions[i][1];
-      this.addEventToOption(optionElement);
-      this.select.appendChild(optionElement);
+    for (let i = 0; i < filteredItems.length; i++) {
+      const item = document.createElement("div");
+      item.classList.add("dropdown-list__item");
+      item.dataset.value = filteredItems[i][0];
+      item.textContent = filteredItems[i][1];
+      this.addEventToItem(item);
+      this.dropdownList.appendChild(item);
     }
   }
 }

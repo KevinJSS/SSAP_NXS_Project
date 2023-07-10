@@ -15,15 +15,16 @@
       
       <div class="form__field" data-controller="dropdown-search update-fields">
         <%= form.label "Proyecto asociado", class: "form__label" %>
-        <%# form.select :project_id, options_for_select(@projects.collect { |pr| [pr.name, pr.id] }, selected: minute.project_id), { prompt: "- Seleccione un proyecto -"}, class: "form__input form-select" %>
-
         <%= form.hidden_field :project_id, data: {id: "hidden-input"}%>
+
         <input type="text" name="projects" class="form__input form-select search-bar" autocomplete="off" data-action="click->dropdown-search#openDropdown keyup->dropdown-search#searchInput" data-value="" placeholder="- Selecciona una opción -">
-        <select class="form-select multiple-select" data-dropdown-type="form" multiple>
+        <div class="dropdown-list" data-dropdown-type="form">
           <% @projects.each do |p| %>
-            <option value="<%= p.id %>"><%= p.name %></option>
+            <div class="dropdown-list__item" data-value="<%= p.id %>">
+              <%= p.name %>
+            </div>
           <% end %>
-        </select>
+        </div>
       </div>
       
       <div class="form__field">

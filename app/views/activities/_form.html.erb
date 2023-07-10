@@ -6,11 +6,13 @@
 
     <%= form.hidden_field :project_id, data: {id: "hidden-input"}%>
     <input type="text" name="projects" class="form__input form-select search-bar" autocomplete="off" data-action="click->dropdown-search#openDropdown keyup->dropdown-search#searchInput" data-value="" placeholder="- Selecciona una opción -">
-    <select class="form-select multiple-select" data-dropdown-type="form" multiple>
-        <% @projects.each do |p| %>
-            <option value="<%= p.id %>"><%= p.name %></option>
-        <% end %>
-    </select>
+    <div class="dropdown-list" data-dropdown-type="form">
+      <% @projects.each do |p| %>
+        <div class="dropdown-list__item" data-value="<%= p.id %>">
+          <%= p.name %>
+        </div>
+      <% end %>
+    </div>
   </div>
 
   <div class="form__field" data-controller="dropdown-search update-fields">
@@ -18,11 +20,13 @@
     <%= form.hidden_field :user_id, data: {id: "hidden-input"}%>
     
     <input type="text" name="users" class="form__input form-select search-bar" autocomplete="off" data-action="click->dropdown-search#openDropdown keyup->dropdown-search#searchInput" data-value="" placeholder="- Selecciona una opción -">
-    <select class="form-select multiple-select" data-dropdown-type="form" multiple>
-        <% @active_collaborators.each do |c| %>
-            <option value="<%= c.id %>"><%= c.fullname %></option>
-        <% end %>
-    </select>
+    <div class="dropdown-list" data-dropdown-type="form">
+      <% @active_collaborators.each do |c| %>
+        <div class="dropdown-list__item" data-value="<%= c.id %>">
+          <%= c.fullname %>
+        </div>
+      <% end %>
+    </div>
 
     <% if !activity.new_record? %>
       <input type="text" id="hidden-name" value="<%= activity.user.fullname%>" disabled="true" hidden>  

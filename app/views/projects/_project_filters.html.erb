@@ -22,11 +22,13 @@
                         <%= f.hidden_field :user_id_eq, data: {id: "hidden-input"}%>
                         
                         <input type="text" name="users" class="form__input form-select search-bar" autocomplete="off" data-action="click->dropdown-search#openDropdown keyup->dropdown-search#searchInput" data-value="" placeholder="- Selecciona una opción -">
-                        <select class="form-select multiple-select" data-dropdown-type="form" multiple>
-                            <% @admins.each do |a| %>
-                                <option value="<%= a.id %>"><%= a.fullname %></option>
+                        <div class="dropdown-list" data-dropdown-type="form">
+                            <% @all_admins.each do |a| %>
+                                <div class="dropdown-list__item" data-value="<%= a.id %>">
+                                <%= a.fullname %>
+                                </div>
                             <% end %>
-                        </select>
+                        </div>
                     </div>
                     
                     
