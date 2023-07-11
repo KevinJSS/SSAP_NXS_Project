@@ -243,7 +243,7 @@
     }
 }
 
-@include m.tablet {
+@media(max-width: 768px) {
     input[type="date"]:not(.has-value):before{
         color: v.$grey;
         content: attr(placeholder);
