@@ -16,7 +16,7 @@ Rails.application.routes.draw do
 
   root 'main#home'
 
-  get 'minutes/pdf/:id' => 'minutes#pdf', as: 'minutes_pdf'
+  #get 'minutes/pdf/:id' => 'minutes#pdf', as: 'minutes_pdf'
 
   # Ruta para capturar rutas no definidas y redirigir a la acción not_found
   get '*unmatched_route', to: 'application#not_found' 
