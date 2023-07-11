@@ -242,3 +242,10 @@
         }
     }
 }
+
+@include m.tablet {
+    input[type="date"]:not(.has-value):before{
+        color: v.$grey;
+        content: attr(placeholder);
+    }
+}

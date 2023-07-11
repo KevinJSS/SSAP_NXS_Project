@@ -9,12 +9,12 @@
   <div class="form__flex form__flex--row">
     <div class="form__field ">
       <%= form.label "Fecha de inicio", class: "form__label" %>
-      <%= form.text_field :start_date, placeholder: "mm/dd/aaaa", class: "form__input", onfocus: "(this.type='date')", onblur: "(this.type='text')" %>
+      <%= form.date_field :start_date, placeholder: "Fecha de inicio", class: "form__input", onchange: "this.value==''?'has-value':''" %>
     </div>
     
     <div class="form__field ">
       <%= form.label "Fecha de cierre", class: "form__label" %>
-      <%= form.text_field :scheduled_deadline, placeholder: "mm/dd/aaaa", class: "form__input", onfocus: "(this.type='date')", onblur: "(this.type='text')" %>
+      <%= form.date_field :scheduled_deadline, placeholder: "Fecha de cierre", class: "form__input", onchange: "this.value==''?'has-value':''" %>
     </div>
   </div>
 
@@ -32,7 +32,7 @@
     </div>
 
     <% if !project.new_record? %>
-      <input type="text" data-id="hidden-name" value="<%= project.user.fullname%>" disabled="true" hidden>  
+      <input type="text" id="hidden-name" value="<%= project.user.fullname%>" disabled="true" hidden>  
     <% end %>
   </div>
 
