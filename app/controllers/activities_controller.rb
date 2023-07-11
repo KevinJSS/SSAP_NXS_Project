@@ -108,7 +108,7 @@ class ActivitiesController < ApplicationController
     end
 
     def get_change_log
-      @activity_change_log = ChangeLog.where(table_id: @activity.id, table_name: "activity")
+      @activity_change_log = ChangeLog.where(table_id: @activity.id, table_name: "activity").order(created_at: :desc)
       if @activity_change_log.nil? || @activity_change_log.empty?
         @activity_change_log = nil
       end
@@ -127,6 +127,8 @@ class ActivitiesController < ApplicationController
 
       changes.each do |attribute, values|
         old_value, new_value = values
+        old_value = old_value.strip if !old_value.nil?
+        new_value = new_value.strip if !new_value.nil?
         
         case attribute
         when "project_id"

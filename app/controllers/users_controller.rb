@@ -66,7 +66,7 @@ class UsersController < ApplicationController
   end
 
   def get_change_log
-    @user_change_log = ChangeLog.where(table_name: 'user', table_id: @user.id)
+    @user_change_log = ChangeLog.where(table_name: 'user', table_id: @user.id).order(created_at: :desc)
     if @user_change_log.empty? || @user_change_log.nil?
       @user_change_log = nil
     end
@@ -81,6 +81,8 @@ class UsersController < ApplicationController
 
     changes.each do |attribute, values|
       old_value, new_value = values
+      old_value = old_value.strip if !old_value.nil?
+      new_value = new_value.strip if !new_value.nil?
 
       case attribute
       when "email"

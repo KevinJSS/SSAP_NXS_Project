@@ -94,7 +94,7 @@ class MinutesController < ApplicationController
     end
 
     def get_change_log
-      @minutes_change_log = ChangeLog.where(table_name: 'minute', table_id: @minute.id) 
+      @minutes_change_log = ChangeLog.where(table_name: 'minute', table_id: @minute.id).order(created_at: :desc)
       if @minutes_change_log.empty? || @minutes_change_log.nil?
         @minutes_change_log = nil
       end

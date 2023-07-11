@@ -103,7 +103,7 @@ class ProjectsController < ApplicationController
     end
 
     def get_change_log
-      @project_change_log = ChangeLog.where(table_id: @project.id, table_name: "project")
+      @project_change_log = ChangeLog.where(table_id: @project.id, table_name: "project").order(created_at: :desc)
       if @project_change_log.empty? || @project_change_log.nil?
         @project_change_log = nil
       end
@@ -118,6 +118,8 @@ class ProjectsController < ApplicationController
 
       changes.each do |attribute, values|
         old_value, new_value = values
+        old_value = old_value.strip if !old_value.nil?
+        new_value = new_value.strip if !new_value.nil?
 
         case attribute
         when "name"
