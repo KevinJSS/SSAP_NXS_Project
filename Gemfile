@@ -80,3 +80,4 @@ end
 group :production do
   gem "pg", "~> 1.5"    
 end
+gem "prawn-table", "~> 0.2.2"
