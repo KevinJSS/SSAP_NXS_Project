@@ -76,12 +76,54 @@
             font-size: v.$fs-xs;
         }
     }
+
+    &--minutes {
+        @include m.desktop {
+            width: 100%;
+        }
+        
+        @include m.desktop-md {
+            width: auto;
+        }
+
+        @include m.desktop-lg {
+            width: 100%;
+        }
+    }
 }
 
 .button-outline-secondary {
     @include m.button-outline(v.$dark2);
+
+    &--minutes {
+        @include m.desktop {
+            width: 100%;
+        }
+        
+        @include m.desktop-md {
+            width: auto;
+        }
+
+        @include m.desktop-lg {
+            width: 100%;
+        }
+    }
 }
 
 .button-outline-danger {
     @include m.button-outline(v.$danger);
+
+    &--minutes {
+        @include m.desktop {
+            width: 100%;
+        }
+        
+        @include m.desktop-md {
+            width: auto;
+        }
+
+        @include m.desktop-lg {
+            width: 100%;
+        }
+    }
 }

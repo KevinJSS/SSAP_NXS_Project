@@ -26,6 +26,12 @@ class MinutesController < ApplicationController
   def edit
   end
 
+  def download
+    pdf = Prawn::Document.new
+    pdf.text "Hello World"
+    send_data(pdf.render, filename: 'hello_world.pdf', type: 'application/pdf')
+  end
+
   # POST /minutes or /minutes.json
   def create
     @minute = Minute.new(minute_params)
