@@ -133,8 +133,8 @@ class MinutesController < ApplicationController
       @minute.previous_changes.each do |attribute, values|
         old_value, new_value = values
         attribute_name = attribute_mappings[attribute]
-    
-        next if attribute_name.nil?
+
+        next if attribute_name.nil? || old_value == new_value
     
         if attribute == "start_time" || attribute == "end_time"
           old_value = old_value.strftime("%I:%M %p")
