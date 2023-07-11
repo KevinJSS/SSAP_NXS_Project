@@ -52,7 +52,7 @@
         <%= form.submit minute.new_record? ? "Guardar" : "Actualizar", class: "button-primary button-primary--minutes" %>
         <% if !@minute.new_record? %>
           <%= link_to "Enviar por correo", "#", class: "button-primary button-primary--minutes" %>
-          <%# link_to "Descargar PDF", minutes_pdf_url, class: "button-primary button-primary--minutes" %>
+          <%= link_to "Descargar PDF", minutes_pdf_url, class: "button-primary button-primary--minutes" %>
         <% end %>
         <%= link_to "Regresar", "#", class: "button-secondary button-secondary--minutes", data: {action: "click->navigation#goBack"} %>
 
@@ -138,7 +138,7 @@
         <%= form.submit minute.new_record? ? "Guardar" : "Actualizar", class: "button-primary button-primary--minutes" %>
         <% if !@minute.new_record? %>
           <%= link_to "Enviar por correo", "#", class: "button-primary button-primary--minutes" %>
-          <%# link_to "Descargar PDF", minutes_pdf_url, class: "button-primary button-primary--minutes" %>
+          <%= link_to "Descargar PDF", minutes_pdf_url, class: "button-primary button-primary--minutes" %>
         <% end %>
         <%= link_to "Regresar", "#", class: "button-secondary button-secondary--minutes", data: {action: "click->navigation#goBack"} %>
       </div>
