@@ -264,6 +264,7 @@ DEPENDENCIES
   image_processing (~> 1.2)
   jbuilder
   jsbundling-rails
+  matrix (~> 0.4.2)
   pg (~> 1.5)
   prawn (~> 2.4)
   prawn-table (~> 0.2.2)
