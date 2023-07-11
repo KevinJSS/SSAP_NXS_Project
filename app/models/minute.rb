@@ -18,8 +18,13 @@ class Minute < ApplicationRecord
     validate :validate_attendees
 
     def start_time_greater_than_end_time
-        if start_time.present? && end_time.present? && end_time <= start_time
-            errors.add(:end_time, "no puede ser menor a la hora inicial de la reunión")
+        if start_time.present? && end_time.present?
+            start_time_parsed = start_time.strftime("%Y-%m-%d %H:%M:%S")
+            end_time_parsed = end_time.strftime("%Y-%m-%d %H:%M:%S")
+        
+            if Time.parse(end_time_parsed) <= Time.parse(start_time_parsed)
+                errors.add(:end_time, "no puede ser menor o igual a la hora inicial de la reunión")
+            end
         end
     end
 
