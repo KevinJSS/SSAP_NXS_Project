@@ -132,8 +132,6 @@ class MinutesController < ApplicationController
     
       @minute.previous_changes.each do |attribute, values|
         old_value, new_value = values
-        old_value = old_value.strip if old_value.is_a?(String) || old_value.is_a?(Text)
-        new_value = new_value.strip if new_value.is_a?(String) || new_value.is_a?(Text)
         attribute_name = attribute_mappings[attribute]
 
         next if attribute_name.nil? || old_value == new_value
