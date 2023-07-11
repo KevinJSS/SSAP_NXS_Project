@@ -139,6 +139,8 @@ class MinutesController < ApplicationController
         if attribute == "start_time" || attribute == "end_time"
           old_value = old_value.strftime("%I:%M %p")
           new_value = new_value.strftime("%I:%M %p")
+          next if old_value == new_value
+          
         elsif attribute == "project_id"
           old_value = Project.find(old_value).name
           new_value = Project.find(new_value).name
