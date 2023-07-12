@@ -13,7 +13,7 @@
                 <%= form_with url: activities_report_path, method: :post, class: "form form__flex", id: "generate-form" do |f| %>
                     <div class="form__field" data-action="change->reports-modal#toggleForm">
                         <%= f.label :report_type, 'Tipo de reporte', class: "form__label" %>
-                        <%= f.select :report_type, [['Reporte por colaborador', 'collaborator'], ['Reporte por colaboradores activos', 'general'], ['Reporte personalizado', 'custom']], { prompt: "- Selecciona el tipo de reporte -" }, class: "form__input form-select", data: { reports_modal_target: "reportSelect" } %>
+                        <%= f.select :report_type, [['Reporte por colaborador', 'collaborator'], ['Reporte por colaboradores activos', 'general']], { prompt: "- Selecciona el tipo de reporte -" }, class: "form__input form-select", data: { reports_modal_target: "reportSelect" } %>
 
                         <hr class="hidden-element mb-0" data-reports-modal-target="divider">
                     </div>
@@ -49,7 +49,6 @@
                     </div>
 
                     <div class="form__actions hidden-element" data-reports-modal-target="submitButton">
-                        <%# link_to "Descargar PDF", activities_report_url, class: "button-primary button-primary--minutes", target: "_blank" %>
                         <%= button_tag "Generar", class: "button-primary", type: "button", id: "generate-button", data: {action: "click->reports-modal#submit"}, target: "_blank" %>
                     </div>
                 <% end %>
