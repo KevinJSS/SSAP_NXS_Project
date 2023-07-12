@@ -4,7 +4,11 @@
       <h4 class="item__title"><%= project.name %></h4> 
       <a href="<%= edit_user_path(project.user) %>" class="item__text clean-link"><%= project.user.fullname %></a>
     </div>
-    <p class="item__status"> <%= project.get_humanize_stage %> <span class="item__status-divider">/</span> <%= project.get_humanize_status  %></p>
+    <% if project.stage == "finished" %>
+      <p class="item__status fw-bold fst-normal txt-primary text-uppercase"> <%= project.get_humanize_stage %> <span class="item__status-divider">/</span> <%= project.get_humanize_status  %></p>
+    <% else %>
+      <p class="item__status"> <%= project.get_humanize_stage %> <span class="item__status-divider">/</span> <%= project.get_humanize_status  %></p>
+    <% end %>
   </div>
 
   <div class="item__content">
