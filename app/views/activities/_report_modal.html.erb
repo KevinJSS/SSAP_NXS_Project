@@ -13,7 +13,7 @@
                 <%= form_with url: activities_report_path, method: :post, class: "form form__flex", id: "generate-form" do |f| %>
                     <div class="form__field" data-action="change->reports-modal#toggleForm">
                         <%= f.label :report_type, 'Tipo de reporte', class: "form__label" %>
-                        <%= f.select :report_type, [['Reporte por colaboradores activos', 'general'], ['Reporte por colaborador', 'collaborator'], ['Reporte personalizado', 'custom']], { prompt: "- Selecciona el tipo de reporte -" }, class: "form__input form-select", data: { reports_modal_target: "reportSelect" } %>
+                        <%= f.select :report_type, [['Reporte por colaborador', 'collaborator'], ['Reporte por colaboradores activos', 'general'], ['Reporte personalizado', 'custom']], { prompt: "- Selecciona el tipo de reporte -" }, class: "form__input form-select", data: { reports_modal_target: "reportSelect" } %>
 
                         <hr class="hidden-element mb-0" data-reports-modal-target="divider">
                     </div>
