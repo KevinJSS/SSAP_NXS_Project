@@ -247,6 +247,12 @@
 
     &.show {
         display: flex;
-        gap: 5px;
+        flex-direction: column;
+        gap: 15px;
+
+        @include m.tablet {
+            flex-direction: row;
+            gap: 5px;
+        }
     }
 }

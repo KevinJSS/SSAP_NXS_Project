@@ -13,7 +13,7 @@
                 <%= form_with url: activities_report_path, method: :post, class: "form form__flex", id: "generate-form" do |f| %>
                     <div class="form__field" data-action="change->reports-modal#toggleForm">
                         <%= f.label :report_type, 'Tipo de reporte', class: "form__label" %>
-                        <%= f.select :report_type, [['Reporte general', 'general'], ['Reporte por trabajador', 'collaborator'], ['Reporte personalizado', 'custom']], { prompt: "- Selecciona el tipo de reporte -" }, class: "form__input form-select", data: { reports_modal_target: "reportSelect" } %>
+                        <%= f.select :report_type, [['Reporte por colaboradores activos', 'general'], ['Reporte por colaborador', 'collaborator'], ['Reporte personalizado', 'custom']], { prompt: "- Selecciona el tipo de reporte -" }, class: "form__input form-select", data: { reports_modal_target: "reportSelect" } %>
 
                         <hr class="hidden-element mb-0" data-reports-modal-target="divider">
                     </div>
@@ -30,8 +30,7 @@
                             <% end %>
                         </div>
                     </div>
-
-
+                    
                     <div class="form_flex form_flex--row hidden-element--flex" data-reports-modal-target="dates">
                         <div class="form__field">
                             <%= f.label :start_date, 'Fecha de inicio', class: "form__label" %>
@@ -45,13 +44,13 @@
                     </div>
 
                     <div class="form__field hidden-element" data-reports-modal-target="collaboratorReportType">
-                        <%= f.label :collaborator_report_type, 'Tipo de reporte', class: "form__label" %>
+                        <%= f.label :collaborator_report_type, 'Tipo de reporte del colaborador', class: "form__label" %>
                         <%= f.select :collaborator_report_type, [['Reporte resumido', 'summary'], ['Reporte detallado', 'detailed']], {}, class: "form__input" %>
                     </div>
 
                     <div class="form__actions hidden-element" data-reports-modal-target="submitButton">
                         <%# link_to "Descargar PDF", activities_report_url, class: "button-primary button-primary--minutes", target: "_blank" %>
-                        <%= button_tag "Generar", class: "button-primary", type: "button", id: "generate-button", data: {action: "click->reports-modal#submit"} %>
+                        <%= button_tag "Generar", class: "button-primary", type: "button", id: "generate-button", data: {action: "click->reports-modal#submit"}, target: "_blank" %>
                     </div>
                 <% end %>
             </div>

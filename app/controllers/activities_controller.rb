@@ -32,28 +32,34 @@ class ActivitiesController < ApplicationController
   end
 
   def activities_report
-    require 'prawn'
-    require 'prawn/table'
+    report_type = params[:report_type]
 
-    pdf = Prawn::Document.new
-    logo_header_path = Rails.root.join('app', 'assets', 'images', 'pdf-header-logo.jpg')
-    logo_footer_path = Rails.root.join('app', 'assets', 'images', 'pdf-footer-logo.jpg')
-
-    # Header and footer
-    pdf.repeat :all do
-      pdf.canvas do
-        pdf.bounding_box([25, pdf.bounds.top], width: pdf.bounds.width, height: 100) do
-          pdf.image logo_header_path, position: :left, fit: [80, 80]
-        end
-      end
-      pdf.canvas do
-        pdf.bounding_box([pdf.bounds.left, pdf.bounds.bottom + 60], width: pdf.bounds.width, height: 100) do
-          pdf.image logo_footer_path, position: :left, fit: [pdf.bounds.width - 70, 100]
-        end
-      end
+    if report_type.nil?
+      redirect_to activities_path, alert: "Es necesario indicar el tipo de reporte de reporte que se desea generar."
+      return
     end
-  
-    send_data pdf.render, filename: "Reporte.pdf", type: 'application/pdf', disposition: "inline"
+
+    start_date = params[:start_date]
+    end_date = params[:end_date]
+
+    if start_date.empty? || end_date.empty?
+      redirect_to activities_path, alert: "Es necesario indicar el rango de fechas para generar el reporte."
+      return
+    end
+
+    validate_date_range(start_date, end_date)
+
+    case report_type
+    when "general"
+      general_report(start_date, end_date)
+    when "collaborator"
+      collaborator = User.find_by(id: params[:user_id])
+      collaborator_report(collaborator, start_date, end_date)
+    when "custom"
+      #custom_report(start_date, end_date)
+    end
+
+    flash[:notice] = "Reporte generado correctamente."
   end  
 
   # POST /activities or /activities.json
@@ -121,52 +127,244 @@ class ActivitiesController < ApplicationController
     def general_report(start_date, end_date)
     end
 
-    def collaborator_report(start_date, end_date)
-      # collaborator_report_type = params[:collaborator_report_type]
-      # collaborator = User.find_by(id: params[:user_id])
+    def collaborator_report(collaborator, start_date, end_date)
+      collaborator_report_type = params[:collaborator_report_type]
 
-      # if collaborator.nil? || start_date.empty? || end_date.empty? || collaborator_report_type.nil?
-      #   redirect_to activities_report_path, alert: "No se ingresaron los datos necesarios para generar el reporte."
-      #   return
-      # end
+      if collaborator_report_type.nil? || collaborator_report_type.empty?
+        redirect_to activities_path, alert: "Es necesario indicar el reporte del colaborador que se desea generar."
+        return
+      end
 
-      # validate_date_range(start_date, end_date)
-      
-      # case collaborator_report_type
-      #   when "summary"
-      #     collaborator_summary_report(collaborator, start_date, end_date)
-      #   when "detailed"
-      #     collaborator_detailed_report(collaborator, start_date, end_date)
-      # end
-
-      require 'prawn'
-      require 'prawn/table'
-
-      pdf = Prawn::Document.new
-      pdf.text "Hello World!"
-      send_data pdf.render, filename: "Reporte.pdf", type: 'application/pdf'
+      case collaborator_report_type
+        when "summary"
+          collaborator_summary_report(collaborator, start_date, end_date)
+        when "detailed"
+          collaborator_detailed_report(collaborator, start_date, end_date)
+      end
+    end
+    
+    def collaborator_detailed_report(collaborator, start_date, end_date)
     end
 
     def collaborator_summary_report(collaborator, start_date, end_date)
-      @activities = collaborator.activities.where(date: start_date..end_date).order(date: :asc)
+      activities = collaborator.activities.where(date: start_date..end_date).order(date: :asc)
 
-      if @activities.nil? || @activities.empty?
+      if activities.nil? || activities.empty?
         redirect_to activities_path, alert: "No se encontraron actividades registradas para el colaborador seleccionado en el rango de fechas especificado."
         return
       end
 
-      generate_report
+      activities_grouped_by_project = activities.group_by(&:project_id)
+      activities_sum_by_project = {}
+
+      activities_grouped_by_project.each do |project_id, activities|
+        total_hours = activities.sum { |activity| activity.phases_activities.sum(&:hours) }
+        activities_sum_by_project[project_id] = total_hours
+      end
+
+      phases_activities_grouped_by_phase = PhasesActivity.includes(:phase).where(activity: activities).group(:phase_id).sum(:hours)
+      total_report_hours = activities.sum { |activity| activity.phases_activities.sum(&:hours) }
+
+      require 'prawn'
+      require 'prawn/table'
+      pdf = Prawn::Document.new
+      
+      # Header and footer
+      pdf_logos(pdf)
+
+      # Body
+      pdf.bounding_box([pdf.bounds.left, pdf.bounds.top - 50], width: pdf.bounds.width, height: pdf.bounds.height - 120) do
+        pdf_header(pdf, "REPORTE DE ACTIVIDADES POR COLABORADOR", collaborator, start_date, end_date, total_report_hours)
+
+        # By project table
+        table_data = [
+          [{ content: "ACTIVIDADES POR PROYECTO", colspan: 3 }],
+          ["Proyecto", "Actividades registradas", "Total de horas"]
+        ]
+        activities_sum_by_project.each do |project_id, total_hours|
+          project = Project.find(project_id)
+          table_data << [project.name, activities_grouped_by_project[project_id].count, "#{total_hours.to_s} (#{hours_in_words(total_hours)})"]
+        end
+        table_data << [{ content: "Total de horas registradas", colspan: 2}, "#{total_report_hours.to_s} (#{hours_in_words(total_report_hours)})"]
+
+        pdf_section(
+          pdf, 
+          "Actividades por proyecto", 
+          "Esta sección muestra la cantidad de actividades registradas por proyecto y el total de horas realizadas, en el periodo de tiempo ingresado.",
+          table_data
+        )
+
+        # By phase table
+        table_data = [
+          [{ content: "ACTIVIDADES POR FASE", colspan: 3 }],
+          ["Fase", "Cantidad", "Total de horas"]
+        ]
+        phases_activities_grouped_by_phase.each do |phase_id, total_hours|
+          phase = Phase.find(phase_id)
+          phase = phase.code.to_s + " " + phase.name.to_s
+          amount = PhasesActivity.includes(:phase).where(activity: activities).group(:phase_id).count[phase_id]
+          table_data << [phase, amount, "#{total_hours.to_s} (#{hours_in_words(total_hours)})"]
+        end
+        table_data << [{ content: "Total de horas registradas", colspan: 2}, "#{total_report_hours.to_s} (#{hours_in_words(total_report_hours)})"]
+
+        pdf_section(
+          pdf,
+          "Actividades por fase",
+          "Esta sección muestra las actividades registradas por fase, la cantidad de veces que trabajó sobre cada una de ellas y el total de horas realizadas, en el periodo de tiempo ingresado.",
+          table_data
+        )
+        pdf.move_down 10
+
+        # Footer
+        pdf_footer(pdf)
+
+        # PDF send
+        report_name = "REPORTE_POR-COLABORADOR_#{(collaborator.fullname).gsub(' ', '-')}_#{start_date}_#{end_date}.pdf"
+        send_data pdf.render, filename: report_name, type: 'application/pdf', disposition: 'inline'
+      end
     end
 
-    def generate_report
+    def pdf_logos(pdf)
       require 'prawn'
       require 'prawn/table'
 
-      report_pdf = Prawn::Document.new
-      send_data report_pdf.render, filename: "Reporte.pdf", type: 'application/pdf'
+      logo_header_path = Rails.root.join('app', 'assets', 'images', 'pdf-header-logo.jpg')
+      logo_footer_path = Rails.root.join('app', 'assets', 'images', 'pdf-footer-logo.jpg')
+
+      # Header and footer
+      pdf.repeat :all do
+        pdf.canvas do
+          pdf.bounding_box([25, pdf.bounds.top], width: pdf.bounds.width, height: 100) do
+            pdf.image logo_header_path, position: :left, fit: [80, 80]
+          end
+        end
+        pdf.canvas do
+          pdf.bounding_box([pdf.bounds.left, pdf.bounds.bottom + 60], width: pdf.bounds.width, height: 100) do
+            pdf.image logo_footer_path, position: :left, fit: [pdf.bounds.width - 70, 100]
+          end
+        end
+      end
     end
 
-    def collaborator_detailed_report(collaborator, start_date, end_date)
+    def pdf_table(table_data, pdf)
+      require 'prawn'
+      require 'prawn/table'
+
+      pdf.table(table_data, header: true, width: pdf.bounds.width) do
+        row(0).font_style = :bold
+        row(0).background_color = "000000"
+        row(0).text_color = "FFFFFF"
+
+        row(1).background_color = "C4C4C4"
+        row(1).text_color = "000000"
+        row(1).font_style = :bold
+      end
+    end
+
+    def pdf_header(pdf, report_name, collaborator, start_date, end_date, total_report_hours)
+      require 'prawn'
+      require 'prawn/table'
+
+      # Title
+      pdf.text report_name, align: :center, size: 20, style: :bold, color: "44ABA6"
+      pdf.move_down 2
+      pdf.stroke_horizontal_rule
+      pdf.move_down 15
+
+      # Collaborator info
+      pdf.text "Información del colaborador", align: :left, size: 13, style: :bold, color: "44ABA6"
+      pdf.move_down 2
+      pdf.move_down 1
+      pdf.formatted_text [{ text: "Nombre completo: ", styles: [:bold] }, { text: collaborator.fullname }], size: 11
+      pdf.move_down 1
+      pdf.formatted_text [{ text: "Número de cédula: ", styles: [:bold] }, { text: collaborator.id_card }], size: 11
+      pdf.move_down 1
+      pdf.formatted_text [{ text: "Correo electrónico: ", styles: [:bold] }, { text: collaborator.email }], size: 11
+      pdf.move_down 1
+      pdf.formatted_text [{ text: "Número de teléfono: ", styles: [:bold] }, { text: collaborator.phone }], size: 11
+      pdf.move_down 1
+      pdf.formatted_text [{ text: "Puesto de trabajo: ", styles: [:bold] }, { text: collaborator.job_position }], size: 11
+      pdf.move_down 10
+
+      # Date range
+      pdf.text "Información del reporte", align: :left, size: 13, style: :bold, color: "44ABA6"
+      pdf.move_down 2
+      pdf.formatted_text [{ text: "Fecha de inicio: ", styles: [:bold] }, { text: l(Date.parse(start_date), format: :long).capitalize }], size: 11
+      pdf.move_down 1
+      pdf.formatted_text [{ text: "Fecha de fin: ", styles: [:bold] }, { text: l(Date.parse(end_date), format: :long).capitalize }], size: 11
+      pdf.move_down 1
+      pdf.formatted_text [{ text: "Periodo comprendido: ", styles: [:bold] }, { text: days_in_words(Date.parse(start_date), Date.parse(end_date)) }], size: 11
+      pdf.move_down 1
+      pdf.formatted_text [{ text: "Total de horas registradas: ", styles: [:bold] }, { text: "#{total_report_hours.to_s} (#{hours_in_words(total_report_hours)})" }], size: 11
+
+      pdf.move_down 10
+      pdf.stroke_horizontal_rule
+      pdf.move_down 15
+    end
+
+    def pdf_section (pdf, title, description, table_data)
+      require 'prawn'
+      require 'prawn/table'
+
+      pdf.text title, align: :left, size: 13, style: :bold, color: "44ABA6"
+      pdf.move_down 2
+      pdf.text description, align: :left, size: 11
+      pdf.move_down 10
+
+      pdf_table(table_data, pdf)
+      pdf.move_down 20
+    end
+
+    def pdf_footer(pdf)
+      require 'prawn'
+      require 'prawn/table'
+
+      pdf.formatted_text [
+        { text: "Este reporte fue emitido el día: ", styles: [:bold] },
+        { text: l(Date.today, format: :long).capitalize, styles: [:normal] },
+        { text: ", a las " + Time.now.strftime("%I:%M %p"), styles: [:normal] }
+      ], align: :center, size: 10
+      pdf.move_down 10
+
+      pdf.text "- Fin del reporte -", align: :center, size: 10, style: :italic, color: "44ABA6"
+    end
+
+    def days_in_words(start_date, end_date)
+      require 'date'
+      days = (end_date - start_date).to_i + 1
+
+      years = days / 365
+      days %= 365
+
+      months = days / 30
+      days %= 30
+
+      weeks = days / 7
+      days %= 7
+
+      time_units = []
+      time_units << "#{years} año(s)" if years.positive?
+      time_units << "#{months} mes(es)" if months.positive?
+      time_units << "#{weeks} semana(s)" if weeks.positive?
+      time_units << "#{days} día(s)" if days.positive?
+
+      time_units.join(", ")
+    end
+
+    def hours_in_words(hours)
+      hours_int = hours.floor
+      minutes = ((hours - hours_int) * 60).to_i
+    
+      hours_text = "#{hours_int} #{hours_int == 1 ? 'hora' : 'horas'}"
+      minutes_text = "#{minutes} #{minutes == 1 ? 'minuto' : 'minutos'}"
+    
+      if hours_int.zero?
+        minutes_text
+      elsif minutes.zero?
+        hours_text
+      else
+        "#{hours_text} y #{minutes_text}"
+      end
     end
 
     def validate_date_range(start_date, end_date)
@@ -210,8 +408,6 @@ class ActivitiesController < ApplicationController
 
       changes.each do |attribute, values|
         old_value, new_value = values
-        old_value = old_value.strip if !old_value.nil?
-        new_value = new_value.strip if !new_value.nil?
         
         case attribute
         when "project_id"

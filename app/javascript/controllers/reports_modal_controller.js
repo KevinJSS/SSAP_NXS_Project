@@ -26,5 +26,8 @@ export default class extends Controller {
   submit() {
     var generateForm = document.getElementById("generate-form");
     generateForm.submit();
-  }
+    setTimeout(function() {
+      location.reload();
+    }, 1000); // Retardo de 1 segundo (1000 milisegundos)
+  }  
 }
