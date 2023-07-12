@@ -231,17 +231,13 @@ class MinutesController < ApplicationController
 
       # Minute data
       pdf.formatted_text [
-        { text: "Identificador: ", styles: [:bold] },
-        { text: name, styles: [:normal] }
+        { text: "Esta minuta fue emitida el día: ", styles: [:bold] },
+        { text: l(Date.today, format: :long).capitalize, styles: [:normal] },
+        { text: ", a las " + Time.now.strftime("%I:%M %p"), styles: [:normal] }
       ], align: :center, size: 10
+      pdf.move_down 10
 
-      pdf.move_down 5
-
-      pdf.formatted_text [
-        { text: "Fecha de creación: ", styles: [:bold] },
-        { text: l(Date.today, format: :long), styles: [:normal] },
-        { text: ", " + Time.now.strftime("%I:%M %p"), styles: [:normal] }
-      ], align: :center, size: 10
+      pdf.text "- Fin de la minuta -", align: :center, size: 10, style: :italic, color: "44ABA6"
     end
 
     name = name + ".pdf"
