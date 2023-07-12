@@ -25,6 +25,9 @@ application.register("nested-form", NestedFormController)
 import ProjectStageController from "./project_stage_controller"
 application.register("project-stage", ProjectStageController)
 
+import ReportsModalController from "./reports_modal_controller"
+application.register("reports-modal", ReportsModalController)
+
 import SidebarController from "./sidebar_controller"
 application.register("sidebar", SidebarController)
 

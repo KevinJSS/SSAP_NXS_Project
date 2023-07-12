@@ -33,7 +33,7 @@ class MinutesController < ApplicationController
     pdf = Prawn::Document.new
     logo_header_path = Rails.root.join('app', 'assets', 'images', 'pdf-header-logo.jpg')
     logo_footer_path = Rails.root.join('app', 'assets', 'images', 'pdf-footer-logo.jpg')
-    name = "MINUTA_#{(@minute.project.name).gsub!(' ', '-')}_#{Time.now.strftime("%d-%m-%Y")}_#{@minute[:id]}"
+    name = "MINUTA_#{(@minute.project.name).gsub!(' ', '-')}_#{Time.now.strftime("%d-%m-%Y_%H%M")}_#{@minute[:id]}"
 
     # Header and footer
     pdf.repeat :all do

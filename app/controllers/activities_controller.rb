@@ -1,6 +1,6 @@
 class ActivitiesController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_activity, only: %i[ show edit update destroy ]
+  before_action :set_activity, only: %i[show edit update destroy], except: :activities_report
   before_action :set_collaborators, :set_projects, :set_phases
   before_action :get_change_log, only: %i[ show edit update ]
 
@@ -30,6 +30,31 @@ class ActivitiesController < ApplicationController
   # GET /activities/1/edit
   def edit
   end
+
+  def activities_report
+    require 'prawn'
+    require 'prawn/table'
+
+    pdf = Prawn::Document.new
+    logo_header_path = Rails.root.join('app', 'assets', 'images', 'pdf-header-logo.jpg')
+    logo_footer_path = Rails.root.join('app', 'assets', 'images', 'pdf-footer-logo.jpg')
+
+    # Header and footer
+    pdf.repeat :all do
+      pdf.canvas do
+        pdf.bounding_box([25, pdf.bounds.top], width: pdf.bounds.width, height: 100) do
+          pdf.image logo_header_path, position: :left, fit: [80, 80]
+        end
+      end
+      pdf.canvas do
+        pdf.bounding_box([pdf.bounds.left, pdf.bounds.bottom + 60], width: pdf.bounds.width, height: 100) do
+          pdf.image logo_footer_path, position: :left, fit: [pdf.bounds.width - 70, 100]
+        end
+      end
+    end
+  
+    send_data pdf.render, filename: "Reporte.pdf", type: 'application/pdf', disposition: "inline"
+  end  
 
   # POST /activities or /activities.json
   def create
@@ -90,6 +115,64 @@ class ActivitiesController < ApplicationController
 
       if @activity.nil?
         redirect_to activities_path, alert: "La actividad a la que intenta acceder no existe."
+      end
+    end
+
+    def general_report(start_date, end_date)
+    end
+
+    def collaborator_report(start_date, end_date)
+      # collaborator_report_type = params[:collaborator_report_type]
+      # collaborator = User.find_by(id: params[:user_id])
+
+      # if collaborator.nil? || start_date.empty? || end_date.empty? || collaborator_report_type.nil?
+      #   redirect_to activities_report_path, alert: "No se ingresaron los datos necesarios para generar el reporte."
+      #   return
+      # end
+
+      # validate_date_range(start_date, end_date)
+      
+      # case collaborator_report_type
+      #   when "summary"
+      #     collaborator_summary_report(collaborator, start_date, end_date)
+      #   when "detailed"
+      #     collaborator_detailed_report(collaborator, start_date, end_date)
+      # end
+
+      require 'prawn'
+      require 'prawn/table'
+
+      pdf = Prawn::Document.new
+      pdf.text "Hello World!"
+      send_data pdf.render, filename: "Reporte.pdf", type: 'application/pdf'
+    end
+
+    def collaborator_summary_report(collaborator, start_date, end_date)
+      @activities = collaborator.activities.where(date: start_date..end_date).order(date: :asc)
+
+      if @activities.nil? || @activities.empty?
+        redirect_to activities_path, alert: "No se encontraron actividades registradas para el colaborador seleccionado en el rango de fechas especificado."
+        return
+      end
+
+      generate_report
+    end
+
+    def generate_report
+      require 'prawn'
+      require 'prawn/table'
+
+      report_pdf = Prawn::Document.new
+      send_data report_pdf.render, filename: "Reporte.pdf", type: 'application/pdf'
+    end
+
+    def collaborator_detailed_report(collaborator, start_date, end_date)
+    end
+
+    def validate_date_range(start_date, end_date)
+      if start_date > end_date
+        redirect_to activities_report_path, alert: "La fecha de inicio debe ser menor a la fecha de fin."
+        return
       end
     end
 

@@ -233,3 +233,20 @@
 .txt-primary {
     color: v.$primary;
 }
+
+.hidden-element {
+    display: none;
+
+    &.show {
+        display: block;
+    }
+}
+
+.hidden-element--flex {
+    display: none;
+
+    &.show {
+        display: flex;
+        gap: 5px;
+    }
+}

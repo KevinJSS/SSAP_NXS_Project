@@ -18,6 +18,8 @@ Rails.application.routes.draw do
 
   get 'minutes/pdf/:id' => 'minutes#pdf', as: 'minutes_pdf'
 
+  post 'activities_report' => 'activities#activities_report', as: 'activities_report'
+
   # Ruta para capturar rutas no definidas y redirigir a la acción not_found
   get '*unmatched_route', to: 'application#not_found' 
 end
