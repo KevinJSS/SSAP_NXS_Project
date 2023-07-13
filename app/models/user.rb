@@ -184,7 +184,11 @@ class User < ApplicationRecord
 
   def get_short_name
     fullname = self.fullname.split(" ")
-    short_name = fullname[0] + " " + fullname[1]
+    if fullname.length >= 2
+      short_name = fullname[0] + " " + fullname[1]
+    else
+      short_name = fullname[0]
+    end
   end
 
   def self.ransackable_attributes(auth_object = nil)

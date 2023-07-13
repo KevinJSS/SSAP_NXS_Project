@@ -81,7 +81,7 @@ class PhasesController < ApplicationController
     end
 
     def get_change_log
-      @phase_change_log = ChangeLog.where(table_name: 'phase', table_id: @phase.id) 
+      @phase_change_log = ChangeLog.where(table_name: 'phase', table_id: @phase.id).order(created_at: :desc)
       if @phase_change_log.empty? || @phase_change_log.nil?
         @phase_change_log = nil
       end
@@ -101,6 +101,8 @@ class PhasesController < ApplicationController
 
       changes.each do |attribute, values|
         old_value, new_value = values
+        old_value = old_value.strip if !old_value.nil?
+        new_value = new_value.strip if !new_value.nil?
 
         case attribute
         when "code"

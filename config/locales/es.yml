@@ -17,7 +17,7 @@ es:
     
     passwords:
       user:
-        send_instructions: "Se han enviado correctamente las instrucción al correo ingresado."
+        send_instructions: "Se han enviado correctamente las instrucciones al correo ingresado."
         updated: "Acceso restablecido. Contraseña actualizada correctamente."
 
   activerecord:
@@ -73,7 +73,7 @@ es:
     - viernes
     - sábado
     formats:
-      default: "%A %d, %B %Y"  # Formato por defecto: Tuesday 27, June 2023
+      default: "%A %d de %B, %Y"  # Formato por defecto: Tuesday 27, June 2023
       short: "%d/%m/%Y"        # Formato corto: 27/06/2023
       long: "%A, %d de %B de %Y"  # Formato largo: martes, 27 de junio de 2023
     month_names:

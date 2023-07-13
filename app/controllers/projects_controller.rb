@@ -103,7 +103,7 @@ class ProjectsController < ApplicationController
     end
 
     def get_change_log
-      @project_change_log = ChangeLog.where(table_id: @project.id, table_name: "project")
+      @project_change_log = ChangeLog.where(table_id: @project.id, table_name: "project").order(created_at: :desc)
       if @project_change_log.empty? || @project_change_log.nil?
         @project_change_log = nil
       end

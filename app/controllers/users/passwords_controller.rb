@@ -7,9 +7,19 @@ class Users::PasswordsController < Devise::PasswordsController
   # end
 
   # POST /resource/password
-  # def create
-  #   super
-  # end
+  def create
+    user = User.find_by(email: params[:user][:email])
+
+    if (user && user.role != "admin") || (user && user.role == "admin" && user.status == false)
+      flash[:alert] = "Permiso denegado, contacta a un encargado del sistema."
+      redirect_to new_user_session_path
+      return
+    elsif user && user.role == "admin" && user.status == true
+      user.update(new_admin: false)
+    end
+
+    super
+  end
 
   # GET /resource/password/edit?reset_password_token=abcdef
   # def edit

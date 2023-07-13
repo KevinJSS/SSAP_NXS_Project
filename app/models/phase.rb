@@ -1,6 +1,7 @@
 class Phase < ApplicationRecord
     #validations
     before_destroy :clean_changes
+    before_save :trim_values
     validates :code, presence: true, uniqueness: true
     validates :code, length: { in: 2..50}, if: -> { code.present? }
     validates :name, presence: true
@@ -9,6 +10,11 @@ class Phase < ApplicationRecord
     def has_associated_activities?
         activities = self.activities.count
         activities != 0
+    end
+
+    def trim_values
+        self.code = code.strip if code.present?
+        self.name = name.strip if name.present?
     end
 
     def self.ransackable_associations(auth_object = nil)

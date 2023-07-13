@@ -48,9 +48,13 @@
         </div>
       </div>
 
-      <div class="form__actions form__actions--minutes form__actions--minutes-1 mt-3">
+      <div class="form__actions--minutes form__actions--minutes-1 mt-3">
         <%= form.submit minute.new_record? ? "Guardar" : "Actualizar", class: "button-primary button-primary--minutes" %>
-        <%= link_to "Regresar", "#", class: "button-secondary  button-secondary--minutes", data: {action: "click->navigation#goBack"} %>
+        <% if !@minute.new_record? %>
+          <button type="button" data-bs-toggle="modal" data-bs-target="#confirmEmailModal" class="button-primary button-primary--minutes">Enviar por correo</button>
+          <%= link_to "Descargar PDF", minutes_pdf_url, class: "button-primary button-primary--minutes" %>
+        <% end %>
+        <%= link_to "Regresar", "#", class: "button-secondary button-secondary--minutes", data: {action: "click->navigation#goBack"} %>
 
         <%# OPEN CHANGE LOG %>
         <% if !@minutes_change_log.nil? %>
@@ -129,9 +133,14 @@
       </div>
     </div>
 
-    <div class="form__actions form__actions--minutes-3 mt-3">
-      <div class="form__actions form__actions--minutes-2">
+    <div class="form__actions--minutes form__actions--minutes-2 mt-3">
+      <div class="form__actions--minutes-3">
         <%= form.submit minute.new_record? ? "Guardar" : "Actualizar", class: "button-primary button-primary--minutes" %>
+        <% if !@minute.new_record? %>
+          <%= link_to "Enviar por correo", "#", class: "button-primary button-primary--minutes" %>
+          <button type="button" data-bs-toggle="modal" data-bs-target="#confirmEmailModal" class="button-primary button-primary--minutes">Enviar por correo</button>
+          <%= link_to "Descargar PDF", minutes_pdf_url, class: "button-primary button-primary--minutes" %>
+        <% end %>
         <%= link_to "Regresar", "#", class: "button-secondary button-secondary--minutes", data: {action: "click->navigation#goBack"} %>
       </div>
 
@@ -145,6 +154,9 @@
     
     <%# Users Modal %>
     <%= render "minutes/users_modal", attendees: @active_attendees %>
+
+    <%# Confirma Email Modal %>
+    <%= render "minutes/confirm_email_modal" %>
   </div>
   
 <% end %>

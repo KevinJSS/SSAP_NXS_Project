@@ -7,6 +7,7 @@ class Minute < ApplicationRecord
 
     #validations
     before_destroy :clean_changes
+    before_save :trim_values
 
     validates :meeting_title, presence: true
     validates :meeting_title, length: { in: 8..100 }, if: -> { meeting_title.present? }
@@ -17,9 +18,18 @@ class Minute < ApplicationRecord
     validate :validate_attendees
 
     def start_time_greater_than_end_time
-        if start_time.present? && end_time.present? && end_time <= start_time
-            errors.add(:end_time, "no puede ser menor a la hora inicial de la reunión")
+        if start_time.present? && end_time.present?
+            start_time_parsed = start_time.strftime("%Y-%m-%d %H:%M:%S")
+            end_time_parsed = end_time.strftime("%Y-%m-%d %H:%M:%S")
+        
+            if Time.parse(end_time_parsed) <= Time.parse(start_time_parsed)
+                errors.add(:end_time, "no puede ser menor o igual a la hora inicial de la reunión")
+            end
         end
+    end
+
+    def trim_values
+        self.meeting_title = meeting_title.strip if meeting_title.present?
     end
 
     def get_meeting_duration

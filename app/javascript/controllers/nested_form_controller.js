@@ -22,7 +22,7 @@ export default class extends NestedForm {
 
     //Set modal hours value to form nested input
     const inputHours = lastWrapper.querySelector(".nested-input-hours");
-    inputHours.value = modalHours.value;
+    inputHours.value = Math.abs(modalHours.value);
 
     //Clear modal input
     modalHours.value = "";

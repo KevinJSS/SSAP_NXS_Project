@@ -130,16 +130,9 @@
         }
 
         &--minutes {
+            display: flex;
+            gap: 8px;
             flex-direction: column;
-
-            @include m.desktop-md {
-                flex-direction: row;
-                align-items: center;
-            }
-
-            @include m.desktop-lg {
-                flex-direction: column;
-            }
 
             &-1 {
                 display: none;
@@ -157,14 +150,15 @@
                 }
             }
 
-            &-2,
-            &-3 {
+            &-2 {
                 @include m.desktop {
                     display: none;
                 }
 
                 @include m.desktop-md {
                     display: flex;
+                    justify-content: center;
+                    width: 100%;
                 }
 
                 @include m.desktop-lg {
@@ -173,8 +167,19 @@
             }
 
             &-3 {
-                width: 100%;
-                justify-content: space-between;
+                display: flex;
+                flex-direction: column;
+                gap: 8px;
+
+                @include m.tablet {
+                    flex-direction: row;
+                    justify-content: center;
+                }
+
+                @include m.desktop-md {
+                    flex-direction: row;
+                    justify-content: center;
+                }
             }
         }
     }

@@ -229,3 +229,30 @@
         color: #717179;
     }
 }
+
+.txt-primary {
+    color: v.$primary;
+}
+
+.hidden-element {
+    display: none;
+
+    &.show {
+        display: block;
+    }
+}
+
+.hidden-element--flex {
+    display: none;
+
+    &.show {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+
+        @include m.tablet {
+            flex-direction: row;
+            gap: 5px;
+        }
+    }
+}

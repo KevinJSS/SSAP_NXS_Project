@@ -37,19 +37,19 @@
 
               <a href="<%= projects_path(q: {active: 0}) %>" class="home__card-data home__card-data--primary clean-link clean-link--primary">
                 <h4 class="home__card-number fs-1 mb-0"><%= @active_projects %></h4>
-                <p class="home__card-subtitle fs-xs">Abiertos</p>
+                <p class="home__card-subtitle fs-xs">Abierto<%= "s" if @active_projects != 1 %></p>
               </a>
 
               <a href="<%= projects_path(q: {stage_eq: 8, stage_status_eq: 2}) %>" class="home__card-data home__card-data--grey clean-link clean-link--grey">
                 <h4 class="home__card-number fs-1 mb-0"><%= @closed_projects %></h4>
-                <p class="home__card-subtitle fs-xs">Cerrados</p>
+                <p class="home__card-subtitle fs-xs">Cerrado<%= "s" if @closed_projects != 1 %></p>
               </a>
             </div>
           </div>
 
           <div class="home__card home__card--welcome">
             <div class="header__heading">
-              <p class="header__subtitle pb-0 fs-5"><%= current_user.gender == "male" ? "Bienvenido" : "Bienvenida" %>,</p>
+              <p class="header__subtitle pb-0 fs-5">Bienvenid<%= current_user.gender == "male" ? "o" : "a" %>,</p>
               <h2 class="fw-bold fs-3"><%= current_user.get_short_name %></h2>
             </div>
             <div class="home__card-datetime">
@@ -102,12 +102,12 @@
 
               <a href="<%= collaborator_users_path(q: { status_eq: true }) %>" class="home__card-data home__card-data--primary clean-link clean-link--primary">
                 <h4 class="home__card-number fs-1 mb-0"><%= @active_collaborators %></h4>
-                <p class="home__card-subtitle fs-xs">Activos</p>
+                <p class="home__card-subtitle fs-xs">Activo<%= "s" if @active_collaborators != 1 %></p>
               </a>
 
               <a href="<%= collaborator_users_path(q: { status_eq: false }) %>" class="home__card-data home__card-data--grey clean-link clean-link--grey">
                 <h4 class="home__card-number fs-1 mb-0"><%= @inactive_collaborators %></h4>
-                <p class="home__card-subtitle fs-xs">Inactivos</p>
+                <p class="home__card-subtitle fs-xs">Inactivo<%= "s" if @inactive_collaborators != 1 %></p>
               </a>
             </div>
           </div>
@@ -130,12 +130,12 @@
 
               <a href="<%= users_path(q: { status_eq: true }) %>" class="home__card-data home__card-data--primary clean-link clean-link--primary">
                 <h4 class="home__card-number fs-1 mb-0"><%= @active_admins %></h4>
-                <p class="home__card-subtitle fs-xs">Activos</p>
+                <p class="home__card-subtitle fs-xs">Activo<%= "s" if @active_admins != 1 %></p>
               </a>
 
               <a href="<%= users_path(q: { status_eq: false }) %>" class="home__card-data home__card-data--grey clean-link clean-link--grey">
                 <h4 class="home__card-number fs-1 mb-0"><%= @inactive_admins %></h4>
-                <p class="home__card-subtitle fs-xs">Inactivos</p>
+                <p class="home__card-subtitle fs-xs">Inactivo<%= "s" if @inactive_admins != 1 %></p>
               </a>
             </div>
           </div>
