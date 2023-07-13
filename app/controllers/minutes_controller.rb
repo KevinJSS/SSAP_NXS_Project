@@ -2,7 +2,7 @@ class MinutesController < ApplicationController
   include ActionView::Helpers::SanitizeHelper
 
   before_action :authenticate_user!
-  before_action :set_minute, only: %i[ show edit update destroy pdf ]
+  before_action :set_minute, only: %i[ show edit update destroy pdf send_email ]
   before_action :set_attendees, :set_projects
   before_action :get_change_log, only: %i[ show edit update ]
 
@@ -30,222 +30,33 @@ class MinutesController < ApplicationController
     require 'prawn'
     require 'prawn/table'
 
-    pdf = Prawn::Document.new
-    logo_header_path = Rails.root.join('app', 'assets', 'images', 'pdf-header-logo.jpg')
-    logo_footer_path = Rails.root.join('app', 'assets', 'images', 'pdf-footer-logo.jpg')
+    pdf = Prawn::Document.new    
     name = "MINUTA_#{(@minute.project.name).gsub!(' ', '-')}_#{Time.now.strftime("%d-%m-%Y_%H%M")}_#{@minute[:id]}"
 
-    # Header and footer
-    pdf.repeat :all do
-      pdf.canvas do
-        pdf.bounding_box([25, pdf.bounds.top], width: pdf.bounds.width, height: 100) do
-          pdf.image logo_header_path, position: :left, fit: [80, 80]
-        end
-      end
-      pdf.canvas do
-        pdf.bounding_box([pdf.bounds.left, pdf.bounds.bottom + 60], width: pdf.bounds.width, height: 100) do
-          pdf.image logo_footer_path, position: :left, fit: [pdf.bounds.width - 70, 100]
-        end
-      end
-    end
-
-    # Body
-    pdf.bounding_box([pdf.bounds.left, pdf.bounds.top - 50], width: pdf.bounds.width, height: pdf.bounds.height - 120) do
-      
-      # Title
-      pdf.text "MINUTA DE REUNIÓN", align: :center, size: 18, style: :bold, color: "44ABA6"
-      pdf.move_down 5
-
-      # Meeting information
-      data = [
-        #['Identificador: ', name],
-        ['Proyecto: ', Project.find_by(id: @minute.project_id).name],
-        ['Título de la reunión: ', @minute.meeting_title],
-        ['Fecha de la reunión: ', l(@minute.meeting_date, format: :long)],
-        ['Hora: ', @minute.start_time.strftime("%I:%M %p") + " - " + @minute.end_time.strftime("%I:%M %p")],
-      ]
-      
-      data.each do |label, value|
-        pdf.formatted_text [
-          { text: label, styles: [:bold] },
-          { text: value, styles: [:normal] }
-        ], size: 13, align: :center
-      
-        pdf.move_down 2
-      end
-      pdf.move_down 20
-
-      # Meeting objectives
-      objectives = @minute.meeting_objectives.body.to_plain_text.gsub(/^\d+\.\s/, '').split("\n").map(&:strip).reject(&:blank?)
-      
-      if objectives.any?
-        table_data = [
-          [{ content: "OBJETIVOS DE LA REUNIÓN", colspan: 2 }],
-          [{ content: "#", align: :center }, "Objetivo"]
-        ]
-  
-        objectives.each_with_index do |objective, index|
-          table_data << [{ content: "#{index + 1}", width: 50, align: :center }, { content: objective }]
-        end
-  
-        pdf.move_down 10
-  
-        pdf.table(table_data, width: pdf.bounds.width, cell_style: { size: 13, border_width: 0.5, border_color: "000000", inline_format: true }, column_widths: [50, pdf.bounds.width - 50]) do
-          cells.borders = [:top, :bottom, :left, :right]
-          row(0).background_color = "000000"
-          row(0).text_color = "FFFFFF"
-          row(0).font_style = :bold
-  
-          row(1).background_color = "C4C4C4"
-          row(1).text_color = "000000"
-          row(1).font_style = :bold
-        end
-        pdf.move_down 20
-      end
-
-      # Assitants
-      table_data = [
-        [{ content: "LISTA DE ASISTENTES", colspan: 3 }],
-        [{ content: "#", align: :center }, "Nombre", "Puesto de trabajo"]
-      ]
-
-      @minute.minutes_users.each_with_index do |user, index|
-        table_data << [{ content: "#{index + 1}", width: 50, align: :center }, { content: user.user.fullname }, { content: user.user.job_position }]
-      end
-
-      pdf.table(table_data, width: pdf.bounds.width, cell_style: { size: 13, border_width: 0.5, border_color: "000000", inline_format: true }) do
-        cells.borders = [:top, :bottom, :left, :right]
-        row(0).background_color = "000000"
-        row(0).text_color = "FFFFFF"
-        row(0).font_style = :bold
-
-        row(1).background_color = "C4C4C4"
-        row(1).text_color = "000000"
-        row(1).font_style = :bold
-      end
-      pdf.move_down 20
-
-      # Discussed topics
-      discussed_topics = @minute.discussed_topics.body.to_plain_text.gsub(/^\d+\.\s/, '').split("\n").map(&:strip).reject(&:blank?)
-      
-      if discussed_topics.any?
-        table_data = [
-          [{ content: "TEMAS DISCUTIDOS", colspan: 2 }],
-          [{ content: "#", align: :center }, "Tema discutido"]
-        ]
-        
-        discussed_topics.each_with_index do |topic, index|
-          table_data << [{ content: "#{index + 1}", width: 50, align: :center }, { content: topic }]
-        end
-  
-        pdf.table(table_data, width: pdf.bounds.width, cell_style: { size: 13, border_width: 0.5, border_color: "000000", inline_format: true }, column_widths: [50, pdf.bounds.width - 50]) do
-          cells.borders = [:top, :bottom, :left, :right]
-          row(0).background_color = "000000"
-          row(0).text_color = "FFFFFF"
-          row(0).font_style = :bold
-  
-          row(1).background_color = "C4C4C4"
-          row(1).text_color = "000000"
-          row(1).font_style = :bold
-        end
-        pdf.move_down 20
-      end
-
-      # Pending topics
-      pending_topics = @minute.pending_topics.body.to_plain_text.gsub(/^\d+\.\s/, '').split("\n").map(&:strip).reject(&:blank?)
-
-      if pending_topics.any?
-        table_data = [
-          [{ content: "TEMAS PENDIENTES", colspan: 2 }],
-          [{ content: "#", align: :center }, "Tema pendiente"]
-        ]
-  
-        pending_topics.each_with_index do |topic, index|
-          table_data << [{ content: "#{index + 1}", width: 50, align: :center }, { content: topic }]
-        end
-  
-        pdf.table(table_data, width: pdf.bounds.width, cell_style: { size: 13, border_width: 0.5, border_color: "000000", inline_format: true }, column_widths: [50, pdf.bounds.width - 50]) do
-          cells.borders = [:top, :bottom, :left, :right]
-          row(0).background_color = "000000"
-          row(0).text_color = "FFFFFF"
-          row(0).font_style = :bold
-  
-          row(1).background_color = "C4C4C4"
-          row(1).text_color = "000000"
-          row(1).font_style = :bold
-        end
-        pdf.move_down 20
-      end
-
-      # Agreements
-      agreements = @minute.agreements.body.to_plain_text.gsub(/^\d+\.\s/, '').split("\n").map(&:strip).reject(&:blank?)
-
-      if agreements.any?
-        table_data = [
-          [{ content: "ACUERDOS", colspan: 2 }],
-          [{ content: "#", align: :center }, "Acuerdo"]
-        ]
-  
-        agreements.each_with_index do |agreement, index|
-          table_data << [{ content: "#{index + 1}", width: 50, align: :center }, { content: agreement }]
-        end
-  
-        pdf.table(table_data, width: pdf.bounds.width, cell_style: { size: 13, border_width: 0.5, border_color: "000000", inline_format: true }, column_widths: [50, pdf.bounds.width - 50]) do
-          cells.borders = [:top, :bottom, :left, :right]
-          row(0).background_color = "000000"
-          row(0).text_color = "FFFFFF"
-          row(0).font_style = :bold
-  
-          row(1).background_color = "C4C4C4"
-          row(1).text_color = "000000"
-          row(1).font_style = :bold
-        end
-        pdf.move_down 20
-      end
-
-      # Meeting notes
-      meeting_notes = @minute.meeting_notes.body.to_plain_text.gsub(/^\d+\.\s/, '').split("\n").map(&:strip).reject(&:blank?)
-      
-      if meeting_notes.any?
-        table_data = [
-          [{ content: "ANOTACIONES DE LA REUNIÓN", colspan: 2 }],
-          [{ content: "#", align: :center }, "Anotación"]
-        ]
-  
-        meeting_notes.each_with_index do |note, index|
-          table_data << [{ content: "#{index + 1}", width: 50, align: :center }, { content: note }]
-        end
-  
-        pdf.table(table_data, width: pdf.bounds.width, cell_style: { size: 13, border_width: 0.5, border_color: "000000", inline_format: true }, column_widths: [50, pdf.bounds.width - 50]) do
-          cells.borders = [:top, :bottom, :left, :right]
-          row(0).background_color = "000000"
-          row(0).text_color = "FFFFFF"
-          row(0).font_style = :bold
-  
-          row(1).background_color = "C4C4C4"
-          row(1).text_color = "000000"
-          row(1).font_style = :bold
-        end
-        pdf.move_down 20
-      end
-
-      # Minute data
-      pdf.formatted_text [
-        { text: "Esta minuta fue emitida el día: ", styles: [:bold] },
-        { text: l(Date.today, format: :long).capitalize, styles: [:normal] },
-        { text: ", a las " + Time.now.strftime("%I:%M %p"), styles: [:normal] }
-      ], align: :center, size: 10
-      pdf.move_down 10
-
-      pdf.text "- Fin de la minuta -", align: :center, size: 10, style: :italic, color: "44ABA6"
-    end
+    create_pdf(pdf)
 
     name = name + ".pdf"
     send_data(pdf.render, filename: name, type: 'application/pdf')
+  end
 
+  def send_email
+    require 'prawn'
+    require 'prawn/table'
+
+    pdf = Prawn::Document.new
+    name = "MINUTA_#{(Minute.find(params[:id]).project.name).gsub!(' ', '-')}_#{Time.now.strftime("%d-%m-%Y_%H%M")}_#{params[:id]}"
+
+    create_pdf(pdf)
+
+    name = name + ".pdf"
     pdf_file_path = Rails.root.join('tmp', name)
     pdf.render_file(pdf_file_path)
     MinutesMailer.send_minutes(current_user, @minute, pdf_file_path.to_s).deliver_later
+
+    respond_to do |format|
+      format.html { redirect_to minute_url(@minute), notice: "Minuta enviada correctamente." }
+      format.json { render :show, status: :ok, location: @minute }
+    end
   end
 
   # POST /minutes or /minutes.json
@@ -313,6 +124,219 @@ class MinutesController < ApplicationController
     def set_attendees
       @attendees = User.all
       @active_attendees = User.where(status: "active").order(fullname: :desc)
+    end
+
+    def create_pdf(pdf)
+      require 'prawn'
+      require 'prawn/table'
+
+      logo_header_path = Rails.root.join('app', 'assets', 'images', 'pdf-header-logo.jpg')
+      logo_footer_path = Rails.root.join('app', 'assets', 'images', 'pdf-footer-logo.jpg')
+
+      # Header and footer
+      pdf.repeat :all do
+        pdf.canvas do
+          pdf.bounding_box([25, pdf.bounds.top], width: pdf.bounds.width, height: 100) do
+            pdf.image logo_header_path, position: :left, fit: [80, 80]
+          end
+        end
+        pdf.canvas do
+          pdf.bounding_box([pdf.bounds.left, pdf.bounds.bottom + 60], width: pdf.bounds.width, height: 100) do
+            pdf.image logo_footer_path, position: :left, fit: [pdf.bounds.width - 70, 100]
+          end
+        end
+      end
+
+      # Body
+      pdf.bounding_box([pdf.bounds.left, pdf.bounds.top - 50], width: pdf.bounds.width, height: pdf.bounds.height - 120) do
+        
+        # Title
+        pdf.text "MINUTA DE REUNIÓN", align: :center, size: 18, style: :bold, color: "44ABA6"
+        pdf.move_down 5
+
+        # Meeting information
+        data = [
+          #['Identificador: ', name],
+          ['Proyecto: ', Project.find_by(id: @minute.project_id).name],
+          ['Título de la reunión: ', @minute.meeting_title],
+          ['Fecha de la reunión: ', l(@minute.meeting_date, format: :long)],
+          ['Hora: ', @minute.start_time.strftime("%I:%M %p") + " - " + @minute.end_time.strftime("%I:%M %p")],
+        ]
+        
+        data.each do |label, value|
+          pdf.formatted_text [
+            { text: label, styles: [:bold] },
+            { text: value, styles: [:normal] }
+          ], size: 13, align: :center
+        
+          pdf.move_down 2
+        end
+        pdf.move_down 20
+
+        # Meeting objectives
+        objectives = @minute.meeting_objectives.body.to_plain_text.gsub(/^\d+\.\s/, '').split("\n").map(&:strip).reject(&:blank?)
+        
+        if objectives.any?
+          table_data = [
+            [{ content: "OBJETIVOS DE LA REUNIÓN", colspan: 2 }],
+            [{ content: "#", align: :center }, "Objetivo"]
+          ]
+    
+          objectives.each_with_index do |objective, index|
+            table_data << [{ content: "#{index + 1}", width: 50, align: :center }, { content: objective }]
+          end
+    
+          pdf.move_down 10
+    
+          pdf.table(table_data, width: pdf.bounds.width, cell_style: { size: 13, border_width: 0.5, border_color: "000000", inline_format: true }, column_widths: [50, pdf.bounds.width - 50]) do
+            cells.borders = [:top, :bottom, :left, :right]
+            row(0).background_color = "000000"
+            row(0).text_color = "FFFFFF"
+            row(0).font_style = :bold
+    
+            row(1).background_color = "C4C4C4"
+            row(1).text_color = "000000"
+            row(1).font_style = :bold
+          end
+          pdf.move_down 20
+        end
+
+        # Assitants
+        table_data = [
+          [{ content: "LISTA DE ASISTENTES", colspan: 3 }],
+          [{ content: "#", align: :center }, "Nombre", "Puesto de trabajo"]
+        ]
+
+        @minute.minutes_users.each_with_index do |user, index|
+          table_data << [{ content: "#{index + 1}", width: 50, align: :center }, { content: user.user.fullname }, { content: user.user.job_position }]
+        end
+
+        pdf.table(table_data, width: pdf.bounds.width, cell_style: { size: 13, border_width: 0.5, border_color: "000000", inline_format: true }) do
+          cells.borders = [:top, :bottom, :left, :right]
+          row(0).background_color = "000000"
+          row(0).text_color = "FFFFFF"
+          row(0).font_style = :bold
+
+          row(1).background_color = "C4C4C4"
+          row(1).text_color = "000000"
+          row(1).font_style = :bold
+        end
+        pdf.move_down 20
+
+        # Discussed topics
+        discussed_topics = @minute.discussed_topics.body.to_plain_text.gsub(/^\d+\.\s/, '').split("\n").map(&:strip).reject(&:blank?)
+        
+        if discussed_topics.any?
+          table_data = [
+            [{ content: "TEMAS DISCUTIDOS", colspan: 2 }],
+            [{ content: "#", align: :center }, "Tema discutido"]
+          ]
+          
+          discussed_topics.each_with_index do |topic, index|
+            table_data << [{ content: "#{index + 1}", width: 50, align: :center }, { content: topic }]
+          end
+    
+          pdf.table(table_data, width: pdf.bounds.width, cell_style: { size: 13, border_width: 0.5, border_color: "000000", inline_format: true }, column_widths: [50, pdf.bounds.width - 50]) do
+            cells.borders = [:top, :bottom, :left, :right]
+            row(0).background_color = "000000"
+            row(0).text_color = "FFFFFF"
+            row(0).font_style = :bold
+    
+            row(1).background_color = "C4C4C4"
+            row(1).text_color = "000000"
+            row(1).font_style = :bold
+          end
+          pdf.move_down 20
+        end
+
+        # Pending topics
+        pending_topics = @minute.pending_topics.body.to_plain_text.gsub(/^\d+\.\s/, '').split("\n").map(&:strip).reject(&:blank?)
+
+        if pending_topics.any?
+          table_data = [
+            [{ content: "TEMAS PENDIENTES", colspan: 2 }],
+            [{ content: "#", align: :center }, "Tema pendiente"]
+          ]
+    
+          pending_topics.each_with_index do |topic, index|
+            table_data << [{ content: "#{index + 1}", width: 50, align: :center }, { content: topic }]
+          end
+    
+          pdf.table(table_data, width: pdf.bounds.width, cell_style: { size: 13, border_width: 0.5, border_color: "000000", inline_format: true }, column_widths: [50, pdf.bounds.width - 50]) do
+            cells.borders = [:top, :bottom, :left, :right]
+            row(0).background_color = "000000"
+            row(0).text_color = "FFFFFF"
+            row(0).font_style = :bold
+    
+            row(1).background_color = "C4C4C4"
+            row(1).text_color = "000000"
+            row(1).font_style = :bold
+          end
+          pdf.move_down 20
+        end
+
+        # Agreements
+        agreements = @minute.agreements.body.to_plain_text.gsub(/^\d+\.\s/, '').split("\n").map(&:strip).reject(&:blank?)
+
+        if agreements.any?
+          table_data = [
+            [{ content: "ACUERDOS", colspan: 2 }],
+            [{ content: "#", align: :center }, "Acuerdo"]
+          ]
+    
+          agreements.each_with_index do |agreement, index|
+            table_data << [{ content: "#{index + 1}", width: 50, align: :center }, { content: agreement }]
+          end
+    
+          pdf.table(table_data, width: pdf.bounds.width, cell_style: { size: 13, border_width: 0.5, border_color: "000000", inline_format: true }, column_widths: [50, pdf.bounds.width - 50]) do
+            cells.borders = [:top, :bottom, :left, :right]
+            row(0).background_color = "000000"
+            row(0).text_color = "FFFFFF"
+            row(0).font_style = :bold
+    
+            row(1).background_color = "C4C4C4"
+            row(1).text_color = "000000"
+            row(1).font_style = :bold
+          end
+          pdf.move_down 20
+        end
+
+        # Meeting notes
+        meeting_notes = @minute.meeting_notes.body.to_plain_text.gsub(/^\d+\.\s/, '').split("\n").map(&:strip).reject(&:blank?)
+        
+        if meeting_notes.any?
+          table_data = [
+            [{ content: "ANOTACIONES DE LA REUNIÓN", colspan: 2 }],
+            [{ content: "#", align: :center }, "Anotación"]
+          ]
+    
+          meeting_notes.each_with_index do |note, index|
+            table_data << [{ content: "#{index + 1}", width: 50, align: :center }, { content: note }]
+          end
+    
+          pdf.table(table_data, width: pdf.bounds.width, cell_style: { size: 13, border_width: 0.5, border_color: "000000", inline_format: true }, column_widths: [50, pdf.bounds.width - 50]) do
+            cells.borders = [:top, :bottom, :left, :right]
+            row(0).background_color = "000000"
+            row(0).text_color = "FFFFFF"
+            row(0).font_style = :bold
+    
+            row(1).background_color = "C4C4C4"
+            row(1).text_color = "000000"
+            row(1).font_style = :bold
+          end
+          pdf.move_down 20
+        end
+
+        # Minute data
+        pdf.formatted_text [
+          { text: "Esta minuta fue emitida el día: ", styles: [:bold] },
+          { text: l(Date.today, format: :long).capitalize, styles: [:normal] },
+          { text: ", a las " + Time.now.strftime("%I:%M %p"), styles: [:normal] }
+        ], align: :center, size: 10
+        pdf.move_down 10
+
+        pdf.text "- Fin de la minuta -", align: :center, size: 10, style: :italic, color: "44ABA6"
+      end
     end
 
     def get_change_log

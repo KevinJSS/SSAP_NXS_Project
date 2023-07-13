@@ -33,7 +33,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
         create_change_log
 
         # Send email with password
-        @user.send_reset_password_instructions
+        #@user.send_reset_password_instructions
 
         format.html { redirect_to @user, notice: "#{user_role} registrado correctamente" }
         format.json { render :show, status: :created, location: @user }

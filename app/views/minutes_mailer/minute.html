@@ -31,7 +31,6 @@
         background-color: #ffffff;
         border-radius: 10px;
         box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
-        border: 1px solid #e2e2e2;
     }
 
     .header {
@@ -89,8 +88,8 @@
 
         <div class="body">
             <h1>Minuta de reunión</h1>
-            <p>Estimad<%= @user.gender == "male" ? "o" : "a" %>, <%= @user.fullname %></p>
-            <p>En el documento adjunto encontrará la minuta de la reunión '<%= @minute.meeting_title %>' que se llevó a cabo el <%= l(@minute.meeting_date, format: :long) %>, a las <%= @minute.start_time.strftime("%H:%M") %> horas. Esta minuta fue generada automáticamente por nuestro sistema y contiene un resumen de los objetivos, temas discutidos, acuerdos y anotaciones importantes de la reunión.</p>
+            <p>Estimado/a <em>usuario</em>,</p>
+            <p>En el documento adjunto encontrará la minuta de la reunión [Título de la reunión] que se llevó a cabo el [Fecha de la reunión] a las [Hora de la reunión]. Esta minuta fue generada automáticamente por nuestro sistema y contiene un resumen de los objetivos, temas discutidos, acuerdos y anotaciones importantes de la reunión.</p>
 
             <p>Por favor, tenga en cuenta que este correo es generado automáticamente y no requiere respuesta. Si tiene alguna pregunta o comentario sobre la minuta, por favor comuníquese con el equipo encargado del proyecto.</p>
 

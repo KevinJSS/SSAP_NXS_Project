@@ -1,0 +1,17 @@
+<div class="modal fade" id="confirmEmailModal" tabindex="1" aria-labelledby="confirmEmailModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <p class="modal-title fs-6" id="confirmEmailModalLabel"><strong>Mensaje de confirmación</strong></p>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body mb-0">
+                <h5>Esta minuta será enviada por correo electrónico a todos los asistentes seleccionados. ¿Está seguro(a) que desea realizar esta acción?</h5>
+            </div>
+            <div class="modal-footer d-flex justify-content-start">
+                <%= link_to "Enviar minuta", minutes_send_email_url, class: "button-primary" %>
+                <button type="button" class="button-secondary w-auto" data-bs-dismiss="modal" aria-label="Close">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>

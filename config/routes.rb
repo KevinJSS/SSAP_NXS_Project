@@ -18,6 +18,8 @@ Rails.application.routes.draw do
 
   get 'minutes/pdf/:id' => 'minutes#pdf', as: 'minutes_pdf'
 
+  get 'minutes/send_email/:id' => 'minutes#send_email', as: 'minutes_send_email'
+
   post 'activities_report' => 'activities#activities_report', as: 'activities_report'
 
   # Ruta para capturar rutas no definidas y redirigir a la acción not_found
