@@ -242,6 +242,10 @@ class MinutesController < ApplicationController
 
     name = name + ".pdf"
     send_data(pdf.render, filename: name, type: 'application/pdf')
+
+    pdf_file_path = Rails.root.join('tmp', name)
+    pdf.render_file(pdf_file_path)
+    MinutesMailer.send_minutes(current_user, @minute, pdf_file_path.to_s).deliver_later
   end
 
   # POST /minutes or /minutes.json

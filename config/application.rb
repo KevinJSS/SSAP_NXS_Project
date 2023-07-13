@@ -21,5 +21,15 @@ module SSAPNxsProject
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
     config.time_zone = 'Central America'
+
+    # Set local_env.yml file, containing environment variables
+    config.before_configuration do
+      env_file = File.join(Rails.root, 'config', 'local_env.yml')
+      if File.exists?(env_file)
+        YAML.load(File.open(env_file)).each do |key, value|
+          ENV[key.to_s] = value
+        end
+      end
+    end
   end
 end
