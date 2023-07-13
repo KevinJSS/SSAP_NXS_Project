@@ -30,8 +30,10 @@ class Users::RegistrationsController < Devise::RegistrationsController
     respond_to do |format|
       if @user.save
         validate_emergency_contact_data
-
         create_change_log
+
+        # Send email with password
+        @user.send_reset_password_instructions
 
         format.html { redirect_to @user, notice: "#{user_role} registrado correctamente" }
         format.json { render :show, status: :created, location: @user }
