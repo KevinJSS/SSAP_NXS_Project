@@ -245,7 +245,7 @@ class ActivitiesController < ApplicationController
         # Activities by project summary table
         table_data = [
           [{ content: "RESUMEN ACTIVIDADES POR PROYECTO", colspan: 3 }],
-          ["Proyecto", "Actividades registradas", "Total de horas"]
+          ["Proyecto", "Fases registradas", "Total de horas"]
         ]
   
         phases_activities_sum_by_project.each do |project_id, total_hours|
