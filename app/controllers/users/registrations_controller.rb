@@ -15,17 +15,15 @@ class Users::RegistrationsController < Devise::RegistrationsController
     if user_signed_in? && current_user.role == "admin"
       @user = User.new(role: @role_param)
       @user.build_emergency_contact
-
-      #byebug
     else
       redirect_to root_path
     end
   end
 
-  # POST /resource
   def create
     @user = User.new(user_params)
-    @user.password = "Usuario_#{@user.id_card}" #Se debe generar un contrasena aleatoria y enviarla por el correo registrado
+    @user.new_admin = true if @user.role == "admin"
+    @user.password = "Usuario_#{@user.id_card}"
 
     respond_to do |format|
       if @user.save
@@ -33,7 +31,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
         create_change_log
 
         # Send email with password
-        #@user.send_reset_password_instructions
+        @user.send_reset_password_instructions if @user.role == "admin" && @user.status == true
 
         format.html { redirect_to @user, notice: "#{user_role} registrado correctamente" }
         format.json { render :show, status: :created, location: @user }
@@ -63,6 +61,11 @@ class Users::RegistrationsController < Devise::RegistrationsController
       if !@user.errors.any? && @user.update(user_params)
         # Register the change log
         register_change_log
+        
+        # Send email announcing the change of role or status
+        if @user.role_changed? || @user.status_changed?
+          byebug
+        end
 
         #validate_emergency_contact_data
 

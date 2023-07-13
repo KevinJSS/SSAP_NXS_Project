@@ -2,6 +2,10 @@ class UsersController < ApplicationController
   before_action :authenticate_user!
   before_action :set_user, only: %i[ show edit update ]
   before_action :get_change_log, only: %i[ show edit update ]
+  @@status_changed = false
+  @@new_status = ""
+  @@role_changed = false
+  @@new_role = ""
 
   def index
     @admin_q = User.where(role: "admin").ransack(params[:q])
@@ -34,6 +38,21 @@ class UsersController < ApplicationController
       if !@user.errors.any? && @user.update(user_params)
         # Register the change log
         register_change_log
+
+        # Send email announcing the change of role or status
+        if @@status_changed && @user.role == "admin" && @user.new_admin && @@new_status == "Activo(a)"
+          @user.send_reset_password_instructions if @user.status == true
+          @user.update(new_admin: false)
+        end
+
+        if @@role_changed && @@new_role == "admin"
+          @user.update(new_admin: true)
+          
+          if @user.status == true
+            @user.send_reset_password_instructions if @user.role == "admin"
+            @user.update(new_admin: false)
+          end
+        end
 
         #validate_emergency_contact_data
 
@@ -95,10 +114,15 @@ class UsersController < ApplicationController
         attribute_name = "la dirección"
       when "role"
         attribute_name = "el rol"
+        @@role_changed = true if old_value != new_value
+        @@new_role = new_value if @@role_changed
       when "status"
         attribute_name = "el estado"
         old_value = old_value == true ? "Activo(a)" : "Inactivo(a)"
         new_value = new_value == true ? "Activo(a)" : "Inactivo(a)"
+        @@status_changed = true if old_value != new_value
+        @@new_status = new_value if @@status_changed
+
       when "job_position"
         attribute_name = "el puesto de trabajo"
       when "account_number"

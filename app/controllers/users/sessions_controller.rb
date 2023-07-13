@@ -30,8 +30,10 @@ class Users::SessionsController < Devise::SessionsController
       flash[:alert] = "Permiso denegado, contacta a un encargado del sistema."
       redirect_to new_user_session_path
     end
-  end
 
+    user.update(new_admin: false) if user && user.role == "admin" && user.status == true
+  end
+  
   # If you have extra params to permit, append them to the sanitizer.
   # def configure_sign_in_params
   #   devise_parameter_sanitizer.permit(:sign_in, keys: [:attribute])
