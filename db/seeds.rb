@@ -6,91 +6,25 @@
 #   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
 #   Character.create(name: "Luke", movie: movies.first)
 
-# User.create!(
-#     email: "kevin@gmail.com",
-#     password: "kevin1234",
-#     id_card: "208880111",
-#     fullname: "Kevin Alvarado Pérez",
-#     phone: "(+506) 8888 8881",
-#     address: "Dirección de habitación aquí",
-#     role: 1,
-#     job_position: "Desarrollador",
-#     account_number: "CR12309870131",
-#     id_card_type: 0,
-#     marital_status: 0,
-#     birth_date: Date.new(1990, 1, 1),
-#     province: "Alajuela",
-#     canton: "Naranjo",
-#     district: "Centro",
-#     education: 3,
-#     nationality: "Costarricense",
-#     gender: 0
-#   )
-
-# User.create!(
-#     email: "adriana@gmail.com",
-#     password: "adriana1234",
-#     id_card: "208880112",
-#     fullname: "Adriana Arroyo Hernández",
-#     phone: "(+506) 8888 8882",
-#     address: "Dirección de habitación aquí",
-#     role: 1,
-#     job_position: "Desarrolladora",
-#     account_number: "CR12309870132",
-#     id_card_type: 0,
-#     marital_status: 6,
-#     birth_date: Date.new(1990, 1, 1),
-#     province: "Alajuela",
-#     canton: "San Ramón",
-#     district: "Zamora",
-#     education: 3,
-#     nationality: "Costarricense",
-#     gender: 1
-#   )
-
-# User.create!(
-#     email: "alina@gmail.com",
-#     password: "alina1234",
-#     id_card: "208880113",
-#     fullname: "Alina Rodríguez Ávila",
-#     phone: "(+506) 8888 8883",
-#     address: "Dirección de habitación aquí",
-#     role: 1,
-#     job_position: "Desarrolladora",
-#     account_number: "CR12309870133",
-#     id_card_type: 0,
-#     marital_status: 0,
-#     birth_date: Date.new(1990, 1, 1),
-#     province: "Alajuela",
-#     canton: "Palmares",
-#     district: "Los Ángeles",
-#     education: 3,
-#     nationality: "Costarricense",
-#     gender: 1
-#   )
-
-# 7.times do
-#     User.create!(
-#       email: Faker::Internet.unique.email,
-#       password: "user123",
-#       id_card: Faker::Number.unique.number(digits: 9).to_s,
-#       fullname: Faker::Name.unique.name,
-#       phone: Faker::Number.number(digits: 20).to_s[0..19],
-#       address: "Dirección de habitación aquí",
-#       role: 0,
-#       job_position: "Constructor",
-#       account_number: "CR#{Faker::Number.number(digits: 15).to_s}",
-#       id_card_type: 0,
-#       marital_status: rand(0..6),
-#       birth_date: Faker::Date.birthday(min_age: 18, max_age: 65),
-#       province: Faker::Address.state,
-#       canton: Faker::Address.city,
-#       district: Faker::Address.community,
-#       education: rand(1..4),
-#       nationality: "Costarricense",
-#       gender: rand(0..1)
-#     )
-#   end
+User.create!(
+    email: "dev@admin.com",
+    password: "dev@!@#$",
+    id_card: "10101101011",
+    fullname: "Desarrollador Admin",
+    phone: "(+101) 1001 0110",
+    address: "Servidor",
+    role: 1,
+    job_position: "Developer",
+    id_card_type: 0,
+    marital_status: 0,
+    birth_date: Date.new(1990, 1, 1),
+    province: "Servidor",
+    canton: "Servidor",
+    district: "Servidor",
+    education: 4,
+    nationality: "Costarricense",
+    gender: 0
+  )
 
 Phase.create(code: 'I-01', name: 'Inicio')
 Phase.create(code: 'T-01', name: 'Terreno')
