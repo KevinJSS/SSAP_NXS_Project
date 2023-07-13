@@ -61,11 +61,6 @@ class Users::RegistrationsController < Devise::RegistrationsController
       if !@user.errors.any? && @user.update(user_params)
         # Register the change log
         register_change_log
-        
-        # Send email announcing the change of role or status
-        if @user.role_changed? || @user.status_changed?
-          byebug
-        end
 
         #validate_emergency_contact_data
 

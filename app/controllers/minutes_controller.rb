@@ -44,7 +44,7 @@ class MinutesController < ApplicationController
     require 'prawn/table'
 
     pdf = Prawn::Document.new
-    name = "MINUTA_#{(Minute.find(params[:id]).project.name).gsub!(' ', '-')}_#{Time.now.strftime("%d-%m-%Y_%H%M")}_#{params[:id]}"
+    name = "MINUTA_#{(@minute.project.name).gsub!(' ', '-')}_#{Time.now.strftime("%d-%m-%Y_%H%M")}_#{@minute.id}"
 
     create_pdf(pdf)
 
