@@ -51,7 +51,10 @@ class MinutesController < ApplicationController
     name = name + ".pdf"
     pdf_file_path = Rails.root.join('tmp', name)
     pdf.render_file(pdf_file_path)
-    MinutesMailer.send_minutes(current_user, @minute, pdf_file_path.to_s).deliver_later
+
+    @minute.minutes_users.each do |user|
+      MinutesMailer.send_minutes(user.user, @minute, pdf_file_path.to_s).deliver_later
+    end
 
     respond_to do |format|
       format.html { redirect_to minute_url(@minute), notice: "Minuta enviada correctamente." }
