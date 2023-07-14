@@ -33,7 +33,7 @@
         <div class="item__reference">
             <p class="item__reference-text fs-5">
                 <%= image_tag('email-icon.svg', alt: "icono correo electronico", class: "item__reference-icon") %>
-                <%= user.email %>
+                <%= truncate(user.email, length: 20, omission: '...') %>
             </p>
             <%# Agregar link para ir a lista de actividades filtradas por este proyecto %>
             <p class="item__reference-label">Correo electrónico</p>
