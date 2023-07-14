@@ -102,7 +102,7 @@
         <div class="body">
             <h1>Minuta de reunión</h1>
             <p>Estimad<%= @user.gender == "male" ? "o" : "a" %>, <%= @user.fullname %></p>
-            <p>En el documento adjunto encontrará la minuta de la reunión '<%= @minute.meeting_title %>', sobre el proyecto '<%= Project.find_by(id: @minute.project.id).name %>', que se llevó a cabo el <%= l(@minute.meeting_date, format: :long) %>, a las <%= @minute.start_time.strftime("%H:%M") %> horas. Esta minuta fue generada automáticamente por nuestro sistema y contiene un resumen de los objetivos, temas discutidos, acuerdos y anotaciones importantes de la reunión.</p>
+            <p>En el documento adjunto encontrará la minuta de la reunión '<%= @minute.meeting_title %>', que se llevó a cabo el <%= l(@minute.meeting_date, format: :long) %>, a las <%= @minute.start_time.strftime("%H:%M") %> horas. Esta minuta fue generada automáticamente por nuestro sistema y contiene un resumen de los objetivos, temas discutidos, acuerdos y anotaciones importantes de la reunión.</p>
 
             <p>Por favor, tenga en cuenta que este correo es generado automáticamente y no requiere respuesta. Si tiene alguna pregunta o comentario sobre la minuta, por favor comuníquese con el equipo encargado del proyecto.</p>
 
