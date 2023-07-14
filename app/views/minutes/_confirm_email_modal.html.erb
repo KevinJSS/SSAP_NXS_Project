@@ -11,7 +11,7 @@
             </div>
             <div class="modal-footer d-flex justify-content-start">
                 <% if !@minute.new_record? %>
-                  <%= link_to "Enviar minuta", minutes_send_email_url, class: "button-primary" %>
+                  <%= link_to "Enviar minuta", minutes_send_email_url, class: "button-primary w-auto" %>
                 <% end %>
                 <button type="button" class="button-secondary w-auto" data-bs-dismiss="modal" aria-label="Close">Cancelar</button>
             </div>
