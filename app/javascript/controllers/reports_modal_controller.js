@@ -28,6 +28,6 @@ export default class extends Controller {
     generateForm.submit();
     setTimeout(function() {
       location.reload();
-    }, 500); // Retardo de 1 segundo (1000 milisegundos)
+    }, 1000); // Retardo de 1 segundo (1000 milisegundos)
   }  
 }
