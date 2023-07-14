@@ -26,8 +26,8 @@ export default class extends Controller {
   submit() {
     var generateForm = document.getElementById("generate-form");
     generateForm.submit();
-    setTimeout(function() {
-      location.reload();
-    }, 2000);
+    // setTimeout(function() {
+    //   location.reload();
+    // }, 2000);
   }  
 }
