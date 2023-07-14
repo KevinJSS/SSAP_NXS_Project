@@ -2,7 +2,7 @@
   <div class="login__content">
     <div class="login__logo">
       <%= image_tag("login-icon.svg", alt: "Logo inicio de sesión", class: "login__icon") %>
-      <h1 class="login__title">RESTABLECER CONTRASEÑA</h1>
+      <h1 class="login__title">NUEVA CONTRASEÑA</h1>
     </div>
     
     <%= render 'shared/error_message', object: resource %>
@@ -23,7 +23,7 @@
           </div>
           
           <div class="actions">
-            <%= f.submit "Cambiar contraseña", class: "button-primary w-100 fw-bold" %>
+            <%= f.submit "Establecer contraseña", class: "button-primary w-100 fw-bold" %>
           </div>
         </div>
       <% end %>
