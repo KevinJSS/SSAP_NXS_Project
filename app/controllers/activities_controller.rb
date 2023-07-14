@@ -43,7 +43,8 @@ class ActivitiesController < ApplicationController
     end_date = params[:end_date]
 
     if start_date.empty? || end_date.empty?
-      flash[:alert] = "Es necesario indicar el rango de fechas para generar el reporte."
+      redirect_to activities_path, alert: "Es necesario indicar el rango de fechas para generar el reporte."
+      #flash[:alert] = "Es necesario indicar el rango de fechas para generar el reporte."
       return
     end
 
@@ -123,14 +124,15 @@ class ActivitiesController < ApplicationController
       collaborator = User.find_by(id: params[:user_id])
   
       if collaborator.nil?
-        flash[:alert] = "Es necesario indicar el colaborador para generar el reporte."
+        redirect_to activities_path, alert: "Es necesario indicar el colaborador para generar el reporte."
+        #flash[:alert] = "Es necesario indicar el colaborador para generar el reporte."
         return
       end
   
       activities = Activity.where(date: start_date..end_date, user_id: collaborator.id).order(date: :asc)
       
       if activities.nil? || activities.empty?
-        flash[:alert] = "No se encontraron actividades registradas para este colaborador en el periodo de tiempo ingresado."
+        redirect_to activities_path, alert: "No se encontraron actividades registradas para este colaborador en el periodo de tiempo ingresado."
         return
       end
   
@@ -276,12 +278,18 @@ class ActivitiesController < ApplicationController
     def general_report(start_date, end_date)
       # Active collaborators
       active_collaborators = User.where(role: "collaborator", status: "active").order(fullname: :desc)
+
+      if active_collaborators.nil? || active_collaborators.empty?
+        redirect_to activities_path, alert: "No se encontraron colaboradores activos en el sistema."
+        #flash[:alert] = "No se encontraron colaboradores activos en el sistema."
+        return
+      end
   
       # Activities in date range
       activities = Activity.where(date: start_date..end_date).order(date: :asc)
   
       if activities.nil? || activities.empty?
-        flash[:alert] = "No se encontraron actividades registradas en el periodo de tiempo ingresado."
+        redirect_to activities_path, alert: "No se encontraron actividades registradas en el periodo de tiempo ingresado."
         return
       end
   
@@ -538,12 +546,14 @@ class ActivitiesController < ApplicationController
       end_date = Date.parse(end_date) unless end_date.is_a?(Date)
     
       if start_date.nil? || end_date.nil?
-        flash[:alert] = "Las fechas ingresadas no son válidas."
+        redirect_to activities_path, alert: "Las fechas ingresadas no son válidas."
+        #flash[:alert] = "Las fechas ingresadas no son válidas."
         return false
       end
     
       if start_date > end_date
-        flash[:alert] = "La fecha de inicio debe ser menor o igual a la fecha de fin."
+        redirect_to activities_path, alert: "La fecha de inicio debe ser menor o igual a la fecha de fin."
+        #flash[:alert] = "La fecha de inicio debe ser menor o igual a la fecha de fin."
         return false
       end
 
