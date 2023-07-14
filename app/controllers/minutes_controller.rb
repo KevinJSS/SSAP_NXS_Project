@@ -405,7 +405,8 @@ class MinutesController < ApplicationController
         'meeting_objectives' => 'los objetivos de la reunión',
         'discussed_topics' => 'los temas discutidos',
         'pending_topics' => 'los temas pendientes',
-        'meeting_notes' => 'las notas de la reunión'
+        'meeting_notes' => 'las notas de la reunión',
+        'agreements' => 'los acuerdos'
       }
     
       action_text_attributes.each do |attribute, attribute_name|
