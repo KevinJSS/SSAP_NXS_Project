@@ -101,14 +101,20 @@ class PhasesController < ApplicationController
 
       changes.each do |attribute, values|
         old_value, new_value = values
-        old_value = old_value.strip if !old_value.nil?
-        new_value = new_value.strip if !new_value.nil?
 
         case attribute
         when "code"
           attribute_name = "el código"
+          old_value = old_value.strip if !old_value.nil?
+          new_value = new_value.strip if !new_value.nil?
+          next if old_value == new_value
+
         when "name"
           attribute_name = "el nombre"
+          attribute_name = "el código"
+          old_value = old_value.strip if !old_value.nil?
+          new_value = new_value.strip if !new_value.nil?
+          next if old_value == new_value
         end
 
         if attribute_name.empty? then next end
