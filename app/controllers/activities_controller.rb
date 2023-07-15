@@ -165,7 +165,7 @@ class ActivitiesController < ApplicationController
       # Body
       pdf.bounding_box([pdf.bounds.left, pdf.bounds.top - 50], width: pdf.bounds.width, height: pdf.bounds.height - 120) do
         # PDF header
-        report_title = collaborator_report_type == "summary" ? "REPORTE DE ACTIVIDADES POR COLABORADOR" : "REPORTE DETALLADO DE ACTIVIDADES\nPOR COLABORADOR"
+        report_title = collaborator_report_type == "summary" ? "REPORTE RESUMIDO DE ACTIVIDADES POR COLABORADOR" : "REPORTE DETALLADO DE ACTIVIDADES\nPOR COLABORADOR"
         pdf_document_title(pdf, report_title)
   
         # Collaborator info
