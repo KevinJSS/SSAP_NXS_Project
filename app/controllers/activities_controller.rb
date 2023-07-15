@@ -63,6 +63,7 @@ class ActivitiesController < ApplicationController
     @activity = Activity.new(activity_params)
 
     validate_nested_phases
+    validate_previous_activities
 
     respond_to do |format|
       if !@activity.errors.any? && @activity.save
@@ -81,6 +82,7 @@ class ActivitiesController < ApplicationController
   # PATCH/PUT /activities/1 or /activities/1.json
   def update
     validate_nested_phases
+    validate_previous_activities
 
     #register change log
     @count = 1
@@ -117,6 +119,49 @@ class ActivitiesController < ApplicationController
 
       if @activity.nil?
         redirect_to activities_path, alert: "La actividad a la que intenta acceder no existe."
+      end
+    end
+
+    def validate_previous_activities
+      return if @activity.errors.any?
+
+      activities = Activity.where(user_id: @activity.user_id, date: @activity.date)
+
+      if activities.empty? 
+        return
+      end
+
+      previous_hours = 0
+      activities.each do |activity|
+        previous_hours += activity.phases_activities.sum(&:hours)
+      end
+
+      new_hours = 0
+      
+      if @activity.new_record?
+        @activity.phases_activities.each do |phase_activity|
+          new_hours += phase_activity.hours
+        end
+      else
+        nested_attributes = params[:activity][:phases_activities_attributes]
+        phases_activities = @activity.phases_activities
+
+        new_phases_activities = []
+        nested_attributes.each do |index, phase_activity_params|
+          existing_phase_activity = phases_activities.find { |pa| pa.id.to_s == phase_activity_params[:id] }
+          
+          unless existing_phase_activity
+            new_phases_activities << phase_activity_params
+          end
+        end
+
+        new_phases_activities.each do |phase_activity_params|
+          new_hours += phase_activity_params[:hours].to_d
+        end
+      end
+
+      if previous_hours + new_hours > 24
+        @activity.errors.add(:phases_activities, "la suma total de horas registradas en esta actividad es mayor a 24 horas")
       end
     end
 
@@ -645,7 +690,7 @@ class ActivitiesController < ApplicationController
       end
 
       if total_hours < 1 || total_hours > 24
-        @activity.errors.add(:phases_activities, "el total de horas debe estar entre 1 y 24")
+        @activity.errors.add(:phases_activities, "el total de horas registradas para el día #{l(@activity.date, format: :long)} es mayor a 24 horas")
       end
     end
 
