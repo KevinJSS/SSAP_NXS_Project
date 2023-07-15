@@ -131,13 +131,9 @@ class ActivitiesController < ApplicationController
         return
       end
 
-      previous_hours = 0
-      activities.each do |activity|
-        previous_hours += activity.phases_activities.sum(&:hours)
-      end
-
       new_hours = 0
-      
+      previous_hours = 0
+
       if @activity.new_record?
         @activity.phases_activities.each do |phase_activity|
           new_hours += phase_activity.hours
@@ -146,17 +142,14 @@ class ActivitiesController < ApplicationController
         nested_attributes = params[:activity][:phases_activities_attributes]
         phases_activities = @activity.phases_activities
 
-        new_phases_activities = []
-        nested_attributes.each do |index, phase_activity_params|
-          existing_phase_activity = phases_activities.find { |pa| pa.id.to_s == phase_activity_params[:id] }
-          
-          unless existing_phase_activity
-            new_phases_activities << phase_activity_params
+        nested_attributes.each do |index, attributes|
+          if attributes["_destroy"] == "false" && !phases_activities.find_by(phase_id: attributes["phase_id"].to_i).nil?
+            previous_hours += attributes["hours"].to_d
           end
-        end
 
-        new_phases_activities.each do |phase_activity_params|
-          new_hours += phase_activity_params[:hours].to_d
+          if attributes["_destroy"] == "false" && phases_activities.find_by(phase_id: attributes["phase_id"]).nil?
+            new_hours += attributes["hours"].to_d
+          end
         end
       end
 
