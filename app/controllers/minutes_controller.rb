@@ -56,7 +56,7 @@ class MinutesController < ApplicationController
     attendees = @minute.minutes_users.map(&:user).uniq
 
     attendees.each do |attendee|
-      MinutesMailer.send_minutes(attendee, @minute, pdf_file_path.to_s).deliver_later
+      MinutesMailer.send_minutes(attendee, attendee.email.to_s, @minute, pdf_file_path.to_s).deliver_later
     end
 
     respond_to do |format|
