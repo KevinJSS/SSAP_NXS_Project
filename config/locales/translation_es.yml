@@ -94,7 +94,7 @@ es:
         province: La provincia  #g
         remember_created_at: Recordar creado en  #g
         reset_password_sent_at: Restablecer contraseña enviada a  #g
-        reset_password_token: Restablecer token de contraseña  #g
+        reset_password_token: El token de contraseña  #g
         password_confirmation: La confirmación de contraseña
         role: El rol de usuario  #g
         status: "El estado del usuario"

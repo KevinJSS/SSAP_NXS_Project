@@ -63,6 +63,7 @@ class ActivitiesController < ApplicationController
     @activity = Activity.new(activity_params)
 
     validate_nested_phases
+    validate_previous_activities
 
     respond_to do |format|
       if !@activity.errors.any? && @activity.save
@@ -81,6 +82,7 @@ class ActivitiesController < ApplicationController
   # PATCH/PUT /activities/1 or /activities/1.json
   def update
     validate_nested_phases
+    validate_previous_activities
 
     #register change log
     @count = 1
@@ -117,6 +119,62 @@ class ActivitiesController < ApplicationController
 
       if @activity.nil?
         redirect_to activities_path, alert: "La actividad a la que intenta acceder no existe."
+      end
+    end
+
+    def validate_previous_activities
+      return if @activity.errors.any?
+
+      date_changed = @activity.date != params[:activity][:date].to_date
+      activities = Activity.where(user_id: @activity.user_id, date: params[:activity][:date].to_date)
+
+      return if activities.empty? || activities.nil?
+
+      new_hours = 0
+      previous_hours = 0
+
+      # load up the previous hours
+      activities.each do |activity|
+        activity.phases_activities.each do |phase_activity|
+          previous_hours += phase_activity.hours
+        end
+      end
+
+      if @activity.new_record?
+        # if the activity is new, then add its hours to the new hours
+        @activity.phases_activities.each do |phase_activity|
+          new_hours += phase_activity.hours
+        end
+      else
+        nested_attributes = params[:activity][:phases_activities_attributes]
+        phases_activities = @activity.phases_activities
+
+        if !date_changed
+          nested_attributes.each do |index, attributes|
+            phase_id = attributes["phase_id"].to_i
+            phase_activity = phases_activities.find_by(phase_id: phase_id)
+  
+            if attributes["_destroy"] == "1" && phase_activity
+              # if the phase is marked to be destroyed and exists in the database, then subtract its hours from the previous hours
+              previous_hours -= attributes["hours"].to_d
+            elsif attributes["_destroy"] == "false" && !phase_activity
+              # if the phase is not marked to be destroyed and does not exist in the database, then add its hours to the new hours
+              new_hours += attributes["hours"].to_d
+            end
+          end
+        else
+          nested_attributes.each do |index, attributes|
+            if attributes["_destroy"] == "false"
+              # if the phase is not marked to be destroyed, then add its hours to the new hours
+              new_hours += attributes["hours"].to_d
+            end
+          end
+        end
+      end
+
+      # validate if the total hours are greater than 24
+      if previous_hours + new_hours > 24
+        @activity.errors.add(:phases_activities, "el total de horas registradas para el día #{l(@activity.date, format: :long)} es mayor a 24 horas")
       end
     end
 
@@ -622,7 +680,7 @@ class ActivitiesController < ApplicationController
     def validate_nested_phases
       #validate if there are nested attributes
       if params[:activity][:phases_activities_attributes].nil? || params[:activity][:phases_activities_attributes].empty?
-        @activity.errors.add(:phases_activities, "es necesario agregar al menos una actividad y horas realizadas")
+        @activity.errors.add(:phases_activities, "es necesario registrar al menos una fase y sus horas realizadas")
         return
       end
 
@@ -645,7 +703,8 @@ class ActivitiesController < ApplicationController
       end
 
       if total_hours < 1 || total_hours > 24
-        @activity.errors.add(:phases_activities, "el total de horas debe estar entre 1 y 24")
+        key_word = total_hours < 1 ? "menor a 1" : "mayor a 24"
+        @activity.errors.add(:phases_activities, "el total de horas realizadas es #{key_word}")
       end
     end
 
