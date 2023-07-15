@@ -218,26 +218,33 @@ class ActivitiesController < ApplicationController
   
         # Detailed report
         if collaborator_report_type == "detailed"
-          # Activities table
-          table_data = [
-            [{ content: "ACTIVIDADES REGISTRADAS", colspan: 4 }],
-            ["Fecha", "Proyecto", "Fase", "Horas"]
-          ]
-          
-          activities.each do |activity|
-            activity.phases_activities.each do |phase_activity|
-              table_data << [l(activity.date, format: :default).capitalize, activity.project.name, phase_activity.phase.code.to_s + " " + phase_activity.phase.name, hours_in_words(phase_activity.hours)]
+          # Actividades detalladas por proyecto
+          pdf_section_title(pdf, "Actividades detalladas por proyecto")
+          pdf.text "Esta sección muestra el detalle de las actividades registradas por proyecto, en el periodo de tiempo ingresado.", size: 11
+          pdf.move_down 10
+
+          activities_grouped_by_project.each do |project_id, activities|
+            project = Project.find(project_id)
+            table_data = [
+              [{ content: "DETALLE DE ACTIVIDADES (#{project.name})", colspan: 3 }],
+              ["Fecha", "Fase", "Horas"]
+            ]
+
+            activities.each do |activity|
+              activity.phases_activities.each do |phase_activity|
+                phase = Phase.find(phase_activity.phase_id)
+                table_data << [l(activity.date, format: :long).capitalize, "#{phase.code} #{phase.name}", "#{phase_activity.hours.to_s} (#{hours_in_words(phase_activity.hours)})"]
+              end
             end
-          end  
-          table_data << [{ content: "Total de horas registradas", colspan: 3}, hours_in_words(total_report_hours)]
-  
-          pdf_section(
-            pdf,
-            "Actividades registradas",
-            "Esta sección muestra las actividades registradas por el colaborador, en el periodo de tiempo ingresado.",
-            table_data
-          )
-          pdf.move_down 15
+
+            activities_sum = activities.sum { |activity| activity.phases_activities.sum(&:hours) }
+            table_data << [{ content: "Total de horas registradas", colspan: 2}, "#{activities_sum.to_s} (#{hours_in_words(activities_sum)})"]
+
+            pdf_table(table_data, pdf)
+            pdf.move_down 20
+          end
+          
+          pdf.move_down 10
         end
         
         pdf_section_title(pdf, "Resumen de actividades por proyecto")
