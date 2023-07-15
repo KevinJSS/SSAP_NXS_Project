@@ -134,7 +134,15 @@ class ActivitiesController < ApplicationController
       new_hours = 0
       previous_hours = 0
 
+      # load up the previous hours
+      activities.each do |activity|
+        activity.phases_activities.each do |phase_activity|
+          previous_hours += phase_activity.hours
+        end
+      end
+
       if @activity.new_record?
+        # if the activity is new, then add its hours to the new hours
         @activity.phases_activities.each do |phase_activity|
           new_hours += phase_activity.hours
         end
@@ -143,10 +151,19 @@ class ActivitiesController < ApplicationController
         phases_activities = @activity.phases_activities
 
         nested_attributes.each do |index, attributes|
-          if attributes["_destroy"] == "false" && !phases_activities.find_by(phase_id: attributes["phase_id"].to_i).nil?
-            previous_hours += attributes["hours"].to_d
+          # if the phase is marked to be destroyed and it exists in the database, then subtract its hours from the previous hours
+          if attributes["_destroy"] == "1" && !phases_activities.find_by(phase_id: attributes["phase_id"].to_i).nil?
+            previous_hours -= attributes["hours"].to_d
+            next
           end
 
+          # if the phase is not marked to be destroyed and it exists in the database, then add its hours to the previous hours
+          if attributes["_destroy"] == "false" && !phases_activities.find_by(phase_id: attributes["phase_id"].to_i).nil?
+            previous_hours += attributes["hours"].to_d
+            next
+          end
+
+          # if the phase is not marked to be destroyed and it does not exist in the database, then add its hours to the new hours
           if attributes["_destroy"] == "false" && phases_activities.find_by(phase_id: attributes["phase_id"]).nil?
             new_hours += attributes["hours"].to_d
           end
