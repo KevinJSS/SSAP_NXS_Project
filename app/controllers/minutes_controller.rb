@@ -52,8 +52,11 @@ class MinutesController < ApplicationController
     pdf_file_path = Rails.root.join('tmp', name)
     pdf.render_file(pdf_file_path)
 
-    @minute.minutes_users.each do |user|
-      MinutesMailer.send_minutes(user.user, @minute, pdf_file_path.to_s).deliver_later
+    #send email
+    attendees = @minute.minutes_users.map(&:user).uniq
+
+    attendees.each do |attendee|
+      MinutesMailer.send_minutes(attendee, @minute, pdf_file_path.to_s).deliver_later
     end
 
     respond_to do |format|
