@@ -152,17 +152,35 @@ class ActivitiesController < ApplicationController
   
       # Phases activities grouped count and sum by project
       phases_activities_grouped_by_phase = PhasesActivity.includes(:phase).where(activity: activities).group(:phase_id).sum(:hours)
-      
-      phases_activities_count_by_project = {}
-      phases_activities_sum_by_project = {}
-  
-      activities_grouped_by_project.each do |project_id, activities|
-        phases_activities_count_by_project[project_id] = activities.sum { |activity| activity.phases_activities.count }
-        phases_activities_sum_by_project[project_id] = activities.sum { |activity| activity.phases_activities.sum(&:hours) }
-      end
   
       # Total report hours
       total_report_hours = activities.sum { |activity| activity.phases_activities.sum(&:hours) }
+
+      phases_by_project = {}
+
+      activities_grouped_by_project.each do |project_id, activities|
+        phases_by_phase = {}
+
+        activities.each do |activity|
+          activity.phases_activities.each do |phase_activity|
+            phase_id = phase_activity.phase_id
+            repetition_count = phases_by_phase[phase_id]&.first || 0
+            hours_sum = phases_by_phase[phase_id]&.last || 0
+
+            repetition_count += 1
+            hours_sum += phase_activity.hours
+
+            phases_by_phase[phase_id] = [repetition_count, hours_sum]
+          end
+        end
+
+        phases_by_project[project_id] = phases_by_phase
+      end
+
+      pp '################################ phases_by_project'
+      pp phases_by_project
+
+      #byebug
       
       require 'prawn'
       require 'prawn/table'
@@ -219,51 +237,40 @@ class ActivitiesController < ApplicationController
             "Esta sección muestra las actividades registradas por el colaborador, en el periodo de tiempo ingresado.",
             table_data
           )
+          pdf.move_down 15
         end
-  
-        # Summary report
-        # Activities by phase summary table
-        table_data = [
-          [{ content: "RESUMEN DE ACTIVIDADES POR FASE", colspan: 3 }],
-          ["Fase", "Cantidad", "Total de horas"]
-        ]
-  
-        phases_activities_grouped_by_phase.each do |phase_id, total_hours|
-          phase = Phase.find(phase_id)
-          phase = phase.code.to_s + " " + phase.name.to_s
-          amount = PhasesActivity.includes(:phase).where(activity: activities).group(:phase_id).count[phase_id]
-          table_data << [phase, amount, "#{total_hours.to_s} (#{hours_in_words(total_hours)})"]
-        end
-  
-        table_data << [{ content: "Total de horas registradas", colspan: 2}, "#{total_report_hours.to_s} (#{hours_in_words(total_report_hours)})"]
-  
-        pdf_section(
-          pdf,
-          "Resumen de actividades por fase",
-          "Esta sección muestra las actividades registradas por fase, la cantidad de veces que trabajó sobre cada una de ellas y el total de horas realizadas, en el periodo de tiempo ingresado.",
-          table_data
-        )
-  
-        # Activities by project summary table
-        table_data = [
-          [{ content: "RESUMEN ACTIVIDADES POR PROYECTO", colspan: 3 }],
-          ["Proyecto", "Fases registradas", "Total de horas"]
-        ]
-  
-        phases_activities_sum_by_project.each do |project_id, total_hours|
+        
+        pdf_section_title(pdf, "Resumen de actividades por proyecto")
+        pdf.text "Esta sección muestra el resumen de las actividades registradas por fase para cada uno de los proyectos, en el periodo de tiempo ingresado.", size: 11
+        pdf.move_down 10
+
+        # Activities by phases for each project summary table
+        phases_by_project.each do |project_id, phases_by_phase|
           project = Project.find(project_id)
-          table_data << [project.name, phases_activities_count_by_project[project_id], "#{total_hours.to_s} (#{hours_in_words(total_hours)})"]
+          table_data = [
+            [{ content: "RESUMEN DE ACTIVIDADES (#{project.name})", colspan: 3 }],
+            ["Fase", "Cantidad", "Total de horas"]
+          ]
+
+          total_activities = 0
+          total_hours = 0
+
+          phases_by_phase.each do |phase_id, data|
+            phase = Phase.find(phase_id)
+            repetition_count = data.first
+            hours_sum = data.last
+        
+            total_activities += repetition_count
+            total_hours += hours_sum
+        
+            table_data << [phase.name, repetition_count, "#{hours_sum.to_s} (#{hours_in_words(hours_sum)})"]
+          end
+
+          table_data << ["Total", total_activities, "#{total_hours.to_s} (#{hours_in_words(total_hours)})"]
+
+          pdf_table(table_data, pdf)
+          pdf.move_down 20
         end
-  
-        table_data << [{ content: "Total de horas registradas", colspan: 2}, "#{total_report_hours.to_s} (#{hours_in_words(total_report_hours)})"]
-  
-        pdf_section(
-          pdf,
-          "Resumen de actividades por proyecto",
-          "Esta sección muestra la cantidad de actividades registradas por proyecto y el total de horas realizadas, en el periodo de tiempo ingresado.",
-          table_data
-        )
-        pdf.move_down 20
   
         # Footer
         pdf_footer(pdf)
@@ -272,7 +279,7 @@ class ActivitiesController < ApplicationController
       # PDF send
       report_type = collaborator_report_type == "summary" ? "RESUMIDO" : "DETALLADO"
       report_name = "REPORTE-#{report_type}_POR-COLABORADOR_#{(collaborator.fullname).gsub(' ', '-')}_#{start_date}_#{end_date}_#{Time.now.strftime("%H%M")}.pdf"
-      send_data pdf.render, filename: report_name, type: 'application/pdf'
+      send_data pdf.render, filename: report_name, type: 'application/pdf', disposition: 'inline'
     end
   
     def general_report(start_date, end_date)
@@ -447,6 +454,11 @@ class ActivitiesController < ApplicationController
         row(1).background_color = "C4C4C4"
         row(1).text_color = "000000"
         row(1).font_style = :bold
+
+        last_row_index = table_data.size - 1
+        row(last_row_index).background_color = "85D6C8"
+        row(last_row_index).font_style = :bold
+        row(last_row_index).text_color = "000000"
       end
     end
 
