@@ -182,7 +182,7 @@ class ActivitiesController < ApplicationController
         # Collaborator info
         pdf_section_title(pdf, "Información del colaborador")
         pdf_formatted_text(pdf, "Nombre completo: ", collaborator.fullname)
-        pdf_formatted_text(pdf, "Número de cédula: ", collaborator.id_card)
+        pdf_formatted_text(pdf, "Número de identificación: ", collaborator.id_card)
         pdf_formatted_text(pdf, "Correo electrónico: ", collaborator.email)
         pdf_formatted_text(pdf, "Número de teléfono: ", collaborator.phone)
         pdf_formatted_text(pdf, "Puesto de trabajo: ", collaborator.job_position)
