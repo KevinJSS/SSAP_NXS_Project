@@ -704,7 +704,7 @@ class ActivitiesController < ApplicationController
 
       if total_hours < 1 || total_hours > 24
         key_word = total_hours < 1 ? "menor a 1" : "mayor a 24"
-        @activity.errors.add(:phases_activities, "la suma de horas registradas es #{key_word}")
+        @activity.errors.add(:phases_activities, "el total de horas realizadas es #{key_word}")
       end
     end
 
