@@ -161,7 +161,7 @@ class ActivitiesController < ApplicationController
       end
 
       if previous_hours + new_hours > 24
-        @activity.errors.add(:phases_activities, "la suma total de horas registradas en esta actividad es mayor a 24 horas")
+        @activity.errors.add(:phases_activities, "el total de horas registradas para el día #{l(@activity.date, format: :long)} es mayor a 24 horas")
       end
     end
 
@@ -667,7 +667,7 @@ class ActivitiesController < ApplicationController
     def validate_nested_phases
       #validate if there are nested attributes
       if params[:activity][:phases_activities_attributes].nil? || params[:activity][:phases_activities_attributes].empty?
-        @activity.errors.add(:phases_activities, "es necesario agregar al menos una actividad y horas realizadas")
+        @activity.errors.add(:phases_activities, "es necesario registrar al menos una fase y sus horas realizadas")
         return
       end
 
@@ -690,7 +690,8 @@ class ActivitiesController < ApplicationController
       end
 
       if total_hours < 1 || total_hours > 24
-        @activity.errors.add(:phases_activities, "el total de horas registradas para el día #{l(@activity.date, format: :long)} es mayor a 24 horas")
+        key_word = total_hours < 1 ? "menor a 1" : "mayor a 24"
+        @activity.errors.add(:phases_activities, "la suma de horas registradas es #{key_word}")
       end
     end
 
