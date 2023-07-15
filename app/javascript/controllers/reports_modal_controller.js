@@ -24,10 +24,17 @@ export default class extends Controller {
   }
 
   submit() {
-    var generateForm = document.getElementById("generate-form");
+    const generateForm = document.getElementById("generate-form");
     generateForm.submit();
-    setTimeout(function() {
-      location.reload();
-    }, 500); // Retardo de 1 segundo (1000 milisegundos)
+
+    const collaborator = document.getElementById("collaborator");
+    const start_date = document.getElementById("start_date");
+    const end_date = document.getElementById("end_date");
+
+    this.reportSelectTarget.value = "";
+    collaborator.value = "";
+    start_date.value = "";
+    end_date.value = "";
+    this.toggleForm();
   }  
 }

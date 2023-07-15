@@ -1,7 +1,7 @@
 <div id="<%= dom_id project %>" class="item">
   <div class="item__header">
     <div class="item__heading">
-      <h4 class="item__title"><%= project.name %></h4> 
+      <h4 class="item__title"><%= truncate(project.name, length: 45, omission: '...') %></h4> 
       <a href="<%= edit_user_path(project.user) %>" class="item__text clean-link"><%= project.user.fullname %></a>
     </div>
     <% if project.stage == "finished" %>

@@ -43,7 +43,8 @@ class ActivitiesController < ApplicationController
     end_date = params[:end_date]
 
     if start_date.empty? || end_date.empty?
-      flash[:alert] = "Es necesario indicar el rango de fechas para generar el reporte."
+      redirect_to activities_path, alert: "Es necesario indicar el rango de fechas para generar el reporte."
+      #flash[:alert] = "Es necesario indicar el rango de fechas para generar el reporte."
       return
     end
 
@@ -123,14 +124,15 @@ class ActivitiesController < ApplicationController
       collaborator = User.find_by(id: params[:user_id])
   
       if collaborator.nil?
-        flash[:alert] = "Es necesario indicar el colaborador para generar el reporte."
+        redirect_to activities_path, alert: "Es necesario indicar el colaborador para generar el reporte."
+        #flash[:alert] = "Es necesario indicar el colaborador para generar el reporte."
         return
       end
   
       activities = Activity.where(date: start_date..end_date, user_id: collaborator.id).order(date: :asc)
       
       if activities.nil? || activities.empty?
-        flash[:alert] = "No se encontraron actividades registradas para este colaborador en el periodo de tiempo ingresado."
+        redirect_to activities_path, alert: "No se encontraron actividades registradas para este colaborador en el periodo de tiempo ingresado."
         return
       end
   
@@ -147,20 +149,10 @@ class ActivitiesController < ApplicationController
     def generate_collaborator_report(activities, collaborator, start_date, end_date, collaborator_report_type)
       # Activities grouped by project
       activities_grouped_by_project = activities.group_by(&:project_id)
-  
-      # Phases activities grouped count and sum by project
-      phases_activities_grouped_by_phase = PhasesActivity.includes(:phase).where(activity: activities).group(:phase_id).sum(:hours)
-      
-      phases_activities_count_by_project = {}
-      phases_activities_sum_by_project = {}
-  
-      activities_grouped_by_project.each do |project_id, activities|
-        phases_activities_count_by_project[project_id] = activities.sum { |activity| activity.phases_activities.count }
-        phases_activities_sum_by_project[project_id] = activities.sum { |activity| activity.phases_activities.sum(&:hours) }
-      end
-  
       # Total report hours
       total_report_hours = activities.sum { |activity| activity.phases_activities.sum(&:hours) }
+      # Phases activities grouped count and sum by project
+      phases_hours_group_by_project = get_grouped_phases(activities_grouped_by_project)
       
       require 'prawn'
       require 'prawn/table'
@@ -172,22 +164,21 @@ class ActivitiesController < ApplicationController
   
       # Body
       pdf.bounding_box([pdf.bounds.left, pdf.bounds.top - 50], width: pdf.bounds.width, height: pdf.bounds.height - 120) do
-  
         # PDF header
-        report_title = collaborator_report_type == "summary" ? "REPORTE DE ACTIVIDADES POR COLABORADOR" : "REPORTE DETALLADO DE ACTIVIDADES\nPOR COLABORADOR"
+        report_title = collaborator_report_type == "summary" ? "REPORTE RESUMIDO DE ACTIVIDADES POR COLABORADOR" : "REPORTE DETALLADO DE ACTIVIDADES\nPOR COLABORADOR"
         pdf_document_title(pdf, report_title)
   
         # Collaborator info
-        pdf_section_title(pdf, "Información del colaborador")
+        pdf_subtitle(pdf, "Información del colaborador")
         pdf_formatted_text(pdf, "Nombre completo: ", collaborator.fullname)
-        pdf_formatted_text(pdf, "Número de cédula: ", collaborator.id_card)
+        pdf_formatted_text(pdf, "Número de identificación: ", collaborator.id_card)
         pdf_formatted_text(pdf, "Correo electrónico: ", collaborator.email)
         pdf_formatted_text(pdf, "Número de teléfono: ", collaborator.phone)
         pdf_formatted_text(pdf, "Puesto de trabajo: ", collaborator.job_position)
         pdf.move_down 10
   
         # Date range
-        pdf_section_title(pdf, "Información del reporte")
+        pdf_subtitle(pdf, "Información del reporte")
         pdf_formatted_text(pdf, "Fecha de inicio: ", l(Date.parse(start_date), format: :long).capitalize)
         pdf_formatted_text(pdf, "Fecha de fin: ", l(Date.parse(end_date), format: :long).capitalize)
         pdf_formatted_text(pdf, "Periodo comprendido: ", days_in_words(Date.parse(start_date), Date.parse(end_date)))
@@ -198,71 +189,47 @@ class ActivitiesController < ApplicationController
   
         # Detailed report
         if collaborator_report_type == "detailed"
-          # Activities table
-          table_data = [
-            [{ content: "ACTIVIDADES REGISTRADAS", colspan: 4 }],
-            ["Fecha", "Proyecto", "Fase", "Horas"]
-          ]
-          
-          activities.each do |activity|
-            activity.phases_activities.each do |phase_activity|
-              table_data << [l(activity.date, format: :default).capitalize, activity.project.name, phase_activity.phase.code.to_s + " " + phase_activity.phase.name, hours_in_words(phase_activity.hours)]
-            end
-          end  
-          table_data << [{ content: "Total de horas registradas", colspan: 3}, hours_in_words(total_report_hours)]
-  
-          pdf_section(
+          # Detailed activities table
+          pdf_section_heading(
             pdf,
-            "Actividades registradas",
-            "Esta sección muestra las actividades registradas por el colaborador, en el periodo de tiempo ingresado.",
-            table_data
+            "Actividades detalladas por proyecto",
+            "Esta sección muestra el detalle de las actividades registradas por proyecto, en el periodo de tiempo ingresado."
           )
+
+          activities_grouped_by_project.each do |project_id, activities|
+            project = Project.find(project_id)
+            table_data = [
+              [{ content: "DETALLE DE ACTIVIDADES (#{project.name})", colspan: 3 }],
+              ["Fecha", "Fase", "Horas"]
+            ]
+
+            activities.each do |activity|
+              activity.phases_activities.each do |phase_activity|
+                phase = Phase.find(phase_activity.phase_id)
+                table_data << [l(activity.date, format: :long).capitalize, "#{phase.code} #{phase.name}", "#{phase_activity.hours.to_s} (#{hours_in_words(phase_activity.hours)})"]
+              end
+            end
+
+            activities_sum = activities.sum { |activity| activity.phases_activities.sum(&:hours) }
+            table_data << [{ content: "Total de horas registradas", colspan: 2}, "#{activities_sum.to_s} (#{hours_in_words(activities_sum)})"]
+
+            pdf_table(table_data, pdf)
+            pdf.move_down 20
+          end
+          
+          pdf.move_down 10
         end
-  
-        # Summary report
-        # Activities by phase summary table
-        table_data = [
-          [{ content: "RESUMEN DE ACTIVIDADES POR FASE", colspan: 3 }],
-          ["Fase", "Cantidad", "Total de horas"]
-        ]
-  
-        phases_activities_grouped_by_phase.each do |phase_id, total_hours|
-          phase = Phase.find(phase_id)
-          phase = phase.code.to_s + " " + phase.name.to_s
-          amount = PhasesActivity.includes(:phase).where(activity: activities).group(:phase_id).count[phase_id]
-          table_data << [phase, amount, "#{total_hours.to_s} (#{hours_in_words(total_hours)})"]
-        end
-  
-        table_data << [{ content: "Total de horas registradas", colspan: 2}, "#{total_report_hours.to_s} (#{hours_in_words(total_report_hours)})"]
-  
-        pdf_section(
+        
+        # Activities summary table
+        pdf_section_heading(
           pdf,
-          "Resumen de actividades por fase",
-          "Esta sección muestra las actividades registradas por fase, la cantidad de veces que trabajó sobre cada una de ellas y el total de horas realizadas, en el periodo de tiempo ingresado.",
-          table_data
+          "Resumen de actividades por fase para cada proyecto",
+          "Esta sección muestra el resumen de las actividades registradas por fase para cada uno de los proyectos, en el periodo de tiempo ingresado"
         )
-  
+
         # Activities by project summary table
-        table_data = [
-          [{ content: "RESUMEN ACTIVIDADES POR PROYECTO", colspan: 3 }],
-          ["Proyecto", "Fases registradas", "Total de horas"]
-        ]
-  
-        phases_activities_sum_by_project.each do |project_id, total_hours|
-          project = Project.find(project_id)
-          table_data << [project.name, phases_activities_count_by_project[project_id], "#{total_hours.to_s} (#{hours_in_words(total_hours)})"]
-        end
-  
-        table_data << [{ content: "Total de horas registradas", colspan: 2}, "#{total_report_hours.to_s} (#{hours_in_words(total_report_hours)})"]
-  
-        pdf_section(
-          pdf,
-          "Resumen de actividades por proyecto",
-          "Esta sección muestra la cantidad de actividades registradas por proyecto y el total de horas realizadas, en el periodo de tiempo ingresado.",
-          table_data
-        )
-        pdf.move_down 20
-  
+        pdf_summary_phases_table(pdf, phases_hours_group_by_project)
+
         # Footer
         pdf_footer(pdf)
       end
@@ -272,16 +239,45 @@ class ActivitiesController < ApplicationController
       report_name = "REPORTE-#{report_type}_POR-COLABORADOR_#{(collaborator.fullname).gsub(' ', '-')}_#{start_date}_#{end_date}_#{Time.now.strftime("%H%M")}.pdf"
       send_data pdf.render, filename: report_name, type: 'application/pdf'
     end
+
+    def get_grouped_phases(activities_grouped_by_project)
+      phases_hours_group_by_project = {}
+      activities_grouped_by_project.each do |project_id, activities|
+        phases_by_phase = {}
+
+        activities.each do |activity|
+          activity.phases_activities.each do |phase_activity|
+            phase_id = phase_activity.phase_id
+            repetition_count = phases_by_phase[phase_id]&.first || 0
+            hours_sum = phases_by_phase[phase_id]&.last || 0
+
+            repetition_count += 1
+            hours_sum += phase_activity.hours
+
+            phases_by_phase[phase_id] = [repetition_count, hours_sum]
+          end
+        end
+
+        phases_hours_group_by_project[project_id] = phases_by_phase
+      end
+      phases_hours_group_by_project
+    end
   
     def general_report(start_date, end_date)
       # Active collaborators
       active_collaborators = User.where(role: "collaborator", status: "active").order(fullname: :desc)
+
+      if active_collaborators.nil? || active_collaborators.empty?
+        redirect_to activities_path, alert: "No se encontraron colaboradores activos en el sistema."
+        #flash[:alert] = "No se encontraron colaboradores activos en el sistema."
+        return
+      end
   
       # Activities in date range
       activities = Activity.where(date: start_date..end_date).order(date: :asc)
   
       if activities.nil? || activities.empty?
-        flash[:alert] = "No se encontraron actividades registradas en el periodo de tiempo ingresado."
+        redirect_to activities_path, alert: "No se encontraron actividades registradas en el periodo de tiempo ingresado."
         return
       end
   
@@ -300,7 +296,7 @@ class ActivitiesController < ApplicationController
         pdf_document_title(pdf, "REPORTE GENERAL DE ACTIVIDADES POR\nCOLABORADORES ACTIVOS")
   
         # Date range
-        pdf_section_title(pdf, "Información del reporte")
+        pdf_subtitle(pdf, "Información del reporte")
         pdf_formatted_text(pdf, "Fecha de inicio: ", l(Date.parse(start_date), format: :long).capitalize)
         pdf_formatted_text(pdf, "Fecha de fin: ", l(Date.parse(end_date), format: :long).capitalize)
         pdf_formatted_text(pdf, "Periodo comprendido: ", days_in_words(Date.parse(start_date), Date.parse(end_date)))
@@ -312,88 +308,58 @@ class ActivitiesController < ApplicationController
         # Collaborators table
         table_data = [
           [{ content: "COLABORADORES ACTIVOS", colspan: 3 }],
-          ["Nombre completo", "Número de cédula", "Puesto de trabajo"]
+          ["Nombre completo", "Número de identificación", "Puesto de trabajo"]
         ]
         active_collaborators.each do |collaborator|
           table_data << [collaborator.fullname, collaborator.id_card, collaborator.job_position]
         end
-        pdf_section(
+        pdf_section_heading(
           pdf,
           "Colaboradores activos",
           "Esta sección muestra la información de los colaboradores activos en el sistema, al momento de emitir el reporte.",
-          table_data
         )
+        pdf_table(table_data, pdf, false)
+        pdf.move_down 20
   
         # Collaborators activities tables
-        pdf_section_title(pdf, "Actividades registradas por colaborador")
-        pdf.text "Esta sección muestra el resumen de las actividades registradas por fase y por proyecto para cada uno de los colaboradores, en el periodo de tiempo ingresado.", size: 11
-        pdf.move_down 10
+        pdf_section_heading(
+          pdf,
+          "Actividades registradas por colaborador",
+          "En esta sección, se presenta un resumen de las actividades registradas por fase en cada proyecto, para cada uno de los colaboradores activos, durante el periodo de tiempo seleccionado."
+        )
   
         active_collaborators.each do |collaborator|
           collaborator_activities = activities.where(user_id: collaborator.id)
   
           if collaborator_activities.nil? || collaborator_activities.empty?
-            pdf_section_title(pdf, collaborator.fullname, "000000")
-            pdf.move_down 2
-            pdf.text "#{ collaborator.id_card } / #{ collaborator.job_position}"
-            pdf.move_down 5
-            pdf.text "No se encontraron actividades registradas para este colaborador en el periodo de tiempo ingresado.", size: 11, style: :italic
+
+            pdf_section_heading(
+              pdf,
+              collaborator.fullname,
+              "#{ collaborator.id_card } / #{ collaborator.job_position}",
+              "000000"
+            )
+            pdf.text "No se encontraron actividades registradas para el/la colaborador/a en el periodo de tiempo ingresado.", size: 11, style: :italic
             pdf.move_down 20
             next
           end
   
           # Activities grouped by project
           activities_grouped_by_project = collaborator_activities.group_by(&:project_id)
-  
-          # Phases activities grouped count and sum by project
-          phases_activities_grouped_by_phase = PhasesActivity.includes(:phase).where(activity: collaborator_activities).group(:phase_id).sum(:hours)
-          
-          phases_activities_count_by_project = {}
-          phases_activities_sum_by_project = {}
-  
-          activities_grouped_by_project.each do |project_id, activities|
-            phases_activities_count_by_project[project_id] = activities.sum { |activity| activity.phases_activities.count }
-            phases_activities_sum_by_project[project_id] = activities.sum { |activity| activity.phases_activities.sum(&:hours) }
-          end
-  
           # Total report hours
           total_report_hours = collaborator_activities.sum { |activity| activity.phases_activities.sum(&:hours) }
-  
-          table_data = [
-            [{ content: "RESUMEN DE ACTIVIDADES POR FASE", colspan: 3 }],
-            ["Fase", "Cantidad", "Total de horas"]
-          ]
-  
-          phases_activities_grouped_by_phase.each do |phase_id, total_hours|
-            phase = Phase.find(phase_id)
-            phase = phase.code.to_s + " " + phase.name.to_s
-            amount = PhasesActivity.includes(:phase).where(activity: collaborator_activities).group(:phase_id).count[phase_id]
-            table_data << [phase, amount, "#{total_hours.to_s} (#{hours_in_words(total_hours)})"]
-          end
-  
-          table_data << [{ content: "Total de horas registradas", colspan: 2}, "#{total_report_hours.to_s} (#{hours_in_words(total_report_hours)})"]
-  
-          pdf_section_title(pdf, collaborator.fullname, "000000")
-          pdf.move_down 2
-          pdf.text "#{ collaborator.id_card } / #{ collaborator.job_position}"
-          pdf.move_down 5
-          pdf_table(table_data, pdf)
-          pdf.move_down 10
-  
+          # Phases activities grouped count and sum by project
+          phases_hours_group_by_project = get_grouped_phases(activities_grouped_by_project)
+
+          pdf_section_heading(
+            pdf,
+            collaborator.fullname,
+            "#{ collaborator.id_card } / #{ collaborator.job_position}\nTotal de horas registradas: #{total_report_hours.to_s} (#{hours_in_words(total_report_hours)})",
+            "000000"
+          )
+
           # Activities by project summary table
-          table_data = [
-            [{ content: "RESUMEN ACTIVIDADES POR PROYECTO", colspan: 3 }],
-            ["Proyecto", "Fases registradas", "Total de horas"]
-          ]
-  
-          phases_activities_sum_by_project.each do |project_id, total_hours|
-            project = Project.find(project_id)
-            table_data << [project.name, phases_activities_count_by_project[project_id], "#{total_hours.to_s} (#{hours_in_words(total_hours)})"]
-          end
-  
-          table_data << [{ content: "Total de horas registradas", colspan: 2}, "#{total_report_hours.to_s} (#{hours_in_words(total_report_hours)})"]
-          pdf_table(table_data, pdf)
-          pdf.move_down 20
+          pdf_summary_phases_table(pdf, phases_hours_group_by_project)
         end
   
         # Footer
@@ -427,7 +393,7 @@ class ActivitiesController < ApplicationController
       end
     end
 
-    def pdf_table(table_data, pdf)
+    def pdf_table(table_data, pdf, colored_bottom = true)
       require 'prawn'
       require 'prawn/table'
 
@@ -439,6 +405,46 @@ class ActivitiesController < ApplicationController
         row(1).background_color = "C4C4C4"
         row(1).text_color = "000000"
         row(1).font_style = :bold
+
+        if colored_bottom
+          last_row_index = table_data.size - 1
+          row(last_row_index).background_color = "85D6C8"
+          row(last_row_index).font_style = :bold
+          row(last_row_index).text_color = "000000"
+        end
+      end
+    end
+
+    def pdf_summary_phases_table(pdf, phases_hours_group_by_project)
+      require 'prawn'
+      require 'prawn/table'
+
+      # Activities by phases for each project summary table
+      phases_hours_group_by_project.each do |project_id, phases_by_phase|
+        project = Project.find(project_id)
+        table_data = [
+          [{ content: "RESUMEN DE ACTIVIDADES (#{project.name})", colspan: 3 }],
+          ["Fase", "Cantidad", "Total de horas"]
+        ]
+
+        total_activities = 0
+        total_hours = 0
+
+        phases_by_phase.each do |phase_id, data|
+          phase = Phase.find(phase_id)
+          repetition_count = data.first
+          hours_sum = data.last
+      
+          total_activities += repetition_count
+          total_hours += hours_sum
+      
+          table_data << [phase.name, repetition_count, "#{hours_sum.to_s} (#{hours_in_words(hours_sum)})"]
+        end
+
+        table_data << ["Total", total_activities, "#{total_hours.to_s} (#{hours_in_words(total_hours)})"]
+
+        pdf_table(table_data, pdf)
+        pdf.move_down 20
       end
     end
 
@@ -452,12 +458,22 @@ class ActivitiesController < ApplicationController
       pdf.move_down 15
     end
 
-    def pdf_section_title(pdf, title, color = "44ABA6")
+    def pdf_subtitle(pdf, title, color = "44ABA6")
       require 'prawn'
       require 'prawn/table'
 
       pdf.text title, align: :left, size: 13, style: :bold, color: color
       pdf.move_down 2
+    end
+
+    def pdf_section_heading(pdf, title, description, color = "44ABA6")
+      require 'prawn'
+      require 'prawn/table'
+
+      pdf.text title, align: :left, size: 13, style: :bold, color: color 
+      pdf.move_down 2
+      pdf.text description, align: :left, size: 11
+      pdf.move_down 10
     end
 
     def pdf_formatted_text(pdf, bold_text, normal_text)
@@ -466,19 +482,6 @@ class ActivitiesController < ApplicationController
 
       pdf.formatted_text [{ text: bold_text, styles: [:bold] }, { text: normal_text }], size: 11
       pdf.move_down 1
-    end
-
-    def pdf_section(pdf, title, description, table_data)
-      require 'prawn'
-      require 'prawn/table'
-
-      pdf.text title, align: :left, size: 13, style: :bold, color: "44ABA6"
-      pdf.move_down 2
-      pdf.text description, align: :left, size: 11
-      pdf.move_down 10
-
-      pdf_table(table_data, pdf)
-      pdf.move_down 20
     end
 
     def pdf_footer(pdf)
@@ -538,17 +541,19 @@ class ActivitiesController < ApplicationController
       end_date = Date.parse(end_date) unless end_date.is_a?(Date)
     
       if start_date.nil? || end_date.nil?
-        flash[:alert] = "Las fechas ingresadas no son válidas."
+        redirect_to activities_path, alert: "Las fechas ingresadas no son válidas."
+        #flash[:alert] = "Las fechas ingresadas no son válidas."
         return false
       end
     
       if start_date > end_date
-        flash[:alert] = "La fecha de inicio debe ser menor o igual a la fecha de fin."
+        redirect_to activities_path, alert: "La fecha de inicio debe ser menor o igual a la fecha de fin."
+        #flash[:alert] = "La fecha de inicio debe ser menor o igual a la fecha de fin."
         return false
       end
 
       return true
-    end    
+    end 
 
     def set_collaborators
       @collaborators = User.where(role: "collaborator").order(fullname: :desc)

@@ -137,7 +137,6 @@
       <div class="form__actions--minutes-3">
         <%= form.submit minute.new_record? ? "Guardar" : "Actualizar", class: "button-primary button-primary--minutes" %>
         <% if !@minute.new_record? %>
-          <%= link_to "Enviar por correo", "#", class: "button-primary button-primary--minutes" %>
           <button type="button" data-bs-toggle="modal" data-bs-target="#confirmEmailModal" class="button-primary button-primary--minutes">Enviar por correo</button>
           <%= link_to "Descargar PDF", minutes_pdf_url, class: "button-primary button-primary--minutes" %>
         <% end %>

@@ -5,12 +5,12 @@ class MinutesMailer < ApplicationMailer
   #
   #   en.minutes_mailer.send_minutes.subject
   #
-  def send_minutes(user, minute, pdf)
+  def send_minutes(user, user_email, minute, pdf)
     @user = user
     @minute = minute
     attachment_name = "MINUTA_#{(Project.find_by(id: @minute.project.id).name).gsub(' ', '-')}_#{@minute.meeting_date.strftime("%d-%m-%Y")}.pdf"
     attachments[attachment_name] = File.read(pdf)
 
-    mail to: @user.email, subject: "Minuta de reunión"
+    mail to: user_email, subject: "Minuta de reunión"
   end
 end

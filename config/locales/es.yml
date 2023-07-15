@@ -18,7 +18,7 @@ es:
     passwords:
       user:
         send_instructions: "Se han enviado correctamente las instrucciones al correo ingresado."
-        updated: "Acceso restablecido. Contraseña actualizada correctamente."
+        updated: "Acceso permitido. Contraseña generada correctamente."
 
   activerecord:
     errors:
