@@ -125,7 +125,9 @@ class ActivitiesController < ApplicationController
     def validate_previous_activities
       return if @activity.errors.any?
 
-      activities = Activity.where(user_id: @activity.user_id, date: @activity.date)
+      date_changed = @activity.date != params[:activity][:date].to_date
+      activities = Activity.where(user_id: @activity.user_id, date: params[:activity][:date].to_date)
+
       return if activities.empty? || activities.nil?
 
       new_hours = 0
@@ -147,16 +149,25 @@ class ActivitiesController < ApplicationController
         nested_attributes = params[:activity][:phases_activities_attributes]
         phases_activities = @activity.phases_activities
 
-        nested_attributes.each do |index, attributes|
-          phase_id = attributes["phase_id"].to_i
-          phase_activity = phases_activities.find_by(phase_id: phase_id)
-
-          if attributes["_destroy"] == "1" && phase_activity
-            # if the phase is marked to be destroyed and exists in the database, then subtract its hours from the previous hours
-            previous_hours -= attributes["hours"].to_d
-          elsif attributes["_destroy"] == "false" && !phase_activity
-            # if the phase is not marked to be destroyed and does not exist in the database, then add its hours to the new hours
-            new_hours += attributes["hours"].to_d
+        if !date_changed
+          nested_attributes.each do |index, attributes|
+            phase_id = attributes["phase_id"].to_i
+            phase_activity = phases_activities.find_by(phase_id: phase_id)
+  
+            if attributes["_destroy"] == "1" && phase_activity
+              # if the phase is marked to be destroyed and exists in the database, then subtract its hours from the previous hours
+              previous_hours -= attributes["hours"].to_d
+            elsif attributes["_destroy"] == "false" && !phase_activity
+              # if the phase is not marked to be destroyed and does not exist in the database, then add its hours to the new hours
+              new_hours += attributes["hours"].to_d
+            end
+          end
+        else
+          nested_attributes.each do |index, attributes|
+            if attributes["_destroy"] == "false"
+              # if the phase is not marked to be destroyed, then add its hours to the new hours
+              new_hours += attributes["hours"].to_d
+            end
           end
         end
       end
