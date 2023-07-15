@@ -1,4 +1,4 @@
-<% if object && !object.nil? || object && !object.empty? %>
+<% if !object.new_record? %>
     <button type="button" data-bs-toggle="modal" data-bs-target="#changeLogModal" class="button-link mt-3">
         Ver historial de cambios
     </button>
@@ -12,8 +12,10 @@
                 </div>
                 <div class="modal-body d-flex flex-column gap-3">
                     <div class="fs-xs text-muted form__input overflow-y-scroll" style="height: 300px;" readonly>
-                        <% object.each do |change| %>
-                            <p class="mb-3"><%= change.description %></p>
+                        <% if change_log && !change_log.empty? %>
+                            <% change_log.each do |change| %>
+                                <p class="mb-3"><%= change.description %></p>
+                            <% end %>
                         <% end %>
                     </div>
                 </div>
