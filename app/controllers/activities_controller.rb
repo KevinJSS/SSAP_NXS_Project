@@ -308,7 +308,7 @@ class ActivitiesController < ApplicationController
         # Collaborators table
         table_data = [
           [{ content: "COLABORADORES ACTIVOS", colspan: 3 }],
-          ["Nombre completo", "Número de cédula", "Puesto de trabajo"]
+          ["Nombre completo", "Número de identificación", "Puesto de trabajo"]
         ]
         active_collaborators.each do |collaborator|
           table_data << [collaborator.fullname, collaborator.id_card, collaborator.job_position]
