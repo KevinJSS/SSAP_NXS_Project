@@ -126,10 +126,7 @@ class ActivitiesController < ApplicationController
       return if @activity.errors.any?
 
       activities = Activity.where(user_id: @activity.user_id, date: @activity.date)
-
-      if activities.empty? 
-        return
-      end
+      return if activities.empty? || activities.nil?
 
       new_hours = 0
       previous_hours = 0
@@ -151,25 +148,20 @@ class ActivitiesController < ApplicationController
         phases_activities = @activity.phases_activities
 
         nested_attributes.each do |index, attributes|
-          # if the phase is marked to be destroyed and it exists in the database, then subtract its hours from the previous hours
-          if attributes["_destroy"] == "1" && !phases_activities.find_by(phase_id: attributes["phase_id"].to_i).nil?
+          phase_id = attributes["phase_id"].to_i
+          phase_activity = phases_activities.find_by(phase_id: phase_id)
+
+          if attributes["_destroy"] == "1" && phase_activity
+            # if the phase is marked to be destroyed and exists in the database, then subtract its hours from the previous hours
             previous_hours -= attributes["hours"].to_d
-            next
-          end
-
-          # if the phase is not marked to be destroyed and it exists in the database, then add its hours to the previous hours
-          if attributes["_destroy"] == "false" && !phases_activities.find_by(phase_id: attributes["phase_id"].to_i).nil?
-            previous_hours += attributes["hours"].to_d
-            next
-          end
-
-          # if the phase is not marked to be destroyed and it does not exist in the database, then add its hours to the new hours
-          if attributes["_destroy"] == "false" && phases_activities.find_by(phase_id: attributes["phase_id"]).nil?
+          elsif attributes["_destroy"] == "false" && !phase_activity
+            # if the phase is not marked to be destroyed and does not exist in the database, then add its hours to the new hours
             new_hours += attributes["hours"].to_d
           end
         end
       end
 
+      # validate if the total hours are greater than 24
       if previous_hours + new_hours > 24
         @activity.errors.add(:phases_activities, "el total de horas registradas para el día #{l(@activity.date, format: :long)} es mayor a 24 horas")
       end
