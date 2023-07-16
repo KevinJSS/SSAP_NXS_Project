@@ -1,31 +1,69 @@
 class MinutesController < ApplicationController
   include ActionView::Helpers::SanitizeHelper
 
+  # The `before_action` callback method ensures that the user is authenticated
+  # before accessing any action in this controller. It helps enforce the requirement
+  # for a user to be logged in before interacting with the `MinutesController`.
   before_action :authenticate_user!
+
+  # The `before_action` callback method 'set_minute' is used to set the minute
+  # instance variable before calling the `show`, `edit`, `update`, and `destroy`
+  # methods to ensure that the minute exists in the database.
   before_action :set_minute, only: %i[ show edit update destroy pdf send_email ]
+
+  # The `before_action` callback method 'set_attendees' and 'set_projects' is used to set the attendees and projects
+  # instance variables before calling the `new` and `edit` methods to ensure that
+  # the attendees exist in the database.
   before_action :set_attendees, :set_projects
+
+  # The `before_action` callback method 'get_change_log' is used to set the change log
+  # instance variable before calling the `show`, `edit`, `update`, and `destroy`
+  # methods to ensure that the change log exists in the database.
   before_action :get_change_log, only: %i[ show edit update ]
 
   # GET /minutes or /minutes.json
+
+  # The `index` method is used to retrieve all the minutes from the database
+  # and display them in a paginated manner. The `index` method also allows
+  # the user to search for minutes by their allowed attributes.
   def index
     @q = Minute.ransack(params[:q])
     @minutes = @q.result(distinct: true).order(updated_at: :desc).paginate(page: params[:page], per_page: 3)
   end
 
   # GET /minutes/1 or /minutes/1.json
+
+  # The `show` method is used to retrieve a single minute from the database
+  # and display it to the user.
   def show
     redirect_to edit_minute_path(@minute)
   end
 
   # GET /minutes/new
+
+  # The `new` method is used to create a new minute instance variable
+  # and display it to the user.
   def new
     @minute = Minute.new
   end
 
   # GET /minutes/1/edit
+
+  # The `edit` method is used to retrieve a single minute from the database
+  # and display it to the user.
   def edit
   end
 
+  # The `pdf` method is used to generate a pdf file from the minute
+  #
+  # Breaking down the `pdf` method:
+  #
+  # 1. The `require` method is used to load the `prawn` and `prawn/table` gems.
+  # 2. The `pdf` variable is used to create a new `Prawn::Document` instance.
+  # 3. The `name` variable is used to store the name of the pdf file.
+  # 4. The `create_pdf` method is used to create the pdf file.
+  # 5. The `name` variable is used to store the name of the pdf file.
+  # 6. The `send_data` method is used to send the pdf file to the user.
   def pdf
     require 'prawn'
     require 'prawn/table'
@@ -39,6 +77,18 @@ class MinutesController < ApplicationController
     send_data(pdf.render, filename: name, type: 'application/pdf')
   end
 
+  # The `send_email` method is used to generate a pdf file from the minute
+  #
+  # Breaking down the `send_email` method:
+  #
+  # 1. The `require` method is used to load the `prawn` and `prawn/table` gems.
+  # 2. The `pdf` variable is used to create a new `Prawn::Document` instance.
+  # 3. The `name` variable is used to store the name of the pdf file.
+  # 4. The `create_pdf` method is used to create the pdf file.
+  # 5. The `name` variable is used to store the name of the pdf file.
+  # 6. The `send_data` method is used to send the pdf file to the user.
+  # 7. The `attendees` variable is used to store the attendees of the minute.
+  # 8. It iterates through the attendees and sends the email to each attendee.
   def send_email
     require 'prawn'
     require 'prawn/table'
@@ -66,6 +116,19 @@ class MinutesController < ApplicationController
   end
 
   # POST /minutes or /minutes.json
+
+  # The `create` method is used to create a new minute instance variable
+  # 
+  # Breaking down the `create` method:
+  #
+  # 1. The `@minute` variable is used to create a new minute instance variable
+  #    with the parameters passed in the `minute_params` method.
+  # 2. The `validate_attendees` method is used to validate the attendees of the minute.
+  # 3. The `respond_to` method is used to redirect the user to the minute page
+  #    and display a success message if the minute is successfully created.
+  # 4. The `respond_to` method is used to render the `new` template and display
+  #    an error message if the minute is not successfully created.
+  # 5. Finally, it will create a change log for the minute.
   def create
     @minute = Minute.new(minute_params)
 
@@ -86,6 +149,19 @@ class MinutesController < ApplicationController
   end
 
   # PATCH/PUT /minutes/1 or /minutes/1.json
+
+  # The `update` method is used to update a single minute instance variable
+  #
+  # Breaking down the `update` method:
+  #
+  # 1. The `@minute` variable is used to retrieve a single minute from the database
+  #    and update it with the parameters passed in the `minute_params` method.
+  # 2. The `validate_attendees` method is used to validate the attendees of the minute.
+  # 3. The `respond_to` method is used to redirect the user to the minute page
+  #    and display a success message if the minute is successfully updated.
+  # 4. The `respond_to` method is used to render the `edit` template and display
+  #    an error message if the minute is not successfully updated.
+  # 5. Finally, it will register a change log for the minute.
   def update
     validate_attendees
 
@@ -105,6 +181,10 @@ class MinutesController < ApplicationController
   end
 
   # DELETE /minutes/1 or /minutes/1.json
+  
+  # The `destroy` method is used to delete a single minute instance variable
+  # In this case, the `destroy` method is not allowed to delete a minute
+  # it will only redirect the user to the minute page and display an alert notification.
   def destroy
     respond_to do |format|
       format.html { redirect_to minute_url(@minute), alert: "No es permitido eliminar este registro." }
@@ -114,6 +194,10 @@ class MinutesController < ApplicationController
 
   private
     # Use callbacks to share common setup or constraints between actions.
+
+    # The `set_minute` method is used to set the minute instance variable
+    # before calling the `show`, `edit`, `update`, and `destroy` methods
+    # to ensure that the minute exists in the database.
     def set_minute
       @minute = Minute.find(params[:id]) rescue nil
 
@@ -122,16 +206,43 @@ class MinutesController < ApplicationController
       end
     end
 
+    # The set_projects method is responsible for retrieving all projects from the database.
+    #
+    # Here is a breakdown of the code:
+    #
+    # 1. Retrieve all projects from the database and order them by name in descending order.
+    # 2. Assign the retrieved projects to the @projects instance variable.
+    # 3. Retrieve all projects that are not in the "finished" stage from the database and order them by name in descending order.
+    # 4. Assign the retrieved open projects to the @open_projects instance variable.
     def set_projects 
       @projects = Project.all
       @open_projects = Project.where.not(stage: 8).order(name: :desc)
     end
 
+    # The set_attendees method is responsible for retrieving all attendees from the database.
+    #
+    # Here is a breakdown of the code:
+    #
+    # 1. Retrieve all attendees from the database and order them by fullname in descending order.
+    # 2. Assign the retrieved attendees to the @attendees instance variable.
+    # 3. Retrieve all attendees that are in the "active" status from the database and order them by fullname in descending order.
+    # 4. Assign the retrieved active attendees to the @active_attendees instance variable.
     def set_attendees
       @attendees = User.all
       @active_attendees = User.where(status: "active").order(fullname: :desc)
     end
 
+    # The `create_pdf` method is used to create a pdf file from the minute
+    #
+    # Breaking down the `create_pdf` method:
+    #
+    # 1. The `logo_header_path` variable is used to store the path of the header logo.
+    # 2. The `logo_footer_path` variable is used to store the path of the footer logo.
+    # 3. The `pdf.repeat` method is used to repeat the header and footer on each page.
+    # 4. The `pdf.canvas` method is used to create a canvas for the header and footer.
+    # 5. The `pdf.bounding_box` method is used to create a bounding box for the header, footer and body content.
+    # 7. Then it will add minute pdf content needed for the pdf file.
+    # 8. Finally, it will add the minute data to the pdf file and return the pdf file.
     def create_pdf(pdf)
       require 'prawn'
       require 'prawn/table'
@@ -345,6 +456,9 @@ class MinutesController < ApplicationController
       end
     end
 
+    # The `get_change_log` method is used to set the change log instance variable
+    # before calling the `show`, `edit`, `update`, and `destroy` methods
+    # to ensure that the change log exists in the database.
     def get_change_log
       @minutes_change_log = ChangeLog.where(table_name: 'minute', table_id: @minute.id).order(created_at: :desc)
       if @minutes_change_log.empty? || @minutes_change_log.nil?
@@ -352,11 +466,31 @@ class MinutesController < ApplicationController
       end
     end
 
+    # The `create_change_log` method is used to create a change log for the minute
+    # 
+    # Breaking down the `create_change_log` method:
+    #
+    # 1. The `description` variable is used to store the description of the change log.
+    # 2. The `ChangeLog` model is used to create a new change log instance variable
+    #    with the parameters passed in the `create_change_log` method.
+    # 3. The `save` method is used to save the change log instance variable to the database.
     def create_change_log
       description = "[#{Time.now.strftime("%d/%m/%Y - %H:%M")}] #{current_user.get_short_name} crea esta minuta."
       ChangeLog.new(table_id: @minute.id, user_id: current_user.id, description: description, table_name: "minute").save
     end
 
+    # The `register_change_log` method is used to register a change log for the minute
+    # 
+    # Breaking down the `register_change_log` method:
+    #
+    # 1. The `description` variable is used to store the description of the change log.
+    # 2. The `count` variable is used to store the number of changes made to the minute.
+    # 3. The `process_attribute_changes` method is used to process the attribute changes.
+    # 4. The `process_action_text_changes` method is used to process the action text changes.
+    # 5. The `validate_attendees_changes` method is used to validate the attendees changes.
+    # 6. The `ChangeLog` model is used to create a new change log instance variable
+    #    with the parameters passed in the `create_change_log` method.
+    # 7. The `save` method is used to save the change log instance variable to the database.
     def register_change_log
       @description = ""
       @count = 1
@@ -373,6 +507,20 @@ class MinutesController < ApplicationController
       @description = ""
     end
     
+    # The `process_attribute_changes` method is used to process the attribute changes.
+    #
+    # Breaking down the `process_attribute_changes` method:
+    #
+    # 1. The `attribute_mappings` variable is used to store the attribute mappings.
+    # 2. The `@minute` variable is used to retrieve a single minute from the database.
+    # 3. The `previous_changes` method is used to retrieve the previous changes of the minute.
+    # 4. The `strftime` method is used to format the time.
+    # 5. The `each` method is used to iterate through the previous changes.
+    # 6. The `attribute_name` variable is used to store the attribute name.
+    # 7. Then it will check if the attribute name is nil or if the old value is equal to the new value.
+    # 8. If the attribute name is nil or if the old value is equal to the new value, it will skip the iteration.
+    # 9. Then it will iterate through all the previous changes.
+    # 10. And finally, it will add the changes to the description and increment the count.
     def process_attribute_changes
       attribute_mappings = {
         "meeting_title" => "el título de la reunión",
@@ -403,6 +551,19 @@ class MinutesController < ApplicationController
       end
     end
     
+    # The `process_action_text_changes` method is used to process the action text changes.
+    #
+    # Breaking down the `process_action_text_changes` method:
+    #
+    # 1. The `action_text_attributes` variable is used to store the action text attributes.
+    # 2. The `each` method is used to iterate through the action text attributes.
+    # 3. The `changes` variable is used to store the changes of the action text attributes.
+    # 4. The `previous_content` variable is used to store the previous content of the action text attributes.
+    # 5. The `current_content` variable is used to store the current content of the action text attributes.
+    # 6. Then it will check if the previous content is blank.
+    # 7. If the previous content is blank, it will skip the iteration.
+    # 8. Then it will iterate through the previous items.
+    # 9. And finally, it will add the changes to the description and increment the count.
     def process_action_text_changes
       action_text_attributes = {
         'meeting_objectives' => 'los objetivos de la reunión',
@@ -439,6 +600,14 @@ class MinutesController < ApplicationController
       end
     end    
 
+    # The `validate_attendees` method is used to validate the attendees of the minute.
+    #
+    # Breaking down the `validate_attendees` method:
+    #
+    # 1. The `validate_attendees` method is used to validate if nested attributes are empty.
+    # 2. The `destroyed_attendees_validation` method is used to validate if all nested attributes are marked to be destroyed.
+    # 3. The `duplicate_attendees_validation` method is used to validate if all nested attributes are marked to be destroyed.
+    # 4. Finally, it will add an error message to the minute if the validation fails.
     def validate_attendees
       #validate if nested attributes are empty
       if params[:minute][:minutes_users_attributes].nil? || params[:minute][:minutes_users_attributes].empty?
@@ -446,13 +615,22 @@ class MinutesController < ApplicationController
       end
 
       #validate if all nested attributes are marked to be destroyed
-      destroyed_attemdees_validation
+      destroyed_attendees_validation
 
       #Duplicated attendees validation
       duplicate_attendees_validation
     end
 
-    def destroyed_attemdees_validation
+    # The `destroyed_attendees_validation` method is used to validate if all nested attributes are marked to be destroyed.
+    # 
+    # Breaking down the `destroyed_attendees_validation` method:
+    #
+    # 1. The `deletedAssociations` variable is used to store the number of deleted associations.
+    # 2. The `nested_attributes` variable is used to store the nested attributes.
+    # 3. The `each` method is used to iterate through the nested attributes.
+    # 4. The `destroy_value` variable is used to store the destroy value of the nested attributes.
+    # 5. Then it will check if the destroy value is not equal to false.
+    def destroyed_attendees_validation
       #validate if all nested attributes are marked to be destroyed
       if !@minute.new_record?
         deletedAssociations = 0
@@ -469,6 +647,15 @@ class MinutesController < ApplicationController
       end
     end
 
+    # The `duplicate_attendees_validation` method is used to validate if all nested attributes are marked to be destroyed.
+    #
+    # Breaking down the `duplicate_attendees_validation` method:
+    #
+    # 1. The `nested_attributes` variable is used to store the nested attributes.
+    # 2. The `each` method is used to iterate through the nested attributes.
+    # 3. The `user_ids` variable is used to store the user ids.
+    # 4. Then it will check if the destroy value is not equal to false.
+    # 5. Finally, it will add an error message to the minute if the validation fails.
     def duplicate_attendees_validation
       nested_attributes = params[:minute][:minutes_users_attributes]
       return unless !nested_attributes.nil?
@@ -484,6 +671,17 @@ class MinutesController < ApplicationController
       end
     end
 
+    # The `validate_attendees_changes` method is used to validate the attendees changes.
+    #
+    # Breaking down the `validate_attendees_changes` method:
+    #
+    # 1. The `new_attributes` variable is used to store the new attributes.
+    # 2. The `added_users` variable is used to store the added users.
+    # 3. The `removed_users` variable is used to store the removed users.
+    # 4. Then it will check if the removed users is not empty.
+    # 5. If the removed users is not empty, it will add the removed users to the description.
+    # 6. then it will add to the description the removed and added users.
+    # 7. Finally, it will increment the count.
     def validate_attendees_changes
       return if @minute.errors.any?
       new_attributes = params.fetch(:minute, {}).fetch(:minutes_users_attributes, {}).values
