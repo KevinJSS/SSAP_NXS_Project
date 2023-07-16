@@ -1,7 +1,7 @@
 class ActivitiesController < ApplicationController
   # The `before_action` callback method ensures that the user is authenticated
   # before accessing any action in this controller. It helps enforce the requirement
-  # for a user to be logged in before interacting with the `ProjectsController`.
+  # for a user to be logged in before interacting with the `ActivitiesController`.
   before_action :authenticate_user!
 
   # The `before_action` callback method 'set_activity' is used to set the activity
