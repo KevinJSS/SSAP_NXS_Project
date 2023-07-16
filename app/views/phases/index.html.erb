@@ -1,3 +1,6 @@
+<%# Phases List (Index) View %>
+<%# Use the data-view-id attribute to identify the view and select the corresponding option on the sidebars %>
+<%# The SCSS styles for this view can be found in the app/assets/stylesheets/custom folder. The specific stylesheets for this view are named: _main and _header %>
 <main data-view-id="6">
   <div class="header">
       <div class="header__content">
@@ -7,17 +10,19 @@
       </div>
       
       <div class="header__actions">
+        <%# Header actions (buttons) only displayed on tablet screen size or greater %>
         <div class="header__actions header__actions--tablet">
           <%= link_to new_phase_path, class: "button-primary" do %>
             <%= image_tag('add-icon.svg', alt: "icono agregar fase", class: "sidebar__icon") %>
             <span class="ms-1">Agregar fase</span>
           <% end %>
         </div>
-      
+        <%# Render sidebar button with the menu icon %>
         <%= render 'shared/sidebar_button' %>
       </div>
     </div>
 
+    <%# Header actions (buttons) only displayed on phone screen size %>
     <div class="header__actions header__actions--phone">
       <%= link_to new_phase_path, class: "button-primary" do %>
         <%= image_tag('add-icon.svg', alt: "icono agregar fase", class: "sidebar__icon") %>

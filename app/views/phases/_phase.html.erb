@@ -1,3 +1,6 @@
+<%# Project Item Partial %>
+<%# The SCSS styles for this view can be found in the app/assets/stylesheets/custom folder. The specific stylesheets for this view are named: _card_list and _utilities %>
+
 <div id="<%= dom_id phase %>" class="item">
   <div class="item__header">
     <div class="item__heading">
@@ -8,12 +11,12 @@
 
   <div class="item__content">
     <div class="item__references">
+      <%# Redirect to activities path filtered by phase id %>
       <a href="<%= activities_path(q: {phase: phase.id}) %>" class="item__reference clean-link">
         <p class="item__reference-text">
           <%= image_tag('activities-icon.svg', alt: "icono actividades asociadas", class: "item__reference-icon") %>
           <%= phase.activities.count %>
         </p>
-        <%# Agregar link para ir a lista de actividades filtradas por este proyecto %>
         <p class="item__reference-label">Actividades registradas</p>
       </a>
     </div>
@@ -24,12 +27,14 @@
         <span class="item__actions-text">Ver detalles</span>
       <% end %>
 
+      <%# rendered only if the phase does not have any associations (activities) %>
       <% if phase.activities.count == 0 %>
         <button type="button" data-bs-toggle="modal" data-bs-target="#deleteModal<%=phase.id%>" class="button-outline-danger">
             <i class="bi bi-trash3 mx-1"></i>
             <span class="item__actions-text">Eliminar</span>
         </button>
 
+        <%# Render the delete confirmation modal %>
         <%= render 'shared/delete_confirm', object: phase %>
       <% end %>
     </div>
