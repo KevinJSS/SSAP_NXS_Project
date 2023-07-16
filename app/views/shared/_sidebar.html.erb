@@ -1,3 +1,10 @@
+<%# This view represents two sidebars used in a web application: a custom sidebar and a Bootstrap Offcanvas sidebar. %>
+<%# The custom sidebar is a fixed sidebar designed for screens equal to or larger than desktop size. It provides a consistent navigation experience for users. %>
+<%# The Bootstrap Offcanvas sidebar, on the other hand, is intended for screens equal to or smaller than a tablet. It allows the sidebar to slide in and out of view, optimizing the space on smaller screens. %>
+<%# Both sidebars share a similar structure, including header, content, and footer sections. Each section contains a title, followed by a list of links representing different sections or functionalities of the application. %>
+<%# The custom sidebar and Bootstrap Offcanvas sidebar offer the same set of functionalities, such as navigation to home, project management, activity management, minutes management, and user management sections. Each section contains specific links to perform related actions or view relevant information. %>
+<%# Additionally, the sidebars display user-related information, such as the user's name and job position, along with a logout button to allow the user to sign out of the application. %>
+
 <%# Start Custom Sidebar %>
 <div class="sidebar" data-controller="sidebar">
     <%# Start Sidebar Header %>
@@ -304,4 +311,5 @@
 </div>
 <%# End Boostrap Offcanvas Sidebar %>
 
+<%# Render logout confirmation partial %>
 <%= render "shared/logout_confirm" %>

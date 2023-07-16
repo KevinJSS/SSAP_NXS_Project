@@ -1,3 +1,12 @@
+<%# Activities List (Index) View %>
+<%# Use the data-view-id attribute to identify the view and select the corresponding option on the sidebars %>
+<%# The SCSS styles for this view can be found in the app/assets/stylesheets/custom folder. The specific stylesheets for this view are named: _main and _header %>
+<%#
+  Is important to note that this view calls the generate report modal component, which is defined in the 
+  app/views/shared/_report_modal.html.erb file. And enables the user to generate a report of the activities 
+  filtered by the selected criteria.
+%>
+
 <main data-view-id="3" class="main">
   <div class="header">
     <div class="header__content">
@@ -7,6 +16,7 @@
       </div>
       
       <div class="header__actions">
+        <%# Header actions (buttons) only displayed on tablet screen size or greater %>
         <div class="header__actions header__actions--tablet responsive-width">
           <button type="button" data-bs-toggle="modal" data-bs-target="#reportModal" class="button-secondary">
             <%= image_tag('doc-icon.svg', alt: "icono generar reporte", class: "sidebar__icon") %>
@@ -18,11 +28,13 @@
             <span class="ms-1">Registrar actividad</span>
           <% end %>
         </div>
-      
+
+        <%# Render sidebar button with the menu icon %>
         <%= render 'shared/sidebar_button' %>
       </div>
     </div>
 
+    <%# Header actions (buttons) only displayed on phone screen size %>
     <div class="header__actions header__actions--phone">
       <button type="button" data-bs-toggle="modal" data-bs-target="#reportModal" class="button-secondary">
         <%= image_tag('doc-icon.svg', alt: "icono generar reporte", class: "sidebar__icon") %>
@@ -36,6 +48,7 @@
     </div>
   </div>
 
+  <%# Render activities filter section partial %>
   <%= render "activity_filters" %>
 
   <section class="card-list mb-4">
@@ -51,12 +64,14 @@
       <% @activities.each do |activity| %>
         <%= render activity %>
       <% end %>
-
+      
+      <%# In case the project list or query results are empty %>
       <% if @activities.empty? %>
         <p class="text-center text-black-50 fst-italic my-4"><i class="bi bi-info-circle me-2"></i>Lista de actividades vacía</p>
       <% end %>
     </div>
 
+    <%# Render project pagination if projects list is not empty %>
     <% if !@activities.empty? %>
       <div class="card-list__pagination">
         <%= render "shared/pagination_count", object: @activities %>
@@ -64,7 +79,8 @@
       </div>
     <% end %>
   </section>
-
+  
+  <%# Render the report modal partial %>
   <%= render 'report_modal', collaborators: @active_collaborators %>
 </main>
 

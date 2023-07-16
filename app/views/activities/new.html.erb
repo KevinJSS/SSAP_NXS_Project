@@ -1,3 +1,8 @@
+<%# New Activity View %>
+<%# Use the data-view-id attribute to identify the view and select the corresponding option on the sidebars %>
+<%# The SCSS styles for this view can be found in the app/assets/stylesheets/custom folder. The specific stylesheets
+for this view are named: _main and _header %>
+
 <main data-view-id="4" class="main main__center">
     <div class="main__width">
         <div class="header">
@@ -13,6 +18,7 @@
             </div>
         </div>
         
+        <%# Renders activity form partial %>
         <%= render "form", activity: @activity %>
     </div>
 </main>

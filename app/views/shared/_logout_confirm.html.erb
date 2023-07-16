@@ -1,3 +1,13 @@
+<%#
+This code represents a modal component that prompts the user for confirmation before logging out.
+
+The modal contains a modal dialog with a title, a close button, and a body that displays a confirmation message. 
+The modal footer includes two buttons: the "Aceptar" button, which is a button_to helper that sends a DELETE request
+to the destroy_user_session_path when clicked, and the "Cancelar" button, which dismisses the modal.
+
+The modal is hidden by default and can be triggered by its ID "logoutModal". It allows the user to confirm or 
+cancel the logout action.
+%>
 
 <div class="modal fade" id="logoutModal" tabindex="1" aria-labelledby="logoutModalLabel" aria-hidden="true">
     <div class="modal-dialog">

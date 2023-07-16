@@ -1,4 +1,18 @@
+<%#  
+Reports modal partial
 
+This code represents a modal for generating a report. The modal is triggered by a button click and has the ID "reportModal".
+It is designed using Bootstrap's modal component.
+
+The modal consists of a "modal-dialog" container, which contains the "modal-content". The "modal-header" contains
+a title with the text "Generar Reporte" and a close button. The "modal-body" section includes a description and a form 
+for selecting report options. The form includes a "Tipo de Reporte" (Report Type) dropdown menu and a "Rango de Fechas" 
+(Date Range) input field.
+
+The "modal-footer" section contains buttons for generating the report and canceling the operation.
+
+This modal provides a user-friendly interface for selecting report options and initiating the report generation process.
+%>
 <div class="modal fade" id="reportModal" tabindex="1" aria-labelledby="reportModalLabel" aria-hidden="true" data-controller="dropdown-search reports-modal">
     <div class="modal-dialog">
         <div class="modal-content p-3">

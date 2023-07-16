@@ -1,3 +1,6 @@
+<%# New Minute View %>
+<%# Use the data-view-id attribute to identify the view and select the corresponding option on the sidebars %>
+<%# The SCSS styles for this view can be found in the app/assets/stylesheets/custom folder. The specific stylesheets for this view are named: _main and _header %>
 <main data-view-id="9" class="main main__center main__center--minutes">
     <div class="main__width main__width--minutes">
         <div class="header">
@@ -8,11 +11,12 @@
                 </div>
                 
                 <div class="header__actions">
+                    <%# Render sidebar button with the menu icon %>
                     <%= render 'shared/sidebar_button' %>
                 </div>
             </div>
         </div>
-        
+        <%# Render minutes form partial %>
         <%= render "form", minute: @minute %>
     </div>
 </main>

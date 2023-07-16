@@ -1,3 +1,20 @@
+<%# 
+Nested phases activities form field
+
+This partial is used to render the nested form fields for the phases activities form. It is used in the activities form
+to display the phases activities that have been added to the activity. It is also used in the phases activities modal
+to display the phases activities that have been added to the activity. The partial is rendered using the
+"fields_for" method and the "f" variable is used to access the form fields. 
+
+The partial is wrapped in a div with the class "nested-form-wrapper" and the data-controller attribute is used to identify
+the controller that handles the nested form fields. The data-form-model attribute is used to identify the model that the form
+fields belong to. The partial includes a hidden field for the phase ID, a text field for the phase name, a number field for
+the hours worked on the phase, and a button for removing the phase from the activity. 
+
+The partial also includes a hidden field for the "_destroy" attribute, which is used to remove the phase from the activity
+when the form is submitted.
+%>
+
 <div class="nested-form-wrapper form__table-data" data-new-record="<%= f.object.new_record? %>" data-controller="update-fields" data-form-model="activities">
     <%= f.hidden_field :phase_id %>
     <input type="text" class="form-control-plaintext nested-input-text accordion-item ps-3" readonly>

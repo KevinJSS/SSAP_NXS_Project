@@ -1,3 +1,9 @@
+<%# Activity Item Partial %>
+<%# The SCSS styles for this view can be found in the app/assets/stylesheets/custom folder. The specific stylesheets for this view are named: _card_list and _utilities %>
+<%# 
+  This partial is used to render each activity item in the activities index view. 
+  It receives an activity object as a parameter and renders the activity item with the corresponding data.
+%>
 <div id="<%= dom_id activity %>" class="item">
   <div class="item__header">
     <div class="item__heading">
@@ -18,7 +24,6 @@
           <%= image_tag('activities-icon.svg', alt: "icono actividades asociadas", class: "item__reference-icon") %>
           <%= activity.phases_activities.count %>
         </p>
-        <%# Agregar link para ir a lista de actividades filtradas por este proyecto %>
         <p class="item__reference-label"><%= activity.phases_activities.count == 1 ? "Fase registrada" : "Fases registradas" %></p>
       </div>
       
@@ -27,7 +32,6 @@
           <%= image_tag('clock-icon.svg', alt: "icono actividades asociadas", class: "item__reference-icon") %>
           <%= activity.get_total_hours  %>
         </p>
-        <%# Agregar link para ir a lista de minutas filtradas por este proyecto %>
         <p class="item__reference-label">Horas trabajadas</p> 
       </div>
     </div>

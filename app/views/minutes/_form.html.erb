@@ -1,3 +1,9 @@
+<%# Form Minute Partial %>
+<%# The SCSS styles for this view can be found in the app/assets/stylesheets/custom folder. The specific stylesheets for this view are named: _form, _dropdown and _utilities %>
+<%# Stimulus controllers are located in the app/javascript/controllers folder. The specific js controllers for this view are named: dropdown_search_controller and update_fields_controller %>
+<%# This view implements rich_text_areas from trix and actiontext gem for the text attributes %>
+
+<%# Render minute error messages partial %>
 <%= render 'shared/error_message', object: minute %>
 
 <%= form_with(model: minute, data: { controller: 'nested-form', nested_form_wrapper_selector_value: '.nested-form-wrapper', form_model: "minutes" }, class: "form") do |form| %>
@@ -13,6 +19,7 @@
         <%= form.text_field :meeting_title, placeholder: "Ingrese un titulo descriptivo", class: "form__input" %>
       </div>
       
+      <%# Custom dropdown search component %>
       <div class="form__field" data-controller="dropdown-search update-fields">
         <%= form.label "Proyecto asociado", class: "form__label" %>
         <%= form.hidden_field :project_id, data: {id: "hidden-input"}%>
@@ -26,6 +33,7 @@
           <% end %>
         </div>
 
+        <%# If minute is not a new record and the minute project is disable, it will store the projects name for the search bar input and loaded with the update fields controller %>
         <% if !@minute.new_record? %>
           <input type="text" data-id="hidden-name" value="<%= @minute.project.name %>" disabled="true" hidden>  
         <% end %>
@@ -48,6 +56,7 @@
         </div>
       </div>
 
+      <%# This group of buttons are visible on tablets size screen or greater %>
       <div class="form__actions--minutes form__actions--minutes-1 mt-3">
         <%= form.submit minute.new_record? ? "Guardar" : "Actualizar", class: "button-primary button-primary--minutes" %>
         <% if !@minute.new_record? %>
@@ -89,6 +98,7 @@
             <label class="form__label ps-md-3 ps-sm-2">Puesto</label>
           </div>
 
+          <%# Shows empty table message if there isnt attendees on it %>
           <p id="emptyMessage" class="text-center text-black-50 fst-italic my-2 fs-xs"><i class="bi bi-info-circle me-2"></i>Agrega al menos a un(a) asistente</p>
 
           <div class="form__table-body">
@@ -133,6 +143,7 @@
       </div>
     </div>
 
+    <%# This group of buttons are visible on phone size screen or smaller %>
     <div class="form__actions--minutes form__actions--minutes-2 mt-3">
       <div class="form__actions--minutes-3">
         <%= form.submit minute.new_record? ? "Guardar" : "Actualizar", class: "button-primary button-primary--minutes" %>
@@ -143,7 +154,7 @@
         <%= link_to "Regresar", "#", class: "button-secondary button-secondary--minutes", data: {action: "click->navigation#goBack"} %>
       </div>
 
-      <%# OPEN CHANGE LOG %>
+      <%# OPEN MINUTES CHANGE LOG %>
       <% if !@minutes_change_log.nil? %>
         <button type="button" data-bs-toggle="modal" data-bs-target="#changeLogModal" class="button-link mt-3">
             Ver historial de cambios
@@ -154,7 +165,7 @@
     <%# Users Modal %>
     <%= render "minutes/users_modal", attendees: @active_attendees %>
 
-    <%# Confirma Email Modal %>
+    <%# Confirm Email Modal %>
     <%= render "minutes/confirm_email_modal" %>
   </div>
   

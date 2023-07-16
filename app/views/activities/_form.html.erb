@@ -1,3 +1,25 @@
+<%# 
+Activity Form Partial
+
+This code represents a partial for an activity form. The form is rendered using the form_with helper and has several
+form fields and associated components.
+
+The form includes fields for "Proyecto" (Project), "Colaborador" (Collaborator), "Fecha" (Date), "Actividades realizadas" 
+(Activities Performed), and "Total de horas realizadas" (Total Hours Worked).
+
+The "Proyecto" field is a dropdown search input field that allows the user to search and select a project from 
+a list of options. The "Colaborador" field is also a dropdown search input field for selecting a collaborator from 
+a list of options. The "Fecha" field is a date input field for entering the activity's date. The "Actividades realizadas" 
+section includes a table for adding and displaying the activities performed. It includes columns for "Fase" (Phase) and "Horas"
+(Hours). The "Total de horas realizadas" field displays the total sum of hours entered for the activities.
+
+The form includes submit and cancel buttons for saving or updating the activity and returning to the previous page. The form 
+also renders a change log component and a modal for managing phase hours.
+
+This partial provides a comprehensive form for creating or editing activity records, allowing users to input project, 
+collaborator, date, and activity details efficiently.
+%>
+
 <%= render 'shared/error_message', object: activity %>
 
 <%= form_with(model: activity, data: { controller: 'nested-form', nested_form_wrapper_selector_value: '.nested-form-wrapper', form_model: "activities" }, class: "form form__flex section-bg") do |form| %>

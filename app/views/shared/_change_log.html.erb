@@ -1,3 +1,21 @@
+<%#  
+This code adds a button labeled "Ver historial de cambios" (View change log) and a modal for displaying
+the change log history.
+
+The button is conditionally displayed based on the condition !object.new_record?. It ensures that the 
+button is only shown when the object is not a new record.
+
+When clicked, the button triggers the modal by referencing the data-bs-target attribute with the ID of 
+the corresponding modal (#changeLogModal).
+
+The modal body includes a scrollable container with a fixed height of 300 pixels. It displays the change 
+log history retrieved from the change_log variable. If the change_log is not empty, each change description 
+is rendered as a paragraph element (<p>).
+
+This implementation allows users to view the change log history associated with the object, providing 
+transparency and visibility into past modifications.
+%>
+
 <% if !object.new_record? %>
     <button type="button" data-bs-toggle="modal" data-bs-target="#changeLogModal" class="button-link mt-3">
         Ver historial de cambios

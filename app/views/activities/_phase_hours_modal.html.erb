@@ -1,3 +1,15 @@
+<%# 
+Phases hours modal
+
+This modal is used to add the hours worked on a specific phase to an activity. It allows users to select a phase
+from a dropdown list and enter the number of hours worked on that phase. The modal is identified by the ID
+"phasesModal" and is triggered by the "Agregar fase" button on the activity form. The modal contains a modal
+dialog with a title, a close button, and a body that displays a form with a dropdown list and an input field.
+
+The modal footer includes a button labeled "Agregar" (Add) that adds the phase to the activity and dismisses
+the modal. The modal is hidden by default and can be triggered by its ID "phasesModal". It allows the user to
+add the hours worked on a specific phase to an activity.
+%>
 
 <div class="modal fade" id="phasesModal" tabindex="1" aria-labelledby="phasesModalLabel" aria-hidden="true" data-controller="dropdown-search">
     <div class="modal-dialog">
@@ -7,6 +19,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body d-flex flex-column gap-3">
+                <%# Custom dropdown search component %>
                 <div class="form__field">
                     <label for="modalInput" class="mb-2"><strong>Fase en la que trabajó:</strong></label>
                     <input type="text" name="phases" id="modalInput" class="form__input form-select search-bar" autocomplete="off" data-action="click->dropdown-search#openDropdown keyup->dropdown-search#searchInput" data-value="" placeholder="- Selecciona una opción -">
