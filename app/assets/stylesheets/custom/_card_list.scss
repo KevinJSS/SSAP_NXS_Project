@@ -1,6 +1,7 @@
 @use 'variables' as v;
 @use 'mixins' as m;
 
+/* CARD LIST STYLES */
 .card-list {
     margin-top: 25px;
     @include m.section-bg;

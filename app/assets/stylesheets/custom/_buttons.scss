@@ -1,6 +1,7 @@
 @use 'variables' as v;
 @use 'mixins' as m;
 
+/* BUTTONS STYLES */
 .button-primary {
     @include m.button(v.$primary, v.$light2);
 
