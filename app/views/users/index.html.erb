@@ -1,3 +1,6 @@
+<%# Admin List (Index) View %>
+<%# Use the data-view-id attribute to identify the view and select the corresponding option on the sidebars %>
+<%# The SCSS styles for this view can be found in the app/assets/stylesheets/custom folder. The specific stylesheets for this view are named: _main and _header %>
 <main data-view-id="12" class="main">
   <div class="header">
     <div class="header__content">
@@ -5,19 +8,20 @@
         <p class="header__subtitle">GESTIÓN DE USUARIOS</p>
         <h1 class="header__title">LISTA DE ADMINISTRADORES</h1>
       </div>
-      
       <div class="header__actions">
+        <%# Header actions (buttons) only displayed on tablet screen size or greater %>
         <div class="header__actions header__actions--tablet">
           <%= link_to new_user_registration_path(:role => "admin"), class: "button-primary" do %>
             <%= image_tag('add-icon.svg', alt: "icono agregar administrador", class: "sidebar__icon") %>
             <span class="ms-1">Agregar administrador</span>
           <% end %>
         </div>
-      
+        <%# Render sidebar button with the menu icon %>
         <%= render 'shared/sidebar_button' %>
       </div>
     </div>
 
+    <%# Header actions (buttons) only displayed on phone screen size %>
     <div class="header__actions header__actions--phone">
       <%= link_to new_user_registration_path(:role => "admin"), class: "button-primary" do %>
         <%= image_tag('add-icon.svg', alt: "icono agregar administrador", class: "sidebar__icon") %>
@@ -26,6 +30,7 @@
     </div>
   </div>
 
+  <%# Render users filter section partial %>
   <%= render 'user_filters', resource: @admin_q, resource_path: users_path, data_name: "admins" %>
 
   <section class="card-list mb-4">
@@ -41,12 +46,14 @@
       <% @users.each do |user| %>
         <%= render user %>
       <% end %>
-
+      
+      <%# In case the user list or query results are empty %>
       <% if !@admin_q.result.any? %>
         <p class="text-center text-black-50 fst-italic my-4"><i class="bi bi-info-circle me-2"></i>Lista de administradores vacía</p>
       <% end %>
     </div>
 
+    <%# Render user pagination if users list is not empty %>
     <% if !@users.empty? %>
       <div class="card-list__pagination">
         <%= render "shared/pagination_count", object: @users %>

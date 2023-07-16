@@ -1,10 +1,9 @@
 <%# Project Item Partial %>
 <%# The SCSS styles for this view can be found in the app/assets/stylesheets/custom folder. The specific stylesheets for this view are named: _card_list and _utilities %>
-
 <div id="<%= dom_id phase %>" class="item">
   <div class="item__header">
     <div class="item__heading">
-      <h4 class="item__title"><%= phase.name %></h4> 
+      <h4 class="item__title"><%= truncate(phase.name, length: 50, omission: '...') %></h4> <%# Over 50 caracters it truncates the projects name for a better UI %>
       <p class="item__text fs-5"><%= phase.code %></p>
     </div>
   </div>
