@@ -1,3 +1,8 @@
+<%# Form Project Partial %>
+<%# The SCSS styles for this view can be found in the app/assets/stylesheets/custom folder. The specific stylesheets for this view are named: _form, _dropdown and _utilities %>
+<%# Stimulus controllers are located in the app/javascript/controllers folder. The specific js controllers for this view are named: project_stage_controller, dropdown_search_controller and update_fields_controller %>
+
+<%# Render project error messages partial %>
 <%= render 'shared/error_message', object: project %>
 
 <%= form_with(model: project, class: "form form__flex section-bg", data: { controller: "project-stage" }) do |form| %>
@@ -18,6 +23,7 @@
     </div>
   </div>
 
+  <%# Custom dropdown search component %>
   <div class="form__field" data-controller="dropdown-search update-fields">
     <%= form.label "Encargado", class: "form__label" %>
     <%= form.hidden_field :user_id, data: {id: "hidden-input"}%>
@@ -31,6 +37,7 @@
       <% end %>
     </div>
 
+    <%# If project is not a new record and the project user is disable, it will store the users fullname for the search bar input and loaded with the update fields controller %>
     <% if !project.new_record? %>
       <input type="text" data-id="hidden-name" value="<%= project.user.fullname%>" disabled="true" hidden>  
     <% end %>
@@ -59,7 +66,7 @@
       <%= link_to "Regresar", "#", class: "button-secondary", data: {action: "click->navigation#goBack"} %>
     </div>
 
-    <%# RENDER CHANGE LOG %>
+    <%# RENDER PROJECT CHANGE LOG %>
     <%= render 'shared/change_log', change_log: @project_change_log, object: @project %>
   </div>
 <% end %>

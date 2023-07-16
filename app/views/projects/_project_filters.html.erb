@@ -1,3 +1,7 @@
+<%# Project Item Partial %>
+<%# The SCSS styles for this view can be found in the app/assets/stylesheets/custom folder. The specific stylesheets for this view are named: _filters, _form and _dropdown %>
+<%# The data-controller="filters" is a Stimulus controller located in the app/javascript/controllers folder as filters_controller.js %>
+
 <section class="filters" data-controller="filters">
     <div class="filters__header">
         <a class="filters__toggle" data-action="click->filters#toggle">
@@ -17,6 +21,7 @@
                         <%= f.text_field :name_cont, class: "form__input", placeholder: "Nombre del proyecto" %>
                     </div>
                     
+                    <%# Custom dropdown search component %>
                     <div class="form__field" data-controller="dropdown-search update-fields">
                         <%= f.label :user_id_eq, "Encargado del proyecto", class: "form__label" %>
                         <%= f.hidden_field :user_id_eq, data: {id: "hidden-input"}%>
@@ -30,7 +35,6 @@
                             <% end %>
                         </div>
                     </div>
-                    
                     
                     <div class="form__field">
                         <%= f.label :stage_eq, 'Etapa del proyecto', class: "form__label" %>

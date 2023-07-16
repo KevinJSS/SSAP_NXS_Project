@@ -1,6 +1,7 @@
 @use 'variables' as v;
 @use 'mixins' as m;
 
+/* DROPDOWN LIST CLASS*/
 .dropdown-list {
     position: absolute;
     top: 100%;
@@ -39,6 +40,16 @@
             background-color: v.$primary;
             color: v.$light1;
             cursor: pointer;
+        }
+
+        &--no-results {
+            padding: 2px 10px;
+            background-color: v.$light2;
+            color: v.$dark2;
+
+            &:hover {
+                cursor: initial;
+            }
         }
     }
 }
