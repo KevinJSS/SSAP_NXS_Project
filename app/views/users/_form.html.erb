@@ -1,3 +1,8 @@
+<%# Form User Partial %>
+<%# The SCSS styles for this view can be found in the app/assets/stylesheets/custom folder. The specific stylesheets for this view are named: _form, _dropdown and _utilities %>
+<%# Stimulus controllers are located in the app/javascript/controllers folder. The specific js controllers for this view are named: user_stage_controller, dropdown_search_controller and update_fields_controller %>
+
+<%# Render user error messages partial %>
 <%= render 'shared/error_message', object: user %>
 
 <%= form_with(model: user, class: "form form__flex section-bg") do |form| %>

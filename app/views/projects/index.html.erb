@@ -1,3 +1,6 @@
+<%# Project List (Index) View %>
+<%# Use the data-view-id attribute to identify the view and select the corresponding option on the sidebars %>
+<%# The SCSS styles for this view can be found in the app/assets/stylesheets/custom folder. The specific stylesheets for this view are named: _main and _header %>
 <main data-view-id="1" class="main">
   <div class="header">
     <div class="header__content">
@@ -5,7 +8,7 @@
         <p class="header__subtitle">GESTIÓN DE PROYECTOS</p>
         <h1 class="header__title">LISTA DE PROYECTOS</h1>
       </div>
-      
+      <%# Header actions (buttons) only displayed on tablet screen size or greater %>
       <div class="header__actions">
         <div class="header__actions header__actions--tablet">
           <%= link_to new_project_path, class: "button-primary" do %>
@@ -13,11 +16,12 @@
             <span class="ms-1">Agregar proyecto</span>
           <% end %>
         </div>
-      
+        <%# Render sidebar button with the menu icon %>
         <%= render 'shared/sidebar_button' %>
       </div>
     </div>
 
+    <%# Header actions (buttons) only displayed on phone screen size %>
     <div class="header__actions header__actions--phone">
       <%= link_to new_project_path, class: "button-primary" do %>
         <%= image_tag('add-icon.svg', alt: "icono agregar proyecto", class: "sidebar__icon") %>
@@ -26,6 +30,7 @@
     </div>
   </div>
   
+  <%# Render projects filter section partial %>
   <%= render 'project_filters', project: Project.new %>
 
   <section class="card-list mb-4">
@@ -42,11 +47,13 @@
         <%= render project %>
       <% end %>
 
+      <%# In case the project list or query results are empty %>
       <% if !@q.result.any? %>
         <p class="text-center text-black-50 fst-italic my-4"><i class="bi bi-info-circle me-2"></i>Lista de proyectos vacía</p>
       <% end %>
     </div>
 
+    <%# Render project pagination if projects list is not empty %>
     <% if !@projects.empty? %>
       <div class="card-list__pagination">
         <%= render "shared/pagination_count", object: @projects %>

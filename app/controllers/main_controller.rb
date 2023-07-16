@@ -1,6 +1,12 @@
 class MainController < ApplicationController
+  # The `before_action` callback method ensures that the user is authenticated
+  # before accessing any action in this controller. It helps enforce the requirement
+  # for a user to be logged in before interacting with the `MainController`.
   before_action :authenticate_user!
 
+  # The `home` action is responsible for rendering the homepage/dashboard view.
+  # It retrieves various data and assigns them to instance variables that can be
+  # accessed within the corresponding view template.
   def home
     #projects
     @projects = Project.count

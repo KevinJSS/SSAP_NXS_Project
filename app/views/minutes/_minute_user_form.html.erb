@@ -1,3 +1,14 @@
+<%# Form for nested fields in a table-like structure %>
+<%# The form wrapper has CSS classes for styling and behavior %>
+<%# The form has data attributes for handling new records and updating fields %>
+<%# The form is associated with the "minutes" model %>
+<%# A hidden field is used to store the user ID %>
+<%# Two input fields of type text are displayed as read-only plaintext %>
+<%# A select dropdown is hidden and contains options for attendees %>
+<%# Each option has a value, job position data, and attendee's full name %>
+<%# A button is displayed to hide or remove the nested form %>
+<%# A hidden field is used for marking the form nested field for destruction %>
+
 <div class="nested-form-wrapper form__table-data" data-new-record="<%= f.object.new_record? %>" data-controller="update-fields" data-form-model="minutes">
   <%= f.hidden_field :user_id %>
   <input type="text" class="form-control-plaintext nested-input-text ps-3" readonly>
@@ -11,7 +22,6 @@
       <% end %>
   </select>
 
-  <%# f.select :user_id, options_for_select(@attendees.collect { |a| [a.fullname, a.id] }), {prompt: "- Seleccione un asistente -"}, class: "form-select"  %>
   <button type="button" data-action="click->nested-form#hide click->nested-form#remove" class="btn text-danger fs-3 pe-3">&times;</button>
   <%= f.hidden_field :_destroy %>
 </div>

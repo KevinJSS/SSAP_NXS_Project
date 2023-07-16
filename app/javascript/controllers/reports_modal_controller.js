@@ -7,6 +7,13 @@ export default class extends Controller {
   connect() {
   }
 
+  /**
+   * The toggleForm method is called when the reportSelect value changes.
+   * It toggles the visibility of the form elements based on the selected report type.
+   * If the report type is "collaborator", it shows the collaboratorReportType and collaboratorSelect elements.
+   * If the report type is not "collaborator", it hides the collaboratorReportType and collaboratorSelect elements.
+   * It also toggles the visibility of the submitButton, dates, and divider elements based on whether a report type is selected or not.
+   */
   toggleForm() {
     const reportType = this.reportSelectTarget.value;
 
@@ -23,6 +30,12 @@ export default class extends Controller {
     }
   }
 
+  /**
+   * The submit method is called when the form is submitted.
+   * It submits the form by calling the submit() method on the generateForm element.
+   * After submitting the form, it resets the reportSelect, collaborator, start_date, and end_date values,
+   * and toggles the form elements to their initial state.
+   */
   submit() {
     const generateForm = document.getElementById("generate-form");
     generateForm.submit();

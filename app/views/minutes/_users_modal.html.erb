@@ -1,4 +1,10 @@
-
+<%# View for a modal to select an attendee %>
+<%# The modal displays a list of registered and active users %>
+<%# Active attendees are dynamically generated %>
+<%# A text input field is shown to search for attendees %>
+<%# Search results are displayed in a dropdown list %>
+<%# Each item in the dropdown list shows the attendee's full name %>
+<%# Clicking the "Add" button closes the modal and triggers the "nested-form#addUser" action %>
 <div class="modal fade" id="usersModal" tabindex="1" aria-labelledby="usersModalLabel" aria-hidden="true" data-controller="dropdown-search">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -7,10 +13,10 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body d-flex flex-column gap-3">
+                <%# Custom dropdown search component %>
                 <div class="form__field">
                     <label for="modalInput" class="mb-2"><strong>Lista de personas registradas:</strong></label>
                     <input type="text" name="users" id="modalInput" class="form__input form-select search-bar" autocomplete="off" data-action="click->dropdown-search#openDropdown keyup->dropdown-search#searchInput" data-value="" placeholder="- Selecciona una opción -">
-                   
                     <div class="dropdown-list" data-dropdown-type="modal">
                         <% @active_attendees.each do |a| %>
                             <div class="dropdown-list__item" data-value="<%= a.id %>">

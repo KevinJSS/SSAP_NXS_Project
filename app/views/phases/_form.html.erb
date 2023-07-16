@@ -1,3 +1,7 @@
+<%# Form Phase Partial %>
+<%# The SCSS styles for this view can be found in the app/assets/stylesheets/custom folder. The specific stylesheets for this view are named: _form, _dropdown and _utilities %>
+
+<%# Render phase error messages partial %>
 <%= render 'shared/error_message', object: phase %>
 
 <%= form_with(model: phase, class: "form form__flex section-bg") do |form| %>
@@ -17,7 +21,7 @@
       <%= link_to "Regresar", "#", class: "button-secondary", data: {action: "click->navigation#goBack"} %>
     </div>
 
-    <%# RENDER CHANGE LOG %>
+    <%# RENDER PHASE CHANGE LOG %>
     <%= render 'shared/change_log', change_log: @phase_change_log, object: @phase %>
   </div>
 <% end %>

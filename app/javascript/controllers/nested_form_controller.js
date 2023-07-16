@@ -1,12 +1,27 @@
 import NestedForm from 'stimulus-rails-nested-form'
 
+/**
+ * This controller extends the NestedForm controller provided by the 'stimulus-rails-nested-form' package.
+ * It adds additional functionality to handle nested forms and perform specific actions when adding or removing elements.
+ */
 export default class extends NestedForm {
+  /**
+   * The connect method is called when the controller is connected to an element.
+   * It performs initialization tasks after the controller is connected.
+   * In this case, it checks if the connected element represents a form for activities and shows the total hours.
+   */
   connect() {
     super.connect();
     this.checkEmptyTable();
     if (this.element.dataset.formModel == "activities") this.showTotalHours();
   }
 
+  /**
+   * The addPhase method is called when a new phase is added.
+   * It extends the base add method from the parent controller to handle additional logic specific to phases.
+   * It retrieves the value of the modal hours input and sets it as the value of the nested form input for hours.
+   * It also updates the total hours based on the added phase.
+   */
   addPhase(event) {
     super.add(event);
     const lastWrapper = this.addSelectedOption(); //add selected option to nested form
@@ -31,11 +46,22 @@ export default class extends NestedForm {
     this.updatedTotalHours(lastWrapper, "add");
   }
 
+  /**
+   * The addUser method is called when a new user is added.
+   * It extends the base add method from the parent controller to handle additional logic specific to users.
+   * It adds the selected option to the nested form, which sets the value and text of the corresponding inputs.
+   */
   addUser(event) {
     super.add(event);
     this.addSelectedOption();
   }
 
+  /**
+   * The addSelectedOption method adds the selected option from the modal to the nested form.
+   * It retrieves the value and text of the modal input and sets them as the value and text of the nested form inputs.
+   * It also handles the case when no option is selected and displays an alert message.
+   * It returns the last added wrapper element for further manipulation if needed.
+   */
   addSelectedOption() {
     const wrappers = document.querySelectorAll('.nested-form-wrapper');
     const lastWrapper = wrappers[wrappers.length - 1];
@@ -66,6 +92,13 @@ export default class extends NestedForm {
     return lastWrapper;
   }
 
+  /**
+   * The hide method hides a wrapper element, typically used when removing an element.
+   * It hides the wrapper element, sets the '_destroy' input value to '1' to indicate it should be destroyed upon form submission.
+   * It also hides all children elements of the wrapper.
+   * If the form model is 'activities', it also updates the total hours by calling the updatedTotalHours method.
+   * Finally, it checks if the table is empty to show the empty message if needed.
+   */
   hide(event) {
     parent = event.type == 'click' ? event.target.parentElement : event;
     const wrapper = parent.type == "button" ? parent.parentElement : parent;
@@ -88,6 +121,10 @@ export default class extends NestedForm {
     }
   }
 
+  /**
+   * The updatedTotalHours method updates the total hours value based on the action performed (add or remove).
+   * It retrieves the input hours value from the provided wrapper element and updates the total hours accordingly.
+   */
   updatedTotalHours(wrapper, action) {
     const totalHours = document.getElementById("totalHours");
     const inputHours = wrapper.querySelector(".nested-input-hours");
@@ -95,6 +132,10 @@ export default class extends NestedForm {
     totalHours.value = action == "add" ? parseFloat(totalHours.value) + parseFloat(inputHours.value) : parseFloat(totalHours.value) - parseFloat(inputHours.value);
   }
 
+  /**
+   * The showTotalHours method calculates and shows the total hours for the activities form.
+   * It iterates through each wrapper element and retrieves the input hours value to update the total hours.
+   */
   showTotalHours() {
     const wrappers = document.querySelectorAll('.nested-form-wrapper');
 
@@ -107,6 +148,11 @@ export default class extends NestedForm {
     }
   }
 
+  /**
+   * The checkEmptyTable method checks if the table is empty and shows/hides the empty message accordingly.
+   * It iterates through each wrapper element and checks if the '_destroy' input value is 'false'.
+   * If all elements have the '_destroy' value set to 'true', it shows the empty message, otherwise it hides it.
+   */
   checkEmptyTable() {
     const wrappers = document.querySelectorAll('.nested-form-wrapper');
     let empty = true;

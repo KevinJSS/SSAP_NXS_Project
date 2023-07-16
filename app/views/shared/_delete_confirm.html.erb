@@ -1,4 +1,13 @@
+<%# 
+This modal is used to display a confirmation message for deleting a record. It provides a visual confirmation
+to the user and ensures that the deletion action is intentional and irreversible.
 
+The modal is identified by the ID "deleteModal" appended with the object's ID (deleteModal[object.id]). 
+This allows multiple instances of the modal to be used on the same page without conflicts.
+
+This modal ensures that users are aware of the irreversible nature of the delete operation and provides a way
+to confirm or cancel the action, promoting a better user experience and preventing accidental deletions.
+%>
 <div class="modal fade" id="deleteModal<%=object.id%>" tabindex="1" aria-labelledby="deleteModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">

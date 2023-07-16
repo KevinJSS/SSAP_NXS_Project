@@ -1,8 +1,12 @@
 class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
+
+  # The 'enum' method is used to define the enumerations of the model
+  # The 'role' enumeration is used to define the roles of the users
   enum :role, [:collaborator, :admin]
 
+  # The id_card_type enumeration is used to define the types of identification cards
   enum :id_card_type, {
     person: 0,
     residence: 1,
@@ -11,12 +15,14 @@ class User < ApplicationRecord
     dimex: 4
   }
 
+  # The gender enumeration is used to define the possible gender that a user can have
   enum :gender, {
     male: 0,
     female: 1,
     not_specified: 2
   }
 
+  # The marital_status enumeration is used to define the possible marital status that a user can have
   enum :marital_status, {
     single: 0,
     married: 1,
@@ -27,6 +33,7 @@ class User < ApplicationRecord
     cohabiting: 6
   }
 
+  # The education enumeration is used to define the possible education that a user can have
   enum :education, {
     no_degree: 0,
     primary: 1,
@@ -39,7 +46,8 @@ class User < ApplicationRecord
   # This is a regular expression that matches the RFC 5322 standard for email addresses.
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
 
-  #input validations
+  # The 'before_save' callback is used to set the email attribute to lowercase before saving the user
+  # In this case, it will take all received input values and formatted them for a more consistent database.
   before_save { self.email = email.downcase }
   before_save { self.fullname = fullname.upcase }
   before_save { self.province = province.upcase }
@@ -48,9 +56,23 @@ class User < ApplicationRecord
   before_save { self.nationality = nationality.upcase }
   before_save { self.account_number = account_number.upcase }
   before_save { self.id_card = id_card.upcase }
+
+  # The 'before_save' callback is used to trim the values of the email, fullname, phone, id_card, job_position, address, province, canton and district attributes before saving the user
   before_save :trim_values
+
+  # The 'before_destroy' callback is used to clean the changes log table before deleting a user
   before_destroy :clean_changes
 
+  # The 'validates' method is used to validate the attributes of the model
+  # The 'presence' option is used to validate that the attribute is not empty
+  # The 'uniqueness' option is used to validate that the attribute is unique
+  # The 'format' option is used to validate that the attribute matches the regular expression
+  # The 'length' option is used to validate the length of the attribute
+  # The 'if' option is used to validate the attribute if the condition is true
+  # The 'allow_blank' option is used to validate the attribute if the attribute is blank
+  # The 'numericality' option is used to validate that the attribute is a number
+  # The 'greater_than_or_equal_to' option is used to validate that the attribute is greater than or equal to the specified value
+  # The 'less_than_or_equal_to' option is used to validate that the attribute is less than or equal to the specified value
   validates :email, presence: true, uniqueness: true, format: { with: /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+\z/i }, if: -> { email.present? }
   validates :id_card_type, presence: { message: "debe ser indicado." }
   validates :id_card, presence: true, uniqueness: true
@@ -72,8 +94,13 @@ class User < ApplicationRecord
   validates :job_position, presence: true
   validates :job_position, length: { in: 4..100 }, if: -> { job_position.present? }
   validates :account_number, length: { maximum: 100 }
+  
+  # The 'validate' method is used to validate the attributes of the model
+  # The 'birth_date_validation' method is used to validate that the birth date is not greater than today and that the user is over 18 years old
   validate :birth_date_validation
 
+  # The 'trim_values' method is used to trim the values of the email, fullname, phone, id_card, job_position, address, province, 
+  # canton and district attributes before saving the user
   def trim_values
     self.email = email.strip if email.present?
     self.fullname = fullname.strip if fullname.present?
@@ -86,6 +113,8 @@ class User < ApplicationRecord
     self.district = district.strip if district.present?
   end
 
+  # The 'birth_date_validation' method is used to validate that the birth date is not greater than today and that the user is over 18 years old
+  # If the birth date is greater than today, an error is added to the model
   def birth_date_validation
     return unless birth_date.present?
 
@@ -98,6 +127,7 @@ class User < ApplicationRecord
     end
   end
 
+  # The 'get_id_card_types' method is used to get the id card types of the user in a list
   def get_id_card_types
     id_card_options = [
         ["Persona física", :person],
@@ -108,6 +138,7 @@ class User < ApplicationRecord
     ]
   end
 
+  # The get_gender_options method is used to get que gender options of a user in a list
   def get_gender_options
     gender_options = [
         ["Masculino", :male],
@@ -116,6 +147,7 @@ class User < ApplicationRecord
     ]
   end
 
+  # The get_marital_status_options method is used to get the marital status options of a user in a list
   def get_marital_status_options
     marital_status_options = [
         ["Soltero(a)", :single],
@@ -128,6 +160,7 @@ class User < ApplicationRecord
     ]
   end
 
+  # The get_education_options method is used to get the education options of a user in a list
   def get_education_options
     education_options = [
         ["Sin grado académico", :no_degree],
@@ -138,6 +171,9 @@ class User < ApplicationRecord
     ]
   end
 
+  # The get_humanize_id_card_type method is used to get the humanize id card type of the user
+  # By iterating over the id card options and comparing the id card type of the user with the id card type of the options
+  # If the id card type of the user matches with the id card type of the options, the humanize id card type is returned
   def get_humanize_id_card_type(t = nil)
     t ||= self.id_card_type
     id_card_options = self.get_id_card_types
@@ -149,6 +185,9 @@ class User < ApplicationRecord
     @id_card_type
   end
 
+  # The get_humanize_gender method is used to get the humanize id card type of the user
+  # By iterating over the id gender options and comparing the id gender type of the user with the id gender type of the options
+  # If the id gender type of the user matches with the id gender type of the options, the humanize id gender type is returned
   def get_humanize_gender(g = nil)
     g ||= self.gender
     gender_options = self.get_gender_options
@@ -160,6 +199,9 @@ class User < ApplicationRecord
     @gender
   end
 
+  # The get_humanize_marital_status method is used to get the humanize id card type of the user
+  # By iterating over the id marital status options and comparing the id marital status type of the user with the id marital status type of the options
+  # If the id marital status type of the user matches with the id marital status type of the options, the humanize id marital status type is returned
   def get_humanize_marital_status(m = nil)
     m ||= self.marital_status
     marital_status_options = self.get_marital_status_options
@@ -170,7 +212,10 @@ class User < ApplicationRecord
 
     @marital_status
   end
-
+  
+  # The get_humanize_education method is used to get the humanize id card type of the user
+  # By iterating over the id education options and comparing the id education type of the user with the id education type of the options
+  # If the id education type of the user matches with the id education type of the options, the humanize id education type is returned
   def get_humanize_education(e = nil)
     e ||= self.education
     education_options = self.get_education_options
@@ -182,6 +227,10 @@ class User < ApplicationRecord
     @education
   end
 
+  # The get_short_name method is used to get the short name of the user
+  # By splitting the fullname of the user and getting the first and second name
+  # If the fullname of the user has more than two words, the short name is the first and second word
+  # If the fullname of the user has less than two words, the short name is the first word
   def get_short_name
     fullname = self.fullname.split(" ")
     if fullname.length >= 2
@@ -191,26 +240,41 @@ class User < ApplicationRecord
     end
   end
 
+  # the self.ransackable_attributes method is used to search for attributes of the model
+  # It is used to search for the attributes of the user that are allowed to search
   def self.ransackable_attributes(auth_object = nil)
-    ["account_number", "address", "birth_date", "canton", "created_at", "district", "education", "email", "encrypted_password", "fullname", "gender", "id", "id_card", "id_card_type", "job_position", "marital_status", "nationality", "phone", "province", "remember_created_at", "reset_password_sent_at", "reset_password_token", "role", "status", "updated_at"]
+    ["account_number", "address", "birth_date", "canton", "created_at", "district", "education", "email", "fullname", "gender", "id", "id_card", "id_card_type", "job_position", "marital_status", "nationality", "phone", "province", "role", "status", "updated_at"]
   end
 
+  # The clean_changes method is used to clean the changes log table before deleting a user
+  # The 'where' method is used to get the changes log of the user and destroy them before deleting the user
   def clean_changes
     ChangeLog.where(table_id: self.id, table_name: "user").destroy_all
   end
   
-  #associations
+  # The 'has_many' method is used to define the relationship between the user and the projects
   has_many :projects
   
+  # The 'has_many' method is used to define the relationship between the user and the emergency contacts
+  # The 'dependent' option is used to delete the emergency contacts of the user when the user is deleted
+  # The 'accepts_nested_attributes_for' method is used to accept the nested attributes for the emergency contacts
+  # The 'allow_destroy' option is used to allow the destruction of the emergency contacts
+  # The 'reject_if' option is used to reject the emergency contacts if the attributes are blank
   has_one :emergency_contact, dependent: :destroy
   accepts_nested_attributes_for :emergency_contact, allow_destroy: true, reject_if: :all_blank
 
+  # The 'has_many' method is used to define the relationship between the user and the activities
   has_many :activities
 
+  # The 'has_many' method is used to define the relationship between the user and the minutes
+  # The 'dependent' option is used to delete the minutes of the user when the user is deleted
+  # The 'through' option is used to define the relationship between the user and the minutes_users
   has_many :minutes_users, dependent: :destroy
   has_many :minutes, through: :minutes_users
 
-  has_many :assigned_tasks
+  # The 'has_many' method is used to define the relationship between the user and the assigned_tasks
+  #has_many :assigned_tasks
 
+  # The devise method is used to define the devise modules of the model
   devise :database_authenticatable, :registerable, :recoverable, :rememberable, :validatable
 end

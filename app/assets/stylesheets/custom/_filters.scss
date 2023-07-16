@@ -1,6 +1,7 @@
 @use 'variables' as v;
 @use 'mixins' as m;
 
+/* FILTERS STYLES */
 .filters {
     @include m.section-bg;
 

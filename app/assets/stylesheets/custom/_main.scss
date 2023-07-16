@@ -1,6 +1,7 @@
 @use 'variables' as v;
 @use 'mixins' as m;
 
+/* MAIN STYLES */
 .main {
     &__center {
         display: flex;

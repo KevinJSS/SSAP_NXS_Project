@@ -1,7 +1,9 @@
+<%# User Item Partial %>
+<%# The SCSS styles for this view can be found in the app/assets/stylesheets/custom folder. The specific stylesheets for this view are named: _card_list and _utilities %>
 <div id="<%= dom_id user%>" class="item">
     <div class="item__header">
         <div class="item__heading">
-            <h4 class="item__title"><%= truncate(user.fullname, length: 50, omission: '...') %> <%= "(Yo)" if current_user == user %></h4> 
+            <h4 class="item__title"><%= truncate(user.fullname, length: 50, omission: '...') %> <%= "(Yo)" if current_user == user %></h4> <%# Over 50 caracters it truncates the projects name for a better UI %>
             <p class="item__text"><%= user.job_position %></p>
         </div>
         <p class="item__status">
@@ -24,18 +26,16 @@
         <div class="item__reference">
             <p class="item__reference-text fs-5">
                 <%= image_tag('phone-icon.svg', alt: "icono numero telefonico", class: "item__reference-icon") %>
-                <%= truncate(user.phone, length: 25, omission: '...') %>
+                <%= truncate(user.phone, length: 25, omission: '...') %> <%# Over 25 caracters it truncates the projects name for a better UI %>
             </p>
-            <%# Agregar link para ir a lista de minutas filtradas por este proyecto %>
             <p class="item__reference-label">Número de teléfono</p> 
         </div>
 
         <div class="item__reference">
             <p class="item__reference-text fs-5">
                 <%= image_tag('email-icon.svg', alt: "icono correo electronico", class: "item__reference-icon") %>
-                <%= truncate(user.email, length: 25, omission: '...') %>
+                <%= truncate(user.email, length: 25, omission: '...') %> <%# Over 25 caracters it truncates the projects name for a better UI %>
             </p>
-            <%# Agregar link para ir a lista de actividades filtradas por este proyecto %>
             <p class="item__reference-label">Correo electrónico</p>
         </div>
     </div>
