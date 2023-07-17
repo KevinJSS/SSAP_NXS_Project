@@ -9,7 +9,7 @@ class MinutesController < ApplicationController
   # The `before_action` callback method 'set_minute' is used to set the minute
   # instance variable before calling the `show`, `edit`, `update`, and `destroy`
   # methods to ensure that the minute exists in the database.
-  before_action :set_minute, only: %i[ show edit update destroy pdf send_email ]
+  before_action :set_minute, only: %i[ show edit update destroy pdf ]
 
   # The `before_action` callback method 'set_attendees' and 'set_projects' is used to set the attendees and projects
   # instance variables before calling the `new` and `edit` methods to ensure that
@@ -93,6 +93,8 @@ class MinutesController < ApplicationController
     require 'prawn'
     require 'prawn/table'
 
+    @minute = Minute.find(params[:id])
+
     pdf = Prawn::Document.new
     name = "MINUTA_#{(@minute.project.name).gsub!(' ', '-')}_#{Time.now.strftime("%d-%m-%Y_%H%M")}_#{@minute.id}"
 
@@ -104,7 +106,7 @@ class MinutesController < ApplicationController
 
     #send email
     attendees = @minute.minutes_users.map(&:user).uniq
-
+    
     attendees.each do |attendee|
       MinutesMailer.send_minutes(attendee, attendee.email.to_s, @minute, pdf_file_path.to_s).deliver_later
     end
