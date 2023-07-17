@@ -9,7 +9,7 @@ class MinutesMailer < ApplicationMailer
     @minute = minute
     attachment_name = "MINUTA_#{(Project.find_by(id: @minute.project.id).name).gsub(' ', '-')}_#{@minute.meeting_date.strftime("%d-%m-%Y")}.pdf"
     attachments[attachment_name] = File.read(pdf)
-    sleep(0.5)
+    
     mail to: user_email, subject: "Minuta de reunión"
   end
 end

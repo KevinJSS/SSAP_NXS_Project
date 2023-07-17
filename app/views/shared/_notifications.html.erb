@@ -41,3 +41,23 @@ elements from the DOM.
     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
 <% end %>
+
+<script>
+    var alert1 = document.getElementById('myAlert1');
+
+    if (alert1) {
+        setTimeout(function() {
+            if (alert1) alert1.classList.remove('show');
+            if (alert1) alert1.remove();
+        }, 5000);
+    } 
+
+    var alert2 = document.getElementById('myAlert2');
+
+    if (alert2) {
+        setTimeout(function() {
+            if (alert2) alert2.classList.remove('show');
+            if (alert2) alert2.remove();
+        }, 5000);
+    }
+</script>
