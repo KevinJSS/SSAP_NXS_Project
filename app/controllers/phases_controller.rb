@@ -169,7 +169,6 @@ class PhasesController < ApplicationController
 
         when "name"
           attribute_name = "el nombre"
-          attribute_name = "el código"
           old_value = old_value.strip if !old_value.nil?
           new_value = new_value.strip if !new_value.nil?
           next if old_value == new_value

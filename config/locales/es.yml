@@ -65,31 +65,31 @@ es:
     - nov
     - dic
     day_names:
-    - domingo
-    - lunes
-    - martes
-    - miércoles
-    - jueves
-    - viernes
-    - sábado
+    - Domingo
+    - Lunes
+    - Martes
+    - Miércoles
+    - Jueves
+    - Viernes
+    - Sábado
     formats:
       default: "%A %d de %B, %Y"  # Formato por defecto: Tuesday 27, June 2023
       short: "%d/%m/%Y"        # Formato corto: 27/06/2023
       long: "%A, %d de %B de %Y"  # Formato largo: martes, 27 de junio de 2023
     month_names:
     -
-    - enero
-    - febrero
-    - marzo
-    - abril
-    - mayo
-    - junio
-    - julio
-    - agosto
-    - septiembre
-    - octubre
-    - noviembre
-    - diciembre
+    - Enero
+    - Febrero
+    - Marzo
+    - Abril
+    - Mayo
+    - Junio
+    - Julio
+    - Agosto
+    - Septiembre
+    - Octubre
+    - Noviembre
+    - Diciembre
     order:
     - :day
     - :month
