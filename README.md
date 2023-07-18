@@ -21,5 +21,5 @@
 <hr/>
 
 <div align="center">
-  <strong><i>Developed in 2023</i></strong> 
+  <strong><i>Diseñado y desarrollado en 2023</i></strong> 
 </div>
