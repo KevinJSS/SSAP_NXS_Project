@@ -15,7 +15,7 @@
 <br/>
 
 <div align="center">
-  <img src="https://github.com/KevinJSS/SSAP_NXS_Project/assets/103754829/d7a9fa0a-9fc8-4618-bdb0-4198821e8389" alt="Tools" width="700px"/>
+  <img src="https://github.com/KevinJSS/SSAP_NXS_Project/assets/103754829/d7a9fa0a-9fc8-4618-bdb0-4198821e8389" alt="Tools" width="500px"/>
 </div>
 
 <hr/>
