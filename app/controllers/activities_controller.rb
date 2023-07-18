@@ -722,7 +722,7 @@ class ActivitiesController < ApplicationController
           total_activities += repetition_count
           total_hours += hours_sum
       
-          table_data << [phase.name, repetition_count, "#{hours_sum.to_s} (#{hours_in_words(hours_sum)})"]
+          table_data << ["#{phase.code} #{phase.name}", repetition_count, "#{hours_sum.to_s} (#{hours_in_words(hours_sum)})"]
         end
 
         table_data << ["Total", total_activities, "#{total_hours.to_s} (#{hours_in_words(total_hours)})"]

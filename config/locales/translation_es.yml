@@ -98,3 +98,19 @@ es:
         password_confirmation: La confirmación de contraseña
         role: El rol de usuario  #g
         status: "El estado del usuario"
+  devise:
+    passwords:
+      user:
+        send_instructions: "Se han enviado correctamente las instrucciones al correo ingresado."
+        updated: "Acceso permitido. Contraseña generada correctamente."
+    mailer:
+      confirmation_instructions:
+        subject: "Confirmación de instrucciones"
+      reset_password_instructions:
+        subject: "Instrucciones de ingreso al sistema"
+      unlock_instructions:
+        subject: "Desbloqueo de instrucciones"
+      email_changed:
+        subject: "Correo electrónico cambio"
+      password_change:
+        subject: "La contraseña cambio"

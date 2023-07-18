@@ -1,5 +1,4 @@
 class MinutesMailer < ApplicationMailer
-
   # Subject can be set in your I18n file at config/locales/en.yml
   # with the following lookup:
   #
@@ -10,7 +9,7 @@ class MinutesMailer < ApplicationMailer
     @minute = minute
     attachment_name = "MINUTA_#{(Project.find_by(id: @minute.project.id).name).gsub(' ', '-')}_#{@minute.meeting_date.strftime("%d-%m-%Y")}.pdf"
     attachments[attachment_name] = File.read(pdf)
-
+    
     mail to: user_email, subject: "Minuta de reunión"
   end
 end
