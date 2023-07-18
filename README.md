@@ -1,6 +1,6 @@
 <div align="center">
   <br/>
-  <img src="https://github.com/KevinJSS/SSAP_NXS_Project/assets/103754829/313d6bf0-c70e-4c87-98c2-ef194ebbd99c" height="auto"/>
+  <img src="https://github.com/KevinJSS/SSAP_NXS_Project/assets/103754829/313d6bf0-c70e-4c87-98c2-ef194ebbd99c" height="auto" width="170px"/>
   
   <div>
     <h1>SSAP NXS CR</h1>
