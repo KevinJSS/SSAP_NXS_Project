@@ -119,6 +119,8 @@ class User < ApplicationRecord
 
     formated_id_card = self.id_card.strip.upcase
 
+    return if formated_id_card == "NO TIENE"
+
     if User.where(id_card: formated_id_card).exists?
       errors.add(:id_card, "ya se encuentra en uso")
     end

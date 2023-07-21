@@ -115,6 +115,8 @@ class UsersController < ApplicationController
     return if params[:user][:id_card].blank?
     id_card = params[:user][:id_card].strip.upcase
 
+    return if id_card == "NO TIENE"
+
     if User.where(id_card: id_card).where.not(id: @user.id).exists?
       @user.errors.add(:id_card, "ya se encuentra en uso")
     end
