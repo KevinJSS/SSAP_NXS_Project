@@ -75,7 +75,7 @@ class User < ApplicationRecord
   # The 'less_than_or_equal_to' option is used to validate that the attribute is less than or equal to the specified value
   validates :email, presence: true, uniqueness: true, format: { with: /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+\z/i }, if: -> { email.present? }
   validates :id_card_type, presence: { message: "debe ser indicado." }
-  validates :id_card, presence: true, uniqueness: true
+  validates :id_card, presence: true
   validates :id_card, length: { in: 8..15 }, if: -> { id_card.present? }
   validates :fullname, presence: true
   validates :fullname, length: { in: 5..100 }, if: -> { fullname.present? }
@@ -94,7 +94,8 @@ class User < ApplicationRecord
   validates :job_position, presence: true
   validates :job_position, length: { in: 4..100 }, if: -> { job_position.present? }
   validates :account_number, length: { maximum: 100 }
-  
+  validate :validate_id_card
+
   # The 'validate' method is used to validate the attributes of the model
   # The 'birth_date_validation' method is used to validate that the birth date is not greater than today and that the user is over 18 years old
   validate :birth_date_validation
@@ -111,6 +112,16 @@ class User < ApplicationRecord
     self.province = province.strip if province.present?
     self.canton = canton.strip if canton.present?
     self.district = district.strip if district.present?
+  end
+
+  def validate_id_card
+    return if !self.new_record? || self.id_card.blank?
+
+    formated_id_card = self.id_card.strip.upcase
+
+    if User.where(id_card: formated_id_card).exists?
+      errors.add(:id_card, "ya se encuentra en uso")
+    end
   end
 
   # The 'birth_date_validation' method is used to validate that the birth date is not greater than today and that the user is over 18 years old

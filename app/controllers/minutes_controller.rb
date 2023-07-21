@@ -28,7 +28,7 @@ class MinutesController < ApplicationController
   # the user to search for minutes by their allowed attributes.
   def index
     @q = Minute.ransack(params[:q])
-    @minutes = @q.result(distinct: true).order(updated_at: :desc).paginate(page: params[:page], per_page: 3)
+    @minutes = @q.result(distinct: true).order(updated_at: :desc).paginate(page: params[:page], per_page: 5)
   end
 
   # GET /minutes/1 or /minutes/1.json

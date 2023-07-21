@@ -15,7 +15,7 @@ class PhasesController < ApplicationController
   # The 'paginate' method is used to split the phases into pages containing a specified number of phases.
   def index
     @q = Phase.ransack(params[:q])
-    @phases = @q.result(distinct: true).paginate(page: params[:page], per_page: 3)
+    @phases = @q.result(distinct: true).paginate(page: params[:page], per_page: 5)
   end
 
   # GET /phases/1 or /phases/1.json

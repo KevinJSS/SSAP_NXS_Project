@@ -26,7 +26,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
     @user.password = "Usuario_#{@user.id_card}"
 
     respond_to do |format|
-      if @user.save
+      if !@user.errors.any? && @user.save
         validate_emergency_contact_data
         create_change_log
 
@@ -55,6 +55,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
       @user.errors.add(:role, "no se puede cambiar el rol de acceso del administrador(a) porque tiene proyectos a su cargo.")
     end
 
+    validate_id_card
     validate_password_params
 
     respond_to do |format|
@@ -92,6 +93,15 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # protected
 
   protected
+
+  def validate_id_card
+    return if params[:user][:id_card].blank?
+    id_card = params[:user][:id_card].strip.upcase
+
+    if User.where(id_card: id_card).where.not(id: @user.id).exists?
+      @user.errors.add(:id_card, "ya se encuentra en uso")
+    end
+  end
 
   def user_params
     params.require(:user).permit(:fullname, :id_card, :phone, :email, :job_position, :address, :role, :status, :password, :password_confirmation, :account_number, :id_card_type, :marital_status, :education, :province, :canton, :district, :nationality, :gender, :birth_date, emergency_contact: [:fullname, :phone])
