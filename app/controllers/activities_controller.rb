@@ -36,9 +36,9 @@ class ActivitiesController < ApplicationController
     if params.dig(:q, :phase)
       phase_id = params[:q][:phase].to_i
       activities_ids = PhasesActivity.where(phase_id: phase_id).pluck(:activity_id)
-      @activities = Activity.where(id: activities_ids).paginate(page: params[:page], per_page: 3)
+      @activities = Activity.where(id: activities_ids).paginate(page: params[:page], per_page: 5)
     else
-      @activities = @q.result(distinct: true).order(updated_at: :desc).paginate(page: params[:page], per_page: 3)
+      @activities = @q.result(distinct: true).order(updated_at: :desc).paginate(page: params[:page], per_page: 5)
     end
   end
 
@@ -200,9 +200,16 @@ class ActivitiesController < ApplicationController
   # The `destroy` action is responsible for deleting an existing activity.
   # In this case, the `destroy` action is not allowed. So, it redirects to the `activity_path` with an alert message.
   def destroy
+    @activity.destroy
+
     respond_to do |format|
-      format.html { redirect_to activity_url(@activity), alert: "No es permitido eliminar este registro." }
-      format.json { head :no_content }
+      if @activity.destroy
+        format.html { redirect_to activities_url, notice: "Actividad de '#{User.find_by(id: @activity.user_id).fullname}', eliminada correctamente." }
+        format.json { head :no_content }
+      else
+        format.html { redirect_to activities_url, alert: "No se pudo eliminar la actividad." }
+        format.json { head :no_content }
+      end
     end
   end
 
