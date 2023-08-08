@@ -27,7 +27,7 @@ class UsersController < ApplicationController
   # The `@users` variable is sorted in ascending order by the `fullname` attribute.
   def index
     @admin_q = User.where(role: "admin").ransack(params[:q])
-    @users = @admin_q.result(distinct: true).order(fullname: :asc).paginate(page: params[:page], per_page: 3)
+    @users = @admin_q.result(distinct: true).order(fullname: :asc).paginate(page: params[:page], per_page: 5)
   end
 
   # The `collaborator_index` action is used to list all the collaborators in the system.
@@ -39,7 +39,7 @@ class UsersController < ApplicationController
   # The `@collaborator_users` variable is sorted in ascending order by the `fullname` attribute.
   def collaborator_index
     @collaborator_q = User.where(role: "collaborator").ransack(params[:q])
-    @collaborator_users = @collaborator_q.result(distinct: true).order(fullname: :asc).paginate(page: params[:page], per_page: 3)
+    @collaborator_users = @collaborator_q.result(distinct: true).order(fullname: :asc).paginate(page: params[:page], per_page: 5)
   end
 
   # The `show` action is used to display the details of a user.
@@ -72,6 +72,8 @@ class UsersController < ApplicationController
   # 7. And finally in case the user role or status changed, it sends an email to the user.
   def update
     @user.valid?
+
+    validate_id_card
 
     if params[:user][:role] == "collaborator" && @user.projects.any?
       @user.errors.add(:role, "no se puede cambiar debido a que tiene proyectos a su cargo.")
@@ -108,6 +110,17 @@ class UsersController < ApplicationController
   end
 
   private
+
+  def validate_id_card
+    return if params[:user][:id_card].blank?
+    id_card = params[:user][:id_card].strip.upcase
+
+    return if id_card == "NO TIENE"
+
+    if User.where(id_card: id_card).where.not(id: @user.id).exists?
+      @user.errors.add(:id_card, "ya se encuentra en uso")
+    end
+  end
 
   # The `set_user` method is used to find the user by id and set it to the `@user` instance variable.
   # If the user is not found, it redirects to the `users_path` with an alert message.
