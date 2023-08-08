@@ -188,9 +188,16 @@ class MinutesController < ApplicationController
   # In this case, the `destroy` method is not allowed to delete a minute
   # it will only redirect the user to the minute page and display an alert notification.
   def destroy
+    @minute.destroy
+
     respond_to do |format|
-      format.html { redirect_to minute_url(@minute), alert: "No es permitido eliminar este registro." }
-      format.json { head :no_content }
+      if @minute.destroyed?
+        format.html { redirect_to minutes_url, notice: "Minuta '#{@minute.meeting_title}', eliminada correctamente." }
+        format.json { head :no_content }
+      else
+        format.html { redirect_to minutes_url, alert: "No se puede eliminar la minuta." }
+        format.json { head :no_content }
+      end
     end
   end
 
