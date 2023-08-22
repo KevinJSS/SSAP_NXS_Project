@@ -48,14 +48,14 @@ class User < ApplicationRecord
 
   # The 'before_save' callback is used to set the email attribute to lowercase before saving the user
   # In this case, it will take all received input values and formatted them for a more consistent database.
-  before_save { self.email = email.downcase }
-  before_save { self.fullname = fullname.upcase }
-  before_save { self.province = province.upcase }
-  before_save { self.canton = canton.upcase }
-  before_save { self.district = district.upcase }
-  before_save { self.nationality = nationality.upcase }
-  before_save { self.account_number = account_number.upcase }
-  before_save { self.id_card = id_card.upcase }
+  before_save { self.email = email.downcase if email.present? }
+  before_save { self.fullname = fullname.upcase if fullname.present?}
+  before_save { self.province = province.upcase if province.present?}
+  before_save { self.canton = canton.upcase if canton.present?}
+  before_save { self.district = district.upcase if district.present?}
+  before_save { self.nationality = nationality.upcase if nationality.present?}
+  before_save { self.account_number = account_number.upcase if account_number.present?}
+  before_save { self.id_card = id_card.upcase if id_card.present?}
 
   # The 'before_save' callback is used to trim the values of the email, fullname, phone, id_card, job_position, address, province, canton and district attributes before saving the user
   before_save :trim_values

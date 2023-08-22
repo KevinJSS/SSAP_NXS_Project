@@ -6,26 +6,25 @@
 #   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
 #   Character.create(name: "Luke", movie: movies.first)
 
-# User.create!(
-#     email: "kevin@gmail.com",
-#     password: "kevin1234",
-#     id_card: "208880111",
-#     fullname: "Kevin Alvarado Pérez",
-#     phone: "(+506) 8888 8881",
-#     address: "Dirección de habitación aquí",
-#     role: 1,
-#     job_position: "Desarrollador",
-#     account_number: "CR12309870131",
-#     id_card_type: 0,
-#     marital_status: 0,
-#     birth_date: Date.new(1990, 1, 1),
-#     province: "Alajuela",
-#     canton: "Naranjo",
-#     district: "Centro",
-#     education: 3,
-#     nationality: "Costarricense",
-#     gender: 0
-#   )
+User.create!(
+    email: "admin@ssapnxscr.com",
+    password: "admin@ssapnxscr.com",
+    id_card: "101110111",
+    fullname: "USUARIO ADMINISTRADOR",
+    phone: "(+506) 1010 0101",
+    address: "Servidor",
+    role: 1,
+    job_position: "Desarrollador",
+    id_card_type: 0,
+    marital_status: 0,
+    birth_date: Date.new(1990, 1, 1),
+    province: "Servidor",
+    canton: "Servidor",
+    district: "Servidor",
+    education: 3,
+    nationality: "Servidor",
+    gender: 0
+  )
 
 Phase.create(code: 'I-01', name: 'Inicio')
 Phase.create(code: 'T-01', name: 'Terreno')
