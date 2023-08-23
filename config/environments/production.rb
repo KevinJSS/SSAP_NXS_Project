@@ -104,5 +104,5 @@ Rails.application.configure do
     tls: true
   }
   
-  config.action_mailer.default_url_options = { host: 'https://ssap-nexus-cr-863924b68286.herokuapp.com/' }
+  config.action_mailer.default_url_options = { host: 'https://ssap-nexustudio-cr-f2798592a87a.herokuapp.com/' }
 end
