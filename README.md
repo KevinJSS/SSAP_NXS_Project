@@ -7,7 +7,7 @@
   </div>
 </div>
 
-<p align="center">Sistema de Seguimiento y Administración de Proyectos, desarrollado para una empresa real. Permite el registro y seguimiento de proyectos de arquitectura y construcción, el control y generación de reportes de colaboradores, y el registro y envío de minutas de sus reuniones.</p>
+<p align="center">Sistema de Seguimiento y Administración de Proyectos, desarrollado para una empresa arquitectura y construcción. Permite el registro y seguimiento de sus proyectos, el control y generación de reportes de actividades de sus colaboradores, y el registro y envío de minutas de reuniones.</p>
 
 <img src="https://github.com/KevinJSS/SSAP_NXS_Project/assets/103754829/e0895c86-2e27-449c-8e88-2590bde237d8" alt="Project Preview" width="1000px"/>
 
